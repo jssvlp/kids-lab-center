@@ -1,0 +1,44 @@
+version: "3.7"
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: joshadow/clinicapp
+    container_name: clinicApp
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - clinicApp
+
+  db:
+    image: mysql:5.7
+    container_name: clinicadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: owh9v4tvnp3wda433
+    volumes:
+      - ./.docker/mysql:/docker-entrypoint-initdb.d
+    ports:
+      - 3308:3306
+    networks:
+      - clinicApp
+
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: clinicApp-nginx
+    restart: unless-stopped
+    ports:
+      - 9000:80
+    volumes:
+      - ./:/var/www
+      - ./.docker/nginx:/etc/nginx/conf.d
+    networks:
+      - clinicApp
+
+networks:
+  clinicApp:
+    driver: bridge
+
