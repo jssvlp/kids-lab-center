@@ -1,13 +1,15 @@
 <template>
-
+  
 </template>
 
 <script>
 export default {
-name: "All"
+    props:["data","columNames"],
+
+
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Insurance extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name','phone', 'picture'];
+
+    public function plans()
+    {
+        return $this->hasMany(Plan::class);
+    }
 }

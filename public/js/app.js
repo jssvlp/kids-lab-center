@@ -1925,6 +1925,189 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-helper-vue-jsx-merge-props/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/babel-helper-vue-jsx-merge-props/index.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var nestRE = /^(attrs|props|on|nativeOn|class|style|hook)$/
+
+module.exports = function mergeJSXProps (objs) {
+  return objs.reduce(function (a, b) {
+    var aa, bb, key, nestedKey, temp
+    for (key in b) {
+      aa = a[key]
+      bb = b[key]
+      if (aa && nestRE.test(key)) {
+        // normalize class
+        if (key === 'class') {
+          if (typeof aa === 'string') {
+            temp = aa
+            a[key] = aa = {}
+            aa[temp] = true
+          }
+          if (typeof bb === 'string') {
+            temp = bb
+            b[key] = bb = {}
+            bb[temp] = true
+          }
+        }
+        if (key === 'on' || key === 'nativeOn' || key === 'hook') {
+          // merge functions
+          for (nestedKey in bb) {
+            aa[nestedKey] = mergeFn(aa[nestedKey], bb[nestedKey])
+          }
+        } else if (Array.isArray(aa)) {
+          a[key] = aa.concat(bb)
+        } else if (Array.isArray(bb)) {
+          a[key] = [aa].concat(bb)
+        } else {
+          for (nestedKey in bb) {
+            aa[nestedKey] = bb[nestedKey]
+          }
+        }
+      } else {
+        a[key] = b[key]
+      }
+    }
+    return a
+  }, {})
+}
+
+function mergeFn (a, b) {
+  return function () {
+    a && a.apply(this, arguments)
+    b && b.apply(this, arguments)
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/Pagination.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Components/Pagination.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["pages", "init", "end"],
+  data: function data() {
+    return {
+      currentPage: 1
+    };
+  },
+  methods: {
+    next: function next() {},
+    previous: function previous() {},
+    setPage: function setPage(page) {
+      console.log(page);
+      this.currentPage = page;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/Statistics.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Components/Statistics.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Jetstream_ApplicationLogo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Jetstream/ApplicationLogo */ "./resources/js/Jetstream/ApplicationLogo.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['data'],
+  components: {
+    JetApplicationLogo: _Jetstream_ApplicationLogo__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Jetstream/ActionMessage.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Jetstream/ActionMessage.vue?vue&type=script&lang=js& ***!
@@ -2639,7 +2822,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['href', 'active'],
   computed: {
     classes: function classes() {
-      return this.active ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out';
+      return this.active ? 'inline-flex items-center px-1 pt-1 border-b-2 border-white-400 text-sm font-medium leading-5 text-gray-50 focus:outline-none focus:border-gray-100 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-200 hover:text-gray-300 hover:border-gray-400 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out';
     }
   }
 });
@@ -2832,6 +3015,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_DropdownLink__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/DropdownLink */ "./resources/js/Jetstream/DropdownLink.vue");
 /* harmony import */ var _Jetstream_NavLink__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/NavLink */ "./resources/js/Jetstream/NavLink.vue");
 /* harmony import */ var _Jetstream_ResponsiveNavLink__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/ResponsiveNavLink */ "./resources/js/Jetstream/ResponsiveNavLink.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3408,6 +3600,331 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Children/All.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Children/All.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Jetstream_Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Welcome */ "./resources/js/Jetstream/Welcome.vue");
+/* harmony import */ var _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/Pagination */ "./resources/js/Components/Pagination.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue_feather_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-feather-icons */ "./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['children'],
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Pagination: _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__["default"],
+    EditIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_4__["EditIcon"],
+    Trash2Icon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_4__["Trash2Icon"]
+  },
+  created: function created() {
+    console.log(this.children);
+  },
+  methods: {
+    calculateAge: function calculateAge(fecha) {
+      // Si la fecha es correcta, calculamos la edad
+      if (typeof fecha != "string" && fecha && esNumero(fecha.getTime())) {
+        fecha = formatDate(fecha, "yyyy-MM-dd");
+      }
+
+      var values = fecha.split("-");
+      var dia = values[2];
+      var mes = values[1];
+      var ano = values[0]; // cogemos los valores actuales
+
+      var fecha_hoy = new Date();
+      var ahora_ano = fecha_hoy.getYear();
+      var ahora_mes = fecha_hoy.getMonth() + 1;
+      var ahora_dia = fecha_hoy.getDate(); // realizamos el calculo
+
+      var edad = ahora_ano + 1900 - ano;
+
+      if (ahora_mes < mes) {
+        edad--;
+      }
+
+      if (mes == ahora_mes && ahora_dia < dia) {
+        edad--;
+      }
+
+      if (edad > 1900) {
+        edad -= 1900;
+      } // calculamos los meses
+
+
+      var meses = 0;
+      if (ahora_mes > mes && dia > ahora_dia) meses = ahora_mes - mes - 1;else if (ahora_mes > mes) meses = ahora_mes - mes;
+      if (ahora_mes < mes && dia < ahora_dia) meses = 12 - (mes - ahora_mes);else if (ahora_mes < mes) meses = 12 - (mes - ahora_mes + 1);
+      if (ahora_mes == mes && dia > ahora_dia) meses = 11;
+
+      if (edad > 0) {
+        return "".concat(edad, " a\xF1os");
+      }
+
+      return "".concat(meses, " meses");
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Children/EditOrNew.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Children/EditOrNew.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Jetstream/DialogModal */ "./resources/js/Jetstream/DialogModal.vue");
+/* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue_tailwind_picker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-tailwind-picker */ "./node_modules/vue-tailwind-picker/dist/vue-tailwind-picker.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    title: {
+      "default": 'Nueva aseguradora'
+    },
+    data: {
+      "default": null
+    }
+  },
+  components: {
+    JetDialogModal: _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_0__["default"],
+    JetInputError: _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_4__["default"],
+    JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_3__["default"],
+    JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__["default"],
+    VueTailwindPicker: vue_tailwind_picker__WEBPACK_IMPORTED_MODULE_6__["default"]
+  },
+  data: function data() {
+    return {
+      form: {
+        id: '',
+        name: '',
+        birth_date: '',
+        gender: '¿Niño o niña?',
+        parent: {}
+      }
+    };
+  },
+  mounted: function mounted() {
+    console.log(this.data);
+
+    if (this.data) {
+      this.form.id = this.data.id;
+      this.form.name = this.data.name;
+      this.form.birth_date = this.data.birth_date, this.form.parent = this.data.parent;
+    }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(['editingOrCreatingChildren'])),
+  methods: _objectSpread(_objectSpread({
+    setBirthDayDate: function setBirthDayDate(date) {
+      this.form.birth_date = date;
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapActions"])({
+    toggleNewOrEditChildrenModal: "toggleNewOrEditChildrenModal"
+  })), {}, {
+    toggleModal: function toggleModal() {
+      this.toggleNewOrEditChildrenModal();
+    },
+    onSave: function onSave() {
+      var _this = this;
+
+      if (this.form.id) {
+        this.$inertia.patch("/children/".concat(this.form.id), this.form).then(function (data) {
+          _this.toggleNewOrEditChildrenModal();
+        });
+      } else {
+        this.$inertia.post('/children', this.form).then(function (data) {
+          _this.toggleNewOrEditChildrenModal();
+        });
+      }
+    }
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Dashboard.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Dashboard.vue?vue&type=script&lang=js& ***!
@@ -3418,7 +3935,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
-/* harmony import */ var _Jetstream_Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Welcome */ "./resources/js/Jetstream/Welcome.vue");
+/* harmony import */ var _Components_Statistics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/Statistics */ "./resources/js/Components/Statistics.vue");
 //
 //
 //
@@ -3440,29 +3957,858 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['statistics'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Welcome: _Jetstream_Welcome__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Statistics: _Components_Statistics__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Patients/All.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Patients/All.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/All.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Insurances/All.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var _EditOrNew__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditOrNew */ "./resources/js/Pages/Insurances/EditOrNew.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/ConfirmationModal */ "./resources/js/Jetstream/ConfirmationModal.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Jetstream/DangerButton */ "./resources/js/Jetstream/DangerButton.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "All"
+  props: ['insurances'],
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Input: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_1__["default"],
+    EditOrNew: _EditOrNew__WEBPACK_IMPORTED_MODULE_2__["default"],
+    JetConfirmationModal: _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_4__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_5__["default"],
+    JetDangerButton: _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_6__["default"]
+  },
+  data: function data() {
+    return {
+      toEdit: null,
+      toDelete: {},
+      title: '',
+      planBeingDeleted: null
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['editingOrCreatingInsurance'])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({
+    toggleNewOrEditInsuranceModal: "toggleNewOrEditInsuranceModal"
+  })), {}, {
+    editOrNew: function editOrNew(insurance, title) {
+      this.toEdit = insurance;
+      this.title = title;
+      this.toggleNewOrEditInsuranceModal();
+    },
+    deleteInsurance: function deleteInsurance(insurance) {
+      var _this = this;
+
+      this.$inertia["delete"]("/insurances/".concat(this.toDelete.id)).then(function (data) {
+        _this.planBeingDeleted = null;
+      });
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Jetstream/DialogModal */ "./resources/js/Jetstream/DialogModal.vue");
+/* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'EditOrNewChildren',
+  props: {
+    title: {
+      "default": 'Nueva aseguradora'
+    },
+    data: {
+      "default": null
+    }
+  },
+  components: {
+    JetDialogModal: _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_0__["default"],
+    JetInputError: _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_4__["default"],
+    JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_3__["default"],
+    JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      form: {
+        id: '',
+        name: '',
+        phone: ''
+      }
+    };
+  },
+  mounted: function mounted() {
+    console.log(this.data);
+
+    if (this.data) {
+      this.form.id = this.data.id;
+      this.form.name = this.data.name;
+      this.form.phone = this.data.phone;
+    }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(['editingOrCreatingInsurance'])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapActions"])({
+    toggleNewOrEditInsuranceModal: "toggleNewOrEditInsuranceModal"
+  })), {}, {
+    toggleModal: function toggleModal() {
+      this.toggleNewOrEditInsuranceModal();
+    },
+    onSave: function onSave() {
+      var _this = this;
+
+      if (this.form.id) {
+        this.$inertia.patch("/insurances/".concat(this.form.id), this.form).then(function (data) {
+          _this.toggleNewOrEditInsuranceModal();
+        });
+      } else {
+        this.$inertia.post('/insurances', this.form).then(function (data) {
+          _this.toggleNewOrEditInsuranceModal();
+        });
+      }
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/Plans.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Insurances/Plans.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Jetstream_Modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Modal */ "./resources/js/Jetstream/Modal.vue");
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var vue_feather_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-feather-icons */ "./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js");
+/* harmony import */ var _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/ConfirmationModal */ "./resources/js/Jetstream/ConfirmationModal.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Jetstream/DangerButton */ "./resources/js/Jetstream/DangerButton.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['plans', 'insurance'],
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Modal: _Jetstream_Modal__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Input: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__["default"],
+    EditIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_3__["EditIcon"],
+    Trash2Icon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_3__["Trash2Icon"],
+    JetConfirmationModal: _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_4__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_5__["default"],
+    JetDangerButton: _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_6__["default"]
+  },
+  data: function data() {
+    return {
+      toggleModal: false,
+      edit: '',
+      form: {
+        name: "",
+        insurance_id: ''
+      },
+      planBeingDeleted: null,
+      toDelete: null
+    };
+  },
+  mounted: function mounted() {
+    this.form.insurance_id = this.insurance.id;
+  },
+  methods: {
+    createPlan: function createPlan() {
+      var _this = this;
+
+      if (this.edit) {
+        this.$inertia.patch("/plans/".concat(this.edit), this.form).then(function (data) {
+          _this.form.name = '';
+          _this.edit = '';
+        });
+      } else {
+        this.$inertia.post('/plans', this.form).then(function (data) {
+          _this.form.name = '';
+        });
+      }
+    },
+    onEdit: function onEdit(plan) {
+      this.edit = plan.id;
+      this.form.name = plan.name;
+    },
+    deletePlan: function deletePlan() {
+      var _this2 = this;
+
+      var data = {
+        'insurance_id': this.insurance.id
+      };
+      var plan = this.toDelete;
+      this.$inertia["delete"]("/plans/".concat(this.toDelete.id), data).then(function (data) {
+        _this2.planBeingDeleted = null;
+      });
+    },
+    cancelEdition: function cancelEdition() {
+      this.form.name = '';
+      this.edit = '';
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/All.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Parents/All.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Jetstream_Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Welcome */ "./resources/js/Jetstream/Welcome.vue");
+/* harmony import */ var _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/Pagination */ "./resources/js/Components/Pagination.vue");
+/* harmony import */ var _Jetstream_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/Modal */ "./resources/js/Jetstream/Modal.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue_feather_icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-feather-icons */ "./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js");
+/* harmony import */ var _EditOrNew__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./EditOrNew */ "./resources/js/Pages/Parents/EditOrNew.vue");
+/* harmony import */ var _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/Jetstream/ConfirmationModal */ "./resources/js/Jetstream/ConfirmationModal.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/Jetstream/DangerButton */ "./resources/js/Jetstream/DangerButton.vue");
+/* harmony import */ var _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Jetstream/Button.vue */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var _Children_EditOrNew__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Children/EditOrNew */ "./resources/js/Pages/Children/EditOrNew.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_12__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Pagination: _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Modal: _Jetstream_Modal__WEBPACK_IMPORTED_MODULE_3__["default"],
+    EditIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_5__["EditIcon"],
+    Trash2Icon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_5__["Trash2Icon"],
+    UserPlusIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_5__["UserPlusIcon"],
+    EditOrNew: _EditOrNew__WEBPACK_IMPORTED_MODULE_6__["default"],
+    JetConfirmationModal: _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_7__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_8__["default"],
+    JetDangerButton: _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_9__["default"],
+    Button: _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
+    EditOrNewChildren: _Children_EditOrNew__WEBPACK_IMPORTED_MODULE_11__["default"]
+  },
+  data: function data() {
+    return {
+      toggleModal: false,
+      editingOrCreating: false,
+      editThisParent: null,
+      modalTitle: '',
+      planBeingDeleted: null,
+      toDelete: null,
+      newChild: null,
+      parents: [],
+      pagination: {}
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapState"])(['editingOrCreatingParent', 'editingOrCreatingChildren'])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapActions"])({
+    toggleNewOrEditParentModal: "toggleNewOrEditParentModal",
+    toggleNewOrEditChildrenModal: "toggleNewOrEditChildrenModal"
+  })), {}, {
+    openModal: function openModal() {
+      this.openInformationModal();
+    },
+    newOrEdit: function newOrEdit(parent, title) {
+      this.editThisParent = parent;
+      this.modalTitle = title;
+      this.toggleNewOrEditParentModal();
+    },
+    deleteParent: function deleteParent() {
+      var _this = this;
+
+      this.$inertia["delete"]("/parents/".concat(this.toDelete)).then(function (data) {
+        _this.planBeingDeleted = null;
+      });
+    },
+    addChild: function addChild(parent) {
+      this.newChild = {
+        'parent': parent
+      };
+      this.toggleNewOrEditChildrenModal();
+    },
+    getChildren: function getChildren(children) {
+      var result = '';
+      children.forEach(function (child) {
+        if (result == '') {
+          result = child.name;
+        } else {
+          result = result + ', ' + child.name;
+        }
+      });
+      return result;
+    }
+  }),
+  mounted: function mounted() {
+    var _this2 = this;
+
+    axios__WEBPACK_IMPORTED_MODULE_12___default.a.get('parents/all').then(function (data) {
+      _this2.parents = data.data.data;
+      _this2.pagination = data.data;
+      console.log(_this2.pagination);
+    });
+  },
+  getParents: function getParents() {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/Create.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Parents/Create.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Jetstream_Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Welcome */ "./resources/js/Jetstream/Welcome.vue");
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Input: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      name: ""
+    };
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/EditOrNew.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Parents/EditOrNew.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Jetstream/DialogModal */ "./resources/js/Jetstream/DialogModal.vue");
+/* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    title: {
+      "default": 'Nuevo padre/madre'
+    },
+    data: {
+      "default": null
+    }
+  },
+  components: {
+    JetDialogModal: _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_0__["default"],
+    JetInputError: _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_4__["default"],
+    JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_3__["default"],
+    JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      form: {
+        id: '',
+        name: '',
+        address: '',
+        phone: '',
+        kinship: '',
+        error: ''
+      }
+    };
+  },
+  mounted: function mounted() {
+    if (this.data) {
+      this.form.id = this.data.id;
+      this.form.name = this.data.name;
+      this.form.address = this.data.address;
+      this.form.phone = this.data.phone;
+      this.form.kinship = this.data.kinship;
+    }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(['editingOrCreatingParent'])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapActions"])({
+    toggleNewOrEditParentModal: "toggleNewOrEditParentModal"
+  })), {}, {
+    toggleModal: function toggleModal() {
+      this.toggleNewOrEditParentModal();
+    },
+    onSave: function onSave() {
+      var _this = this;
+
+      if (this.form.id != '') {
+        this.$inertia.patch("/parents/".concat(this.form.id), this.form).then(function (data) {
+          _this.toggleNewOrEditParentModal();
+        });
+      } else {
+        this.$inertia.post('/parents', this.form).then(function (data) {
+          _this.toggleNewOrEditParentModal();
+        });
+      }
+    }
+  })
 });
 
 /***/ }),
@@ -4251,6 +5597,144 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Users/All.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Users/All.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Jetstream_Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Welcome */ "./resources/js/Jetstream/Welcome.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['users'],
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/dayjs.min.js":
+/*!*****************************************!*\
+  !*** ./node_modules/dayjs/dayjs.min.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(this,function(){"use strict";var t="millisecond",e="second",n="minute",r="hour",i="day",s="week",u="month",a="quarter",o="year",f="date",h=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?.?(\d+)?$/,c=/\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,d={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_")},$=function(t,e,n){var r=String(t);return!r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},l={s:$,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return(e<=0?"+":"-")+$(r,2,"0")+":"+$(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return-t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.clone().add(r,u),s=n-i<0,a=e.clone().add(r+(s?-1:1),u);return+(-(r+(n-i)/(s?i-a:a-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(h){return{M:u,y:o,w:s,d:i,D:f,h:r,m:n,s:e,ms:t,Q:a}[h]||String(h||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},y="en",M={};M[y]=d;var m=function(t){return t instanceof S},D=function(t,e,n){var r;if(!t)return y;if("string"==typeof t)M[t]&&(r=t),e&&(M[t]=e,r=t);else{var i=t.name;M[i]=t,r=i}return!n&&r&&(y=r),r||!n&&y},v=function(t,e){if(m(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new S(n)},g=l;g.l=D,g.i=m,g.w=function(t,e){return v(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var S=function(){function d(t){this.$L=D(t.locale,null,!0),this.parse(t)}var $=d.prototype;return $.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(g.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match(h);if(r){var i=r[2]-1||0,s=(r[7]||"0").substring(0,3);return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)}}return new Date(e)}(t),this.$x=t.x||{},this.init()},$.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds()},$.$utils=function(){return g},$.isValid=function(){return!("Invalid Date"===this.$d.toString())},$.isSame=function(t,e){var n=v(t);return this.startOf(e)<=n&&n<=this.endOf(e)},$.isAfter=function(t,e){return v(t)<this.startOf(e)},$.isBefore=function(t,e){return this.endOf(e)<v(t)},$.$g=function(t,e,n){return g.u(t)?this[e]:this.set(n,t)},$.unix=function(){return Math.floor(this.valueOf()/1e3)},$.valueOf=function(){return this.$d.getTime()},$.startOf=function(t,a){var h=this,c=!!g.u(a)||a,d=g.p(t),$=function(t,e){var n=g.w(h.$u?Date.UTC(h.$y,e,t):new Date(h.$y,e,t),h);return c?n:n.endOf(i)},l=function(t,e){return g.w(h.toDate()[t].apply(h.toDate("s"),(c?[0,0,0,0]:[23,59,59,999]).slice(e)),h)},y=this.$W,M=this.$M,m=this.$D,D="set"+(this.$u?"UTC":"");switch(d){case o:return c?$(1,0):$(31,11);case u:return c?$(1,M):$(0,M+1);case s:var v=this.$locale().weekStart||0,S=(y<v?y+7:y)-v;return $(c?m-S:m+(6-S),M);case i:case f:return l(D+"Hours",0);case r:return l(D+"Minutes",1);case n:return l(D+"Seconds",2);case e:return l(D+"Milliseconds",3);default:return this.clone()}},$.endOf=function(t){return this.startOf(t,!1)},$.$set=function(s,a){var h,c=g.p(s),d="set"+(this.$u?"UTC":""),$=(h={},h[i]=d+"Date",h[f]=d+"Date",h[u]=d+"Month",h[o]=d+"FullYear",h[r]=d+"Hours",h[n]=d+"Minutes",h[e]=d+"Seconds",h[t]=d+"Milliseconds",h)[c],l=c===i?this.$D+(a-this.$W):a;if(c===u||c===o){var y=this.clone().set(f,1);y.$d[$](l),y.init(),this.$d=y.set(f,Math.min(this.$D,y.daysInMonth())).$d}else $&&this.$d[$](l);return this.init(),this},$.set=function(t,e){return this.clone().$set(t,e)},$.get=function(t){return this[g.p(t)]()},$.add=function(t,a){var f,h=this;t=Number(t);var c=g.p(a),d=function(e){var n=v(h);return g.w(n.date(n.date()+Math.round(e*t)),h)};if(c===u)return this.set(u,this.$M+t);if(c===o)return this.set(o,this.$y+t);if(c===i)return d(1);if(c===s)return d(7);var $=(f={},f[n]=6e4,f[r]=36e5,f[e]=1e3,f)[c]||1,l=this.$d.getTime()+t*$;return g.w(l,this)},$.subtract=function(t,e){return this.add(-1*t,e)},$.format=function(t){var e=this;if(!this.isValid())return"Invalid Date";var n=t||"YYYY-MM-DDTHH:mm:ssZ",r=g.z(this),i=this.$locale(),s=this.$H,u=this.$m,a=this.$M,o=i.weekdays,f=i.months,h=function(t,r,i,s){return t&&(t[r]||t(e,n))||i[r].substr(0,s)},d=function(t){return g.s(s%12||12,t,"0")},$=i.meridiem||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r},l={YY:String(this.$y).slice(-2),YYYY:this.$y,M:a+1,MM:g.s(a+1,2,"0"),MMM:h(i.monthsShort,a,f,3),MMMM:h(f,a),D:this.$D,DD:g.s(this.$D,2,"0"),d:String(this.$W),dd:h(i.weekdaysMin,this.$W,o,2),ddd:h(i.weekdaysShort,this.$W,o,3),dddd:o[this.$W],H:String(s),HH:g.s(s,2,"0"),h:d(1),hh:d(2),a:$(s,u,!0),A:$(s,u,!1),m:String(u),mm:g.s(u,2,"0"),s:String(this.$s),ss:g.s(this.$s,2,"0"),SSS:g.s(this.$ms,3,"0"),Z:r};return n.replace(c,function(t,e){return e||l[t]||r.replace(":","")})},$.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},$.diff=function(t,f,h){var c,d=g.p(f),$=v(t),l=6e4*($.utcOffset()-this.utcOffset()),y=this-$,M=g.m(this,$);return M=(c={},c[o]=M/12,c[u]=M,c[a]=M/3,c[s]=(y-l)/6048e5,c[i]=(y-l)/864e5,c[r]=y/36e5,c[n]=y/6e4,c[e]=y/1e3,c)[d]||y,h?M:g.a(M)},$.daysInMonth=function(){return this.endOf(u).$D},$.$locale=function(){return M[this.$L]},$.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=D(t,e,!0);return r&&(n.$L=r),n},$.clone=function(){return g.w(this.$d,this)},$.toDate=function(){return new Date(this.valueOf())},$.toJSON=function(){return this.isValid()?this.toISOString():null},$.toISOString=function(){return this.$d.toISOString()},$.toString=function(){return this.$d.toUTCString()},d}(),p=S.prototype;return v.prototype=p,[["$ms",t],["$s",e],["$m",n],["$H",r],["$W",i],["$M",u],["$y",o],["$D",f]].forEach(function(t){p[t[1]]=function(e){return this.$g(e,t[0],t[1])}}),v.extend=function(t,e){return t.$i||(t(e,S,v),t.$i=!0),v},v.locale=D,v.isDayjs=m,v.unix=function(t){return v(1e3*t)},v.en=M[y],v.Ls=M,v.p={},v});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/advancedFormat.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/dayjs/plugin/advancedFormat.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";return function(e,t,r){var n=t.prototype,a=n.format;r.en.ordinal=function(e){var t=["th","st","nd","rd"],r=e%100;return"["+e+(t[(r-20)%10]||t[r]||t[0])+"]"},n.format=function(e){var t=this,r=this.$locale(),n=this.$utils(),o=(e||"YYYY-MM-DDTHH:mm:ssZ").replace(/\[([^\]]+)]|Q|wo|ww|w|zzz|z|gggg|Do|X|x|k{1,2}|S/g,function(e){switch(e){case"Q":return Math.ceil((t.$M+1)/3);case"Do":return r.ordinal(t.$D);case"gggg":return t.weekYear();case"wo":return r.ordinal(t.week(),"W");case"w":case"ww":return n.s(t.week(),"w"===e?1:2,"0");case"k":case"kk":return n.s(String(0===t.$H?24:t.$H),"k"===e?1:2,"0");case"X":return Math.floor(t.$d.getTime()/1e3);case"x":return t.$d.getTime();case"z":return"["+t.offsetName()+"]";case"zzz":return"["+t.offsetName("long")+"]";default:return e}});return a.bind(this)(o)}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/customParseFormat.js":
+/*!********************************************************!*\
+  !*** ./node_modules/dayjs/plugin/customParseFormat.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(this,function(){"use strict";var t,e={LTS:"h:mm:ss A",LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"},n=function(t,n){return t.replace(/(\[[^\]]+])|(LTS?|l{1,4}|L{1,4})/g,function(t,r,i){var o=i&&i.toUpperCase();return r||n[i]||e[i]||n[o].replace(/(\[[^\]]+])|(MMMM|MM|DD|dddd)/g,function(t,e,n){return e||n.slice(1)})})},r=/(\[[^[]*\])|([-:/.()\s]+)|(A|a|YYYY|YY?|MM?M?M?|Do|DD?|hh?|HH?|mm?|ss?|S{1,3}|z|ZZ?)/g,i=/\d\d/,o=/\d\d?/,s=/\d*[^\s\d-:/()]+/;var a=function(t){return function(e){this[t]=+e}},f=[/[+-]\d\d:?(\d\d)?/,function(t){(this.zone||(this.zone={})).offset=function(t){if(!t)return 0;var e=t.match(/([+-]|\d\d)/g),n=60*e[1]+(+e[2]||0);return 0===n?0:"+"===e[0]?-n:n}(t)}],u=function(e){var n=t[e];return n&&(n.indexOf?n:n.s.concat(n.f))},h=function(e,n){var r,i=t.meridiem;if(i){for(var o=1;o<=24;o+=1)if(e.indexOf(i(o,0,n))>-1){r=o>12;break}}else r=e===(n?"pm":"PM");return r},d={A:[s,function(t){this.afternoon=h(t,!1)}],a:[s,function(t){this.afternoon=h(t,!0)}],S:[/\d/,function(t){this.milliseconds=100*+t}],SS:[i,function(t){this.milliseconds=10*+t}],SSS:[/\d{3}/,function(t){this.milliseconds=+t}],s:[o,a("seconds")],ss:[o,a("seconds")],m:[o,a("minutes")],mm:[o,a("minutes")],H:[o,a("hours")],h:[o,a("hours")],HH:[o,a("hours")],hh:[o,a("hours")],D:[o,a("day")],DD:[i,a("day")],Do:[s,function(e){var n=t.ordinal,r=e.match(/\d+/);if(this.day=r[0],n)for(var i=1;i<=31;i+=1)n(i).replace(/\[|\]/g,"")===e&&(this.day=i)}],M:[o,a("month")],MM:[i,a("month")],MMM:[s,function(t){var e=u("months"),n=(u("monthsShort")||e.map(function(t){return t.substr(0,3)})).indexOf(t)+1;if(n<1)throw new Error;this.month=n%12||n}],MMMM:[s,function(t){var e=u("months").indexOf(t)+1;if(e<1)throw new Error;this.month=e%12||e}],Y:[/[+-]?\d+/,a("year")],YY:[i,function(t){t=+t,this.year=t+(t>68?1900:2e3)}],YYYY:[/\d{4}/,a("year")],Z:f,ZZ:f};var c=function(e,i,o){try{var s=function(e){for(var i=(e=n(e,t&&t.formats)).match(r),o=i.length,s=0;s<o;s+=1){var a=i[s],f=d[a],u=f&&f[0],h=f&&f[1];i[s]=h?{regex:u,parser:h}:a.replace(/^\[|\]$/g,"")}return function(t){for(var e={},n=0,r=0;n<o;n+=1){var s=i[n];if("string"==typeof s)r+=s.length;else{var a=s.regex,f=s.parser,u=t.substr(r),h=a.exec(u)[0];f.call(e,h),t=t.replace(h,"")}}return function(t){var e=t.afternoon;if(void 0!==e){var n=t.hours;e?n<12&&(t.hours+=12):12===n&&(t.hours=0),delete t.afternoon}}(e),e}}(i)(e),a=s.year,f=s.month,u=s.day,h=s.hours,c=s.minutes,m=s.seconds,l=s.milliseconds,M=s.zone,Y=new Date,v=u||(a||f?1:Y.getDate()),p=a||Y.getFullYear(),D=0;a&&!f||(D=f>0?f-1:Y.getMonth());var y=h||0,L=c||0,g=m||0,$=l||0;return M?new Date(Date.UTC(p,D,v,y,L,g,$+60*M.offset*1e3)):o?new Date(Date.UTC(p,D,v,y,L,g,$)):new Date(p,D,v,y,L,g,$)}catch(t){return new Date("")}};return function(e,n,r){r.p.customParseFormat=!0;var i=n.prototype,o=i.parse;i.parse=function(e){var n=e.date,i=e.utc,s=e.args;this.$u=i;var a=s[1];if("string"==typeof a){var f=!0===s[2],u=!0===s[3],h=f||u,d=s[2];u&&(d=s[2]),f||(t=d?r.Ls[d]:this.$locale()),this.$d=c(n,a,i),this.init(),d&&!0!==d&&(this.$L=this.locale(d).$L),h&&n!==this.format(a)&&(this.$d=new Date("")),t=void 0}else if(a instanceof Array)for(var m=a.length,l=1;l<=m;l+=1){s[1]=a[l-1];var M=r.apply(this,s);if(M.isValid()){this.$d=M.$d,this.$L=M.$L,this.init();break}l===m&&(this.$d=new Date(""))}else o.call(this,e)}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/isBetween.js":
+/*!************************************************!*\
+  !*** ./node_modules/dayjs/plugin/isBetween.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";return function(e,t,i){t.prototype.isBetween=function(e,t,s,f){var n=i(e),o=i(t),r="("===(f=f||"()")[0],u=")"===f[1];return(r?this.isAfter(n,s):!this.isBefore(n,s))&&(u?this.isBefore(o,s):!this.isAfter(o,s))||(r?this.isBefore(n,s):!this.isAfter(n,s))&&(u?this.isAfter(o,s):!this.isBefore(o,s))}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/isSameOrAfter.js":
+/*!****************************************************!*\
+  !*** ./node_modules/dayjs/plugin/isSameOrAfter.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";return function(e,t){t.prototype.isSameOrAfter=function(e,t){return this.isSame(e,t)||this.isAfter(e,t)}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/isSameOrBefore.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/dayjs/plugin/isSameOrBefore.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";return function(e,t){t.prototype.isSameOrBefore=function(e,t){return this.isSame(e,t)||this.isBefore(e,t)}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/isToday.js":
+/*!**********************************************!*\
+  !*** ./node_modules/dayjs/plugin/isToday.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(this,function(){"use strict";return function(t,e,o){e.prototype.isToday=function(){var t=o();return this.format("YYYY-MM-DD")===t.format("YYYY-MM-DD")}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/localizedFormat.js":
+/*!******************************************************!*\
+  !*** ./node_modules/dayjs/plugin/localizedFormat.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";var e={LTS:"h:mm:ss A",LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"};return function(t,n,o){var r=n.prototype,M=r.format;o.en.formats=e,r.format=function(t){void 0===t&&(t="YYYY-MM-DDTHH:mm:ssZ");var n=this.$locale().formats,o=function(t,n){return t.replace(/(\[[^\]]+])|(LTS?|l{1,4}|L{1,4})/g,function(t,o,r){var M=r&&r.toUpperCase();return o||n[r]||e[r]||n[M].replace(/(\[[^\]]+])|(MMMM|MM|DD|dddd)/g,function(e,t,n){return t||n.slice(1)})})}(t,void 0===n?{}:n);return M.call(this,o)}}});
+
 
 /***/ }),
 
@@ -44611,6 +46095,15114 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js ***!
+  \*********************************************************************/
+/*! exports provided: ActivityIcon, AirplayIcon, AlertCircleIcon, AlertOctagonIcon, AlertTriangleIcon, AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, AnchorIcon, ApertureIcon, ArchiveIcon, ArrowDownCircleIcon, ArrowDownLeftIcon, ArrowDownRightIcon, ArrowDownIcon, ArrowLeftCircleIcon, ArrowLeftIcon, ArrowRightCircleIcon, ArrowRightIcon, ArrowUpCircleIcon, ArrowUpLeftIcon, ArrowUpRightIcon, ArrowUpIcon, AtSignIcon, AwardIcon, BarChart2Icon, BarChartIcon, BatteryChargingIcon, BatteryIcon, BellOffIcon, BellIcon, BluetoothIcon, BoldIcon, BookOpenIcon, BookIcon, BookmarkIcon, BoxIcon, BriefcaseIcon, CalendarIcon, CameraOffIcon, CameraIcon, CastIcon, CheckCircleIcon, CheckSquareIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon, ChevronsDownIcon, ChevronsLeftIcon, ChevronsRightIcon, ChevronsUpIcon, ChromeIcon, CircleIcon, ClipboardIcon, ClockIcon, CloudDrizzleIcon, CloudLightningIcon, CloudOffIcon, CloudRainIcon, CloudSnowIcon, CloudIcon, CodeIcon, CodepenIcon, CodesandboxIcon, CoffeeIcon, ColumnsIcon, CommandIcon, CompassIcon, CopyIcon, CornerDownLeftIcon, CornerDownRightIcon, CornerLeftDownIcon, CornerLeftUpIcon, CornerRightDownIcon, CornerRightUpIcon, CornerUpLeftIcon, CornerUpRightIcon, CpuIcon, CreditCardIcon, CropIcon, CrosshairIcon, DatabaseIcon, DeleteIcon, DiscIcon, DivideCircleIcon, DivideSquareIcon, DivideIcon, DollarSignIcon, DownloadCloudIcon, DownloadIcon, DribbbleIcon, DropletIcon, Edit2Icon, Edit3Icon, EditIcon, ExternalLinkIcon, EyeOffIcon, EyeIcon, FacebookIcon, FastForwardIcon, FeatherIcon, FigmaIcon, FileMinusIcon, FilePlusIcon, FileTextIcon, FileIcon, FilmIcon, FilterIcon, FlagIcon, FolderMinusIcon, FolderPlusIcon, FolderIcon, FramerIcon, FrownIcon, GiftIcon, GitBranchIcon, GitCommitIcon, GitMergeIcon, GitPullRequestIcon, GithubIcon, GitlabIcon, GlobeIcon, GridIcon, HardDriveIcon, HashIcon, HeadphonesIcon, HeartIcon, HelpCircleIcon, HexagonIcon, HomeIcon, ImageIcon, InboxIcon, InfoIcon, InstagramIcon, ItalicIcon, KeyIcon, LayersIcon, LayoutIcon, LifeBuoyIcon, Link2Icon, LinkIcon, LinkedinIcon, ListIcon, LoaderIcon, LockIcon, LogInIcon, LogOutIcon, MailIcon, MapPinIcon, MapIcon, Maximize2Icon, MaximizeIcon, MehIcon, MenuIcon, MessageCircleIcon, MessageSquareIcon, MicOffIcon, MicIcon, Minimize2Icon, MinimizeIcon, MinusCircleIcon, MinusSquareIcon, MinusIcon, MonitorIcon, MoonIcon, MoreHorizontalIcon, MoreVerticalIcon, MousePointerIcon, MoveIcon, MusicIcon, Navigation2Icon, NavigationIcon, OctagonIcon, PackageIcon, PaperclipIcon, PauseCircleIcon, PauseIcon, PenToolIcon, PercentIcon, PhoneCallIcon, PhoneForwardedIcon, PhoneIncomingIcon, PhoneMissedIcon, PhoneOffIcon, PhoneOutgoingIcon, PhoneIcon, PieChartIcon, PlayCircleIcon, PlayIcon, PlusCircleIcon, PlusSquareIcon, PlusIcon, PocketIcon, PowerIcon, PrinterIcon, RadioIcon, RefreshCcwIcon, RefreshCwIcon, RepeatIcon, RewindIcon, RotateCcwIcon, RotateCwIcon, RssIcon, SaveIcon, ScissorsIcon, SearchIcon, SendIcon, ServerIcon, SettingsIcon, Share2Icon, ShareIcon, ShieldOffIcon, ShieldIcon, ShoppingBagIcon, ShoppingCartIcon, ShuffleIcon, SidebarIcon, SkipBackIcon, SkipForwardIcon, SlackIcon, SlashIcon, SlidersIcon, SmartphoneIcon, SmileIcon, SpeakerIcon, SquareIcon, StarIcon, StopCircleIcon, SunIcon, SunriseIcon, SunsetIcon, TabletIcon, TagIcon, TargetIcon, TerminalIcon, ThermometerIcon, ThumbsDownIcon, ThumbsUpIcon, ToggleLeftIcon, ToggleRightIcon, ToolIcon, Trash2Icon, TrashIcon, TrelloIcon, TrendingDownIcon, TrendingUpIcon, TriangleIcon, TruckIcon, TvIcon, TwitchIcon, TwitterIcon, TypeIcon, UmbrellaIcon, UnderlineIcon, UnlockIcon, UploadCloudIcon, UploadIcon, UserCheckIcon, UserMinusIcon, UserPlusIcon, UserXIcon, UserIcon, UsersIcon, VideoOffIcon, VideoIcon, VoicemailIcon, Volume1Icon, Volume2Icon, VolumeXIcon, VolumeIcon, WatchIcon, WifiOffIcon, WifiIcon, WindIcon, XCircleIcon, XOctagonIcon, XSquareIcon, XIcon, YoutubeIcon, ZapOffIcon, ZapIcon, ZoomInIcon, ZoomOutIcon */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ActivityIcon", function() { return ActivityIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AirplayIcon", function() { return AirplayIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AlertCircleIcon", function() { return AlertCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AlertOctagonIcon", function() { return AlertOctagonIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AlertTriangleIcon", function() { return AlertTriangleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AlignCenterIcon", function() { return AlignCenterIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AlignJustifyIcon", function() { return AlignJustifyIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AlignLeftIcon", function() { return AlignLeftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AlignRightIcon", function() { return AlignRightIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AnchorIcon", function() { return AnchorIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ApertureIcon", function() { return ApertureIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArchiveIcon", function() { return ArchiveIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowDownCircleIcon", function() { return ArrowDownCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowDownLeftIcon", function() { return ArrowDownLeftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowDownRightIcon", function() { return ArrowDownRightIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowDownIcon", function() { return ArrowDownIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowLeftCircleIcon", function() { return ArrowLeftCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowLeftIcon", function() { return ArrowLeftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowRightCircleIcon", function() { return ArrowRightCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowRightIcon", function() { return ArrowRightIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowUpCircleIcon", function() { return ArrowUpCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowUpLeftIcon", function() { return ArrowUpLeftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowUpRightIcon", function() { return ArrowUpRightIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArrowUpIcon", function() { return ArrowUpIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AtSignIcon", function() { return AtSignIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AwardIcon", function() { return AwardIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BarChart2Icon", function() { return BarChart2Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BarChartIcon", function() { return BarChartIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BatteryChargingIcon", function() { return BatteryChargingIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BatteryIcon", function() { return BatteryIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BellOffIcon", function() { return BellOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BellIcon", function() { return BellIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BluetoothIcon", function() { return BluetoothIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BoldIcon", function() { return BoldIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BookOpenIcon", function() { return BookOpenIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BookIcon", function() { return BookIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BookmarkIcon", function() { return BookmarkIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BoxIcon", function() { return BoxIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BriefcaseIcon", function() { return BriefcaseIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CalendarIcon", function() { return CalendarIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CameraOffIcon", function() { return CameraOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CameraIcon", function() { return CameraIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CastIcon", function() { return CastIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckCircleIcon", function() { return CheckCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckSquareIcon", function() { return CheckSquareIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckIcon", function() { return CheckIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChevronDownIcon", function() { return ChevronDownIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChevronLeftIcon", function() { return ChevronLeftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChevronRightIcon", function() { return ChevronRightIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChevronUpIcon", function() { return ChevronUpIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChevronsDownIcon", function() { return ChevronsDownIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChevronsLeftIcon", function() { return ChevronsLeftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChevronsRightIcon", function() { return ChevronsRightIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChevronsUpIcon", function() { return ChevronsUpIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChromeIcon", function() { return ChromeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CircleIcon", function() { return CircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClipboardIcon", function() { return ClipboardIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClockIcon", function() { return ClockIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CloudDrizzleIcon", function() { return CloudDrizzleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CloudLightningIcon", function() { return CloudLightningIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CloudOffIcon", function() { return CloudOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CloudRainIcon", function() { return CloudRainIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CloudSnowIcon", function() { return CloudSnowIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CloudIcon", function() { return CloudIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CodeIcon", function() { return CodeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CodepenIcon", function() { return CodepenIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CodesandboxIcon", function() { return CodesandboxIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CoffeeIcon", function() { return CoffeeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ColumnsIcon", function() { return ColumnsIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CommandIcon", function() { return CommandIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CompassIcon", function() { return CompassIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CopyIcon", function() { return CopyIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CornerDownLeftIcon", function() { return CornerDownLeftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CornerDownRightIcon", function() { return CornerDownRightIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CornerLeftDownIcon", function() { return CornerLeftDownIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CornerLeftUpIcon", function() { return CornerLeftUpIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CornerRightDownIcon", function() { return CornerRightDownIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CornerRightUpIcon", function() { return CornerRightUpIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CornerUpLeftIcon", function() { return CornerUpLeftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CornerUpRightIcon", function() { return CornerUpRightIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CpuIcon", function() { return CpuIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreditCardIcon", function() { return CreditCardIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CropIcon", function() { return CropIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CrosshairIcon", function() { return CrosshairIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DatabaseIcon", function() { return DatabaseIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeleteIcon", function() { return DeleteIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DiscIcon", function() { return DiscIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DivideCircleIcon", function() { return DivideCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DivideSquareIcon", function() { return DivideSquareIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DivideIcon", function() { return DivideIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DollarSignIcon", function() { return DollarSignIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DownloadCloudIcon", function() { return DownloadCloudIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DownloadIcon", function() { return DownloadIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DribbbleIcon", function() { return DribbbleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DropletIcon", function() { return DropletIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Edit2Icon", function() { return Edit2Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Edit3Icon", function() { return Edit3Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditIcon", function() { return EditIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExternalLinkIcon", function() { return ExternalLinkIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EyeOffIcon", function() { return EyeOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EyeIcon", function() { return EyeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FacebookIcon", function() { return FacebookIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FastForwardIcon", function() { return FastForwardIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FeatherIcon", function() { return FeatherIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FigmaIcon", function() { return FigmaIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileMinusIcon", function() { return FileMinusIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilePlusIcon", function() { return FilePlusIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileTextIcon", function() { return FileTextIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileIcon", function() { return FileIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilmIcon", function() { return FilmIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterIcon", function() { return FilterIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FlagIcon", function() { return FlagIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FolderMinusIcon", function() { return FolderMinusIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FolderPlusIcon", function() { return FolderPlusIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FolderIcon", function() { return FolderIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FramerIcon", function() { return FramerIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FrownIcon", function() { return FrownIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GiftIcon", function() { return GiftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GitBranchIcon", function() { return GitBranchIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GitCommitIcon", function() { return GitCommitIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GitMergeIcon", function() { return GitMergeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GitPullRequestIcon", function() { return GitPullRequestIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GithubIcon", function() { return GithubIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GitlabIcon", function() { return GitlabIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GlobeIcon", function() { return GlobeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GridIcon", function() { return GridIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HardDriveIcon", function() { return HardDriveIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HashIcon", function() { return HashIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeadphonesIcon", function() { return HeadphonesIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeartIcon", function() { return HeartIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HelpCircleIcon", function() { return HelpCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HexagonIcon", function() { return HexagonIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeIcon", function() { return HomeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageIcon", function() { return ImageIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InboxIcon", function() { return InboxIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InfoIcon", function() { return InfoIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InstagramIcon", function() { return InstagramIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ItalicIcon", function() { return ItalicIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KeyIcon", function() { return KeyIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayersIcon", function() { return LayersIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutIcon", function() { return LayoutIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LifeBuoyIcon", function() { return LifeBuoyIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Link2Icon", function() { return Link2Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LinkIcon", function() { return LinkIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LinkedinIcon", function() { return LinkedinIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListIcon", function() { return ListIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoaderIcon", function() { return LoaderIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LockIcon", function() { return LockIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogInIcon", function() { return LogInIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogOutIcon", function() { return LogOutIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MailIcon", function() { return MailIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapPinIcon", function() { return MapPinIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapIcon", function() { return MapIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Maximize2Icon", function() { return Maximize2Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MaximizeIcon", function() { return MaximizeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MehIcon", function() { return MehIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuIcon", function() { return MenuIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageCircleIcon", function() { return MessageCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageSquareIcon", function() { return MessageSquareIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MicOffIcon", function() { return MicOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MicIcon", function() { return MicIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Minimize2Icon", function() { return Minimize2Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MinimizeIcon", function() { return MinimizeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MinusCircleIcon", function() { return MinusCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MinusSquareIcon", function() { return MinusSquareIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MinusIcon", function() { return MinusIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MonitorIcon", function() { return MonitorIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MoonIcon", function() { return MoonIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MoreHorizontalIcon", function() { return MoreHorizontalIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MoreVerticalIcon", function() { return MoreVerticalIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MousePointerIcon", function() { return MousePointerIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MoveIcon", function() { return MoveIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MusicIcon", function() { return MusicIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Navigation2Icon", function() { return Navigation2Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavigationIcon", function() { return NavigationIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OctagonIcon", function() { return OctagonIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PackageIcon", function() { return PackageIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PaperclipIcon", function() { return PaperclipIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PauseCircleIcon", function() { return PauseCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PauseIcon", function() { return PauseIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PenToolIcon", function() { return PenToolIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PercentIcon", function() { return PercentIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhoneCallIcon", function() { return PhoneCallIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhoneForwardedIcon", function() { return PhoneForwardedIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhoneIncomingIcon", function() { return PhoneIncomingIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhoneMissedIcon", function() { return PhoneMissedIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhoneOffIcon", function() { return PhoneOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhoneOutgoingIcon", function() { return PhoneOutgoingIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhoneIcon", function() { return PhoneIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PieChartIcon", function() { return PieChartIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlayCircleIcon", function() { return PlayCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlayIcon", function() { return PlayIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlusCircleIcon", function() { return PlusCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlusSquareIcon", function() { return PlusSquareIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlusIcon", function() { return PlusIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PocketIcon", function() { return PocketIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PowerIcon", function() { return PowerIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrinterIcon", function() { return PrinterIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RadioIcon", function() { return RadioIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RefreshCcwIcon", function() { return RefreshCcwIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RefreshCwIcon", function() { return RefreshCwIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepeatIcon", function() { return RepeatIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RewindIcon", function() { return RewindIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RotateCcwIcon", function() { return RotateCcwIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RotateCwIcon", function() { return RotateCwIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RssIcon", function() { return RssIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SaveIcon", function() { return SaveIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScissorsIcon", function() { return ScissorsIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchIcon", function() { return SearchIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SendIcon", function() { return SendIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ServerIcon", function() { return ServerIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsIcon", function() { return SettingsIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Share2Icon", function() { return Share2Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShareIcon", function() { return ShareIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShieldOffIcon", function() { return ShieldOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShieldIcon", function() { return ShieldIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShoppingBagIcon", function() { return ShoppingBagIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShoppingCartIcon", function() { return ShoppingCartIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShuffleIcon", function() { return ShuffleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SidebarIcon", function() { return SidebarIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SkipBackIcon", function() { return SkipBackIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SkipForwardIcon", function() { return SkipForwardIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SlackIcon", function() { return SlackIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SlashIcon", function() { return SlashIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SlidersIcon", function() { return SlidersIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SmartphoneIcon", function() { return SmartphoneIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SmileIcon", function() { return SmileIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpeakerIcon", function() { return SpeakerIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SquareIcon", function() { return SquareIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StarIcon", function() { return StarIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StopCircleIcon", function() { return StopCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SunIcon", function() { return SunIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SunriseIcon", function() { return SunriseIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SunsetIcon", function() { return SunsetIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabletIcon", function() { return TabletIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TagIcon", function() { return TagIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TargetIcon", function() { return TargetIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TerminalIcon", function() { return TerminalIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ThermometerIcon", function() { return ThermometerIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ThumbsDownIcon", function() { return ThumbsDownIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ThumbsUpIcon", function() { return ThumbsUpIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ToggleLeftIcon", function() { return ToggleLeftIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ToggleRightIcon", function() { return ToggleRightIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ToolIcon", function() { return ToolIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Trash2Icon", function() { return Trash2Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TrashIcon", function() { return TrashIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TrelloIcon", function() { return TrelloIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TrendingDownIcon", function() { return TrendingDownIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TrendingUpIcon", function() { return TrendingUpIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TriangleIcon", function() { return TriangleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TruckIcon", function() { return TruckIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TvIcon", function() { return TvIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TwitchIcon", function() { return TwitchIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TwitterIcon", function() { return TwitterIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TypeIcon", function() { return TypeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UmbrellaIcon", function() { return UmbrellaIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UnderlineIcon", function() { return UnderlineIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UnlockIcon", function() { return UnlockIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UploadCloudIcon", function() { return UploadCloudIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UploadIcon", function() { return UploadIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserCheckIcon", function() { return UserCheckIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserMinusIcon", function() { return UserMinusIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserPlusIcon", function() { return UserPlusIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserXIcon", function() { return UserXIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserIcon", function() { return UserIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UsersIcon", function() { return UsersIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VideoOffIcon", function() { return VideoOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VideoIcon", function() { return VideoIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VoicemailIcon", function() { return VoicemailIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Volume1Icon", function() { return Volume1Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Volume2Icon", function() { return Volume2Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VolumeXIcon", function() { return VolumeXIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VolumeIcon", function() { return VolumeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WatchIcon", function() { return WatchIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WifiOffIcon", function() { return WifiOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WifiIcon", function() { return WifiIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WindIcon", function() { return WindIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "XCircleIcon", function() { return XCircleIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "XOctagonIcon", function() { return XOctagonIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "XSquareIcon", function() { return XSquareIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "XIcon", function() { return XIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YoutubeIcon", function() { return YoutubeIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ZapOffIcon", function() { return ZapOffIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ZapIcon", function() { return ZapIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ZoomInIcon", function() { return ZoomInIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ZoomOutIcon", function() { return ZoomOutIcon; });
+/* harmony import */ var babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-helper-vue-jsx-merge-props */ "./node_modules/babel-helper-vue-jsx-merge-props/index.js");
+/* harmony import */ var babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var ActivityIcon = {
+  name: 'ActivityIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-activity"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "22 12 18 12 15 21 9 3 6 12 2 12"
+      }
+    })]);
+  }
+};
+
+var AirplayIcon = {
+  name: 'AirplayIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-airplay"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"
+      }
+    }), h("polygon", {
+      attrs: {
+        points: "12 15 17 21 7 21 12 15"
+      }
+    })]);
+  }
+};
+
+var AlertCircleIcon = {
+  name: 'AlertCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-alert-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "8",
+        x2: "12",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "16",
+        x2: "12.01",
+        y2: "16"
+      }
+    })]);
+  }
+};
+
+var AlertOctagonIcon = {
+  name: 'AlertOctagonIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-alert-octagon"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "8",
+        x2: "12",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "16",
+        x2: "12.01",
+        y2: "16"
+      }
+    })]);
+  }
+};
+
+var AlertTriangleIcon = {
+  name: 'AlertTriangleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-alert-triangle"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "9",
+        x2: "12",
+        y2: "13"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "17",
+        x2: "12.01",
+        y2: "17"
+      }
+    })]);
+  }
+};
+
+var AlignCenterIcon = {
+  name: 'AlignCenterIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-align-center"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "18",
+        y1: "10",
+        x2: "6",
+        y2: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "6",
+        x2: "3",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "14",
+        x2: "3",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "18",
+        y1: "18",
+        x2: "6",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var AlignJustifyIcon = {
+  name: 'AlignJustifyIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-align-justify"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "21",
+        y1: "10",
+        x2: "3",
+        y2: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "6",
+        x2: "3",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "14",
+        x2: "3",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "18",
+        x2: "3",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var AlignLeftIcon = {
+  name: 'AlignLeftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-align-left"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "17",
+        y1: "10",
+        x2: "3",
+        y2: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "6",
+        x2: "3",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "14",
+        x2: "3",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17",
+        y1: "18",
+        x2: "3",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var AlignRightIcon = {
+  name: 'AlignRightIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-align-right"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "21",
+        y1: "10",
+        x2: "7",
+        y2: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "6",
+        x2: "3",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "14",
+        x2: "3",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "18",
+        x2: "7",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var AnchorIcon = {
+  name: 'AnchorIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-anchor"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "5",
+        r: "3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "22",
+        x2: "12",
+        y2: "8"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M5 12H2a10 10 0 0 0 20 0h-3"
+      }
+    })]);
+  }
+};
+
+var ApertureIcon = {
+  name: 'ApertureIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-aperture"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14.31",
+        y1: "8",
+        x2: "20.05",
+        y2: "17.94"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9.69",
+        y1: "8",
+        x2: "21.17",
+        y2: "8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "7.38",
+        y1: "12",
+        x2: "13.12",
+        y2: "2.06"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9.69",
+        y1: "16",
+        x2: "3.95",
+        y2: "6.06"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14.31",
+        y1: "16",
+        x2: "2.83",
+        y2: "16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16.62",
+        y1: "12",
+        x2: "10.88",
+        y2: "21.94"
+      }
+    })]);
+  }
+};
+
+var ArchiveIcon = {
+  name: 'ArchiveIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-archive"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "21 8 21 21 3 21 3 8"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "1",
+        y: "3",
+        width: "22",
+        height: "5"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "10",
+        y1: "12",
+        x2: "14",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var ArrowDownCircleIcon = {
+  name: 'ArrowDownCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-down-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "8 12 12 16 16 12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "8",
+        x2: "12",
+        y2: "16"
+      }
+    })]);
+  }
+};
+
+var ArrowDownLeftIcon = {
+  name: 'ArrowDownLeftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-down-left"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "17",
+        y1: "7",
+        x2: "7",
+        y2: "17"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "17 17 7 17 7 7"
+      }
+    })]);
+  }
+};
+
+var ArrowDownRightIcon = {
+  name: 'ArrowDownRightIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-down-right"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "7",
+        y1: "7",
+        x2: "17",
+        y2: "17"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "17 7 17 17 7 17"
+      }
+    })]);
+  }
+};
+
+var ArrowDownIcon = {
+  name: 'ArrowDownIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-down"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "12",
+        y1: "5",
+        x2: "12",
+        y2: "19"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "19 12 12 19 5 12"
+      }
+    })]);
+  }
+};
+
+var ArrowLeftCircleIcon = {
+  name: 'ArrowLeftCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-left-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "12 8 8 12 12 16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "12",
+        x2: "8",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var ArrowLeftIcon = {
+  name: 'ArrowLeftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-left"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "19",
+        y1: "12",
+        x2: "5",
+        y2: "12"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "12 19 5 12 12 5"
+      }
+    })]);
+  }
+};
+
+var ArrowRightCircleIcon = {
+  name: 'ArrowRightCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-right-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "12 16 16 12 12 8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "12",
+        x2: "16",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var ArrowRightIcon = {
+  name: 'ArrowRightIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-right"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "5",
+        y1: "12",
+        x2: "19",
+        y2: "12"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "12 5 19 12 12 19"
+      }
+    })]);
+  }
+};
+
+var ArrowUpCircleIcon = {
+  name: 'ArrowUpCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-up-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "16 12 12 8 8 12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "16",
+        x2: "12",
+        y2: "8"
+      }
+    })]);
+  }
+};
+
+var ArrowUpLeftIcon = {
+  name: 'ArrowUpLeftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-up-left"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "17",
+        y1: "17",
+        x2: "7",
+        y2: "7"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "7 17 7 7 17 7"
+      }
+    })]);
+  }
+};
+
+var ArrowUpRightIcon = {
+  name: 'ArrowUpRightIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-up-right"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "7",
+        y1: "17",
+        x2: "17",
+        y2: "7"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "7 7 17 7 17 17"
+      }
+    })]);
+  }
+};
+
+var ArrowUpIcon = {
+  name: 'ArrowUpIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-arrow-up"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "12",
+        y1: "19",
+        x2: "12",
+        y2: "5"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "5 12 12 5 19 12"
+      }
+    })]);
+  }
+};
+
+var AtSignIcon = {
+  name: 'AtSignIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-at-sign"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "4"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"
+      }
+    })]);
+  }
+};
+
+var AwardIcon = {
+  name: 'AwardIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-award"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "8",
+        r: "7"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "8.21 13.89 7 23 12 20 17 23 15.79 13.88"
+      }
+    })]);
+  }
+};
+
+var BarChart2Icon = {
+  name: 'BarChart2Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-bar-chart-2"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "18",
+        y1: "20",
+        x2: "18",
+        y2: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "20",
+        x2: "12",
+        y2: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "6",
+        y1: "20",
+        x2: "6",
+        y2: "14"
+      }
+    })]);
+  }
+};
+
+var BarChartIcon = {
+  name: 'BarChartIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-bar-chart"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "12",
+        y1: "20",
+        x2: "12",
+        y2: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "18",
+        y1: "20",
+        x2: "18",
+        y2: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "6",
+        y1: "20",
+        x2: "6",
+        y2: "16"
+      }
+    })]);
+  }
+};
+
+var BatteryChargingIcon = {
+  name: 'BatteryChargingIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-battery-charging"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "13",
+        x2: "23",
+        y2: "11"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "11 6 7 12 13 12 9 18"
+      }
+    })]);
+  }
+};
+
+var BatteryIcon = {
+  name: 'BatteryIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-battery"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "1",
+        y: "6",
+        width: "18",
+        height: "12",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "13",
+        x2: "23",
+        y2: "11"
+      }
+    })]);
+  }
+};
+
+var BellOffIcon = {
+  name: 'BellOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-bell-off"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M13.73 21a2 2 0 0 1-3.46 0"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M18.63 13A17.89 17.89 0 0 1 18 8"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M18 8a6 6 0 0 0-9.33-5"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "1",
+        x2: "23",
+        y2: "23"
+      }
+    })]);
+  }
+};
+
+var BellIcon = {
+  name: 'BellIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-bell"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M13.73 21a2 2 0 0 1-3.46 0"
+      }
+    })]);
+  }
+};
+
+var BluetoothIcon = {
+  name: 'BluetoothIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-bluetooth"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "6.5 6.5 17.5 17.5 12 23 12 1 17.5 6.5 6.5 17.5"
+      }
+    })]);
+  }
+};
+
+var BoldIcon = {
+  name: 'BoldIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-bold"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"
+      }
+    })]);
+  }
+};
+
+var BookOpenIcon = {
+  name: 'BookOpenIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-book-open"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"
+      }
+    })]);
+  }
+};
+
+var BookIcon = {
+  name: 'BookIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-book"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+      }
+    })]);
+  }
+};
+
+var BookmarkIcon = {
+  name: 'BookmarkIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-bookmark"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
+      }
+    })]);
+  }
+};
+
+var BoxIcon = {
+  name: 'BoxIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-box"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "3.27 6.96 12 12.01 20.73 6.96"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "22.08",
+        x2: "12",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var BriefcaseIcon = {
+  name: 'BriefcaseIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-briefcase"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "2",
+        y: "7",
+        width: "20",
+        height: "14",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"
+      }
+    })]);
+  }
+};
+
+var CalendarIcon = {
+  name: 'CalendarIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-calendar"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "4",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "2",
+        x2: "16",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "2",
+        x2: "8",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "10",
+        x2: "21",
+        y2: "10"
+      }
+    })]);
+  }
+};
+
+var CameraOffIcon = {
+  name: 'CameraOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-camera-off"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "1",
+        y1: "1",
+        x2: "23",
+        y2: "23"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M21 21H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3m3-3h6l2 3h4a2 2 0 0 1 2 2v9.34m-7.72-2.06a4 4 0 1 1-5.56-5.56"
+      }
+    })]);
+  }
+};
+
+var CameraIcon = {
+  name: 'CameraIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-camera"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "13",
+        r: "4"
+      }
+    })]);
+  }
+};
+
+var CastIcon = {
+  name: 'CastIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-cast"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "2",
+        y1: "20",
+        x2: "2.01",
+        y2: "20"
+      }
+    })]);
+  }
+};
+
+var CheckCircleIcon = {
+  name: 'CheckCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-check-circle"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M22 11.08V12a10 10 0 1 1-5.93-9.14"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "22 4 12 14.01 9 11.01"
+      }
+    })]);
+  }
+};
+
+var CheckSquareIcon = {
+  name: 'CheckSquareIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-check-square"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "9 11 12 14 22 4"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
+      }
+    })]);
+  }
+};
+
+var CheckIcon = {
+  name: 'CheckIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-check"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "20 6 9 17 4 12"
+      }
+    })]);
+  }
+};
+
+var ChevronDownIcon = {
+  name: 'ChevronDownIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-chevron-down"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "6 9 12 15 18 9"
+      }
+    })]);
+  }
+};
+
+var ChevronLeftIcon = {
+  name: 'ChevronLeftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-chevron-left"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "15 18 9 12 15 6"
+      }
+    })]);
+  }
+};
+
+var ChevronRightIcon = {
+  name: 'ChevronRightIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-chevron-right"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "9 18 15 12 9 6"
+      }
+    })]);
+  }
+};
+
+var ChevronUpIcon = {
+  name: 'ChevronUpIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-chevron-up"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "18 15 12 9 6 15"
+      }
+    })]);
+  }
+};
+
+var ChevronsDownIcon = {
+  name: 'ChevronsDownIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-chevrons-down"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "7 13 12 18 17 13"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "7 6 12 11 17 6"
+      }
+    })]);
+  }
+};
+
+var ChevronsLeftIcon = {
+  name: 'ChevronsLeftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-chevrons-left"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "11 17 6 12 11 7"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "18 17 13 12 18 7"
+      }
+    })]);
+  }
+};
+
+var ChevronsRightIcon = {
+  name: 'ChevronsRightIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-chevrons-right"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "13 17 18 12 13 7"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "6 17 11 12 6 7"
+      }
+    })]);
+  }
+};
+
+var ChevronsUpIcon = {
+  name: 'ChevronsUpIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-chevrons-up"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "17 11 12 6 7 11"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "17 18 12 13 7 18"
+      }
+    })]);
+  }
+};
+
+var ChromeIcon = {
+  name: 'ChromeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-chrome"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21.17",
+        y1: "8",
+        x2: "12",
+        y2: "8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3.95",
+        y1: "6.06",
+        x2: "8.54",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "10.88",
+        y1: "21.94",
+        x2: "15.46",
+        y2: "14"
+      }
+    })]);
+  }
+};
+
+var CircleIcon = {
+  name: 'CircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    })]);
+  }
+};
+
+var ClipboardIcon = {
+  name: 'ClipboardIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-clipboard"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "8",
+        y: "2",
+        width: "8",
+        height: "4",
+        rx: "1",
+        ry: "1"
+      }
+    })]);
+  }
+};
+
+var ClockIcon = {
+  name: 'ClockIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-clock"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "12 6 12 12 16 14"
+      }
+    })]);
+  }
+};
+
+var CloudDrizzleIcon = {
+  name: 'CloudDrizzleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-cloud-drizzle"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "8",
+        y1: "19",
+        x2: "8",
+        y2: "21"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "13",
+        x2: "8",
+        y2: "15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "19",
+        x2: "16",
+        y2: "21"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "13",
+        x2: "16",
+        y2: "15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "21",
+        x2: "12",
+        y2: "23"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "15",
+        x2: "12",
+        y2: "17"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"
+      }
+    })]);
+  }
+};
+
+var CloudLightningIcon = {
+  name: 'CloudLightningIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-cloud-lightning"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "13 11 9 17 15 17 11 23"
+      }
+    })]);
+  }
+};
+
+var CloudOffIcon = {
+  name: 'CloudOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-cloud-off"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M22.61 16.95A5 5 0 0 0 18 10h-1.26a8 8 0 0 0-7.05-6M5 5a8 8 0 0 0 4 15h9a5 5 0 0 0 1.7-.3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "1",
+        x2: "23",
+        y2: "23"
+      }
+    })]);
+  }
+};
+
+var CloudRainIcon = {
+  name: 'CloudRainIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-cloud-rain"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "16",
+        y1: "13",
+        x2: "16",
+        y2: "21"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "13",
+        x2: "8",
+        y2: "21"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "15",
+        x2: "12",
+        y2: "23"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"
+      }
+    })]);
+  }
+};
+
+var CloudSnowIcon = {
+  name: 'CloudSnowIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-cloud-snow"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "16",
+        x2: "8.01",
+        y2: "16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "20",
+        x2: "8.01",
+        y2: "20"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "18",
+        x2: "12.01",
+        y2: "18"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "22",
+        x2: "12.01",
+        y2: "22"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "16",
+        x2: "16.01",
+        y2: "16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "20",
+        x2: "16.01",
+        y2: "20"
+      }
+    })]);
+  }
+};
+
+var CloudIcon = {
+  name: 'CloudIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-cloud"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"
+      }
+    })]);
+  }
+};
+
+var CodeIcon = {
+  name: 'CodeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-code"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "16 18 22 12 16 6"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "8 6 2 12 8 18"
+      }
+    })]);
+  }
+};
+
+var CodepenIcon = {
+  name: 'CodepenIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-codepen"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "22",
+        x2: "12",
+        y2: "15.5"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "22 8.5 12 15.5 2 8.5"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "2 15.5 12 8.5 22 15.5"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "2",
+        x2: "12",
+        y2: "8.5"
+      }
+    })]);
+  }
+};
+
+var CodesandboxIcon = {
+  name: 'CodesandboxIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-codesandbox"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "7.5 4.21 12 6.81 16.5 4.21"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "7.5 19.79 7.5 14.6 3 12"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "21 12 16.5 14.6 16.5 19.79"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "3.27 6.96 12 12.01 20.73 6.96"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "22.08",
+        x2: "12",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var CoffeeIcon = {
+  name: 'CoffeeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-coffee"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M18 8h1a4 4 0 0 1 0 8h-1"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "6",
+        y1: "1",
+        x2: "6",
+        y2: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "10",
+        y1: "1",
+        x2: "10",
+        y2: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14",
+        y1: "1",
+        x2: "14",
+        y2: "4"
+      }
+    })]);
+  }
+};
+
+var ColumnsIcon = {
+  name: 'ColumnsIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-columns"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18"
+      }
+    })]);
+  }
+};
+
+var CommandIcon = {
+  name: 'CommandIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-command"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"
+      }
+    })]);
+  }
+};
+
+var CompassIcon = {
+  name: 'CompassIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-compass"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("polygon", {
+      attrs: {
+        points: "16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"
+      }
+    })]);
+  }
+};
+
+var CopyIcon = {
+  name: 'CopyIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-copy"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "9",
+        y: "9",
+        width: "13",
+        height: "13",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+      }
+    })]);
+  }
+};
+
+var CornerDownLeftIcon = {
+  name: 'CornerDownLeftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-corner-down-left"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "9 10 4 15 9 20"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20 4v7a4 4 0 0 1-4 4H4"
+      }
+    })]);
+  }
+};
+
+var CornerDownRightIcon = {
+  name: 'CornerDownRightIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-corner-down-right"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "15 10 20 15 15 20"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M4 4v7a4 4 0 0 0 4 4h12"
+      }
+    })]);
+  }
+};
+
+var CornerLeftDownIcon = {
+  name: 'CornerLeftDownIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-corner-left-down"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "14 15 9 20 4 15"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20 4h-7a4 4 0 0 0-4 4v12"
+      }
+    })]);
+  }
+};
+
+var CornerLeftUpIcon = {
+  name: 'CornerLeftUpIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-corner-left-up"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "14 9 9 4 4 9"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20 20h-7a4 4 0 0 1-4-4V4"
+      }
+    })]);
+  }
+};
+
+var CornerRightDownIcon = {
+  name: 'CornerRightDownIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-corner-right-down"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "10 15 15 20 20 15"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M4 4h7a4 4 0 0 1 4 4v12"
+      }
+    })]);
+  }
+};
+
+var CornerRightUpIcon = {
+  name: 'CornerRightUpIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-corner-right-up"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "10 9 15 4 20 9"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M4 20h7a4 4 0 0 0 4-4V4"
+      }
+    })]);
+  }
+};
+
+var CornerUpLeftIcon = {
+  name: 'CornerUpLeftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-corner-up-left"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "9 14 4 9 9 4"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20 20v-7a4 4 0 0 0-4-4H4"
+      }
+    })]);
+  }
+};
+
+var CornerUpRightIcon = {
+  name: 'CornerUpRightIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-corner-up-right"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "15 14 20 9 15 4"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M4 20v-7a4 4 0 0 1 4-4h12"
+      }
+    })]);
+  }
+};
+
+var CpuIcon = {
+  name: 'CpuIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-cpu"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "4",
+        y: "4",
+        width: "16",
+        height: "16",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "9",
+        y: "9",
+        width: "6",
+        height: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "1",
+        x2: "9",
+        y2: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "1",
+        x2: "15",
+        y2: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "20",
+        x2: "9",
+        y2: "23"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "20",
+        x2: "15",
+        y2: "23"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "20",
+        y1: "9",
+        x2: "23",
+        y2: "9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "20",
+        y1: "14",
+        x2: "23",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "9",
+        x2: "4",
+        y2: "9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "14",
+        x2: "4",
+        y2: "14"
+      }
+    })]);
+  }
+};
+
+var CreditCardIcon = {
+  name: 'CreditCardIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-credit-card"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "1",
+        y: "4",
+        width: "22",
+        height: "16",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "10",
+        x2: "23",
+        y2: "10"
+      }
+    })]);
+  }
+};
+
+var CropIcon = {
+  name: 'CropIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-crop"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M6.13 1L6 16a2 2 0 0 0 2 2h15"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M1 6.13L16 6a2 2 0 0 1 2 2v15"
+      }
+    })]);
+  }
+};
+
+var CrosshairIcon = {
+  name: 'CrosshairIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-crosshair"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "22",
+        y1: "12",
+        x2: "18",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "6",
+        y1: "12",
+        x2: "2",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "6",
+        x2: "12",
+        y2: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "22",
+        x2: "12",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var DatabaseIcon = {
+  name: 'DatabaseIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-database"
+    }, ctx.data]), [h("ellipse", {
+      attrs: {
+        cx: "12",
+        cy: "5",
+        rx: "9",
+        ry: "3"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"
+      }
+    })]);
+  }
+};
+
+var DeleteIcon = {
+  name: 'DeleteIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-delete"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "18",
+        y1: "9",
+        x2: "12",
+        y2: "15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "9",
+        x2: "18",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var DiscIcon = {
+  name: 'DiscIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-disc"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      }
+    })]);
+  }
+};
+
+var DivideCircleIcon = {
+  name: 'DivideCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-divide-circle"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "8",
+        y1: "12",
+        x2: "16",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "16",
+        x2: "12",
+        y2: "16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "8",
+        x2: "12",
+        y2: "8"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    })]);
+  }
+};
+
+var DivideSquareIcon = {
+  name: 'DivideSquareIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-divide-square"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "12",
+        x2: "16",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "16",
+        x2: "12",
+        y2: "16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "8",
+        x2: "12",
+        y2: "8"
+      }
+    })]);
+  }
+};
+
+var DivideIcon = {
+  name: 'DivideIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-divide"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "6",
+        r: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "5",
+        y1: "12",
+        x2: "19",
+        y2: "12"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "18",
+        r: "2"
+      }
+    })]);
+  }
+};
+
+var DollarSignIcon = {
+  name: 'DollarSignIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-dollar-sign"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "12",
+        y1: "1",
+        x2: "12",
+        y2: "23"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+      }
+    })]);
+  }
+};
+
+var DownloadCloudIcon = {
+  name: 'DownloadCloudIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-download-cloud"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "8 17 12 21 16 17"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "12",
+        x2: "12",
+        y2: "21"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"
+      }
+    })]);
+  }
+};
+
+var DownloadIcon = {
+  name: 'DownloadIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-download"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "7 10 12 15 17 10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "15",
+        x2: "12",
+        y2: "3"
+      }
+    })]);
+  }
+};
+
+var DribbbleIcon = {
+  name: 'DribbbleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-dribbble"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"
+      }
+    })]);
+  }
+};
+
+var DropletIcon = {
+  name: 'DropletIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-droplet"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"
+      }
+    })]);
+  }
+};
+
+var Edit2Icon = {
+  name: 'Edit2Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-edit-2"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
+      }
+    })]);
+  }
+};
+
+var Edit3Icon = {
+  name: 'Edit3Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-edit-3"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M12 20h9"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
+      }
+    })]);
+  }
+};
+
+var EditIcon = {
+  name: 'EditIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-edit"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+      }
+    })]);
+  }
+};
+
+var ExternalLinkIcon = {
+  name: 'ExternalLinkIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-external-link"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "15 3 21 3 21 9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "10",
+        y1: "14",
+        x2: "21",
+        y2: "3"
+      }
+    })]);
+  }
+};
+
+var EyeOffIcon = {
+  name: 'EyeOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-eye-off"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "1",
+        x2: "23",
+        y2: "23"
+      }
+    })]);
+  }
+};
+
+var EyeIcon = {
+  name: 'EyeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-eye"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      }
+    })]);
+  }
+};
+
+var FacebookIcon = {
+  name: 'FacebookIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-facebook"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+      }
+    })]);
+  }
+};
+
+var FastForwardIcon = {
+  name: 'FastForwardIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-fast-forward"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "13 19 22 12 13 5 13 19"
+      }
+    }), h("polygon", {
+      attrs: {
+        points: "2 19 11 12 2 5 2 19"
+      }
+    })]);
+  }
+};
+
+var FeatherIcon = {
+  name: 'FeatherIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-feather"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "8",
+        x2: "2",
+        y2: "22"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17.5",
+        y1: "15",
+        x2: "9",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var FigmaIcon = {
+  name: 'FigmaIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-figma"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"
+      }
+    })]);
+  }
+};
+
+var FileMinusIcon = {
+  name: 'FileMinusIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-file-minus"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "14 2 14 8 20 8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "15",
+        x2: "15",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var FilePlusIcon = {
+  name: 'FilePlusIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-file-plus"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "14 2 14 8 20 8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "18",
+        x2: "12",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "15",
+        x2: "15",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var FileTextIcon = {
+  name: 'FileTextIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-file-text"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "14 2 14 8 20 8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "13",
+        x2: "8",
+        y2: "13"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "17",
+        x2: "8",
+        y2: "17"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "10 9 9 9 8 9"
+      }
+    })]);
+  }
+};
+
+var FileIcon = {
+  name: 'FileIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-file"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "13 2 13 9 20 9"
+      }
+    })]);
+  }
+};
+
+var FilmIcon = {
+  name: 'FilmIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-film"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "2",
+        y: "2",
+        width: "20",
+        height: "20",
+        rx: "2.18",
+        ry: "2.18"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "7",
+        y1: "2",
+        x2: "7",
+        y2: "22"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17",
+        y1: "2",
+        x2: "17",
+        y2: "22"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "2",
+        y1: "12",
+        x2: "22",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "2",
+        y1: "7",
+        x2: "7",
+        y2: "7"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "2",
+        y1: "17",
+        x2: "7",
+        y2: "17"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17",
+        y1: "17",
+        x2: "22",
+        y2: "17"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17",
+        y1: "7",
+        x2: "22",
+        y2: "7"
+      }
+    })]);
+  }
+};
+
+var FilterIcon = {
+  name: 'FilterIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-filter"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
+      }
+    })]);
+  }
+};
+
+var FlagIcon = {
+  name: 'FlagIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-flag"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4",
+        y1: "22",
+        x2: "4",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var FolderMinusIcon = {
+  name: 'FolderMinusIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-folder-minus"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "14",
+        x2: "15",
+        y2: "14"
+      }
+    })]);
+  }
+};
+
+var FolderPlusIcon = {
+  name: 'FolderPlusIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-folder-plus"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "11",
+        x2: "12",
+        y2: "17"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "14",
+        x2: "15",
+        y2: "14"
+      }
+    })]);
+  }
+};
+
+var FolderIcon = {
+  name: 'FolderIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-folder"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+      }
+    })]);
+  }
+};
+
+var FramerIcon = {
+  name: 'FramerIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-framer"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M5 16V9h14V2H5l14 14h-7m-7 0l7 7v-7m-7 0h7"
+      }
+    })]);
+  }
+};
+
+var FrownIcon = {
+  name: 'FrownIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-frown"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16 16s-1.5-2-4-2-4 2-4 2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "9",
+        x2: "9.01",
+        y2: "9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "9",
+        x2: "15.01",
+        y2: "9"
+      }
+    })]);
+  }
+};
+
+var GiftIcon = {
+  name: 'GiftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-gift"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "20 12 20 22 4 22 4 12"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "2",
+        y: "7",
+        width: "20",
+        height: "5"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "22",
+        x2: "12",
+        y2: "7"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"
+      }
+    })]);
+  }
+};
+
+var GitBranchIcon = {
+  name: 'GitBranchIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-git-branch"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "6",
+        y1: "3",
+        x2: "6",
+        y2: "15"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "18",
+        cy: "6",
+        r: "3"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "6",
+        cy: "18",
+        r: "3"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M18 9a9 9 0 0 1-9 9"
+      }
+    })]);
+  }
+};
+
+var GitCommitIcon = {
+  name: 'GitCommitIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-git-commit"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1.05",
+        y1: "12",
+        x2: "7",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17.01",
+        y1: "12",
+        x2: "22.96",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var GitMergeIcon = {
+  name: 'GitMergeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-git-merge"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "18",
+        cy: "18",
+        r: "3"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "6",
+        cy: "6",
+        r: "3"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M6 21V9a9 9 0 0 0 9 9"
+      }
+    })]);
+  }
+};
+
+var GitPullRequestIcon = {
+  name: 'GitPullRequestIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-git-pull-request"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "18",
+        cy: "18",
+        r: "3"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "6",
+        cy: "6",
+        r: "3"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M13 6h3a2 2 0 0 1 2 2v7"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "6",
+        y1: "9",
+        x2: "6",
+        y2: "21"
+      }
+    })]);
+  }
+};
+
+var GithubIcon = {
+  name: 'GithubIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-github"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+      }
+    })]);
+  }
+};
+
+var GitlabIcon = {
+  name: 'GitlabIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-gitlab"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z"
+      }
+    })]);
+  }
+};
+
+var GlobeIcon = {
+  name: 'GlobeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-globe"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "2",
+        y1: "12",
+        x2: "22",
+        y2: "12"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+      }
+    })]);
+  }
+};
+
+var GridIcon = {
+  name: 'GridIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-grid"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "7",
+        height: "7"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "14",
+        y: "3",
+        width: "7",
+        height: "7"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "14",
+        y: "14",
+        width: "7",
+        height: "7"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "3",
+        y: "14",
+        width: "7",
+        height: "7"
+      }
+    })]);
+  }
+};
+
+var HardDriveIcon = {
+  name: 'HardDriveIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-hard-drive"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "22",
+        y1: "12",
+        x2: "2",
+        y2: "12"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "6",
+        y1: "16",
+        x2: "6.01",
+        y2: "16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "10",
+        y1: "16",
+        x2: "10.01",
+        y2: "16"
+      }
+    })]);
+  }
+};
+
+var HashIcon = {
+  name: 'HashIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-hash"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "4",
+        y1: "9",
+        x2: "20",
+        y2: "9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4",
+        y1: "15",
+        x2: "20",
+        y2: "15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "10",
+        y1: "3",
+        x2: "8",
+        y2: "21"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "3",
+        x2: "14",
+        y2: "21"
+      }
+    })]);
+  }
+};
+
+var HeadphonesIcon = {
+  name: 'HeadphonesIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-headphones"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M3 18v-6a9 9 0 0 1 18 0v6"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"
+      }
+    })]);
+  }
+};
+
+var HeartIcon = {
+  name: 'HeartIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-heart"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      }
+    })]);
+  }
+};
+
+var HelpCircleIcon = {
+  name: 'HelpCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-help-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "17",
+        x2: "12.01",
+        y2: "17"
+      }
+    })]);
+  }
+};
+
+var HexagonIcon = {
+  name: 'HexagonIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-hexagon"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+      }
+    })]);
+  }
+};
+
+var HomeIcon = {
+  name: 'HomeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-home"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "9 22 9 12 15 12 15 22"
+      }
+    })]);
+  }
+};
+
+var ImageIcon = {
+  name: 'ImageIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-image"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "8.5",
+        cy: "8.5",
+        r: "1.5"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "21 15 16 10 5 21"
+      }
+    })]);
+  }
+};
+
+var InboxIcon = {
+  name: 'InboxIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-inbox"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "22 12 16 12 14 15 10 15 8 12 2 12"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"
+      }
+    })]);
+  }
+};
+
+var InfoIcon = {
+  name: 'InfoIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-info"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "16",
+        x2: "12",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "8",
+        x2: "12.01",
+        y2: "8"
+      }
+    })]);
+  }
+};
+
+var InstagramIcon = {
+  name: 'InstagramIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-instagram"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "2",
+        y: "2",
+        width: "20",
+        height: "20",
+        rx: "5",
+        ry: "5"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17.5",
+        y1: "6.5",
+        x2: "17.51",
+        y2: "6.5"
+      }
+    })]);
+  }
+};
+
+var ItalicIcon = {
+  name: 'ItalicIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-italic"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "19",
+        y1: "4",
+        x2: "10",
+        y2: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14",
+        y1: "20",
+        x2: "5",
+        y2: "20"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "4",
+        x2: "9",
+        y2: "20"
+      }
+    })]);
+  }
+};
+
+var KeyIcon = {
+  name: 'KeyIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-key"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"
+      }
+    })]);
+  }
+};
+
+var LayersIcon = {
+  name: 'LayersIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-layers"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "12 2 2 7 12 12 22 7 12 2"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "2 17 12 22 22 17"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "2 12 12 17 22 12"
+      }
+    })]);
+  }
+};
+
+var LayoutIcon = {
+  name: 'LayoutIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-layout"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "9",
+        x2: "21",
+        y2: "9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "21",
+        x2: "9",
+        y2: "9"
+      }
+    })]);
+  }
+};
+
+var LifeBuoyIcon = {
+  name: 'LifeBuoyIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-life-buoy"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4.93",
+        y1: "4.93",
+        x2: "9.17",
+        y2: "9.17"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14.83",
+        y1: "14.83",
+        x2: "19.07",
+        y2: "19.07"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14.83",
+        y1: "9.17",
+        x2: "19.07",
+        y2: "4.93"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14.83",
+        y1: "9.17",
+        x2: "18.36",
+        y2: "5.64"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4.93",
+        y1: "19.07",
+        x2: "9.17",
+        y2: "14.83"
+      }
+    })]);
+  }
+};
+
+var Link2Icon = {
+  name: 'Link2Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-link-2"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "12",
+        x2: "16",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var LinkIcon = {
+  name: 'LinkIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-link"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+      }
+    })]);
+  }
+};
+
+var LinkedinIcon = {
+  name: 'LinkedinIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-linkedin"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "2",
+        y: "9",
+        width: "4",
+        height: "12"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "4",
+        cy: "4",
+        r: "2"
+      }
+    })]);
+  }
+};
+
+var ListIcon = {
+  name: 'ListIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-list"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "8",
+        y1: "6",
+        x2: "21",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "12",
+        x2: "21",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "18",
+        x2: "21",
+        y2: "18"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "6",
+        x2: "3.01",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "12",
+        x2: "3.01",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "18",
+        x2: "3.01",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var LoaderIcon = {
+  name: 'LoaderIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-loader"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "12",
+        y1: "2",
+        x2: "12",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "18",
+        x2: "12",
+        y2: "22"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4.93",
+        y1: "4.93",
+        x2: "7.76",
+        y2: "7.76"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16.24",
+        y1: "16.24",
+        x2: "19.07",
+        y2: "19.07"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "2",
+        y1: "12",
+        x2: "6",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "18",
+        y1: "12",
+        x2: "22",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4.93",
+        y1: "19.07",
+        x2: "7.76",
+        y2: "16.24"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16.24",
+        y1: "7.76",
+        x2: "19.07",
+        y2: "4.93"
+      }
+    })]);
+  }
+};
+
+var LockIcon = {
+  name: 'LockIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-lock"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "11",
+        width: "18",
+        height: "11",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M7 11V7a5 5 0 0 1 10 0v4"
+      }
+    })]);
+  }
+};
+
+var LogInIcon = {
+  name: 'LogInIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-log-in"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "10 17 15 12 10 7"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "12",
+        x2: "3",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var LogOutIcon = {
+  name: 'LogOutIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-log-out"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "16 17 21 12 16 7"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "12",
+        x2: "9",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var MailIcon = {
+  name: 'MailIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-mail"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "22,6 12,13 2,6"
+      }
+    })]);
+  }
+};
+
+var MapPinIcon = {
+  name: 'MapPinIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-map-pin"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "10",
+        r: "3"
+      }
+    })]);
+  }
+};
+
+var MapIcon = {
+  name: 'MapIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-map"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "2",
+        x2: "8",
+        y2: "18"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "6",
+        x2: "16",
+        y2: "22"
+      }
+    })]);
+  }
+};
+
+var Maximize2Icon = {
+  name: 'Maximize2Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-maximize-2"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "15 3 21 3 21 9"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "9 21 3 21 3 15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "3",
+        x2: "14",
+        y2: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "21",
+        x2: "10",
+        y2: "14"
+      }
+    })]);
+  }
+};
+
+var MaximizeIcon = {
+  name: 'MaximizeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-maximize"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+      }
+    })]);
+  }
+};
+
+var MehIcon = {
+  name: 'MehIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-meh"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "15",
+        x2: "16",
+        y2: "15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "9",
+        x2: "9.01",
+        y2: "9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "9",
+        x2: "15.01",
+        y2: "9"
+      }
+    })]);
+  }
+};
+
+var MenuIcon = {
+  name: 'MenuIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-menu"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "3",
+        y1: "12",
+        x2: "21",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "6",
+        x2: "21",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "18",
+        x2: "21",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var MessageCircleIcon = {
+  name: 'MessageCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-message-circle"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+      }
+    })]);
+  }
+};
+
+var MessageSquareIcon = {
+  name: 'MessageSquareIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-message-square"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+      }
+    })]);
+  }
+};
+
+var MicOffIcon = {
+  name: 'MicOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-mic-off"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "1",
+        y1: "1",
+        x2: "23",
+        y2: "23"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "19",
+        x2: "12",
+        y2: "23"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "23",
+        x2: "16",
+        y2: "23"
+      }
+    })]);
+  }
+};
+
+var MicIcon = {
+  name: 'MicIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-mic"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M19 10v2a7 7 0 0 1-14 0v-2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "19",
+        x2: "12",
+        y2: "23"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "23",
+        x2: "16",
+        y2: "23"
+      }
+    })]);
+  }
+};
+
+var Minimize2Icon = {
+  name: 'Minimize2Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-minimize-2"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "4 14 10 14 10 20"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "20 10 14 10 14 4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14",
+        y1: "10",
+        x2: "21",
+        y2: "3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "21",
+        x2: "10",
+        y2: "14"
+      }
+    })]);
+  }
+};
+
+var MinimizeIcon = {
+  name: 'MinimizeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-minimize"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"
+      }
+    })]);
+  }
+};
+
+var MinusCircleIcon = {
+  name: 'MinusCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-minus-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "12",
+        x2: "16",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var MinusSquareIcon = {
+  name: 'MinusSquareIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-minus-square"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "12",
+        x2: "16",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var MinusIcon = {
+  name: 'MinusIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-minus"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "5",
+        y1: "12",
+        x2: "19",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var MonitorIcon = {
+  name: 'MonitorIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-monitor"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "2",
+        y: "3",
+        width: "20",
+        height: "14",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "21",
+        x2: "16",
+        y2: "21"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "17",
+        x2: "12",
+        y2: "21"
+      }
+    })]);
+  }
+};
+
+var MoonIcon = {
+  name: 'MoonIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-moon"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+      }
+    })]);
+  }
+};
+
+var MoreHorizontalIcon = {
+  name: 'MoreHorizontalIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-more-horizontal"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "1"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "19",
+        cy: "12",
+        r: "1"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "5",
+        cy: "12",
+        r: "1"
+      }
+    })]);
+  }
+};
+
+var MoreVerticalIcon = {
+  name: 'MoreVerticalIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-more-vertical"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "1"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "5",
+        r: "1"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "19",
+        r: "1"
+      }
+    })]);
+  }
+};
+
+var MousePointerIcon = {
+  name: 'MousePointerIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-mouse-pointer"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M13 13l6 6"
+      }
+    })]);
+  }
+};
+
+var MoveIcon = {
+  name: 'MoveIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-move"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "5 9 2 12 5 15"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "9 5 12 2 15 5"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "15 19 12 22 9 19"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "19 9 22 12 19 15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "2",
+        y1: "12",
+        x2: "22",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "2",
+        x2: "12",
+        y2: "22"
+      }
+    })]);
+  }
+};
+
+var MusicIcon = {
+  name: 'MusicIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-music"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M9 18V5l12-2v13"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "6",
+        cy: "18",
+        r: "3"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "18",
+        cy: "16",
+        r: "3"
+      }
+    })]);
+  }
+};
+
+var Navigation2Icon = {
+  name: 'Navigation2Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-navigation-2"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "12 2 19 21 12 17 5 21 12 2"
+      }
+    })]);
+  }
+};
+
+var NavigationIcon = {
+  name: 'NavigationIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-navigation"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "3 11 22 2 13 21 11 13 3 11"
+      }
+    })]);
+  }
+};
+
+var OctagonIcon = {
+  name: 'OctagonIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-octagon"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"
+      }
+    })]);
+  }
+};
+
+var PackageIcon = {
+  name: 'PackageIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-package"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "16.5",
+        y1: "9.4",
+        x2: "7.5",
+        y2: "4.21"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "3.27 6.96 12 12.01 20.73 6.96"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "22.08",
+        x2: "12",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var PaperclipIcon = {
+  name: 'PaperclipIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-paperclip"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"
+      }
+    })]);
+  }
+};
+
+var PauseCircleIcon = {
+  name: 'PauseCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-pause-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "10",
+        y1: "15",
+        x2: "10",
+        y2: "9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14",
+        y1: "15",
+        x2: "14",
+        y2: "9"
+      }
+    })]);
+  }
+};
+
+var PauseIcon = {
+  name: 'PauseIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-pause"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "6",
+        y: "4",
+        width: "4",
+        height: "16"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "14",
+        y: "4",
+        width: "4",
+        height: "16"
+      }
+    })]);
+  }
+};
+
+var PenToolIcon = {
+  name: 'PenToolIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-pen-tool"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M12 19l7-7 3 3-7 7-3-3z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M2 2l7.586 7.586"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "11",
+        cy: "11",
+        r: "2"
+      }
+    })]);
+  }
+};
+
+var PercentIcon = {
+  name: 'PercentIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-percent"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "19",
+        y1: "5",
+        x2: "5",
+        y2: "19"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "6.5",
+        cy: "6.5",
+        r: "2.5"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "17.5",
+        cy: "17.5",
+        r: "2.5"
+      }
+    })]);
+  }
+};
+
+var PhoneCallIcon = {
+  name: 'PhoneCallIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-phone-call"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+      }
+    })]);
+  }
+};
+
+var PhoneForwardedIcon = {
+  name: 'PhoneForwardedIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-phone-forwarded"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "19 1 23 5 19 9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "5",
+        x2: "23",
+        y2: "5"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+      }
+    })]);
+  }
+};
+
+var PhoneIncomingIcon = {
+  name: 'PhoneIncomingIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-phone-incoming"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "16 2 16 8 22 8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "1",
+        x2: "16",
+        y2: "8"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+      }
+    })]);
+  }
+};
+
+var PhoneMissedIcon = {
+  name: 'PhoneMissedIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-phone-missed"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "23",
+        y1: "1",
+        x2: "17",
+        y2: "7"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17",
+        y1: "1",
+        x2: "23",
+        y2: "7"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+      }
+    })]);
+  }
+};
+
+var PhoneOffIcon = {
+  name: 'PhoneOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-phone-off"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "1",
+        x2: "1",
+        y2: "23"
+      }
+    })]);
+  }
+};
+
+var PhoneOutgoingIcon = {
+  name: 'PhoneOutgoingIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-phone-outgoing"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "23 7 23 1 17 1"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "16",
+        y1: "8",
+        x2: "23",
+        y2: "1"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+      }
+    })]);
+  }
+};
+
+var PhoneIcon = {
+  name: 'PhoneIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-phone"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+      }
+    })]);
+  }
+};
+
+var PieChartIcon = {
+  name: 'PieChartIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-pie-chart"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21.21 15.89A10 10 0 1 1 8 2.83"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M22 12A10 10 0 0 0 12 2v10z"
+      }
+    })]);
+  }
+};
+
+var PlayCircleIcon = {
+  name: 'PlayCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-play-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("polygon", {
+      attrs: {
+        points: "10 8 16 12 10 16 10 8"
+      }
+    })]);
+  }
+};
+
+var PlayIcon = {
+  name: 'PlayIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-play"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "5 3 19 12 5 21 5 3"
+      }
+    })]);
+  }
+};
+
+var PlusCircleIcon = {
+  name: 'PlusCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-plus-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "8",
+        x2: "12",
+        y2: "16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "12",
+        x2: "16",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var PlusSquareIcon = {
+  name: 'PlusSquareIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-plus-square"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "8",
+        x2: "12",
+        y2: "16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "12",
+        x2: "16",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var PlusIcon = {
+  name: 'PlusIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-plus"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "12",
+        y1: "5",
+        x2: "12",
+        y2: "19"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "5",
+        y1: "12",
+        x2: "19",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var PocketIcon = {
+  name: 'PocketIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-pocket"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M4 3h16a2 2 0 0 1 2 2v6a10 10 0 0 1-10 10A10 10 0 0 1 2 11V5a2 2 0 0 1 2-2z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "8 10 12 14 16 10"
+      }
+    })]);
+  }
+};
+
+var PowerIcon = {
+  name: 'PowerIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-power"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M18.36 6.64a9 9 0 1 1-12.73 0"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "2",
+        x2: "12",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var PrinterIcon = {
+  name: 'PrinterIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-printer"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "6 9 6 2 18 2 18 9"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "6",
+        y: "14",
+        width: "12",
+        height: "8"
+      }
+    })]);
+  }
+};
+
+var RadioIcon = {
+  name: 'RadioIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-radio"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "2"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"
+      }
+    })]);
+  }
+};
+
+var RefreshCcwIcon = {
+  name: 'RefreshCcwIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-refresh-ccw"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "1 4 1 10 7 10"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "23 20 23 14 17 14"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"
+      }
+    })]);
+  }
+};
+
+var RefreshCwIcon = {
+  name: 'RefreshCwIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-refresh-cw"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "23 4 23 10 17 10"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "1 20 1 14 7 14"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+      }
+    })]);
+  }
+};
+
+var RepeatIcon = {
+  name: 'RepeatIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-repeat"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "17 1 21 5 17 9"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M3 11V9a4 4 0 0 1 4-4h14"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "7 23 3 19 7 15"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M21 13v2a4 4 0 0 1-4 4H3"
+      }
+    })]);
+  }
+};
+
+var RewindIcon = {
+  name: 'RewindIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-rewind"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "11 19 2 12 11 5 11 19"
+      }
+    }), h("polygon", {
+      attrs: {
+        points: "22 19 13 12 22 5 22 19"
+      }
+    })]);
+  }
+};
+
+var RotateCcwIcon = {
+  name: 'RotateCcwIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-rotate-ccw"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "1 4 1 10 7 10"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M3.51 15a9 9 0 1 0 2.13-9.36L1 10"
+      }
+    })]);
+  }
+};
+
+var RotateCwIcon = {
+  name: 'RotateCwIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-rotate-cw"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "23 4 23 10 17 10"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20.49 15a9 9 0 1 1-2.12-9.36L23 10"
+      }
+    })]);
+  }
+};
+
+var RssIcon = {
+  name: 'RssIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-rss"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M4 11a9 9 0 0 1 9 9"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M4 4a16 16 0 0 1 16 16"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "5",
+        cy: "19",
+        r: "1"
+      }
+    })]);
+  }
+};
+
+var SaveIcon = {
+  name: 'SaveIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-save"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "17 21 17 13 7 13 7 21"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "7 3 7 8 15 8"
+      }
+    })]);
+  }
+};
+
+var ScissorsIcon = {
+  name: 'ScissorsIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-scissors"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "6",
+        cy: "6",
+        r: "3"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "6",
+        cy: "18",
+        r: "3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "20",
+        y1: "4",
+        x2: "8.12",
+        y2: "15.88"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14.47",
+        y1: "14.48",
+        x2: "20",
+        y2: "20"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8.12",
+        y1: "8.12",
+        x2: "12",
+        y2: "12"
+      }
+    })]);
+  }
+};
+
+var SearchIcon = {
+  name: 'SearchIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-search"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "11",
+        cy: "11",
+        r: "8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "21",
+        x2: "16.65",
+        y2: "16.65"
+      }
+    })]);
+  }
+};
+
+var SendIcon = {
+  name: 'SendIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-send"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "22",
+        y1: "2",
+        x2: "11",
+        y2: "13"
+      }
+    }), h("polygon", {
+      attrs: {
+        points: "22 2 15 22 11 13 2 9 22 2"
+      }
+    })]);
+  }
+};
+
+var ServerIcon = {
+  name: 'ServerIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-server"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "2",
+        y: "2",
+        width: "20",
+        height: "8",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "2",
+        y: "14",
+        width: "20",
+        height: "8",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "6",
+        y1: "6",
+        x2: "6.01",
+        y2: "6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "6",
+        y1: "18",
+        x2: "6.01",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var SettingsIcon = {
+  name: 'SettingsIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-settings"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+      }
+    })]);
+  }
+};
+
+var Share2Icon = {
+  name: 'Share2Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-share-2"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "18",
+        cy: "5",
+        r: "3"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "6",
+        cy: "12",
+        r: "3"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "18",
+        cy: "19",
+        r: "3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8.59",
+        y1: "13.51",
+        x2: "15.42",
+        y2: "17.49"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15.41",
+        y1: "6.51",
+        x2: "8.59",
+        y2: "10.49"
+      }
+    })]);
+  }
+};
+
+var ShareIcon = {
+  name: 'ShareIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-share"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "16 6 12 2 8 6"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "2",
+        x2: "12",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var ShieldOffIcon = {
+  name: 'ShieldOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-shield-off"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M19.69 14a6.9 6.9 0 0 0 .31-2V5l-8-3-3.16 1.18"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M4.73 4.73L4 5v7c0 6 8 10 8 10a20.29 20.29 0 0 0 5.62-4.38"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "1",
+        x2: "23",
+        y2: "23"
+      }
+    })]);
+  }
+};
+
+var ShieldIcon = {
+  name: 'ShieldIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-shield"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+      }
+    })]);
+  }
+};
+
+var ShoppingBagIcon = {
+  name: 'ShoppingBagIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-shopping-bag"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "3",
+        y1: "6",
+        x2: "21",
+        y2: "6"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16 10a4 4 0 0 1-8 0"
+      }
+    })]);
+  }
+};
+
+var ShoppingCartIcon = {
+  name: 'ShoppingCartIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-shopping-cart"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "9",
+        cy: "21",
+        r: "1"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "20",
+        cy: "21",
+        r: "1"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+      }
+    })]);
+  }
+};
+
+var ShuffleIcon = {
+  name: 'ShuffleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-shuffle"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "16 3 21 3 21 8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4",
+        y1: "20",
+        x2: "21",
+        y2: "3"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "21 16 21 21 16 21"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "15",
+        x2: "21",
+        y2: "21"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4",
+        y1: "4",
+        x2: "9",
+        y2: "9"
+      }
+    })]);
+  }
+};
+
+var SidebarIcon = {
+  name: 'SidebarIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-sidebar"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "3",
+        x2: "9",
+        y2: "21"
+      }
+    })]);
+  }
+};
+
+var SkipBackIcon = {
+  name: 'SkipBackIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-skip-back"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "19 20 9 12 19 4 19 20"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "5",
+        y1: "19",
+        x2: "5",
+        y2: "5"
+      }
+    })]);
+  }
+};
+
+var SkipForwardIcon = {
+  name: 'SkipForwardIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-skip-forward"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "5 4 15 12 5 20 5 4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "19",
+        y1: "5",
+        x2: "19",
+        y2: "19"
+      }
+    })]);
+  }
+};
+
+var SlackIcon = {
+  name: 'SlackIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-slack"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"
+      }
+    })]);
+  }
+};
+
+var SlashIcon = {
+  name: 'SlashIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-slash"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4.93",
+        y1: "4.93",
+        x2: "19.07",
+        y2: "19.07"
+      }
+    })]);
+  }
+};
+
+var SlidersIcon = {
+  name: 'SlidersIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-sliders"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "4",
+        y1: "21",
+        x2: "4",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4",
+        y1: "10",
+        x2: "4",
+        y2: "3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "21",
+        x2: "12",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "8",
+        x2: "12",
+        y2: "3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "20",
+        y1: "21",
+        x2: "20",
+        y2: "16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "20",
+        y1: "12",
+        x2: "20",
+        y2: "3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "14",
+        x2: "7",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "8",
+        x2: "15",
+        y2: "8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17",
+        y1: "16",
+        x2: "23",
+        y2: "16"
+      }
+    })]);
+  }
+};
+
+var SmartphoneIcon = {
+  name: 'SmartphoneIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-smartphone"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "5",
+        y: "2",
+        width: "14",
+        height: "20",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "18",
+        x2: "12.01",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var SmileIcon = {
+  name: 'SmileIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-smile"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M8 14s1.5 2 4 2 4-2 4-2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "9",
+        x2: "9.01",
+        y2: "9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "9",
+        x2: "15.01",
+        y2: "9"
+      }
+    })]);
+  }
+};
+
+var SpeakerIcon = {
+  name: 'SpeakerIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-speaker"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "4",
+        y: "2",
+        width: "16",
+        height: "20",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "14",
+        r: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "6",
+        x2: "12.01",
+        y2: "6"
+      }
+    })]);
+  }
+};
+
+var SquareIcon = {
+  name: 'SquareIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-square"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    })]);
+  }
+};
+
+var StarIcon = {
+  name: 'StarIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-star"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+      }
+    })]);
+  }
+};
+
+var StopCircleIcon = {
+  name: 'StopCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-stop-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "9",
+        y: "9",
+        width: "6",
+        height: "6"
+      }
+    })]);
+  }
+};
+
+var SunIcon = {
+  name: 'SunIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-sun"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "5"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "1",
+        x2: "12",
+        y2: "3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "21",
+        x2: "12",
+        y2: "23"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4.22",
+        y1: "4.22",
+        x2: "5.64",
+        y2: "5.64"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "18.36",
+        y1: "18.36",
+        x2: "19.78",
+        y2: "19.78"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "12",
+        x2: "3",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "12",
+        x2: "23",
+        y2: "12"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4.22",
+        y1: "19.78",
+        x2: "5.64",
+        y2: "18.36"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "18.36",
+        y1: "5.64",
+        x2: "19.78",
+        y2: "4.22"
+      }
+    })]);
+  }
+};
+
+var SunriseIcon = {
+  name: 'SunriseIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-sunrise"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M17 18a5 5 0 0 0-10 0"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "2",
+        x2: "12",
+        y2: "9"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4.22",
+        y1: "10.22",
+        x2: "5.64",
+        y2: "11.64"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "18",
+        x2: "3",
+        y2: "18"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "18",
+        x2: "23",
+        y2: "18"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "18.36",
+        y1: "11.64",
+        x2: "19.78",
+        y2: "10.22"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "22",
+        x2: "1",
+        y2: "22"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "8 6 12 2 16 6"
+      }
+    })]);
+  }
+};
+
+var SunsetIcon = {
+  name: 'SunsetIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-sunset"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M17 18a5 5 0 0 0-10 0"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "9",
+        x2: "12",
+        y2: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4.22",
+        y1: "10.22",
+        x2: "5.64",
+        y2: "11.64"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "18",
+        x2: "3",
+        y2: "18"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "18",
+        x2: "23",
+        y2: "18"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "18.36",
+        y1: "11.64",
+        x2: "19.78",
+        y2: "10.22"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "22",
+        x2: "1",
+        y2: "22"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "16 5 12 9 8 5"
+      }
+    })]);
+  }
+};
+
+var TabletIcon = {
+  name: 'TabletIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-tablet"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "4",
+        y: "2",
+        width: "16",
+        height: "20",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "18",
+        x2: "12.01",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var TagIcon = {
+  name: 'TagIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-tag"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "7",
+        y1: "7",
+        x2: "7.01",
+        y2: "7"
+      }
+    })]);
+  }
+};
+
+var TargetIcon = {
+  name: 'TargetIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-target"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "6"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "2"
+      }
+    })]);
+  }
+};
+
+var TerminalIcon = {
+  name: 'TerminalIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-terminal"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "4 17 10 11 4 5"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "19",
+        x2: "20",
+        y2: "19"
+      }
+    })]);
+  }
+};
+
+var ThermometerIcon = {
+  name: 'ThermometerIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-thermometer"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"
+      }
+    })]);
+  }
+};
+
+var ThumbsDownIcon = {
+  name: 'ThumbsDownIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-thumbs-down"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"
+      }
+    })]);
+  }
+};
+
+var ThumbsUpIcon = {
+  name: 'ThumbsUpIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-thumbs-up"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
+      }
+    })]);
+  }
+};
+
+var ToggleLeftIcon = {
+  name: 'ToggleLeftIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-toggle-left"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "1",
+        y: "5",
+        width: "22",
+        height: "14",
+        rx: "7",
+        ry: "7"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "8",
+        cy: "12",
+        r: "3"
+      }
+    })]);
+  }
+};
+
+var ToggleRightIcon = {
+  name: 'ToggleRightIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-toggle-right"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "1",
+        y: "5",
+        width: "22",
+        height: "14",
+        rx: "7",
+        ry: "7"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "16",
+        cy: "12",
+        r: "3"
+      }
+    })]);
+  }
+};
+
+var ToolIcon = {
+  name: 'ToolIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-tool"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+      }
+    })]);
+  }
+};
+
+var Trash2Icon = {
+  name: 'Trash2Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-trash-2"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "3 6 5 6 21 6"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "10",
+        y1: "11",
+        x2: "10",
+        y2: "17"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "14",
+        y1: "11",
+        x2: "14",
+        y2: "17"
+      }
+    })]);
+  }
+};
+
+var TrashIcon = {
+  name: 'TrashIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-trash"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "3 6 5 6 21 6"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+      }
+    })]);
+  }
+};
+
+var TrelloIcon = {
+  name: 'TrelloIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-trello"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "7",
+        y: "7",
+        width: "3",
+        height: "9"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "14",
+        y: "7",
+        width: "3",
+        height: "5"
+      }
+    })]);
+  }
+};
+
+var TrendingDownIcon = {
+  name: 'TrendingDownIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-trending-down"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "23 18 13.5 8.5 8.5 13.5 1 6"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "17 18 23 18 23 12"
+      }
+    })]);
+  }
+};
+
+var TrendingUpIcon = {
+  name: 'TrendingUpIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-trending-up"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "23 6 13.5 15.5 8.5 10.5 1 18"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "17 6 23 6 23 12"
+      }
+    })]);
+  }
+};
+
+var TriangleIcon = {
+  name: 'TriangleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-triangle"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+      }
+    })]);
+  }
+};
+
+var TruckIcon = {
+  name: 'TruckIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-truck"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "1",
+        y: "3",
+        width: "15",
+        height: "13"
+      }
+    }), h("polygon", {
+      attrs: {
+        points: "16 8 20 8 23 11 23 16 16 16 16 8"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "5.5",
+        cy: "18.5",
+        r: "2.5"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "18.5",
+        cy: "18.5",
+        r: "2.5"
+      }
+    })]);
+  }
+};
+
+var TvIcon = {
+  name: 'TvIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-tv"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "2",
+        y: "7",
+        width: "20",
+        height: "15",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "17 2 12 7 7 2"
+      }
+    })]);
+  }
+};
+
+var TwitchIcon = {
+  name: 'TwitchIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-twitch"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 2H3v16h5v4l4-4h5l4-4V2zm-10 9V7m5 4V7"
+      }
+    })]);
+  }
+};
+
+var TwitterIcon = {
+  name: 'TwitterIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-twitter"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
+      }
+    })]);
+  }
+};
+
+var TypeIcon = {
+  name: 'TypeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-type"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "4 7 4 4 20 4 20 7"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "20",
+        x2: "15",
+        y2: "20"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "4",
+        x2: "12",
+        y2: "20"
+      }
+    })]);
+  }
+};
+
+var UmbrellaIcon = {
+  name: 'UmbrellaIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-umbrella"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M23 12a11.05 11.05 0 0 0-22 0zm-5 7a3 3 0 0 1-6 0v-7"
+      }
+    })]);
+  }
+};
+
+var UnderlineIcon = {
+  name: 'UnderlineIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-underline"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "4",
+        y1: "21",
+        x2: "20",
+        y2: "21"
+      }
+    })]);
+  }
+};
+
+var UnlockIcon = {
+  name: 'UnlockIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-unlock"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "11",
+        width: "18",
+        height: "11",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M7 11V7a5 5 0 0 1 9.9-1"
+      }
+    })]);
+  }
+};
+
+var UploadCloudIcon = {
+  name: 'UploadCloudIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-upload-cloud"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "16 16 12 12 8 16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "12",
+        x2: "12",
+        y2: "21"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "16 16 12 12 8 16"
+      }
+    })]);
+  }
+};
+
+var UploadIcon = {
+  name: 'UploadIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-upload"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "17 8 12 3 7 8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "3",
+        x2: "12",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var UserCheckIcon = {
+  name: 'UserCheckIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-user-check"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "8.5",
+        cy: "7",
+        r: "4"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "17 11 19 13 23 9"
+      }
+    })]);
+  }
+};
+
+var UserMinusIcon = {
+  name: 'UserMinusIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-user-minus"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "8.5",
+        cy: "7",
+        r: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "11",
+        x2: "17",
+        y2: "11"
+      }
+    })]);
+  }
+};
+
+var UserPlusIcon = {
+  name: 'UserPlusIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-user-plus"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "8.5",
+        cy: "7",
+        r: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "20",
+        y1: "8",
+        x2: "20",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "11",
+        x2: "17",
+        y2: "11"
+      }
+    })]);
+  }
+};
+
+var UserXIcon = {
+  name: 'UserXIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-user-x"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "8.5",
+        cy: "7",
+        r: "4"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "18",
+        y1: "8",
+        x2: "23",
+        y2: "13"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "8",
+        x2: "18",
+        y2: "13"
+      }
+    })]);
+  }
+};
+
+var UserIcon = {
+  name: 'UserIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-user"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "7",
+        r: "4"
+      }
+    })]);
+  }
+};
+
+var UsersIcon = {
+  name: 'UsersIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-users"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "9",
+        cy: "7",
+        r: "4"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M23 21v-2a4 4 0 0 0-3-3.87"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16 3.13a4 4 0 0 1 0 7.75"
+      }
+    })]);
+  }
+};
+
+var VideoOffIcon = {
+  name: 'VideoOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-video-off"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34l1 1L23 7v10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "1",
+        x2: "23",
+        y2: "23"
+      }
+    })]);
+  }
+};
+
+var VideoIcon = {
+  name: 'VideoIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-video"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "23 7 16 12 23 17 23 7"
+      }
+    }), h("rect", {
+      attrs: {
+        x: "1",
+        y: "5",
+        width: "15",
+        height: "14",
+        rx: "2",
+        ry: "2"
+      }
+    })]);
+  }
+};
+
+var VoicemailIcon = {
+  name: 'VoicemailIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-voicemail"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "5.5",
+        cy: "11.5",
+        r: "4.5"
+      }
+    }), h("circle", {
+      attrs: {
+        cx: "18.5",
+        cy: "11.5",
+        r: "4.5"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "5.5",
+        y1: "16",
+        x2: "18.5",
+        y2: "16"
+      }
+    })]);
+  }
+};
+
+var Volume1Icon = {
+  name: 'Volume1Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-volume-1"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M15.54 8.46a5 5 0 0 1 0 7.07"
+      }
+    })]);
+  }
+};
+
+var Volume2Icon = {
+  name: 'Volume2Icon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-volume-2"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+      }
+    })]);
+  }
+};
+
+var VolumeXIcon = {
+  name: 'VolumeXIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-volume-x"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "23",
+        y1: "9",
+        x2: "17",
+        y2: "15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "17",
+        y1: "9",
+        x2: "23",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var VolumeIcon = {
+  name: 'VolumeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-volume"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+      }
+    })]);
+  }
+};
+
+var WatchIcon = {
+  name: 'WatchIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-watch"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "7"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "12 9 12 12 13.5 13.5"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"
+      }
+    })]);
+  }
+};
+
+var WifiOffIcon = {
+  name: 'WifiOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-wifi-off"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "1",
+        y1: "1",
+        x2: "23",
+        y2: "23"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M16.72 11.06A10.94 10.94 0 0 1 19 12.55"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M5 12.55a10.94 10.94 0 0 1 5.17-2.39"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M10.71 5.05A16 16 0 0 1 22.58 9"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M1.42 9a15.91 15.91 0 0 1 4.7-2.88"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M8.53 16.11a6 6 0 0 1 6.95 0"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "20",
+        x2: "12.01",
+        y2: "20"
+      }
+    })]);
+  }
+};
+
+var WifiIcon = {
+  name: 'WifiIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-wifi"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M5 12.55a11 11 0 0 1 14.08 0"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M1.42 9a16 16 0 0 1 21.16 0"
+      }
+    }), h("path", {
+      attrs: {
+        d: "M8.53 16.11a6 6 0 0 1 6.95 0"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "12",
+        y1: "20",
+        x2: "12.01",
+        y2: "20"
+      }
+    })]);
+  }
+};
+
+var WindIcon = {
+  name: 'WindIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-wind"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"
+      }
+    })]);
+  }
+};
+
+var XCircleIcon = {
+  name: 'XCircleIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-x-circle"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "9",
+        x2: "9",
+        y2: "15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "9",
+        x2: "15",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var XOctagonIcon = {
+  name: 'XOctagonIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-x-octagon"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "9",
+        x2: "9",
+        y2: "15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "9",
+        x2: "15",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var XSquareIcon = {
+  name: 'XSquareIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-x-square"
+    }, ctx.data]), [h("rect", {
+      attrs: {
+        x: "3",
+        y: "3",
+        width: "18",
+        height: "18",
+        rx: "2",
+        ry: "2"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "9",
+        y1: "9",
+        x2: "15",
+        y2: "15"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "15",
+        y1: "9",
+        x2: "9",
+        y2: "15"
+      }
+    })]);
+  }
+};
+
+var XIcon = {
+  name: 'XIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-x"
+    }, ctx.data]), [h("line", {
+      attrs: {
+        x1: "18",
+        y1: "6",
+        x2: "6",
+        y2: "18"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "6",
+        y1: "6",
+        x2: "18",
+        y2: "18"
+      }
+    })]);
+  }
+};
+
+var YoutubeIcon = {
+  name: 'YoutubeIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-youtube"
+    }, ctx.data]), [h("path", {
+      attrs: {
+        d: "M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"
+      }
+    }), h("polygon", {
+      attrs: {
+        points: "9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"
+      }
+    })]);
+  }
+};
+
+var ZapOffIcon = {
+  name: 'ZapOffIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-zap-off"
+    }, ctx.data]), [h("polyline", {
+      attrs: {
+        points: "12.41 6.75 13 2 10.57 4.92"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "18.57 12.91 21 10 15.66 10"
+      }
+    }), h("polyline", {
+      attrs: {
+        points: "8 8 3 14 12 14 11 22 16 16"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "1",
+        y1: "1",
+        x2: "23",
+        y2: "23"
+      }
+    })]);
+  }
+};
+
+var ZapIcon = {
+  name: 'ZapIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-zap"
+    }, ctx.data]), [h("polygon", {
+      attrs: {
+        points: "13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+      }
+    })]);
+  }
+};
+
+var ZoomInIcon = {
+  name: 'ZoomInIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-zoom-in"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "11",
+        cy: "11",
+        r: "8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "21",
+        x2: "16.65",
+        y2: "16.65"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "11",
+        y1: "8",
+        x2: "11",
+        y2: "14"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "11",
+        x2: "14",
+        y2: "11"
+      }
+    })]);
+  }
+};
+
+var ZoomOutIcon = {
+  name: 'ZoomOutIcon',
+  props: {
+    size: {
+      type: String,
+      default: '24',
+      validator: function validator(s) {
+        return !isNaN(s) || s.length >= 2 && !isNaN(s.slice(0, s.length - 1)) && s.slice(-1) === 'x';
+      }
+    }
+  },
+  functional: true,
+  render: function render(h, ctx) {
+    var size = ctx.props.size.slice(-1) === 'x' ? ctx.props.size.slice(0, ctx.props.size.length - 1) + 'em' : parseInt(ctx.props.size) + 'px';
+    var attrs = ctx.data.attrs || {};
+    attrs.width = attrs.width || size;
+    attrs.height = attrs.height || size;
+    ctx.data.attrs = attrs;
+    return h("svg", babel_helper_vue_jsx_merge_props__WEBPACK_IMPORTED_MODULE_0___default()([{
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "24",
+        height: "24",
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "2",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      },
+      "class": "feather feather-zoom-out"
+    }, ctx.data]), [h("circle", {
+      attrs: {
+        cx: "11",
+        cy: "11",
+        r: "8"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "21",
+        y1: "21",
+        x2: "16.65",
+        y2: "16.65"
+      }
+    }), h("line", {
+      attrs: {
+        x1: "8",
+        y1: "11",
+        x2: "14",
+        y2: "11"
+      }
+    })]);
+  }
+};
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/Pagination.vue?vue&type=template&id=0e1fe725&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Components/Pagination.vue?vue&type=template&id=0e1fe725& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "ul",
+    { staticClass: "flex justify-center mt-3" },
+    [
+      _c(
+        "li",
+        { staticClass: "mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded-lg" },
+        [
+          _c(
+            "a",
+            {
+              staticClass: "flex items-center font-bold",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.setPage(_vm.index - 1)
+                }
+              }
+            },
+            [_c("span", { staticClass: "mx-1" }, [_vm._v("Anterior")])]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.pages, function(index) {
+        return _c(
+          "li",
+          {
+            key: index,
+            staticClass:
+              "mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg",
+            class:
+              index == _vm.currentPage ? "hover:bg-gray-700" : "bg-gray-200"
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "font-bold",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.setPage(index)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(index))]
+            )
+          ]
+        )
+      }),
+      _vm._v(" "),
+      _c(
+        "li",
+        {
+          staticClass:
+            "mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg"
+        },
+        [
+          _c(
+            "a",
+            {
+              staticClass: "flex items-center font-bold",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.setPage(_vm.index + 1)
+                }
+              }
+            },
+            [_c("span", { staticClass: "mx-1" }, [_vm._v("Siguiente")])]
+          )
+        ]
+      )
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/Statistics.vue?vue&type=template&id=3249742e&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Components/Statistics.vue?vue&type=template&id=3249742e& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass:
+          "flex justify-center min-h-screen bg-gray-100 text-gray-800"
+      },
+      [
+        _c("div", { staticClass: "p-4 w-full" }, [
+          _c("div", { staticClass: "grid grid-cols-12 gap-4" }, [
+            _c(
+              "div",
+              { staticClass: "col-span-12 sm:col-span-6 md:col-span-3" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "flex flex-row bg-white shadow-sm rounded p-4"
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "flex items-center justify-center flex-shrink-0 h-12 w-12 rounded-xl bg-blue-100 text-blue-500"
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "w-6 h-6",
+                            attrs: {
+                              fill: "none",
+                              stroke: "currentColor",
+                              viewBox: "0 0 24 24",
+                              xmlns: "http://www.w3.org/2000/svg"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "2",
+                                d:
+                                  "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex flex-col flex-grow ml-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-500" }, [
+                        _vm._v("Padres/Madres")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "font-bold text-lg" }, [
+                        _vm._v(_vm._s(_vm.data.parents))
+                      ])
+                    ])
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-span-12 sm:col-span-6 md:col-span-3" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "flex flex-row bg-white shadow-sm rounded p-4"
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "flex items-center justify-center flex-shrink-0 h-12 w-12 rounded-xl bg-green-100 text-green-500"
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "w-6 h-6",
+                            attrs: {
+                              fill: "none",
+                              stroke: "currentColor",
+                              viewBox: "0 0 24 24",
+                              xmlns: "http://www.w3.org/2000/svg"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "2",
+                                d: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex flex-col flex-grow ml-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-500" }, [
+                        _vm._v("Pacientes")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "font-bold text-lg" }, [
+                        _vm._v(_vm._s(_vm.data.children))
+                      ])
+                    ])
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-span-12 sm:col-span-6 md:col-span-3" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "flex flex-row bg-white shadow-sm rounded p-4"
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "flex items-center justify-center flex-shrink-0 h-12 w-12 rounded-xl bg-orange-100 text-orange-500"
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "w-6 h-6",
+                            attrs: {
+                              fill: "none",
+                              stroke: "currentColor",
+                              viewBox: "0 0 24 24",
+                              xmlns: "http://www.w3.org/2000/svg"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "2",
+                                d:
+                                  "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex flex-col flex-grow ml-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-500" }, [
+                        _vm._v("Aseguradoras")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "font-bold text-lg" }, [
+                        _vm._v(_vm._s(_vm.data.insurances))
+                      ])
+                    ])
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-span-12 sm:col-span-6 md:col-span-3" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "flex flex-row bg-white shadow-sm rounded p-4"
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "flex items-center justify-center flex-shrink-0 h-12 w-12 rounded-xl bg-red-100 text-red-500"
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "w-6 h-6",
+                            attrs: {
+                              fill: "none",
+                              stroke: "currentColor",
+                              viewBox: "0 0 24 24",
+                              xmlns: "http://www.w3.org/2000/svg"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "2",
+                                d:
+                                  "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex flex-col flex-grow ml-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-500" }, [
+                        _vm._v("Visitas")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "font-bold text-lg" }, [
+                        _vm._v(_vm._s(_vm.data.visits))
+                      ])
+                    ])
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Jetstream/ActionMessage.vue?vue&type=template&id=bcb26626&":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Jetstream/ActionMessage.vue?vue&type=template&id=bcb26626& ***!
@@ -46181,10 +62773,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&":
-/*!*********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57& ***!
-  \*********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -46200,7 +62792,7 @@ var render = function() {
     "div",
     { staticClass: "min-h-screen bg-gray-100" },
     [
-      _c("nav", { staticClass: "bg-white border-b border-gray-100" }, [
+      _c("nav", { staticClass: "bg-gray-800 border-b border-gray-100" }, [
         _c("div", { staticClass: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" }, [
           _c("div", { staticClass: "flex justify-between h-16" }, [
             _c("div", { staticClass: "flex" }, [
@@ -46212,11 +62804,11 @@ var render = function() {
                     "inertia-link",
                     { attrs: { href: _vm.route("dashboard") } },
                     [
-                      _c("jet-application-mark", {
-                        staticClass: "block h-9 w-auto"
+                      _c("img", {
+                        staticClass: "logo-border",
+                        attrs: { src: "/Images/logo-name.png", alt: "" }
                       })
-                    ],
-                    1
+                    ]
                   )
                 ],
                 1
@@ -46229,6 +62821,7 @@ var render = function() {
                   _c(
                     "jet-nav-link",
                     {
+                      staticClass: "text-white",
                       attrs: {
                         href: _vm.route("dashboard"),
                         active: _vm.route().current("dashboard")
@@ -46244,14 +62837,195 @@ var render = function() {
                   _c(
                     "jet-nav-link",
                     {
+                      ref: "",
                       attrs: {
-                        href: _vm.route("patients.index"),
-                        active: _vm.route().current("patients.index")
+                        href: _vm.route("parents.index"),
+                        active: _vm.route().current("parents.index")
                       }
                     },
                     [
                       _vm._v(
-                        "\n                            Pacientes\n                        "
+                        "\n                            Visitas\n                        "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "jet-nav-link",
+                    {
+                      ref: "",
+                      attrs: {
+                        href: _vm.route("children.index"),
+                        active: _vm.route().current("children.index")
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            Facturación\n                        "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "hidden sm:flex sm:items-center sm:ml-6" },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "ml-3 relative" },
+                        [
+                          _c("jet-dropdown", {
+                            attrs: { align: "right", width: "48" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "trigger",
+                                fn: function() {
+                                  return [
+                                    _vm.$page.jetstream.managesProfilePhotos
+                                      ? _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out"
+                                          },
+                                          [
+                                            _c("img", {
+                                              staticClass:
+                                                "h-8 w-8 rounded-full object-cover",
+                                              attrs: {
+                                                src:
+                                                  _vm.$page.user
+                                                    .profile_photo_url,
+                                                alt: _vm.$page.user.name
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      : _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "flex items-center text-sm font-medium text-gray-50 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-400 focus:border-gray-200 transition duration-150 ease-in-out"
+                                          },
+                                          [
+                                            _c("div", [_vm._v("Administrar")]),
+                                            _vm._v(" "),
+                                            _c("div", { staticClass: "ml-1" }, [
+                                              _c(
+                                                "svg",
+                                                {
+                                                  staticClass:
+                                                    "fill-current h-4 w-4",
+                                                  attrs: {
+                                                    xmlns:
+                                                      "http://www.w3.org/2000/svg",
+                                                    viewBox: "0 0 20 20"
+                                                  }
+                                                },
+                                                [
+                                                  _c("path", {
+                                                    attrs: {
+                                                      "fill-rule": "evenodd",
+                                                      d:
+                                                        "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z",
+                                                      "clip-rule": "evenodd"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ])
+                                          ]
+                                        )
+                                  ]
+                                },
+                                proxy: true
+                              },
+                              {
+                                key: "content",
+                                fn: function() {
+                                  return [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "block px-4 py-2 text-xs text-gray-700"
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          { staticClass: "font-bold" },
+                                          [_vm._v("Datos del sistema")]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "jet-dropdown-link",
+                                      {
+                                        attrs: {
+                                          href: _vm.route("parents.index")
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                        Padres\n                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "jet-dropdown-link",
+                                      {
+                                        attrs: {
+                                          href: _vm.route("children.index")
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                        Niños/as\n                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "jet-dropdown-link",
+                                      {
+                                        attrs: {
+                                          href: _vm.route("insurances.index")
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                        Aseguradoras y Planes\n                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "jet-dropdown-link",
+                                      {
+                                        attrs: {
+                                          href: _vm.route("parents.index")
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                        Vacunas\n                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", {
+                                      staticClass: "border-t border-gray-100"
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ])
+                          })
+                        ],
+                        1
                       )
                     ]
                   )
@@ -46297,7 +63071,7 @@ var render = function() {
                                     "button",
                                     {
                                       staticClass:
-                                        "flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+                                        "flex items-center text-sm font-medium text-gray-50 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-400 focus:border-gray-200 transition duration-150 ease-in-out"
                                     },
                                     [
                                       _c("div", [
@@ -46341,11 +63115,11 @@ var render = function() {
                                 "div",
                                 {
                                   staticClass:
-                                    "block px-4 py-2 text-xs text-gray-400"
+                                    "block px-4 py-2 text-xs text-gray-700"
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                    Manage Account\n                                "
+                                    "\n                                    Configurar cuenta\n                                "
                                   )
                                 ]
                               ),
@@ -46360,169 +63134,9 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(" "),
-                              _vm.$page.jetstream.hasApiFeatures
-                                ? _c(
-                                    "jet-dropdown-link",
-                                    {
-                                      attrs: {
-                                        href: _vm.route("api-tokens.index")
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    API Tokens\n                                "
-                                      )
-                                    ]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
                               _c("div", {
                                 staticClass: "border-t border-gray-100"
                               }),
-                              _vm._v(" "),
-                              _vm.$page.jetstream.hasTeamFeatures
-                                ? [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "block px-4 py-2 text-xs text-gray-400"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                        Manage Team\n                                    "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "jet-dropdown-link",
-                                      {
-                                        attrs: {
-                                          href: _vm.route(
-                                            "teams.show",
-                                            _vm.$page.user.current_team
-                                          )
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                        Team Settings\n                                    "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.$page.jetstream.canCreateTeams
-                                      ? _c(
-                                          "jet-dropdown-link",
-                                          {
-                                            attrs: {
-                                              href: _vm.route("teams.create")
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                        Create New Team\n                                    "
-                                            )
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _c("div", {
-                                      staticClass: "border-t border-gray-100"
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "block px-4 py-2 text-xs text-gray-400"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                        Switch Teams\n                                    "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm._l(_vm.$page.user.all_teams, function(
-                                      team
-                                    ) {
-                                      return [
-                                        _c(
-                                          "form",
-                                          {
-                                            key: team.id,
-                                            on: {
-                                              submit: function($event) {
-                                                $event.preventDefault()
-                                                return _vm.switchToTeam(team)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "jet-dropdown-link",
-                                              { attrs: { as: "button" } },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "flex items-center"
-                                                  },
-                                                  [
-                                                    team.id ==
-                                                    _vm.$page.user
-                                                      .current_team_id
-                                                      ? _c(
-                                                          "svg",
-                                                          {
-                                                            staticClass:
-                                                              "mr-2 h-5 w-5 text-green-400",
-                                                            attrs: {
-                                                              fill: "none",
-                                                              "stroke-linecap":
-                                                                "round",
-                                                              "stroke-linejoin":
-                                                                "round",
-                                                              "stroke-width":
-                                                                "2",
-                                                              stroke:
-                                                                "currentColor",
-                                                              viewBox:
-                                                                "0 0 24 24"
-                                                            }
-                                                          },
-                                                          [
-                                                            _c("path", {
-                                                              attrs: {
-                                                                d:
-                                                                  "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                              }
-                                                            })
-                                                          ]
-                                                        )
-                                                      : _vm._e(),
-                                                    _vm._v(" "),
-                                                    _c("div", [
-                                                      _vm._v(_vm._s(team.name))
-                                                    ])
-                                                  ]
-                                                )
-                                              ]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ]
-                                    }),
-                                    _vm._v(" "),
-                                    _c("div", {
-                                      staticClass: "border-t border-gray-100"
-                                    })
-                                  ]
-                                : _vm._e(),
                               _vm._v(" "),
                               _c(
                                 "form",
@@ -46685,7 +63299,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                        Profile\n                    "
+                        "\n                        Perfil de usurio\n                    "
                       )
                     ]
                   ),
@@ -47578,6 +64192,598 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Children/All.vue?vue&type=template&id=a69249cc&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Children/All.vue?vue&type=template&id=a69249cc& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "app-layout",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [_vm._v("\n            Niños/as\n        ")]
+              )
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _c("div", { staticClass: "py-5" }, [
+        _c("div", { staticClass: "max-w-7xl mx-auto sm:px-6 lg:px-8" }, [
+          _c(
+            "div",
+            { staticClass: "flex flex-col" },
+            [
+              _c(
+                "div",
+                { staticClass: "-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8" },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+                        },
+                        [
+                          _c(
+                            "table",
+                            {
+                              staticClass: "min-w-full divide-y divide-gray-200"
+                            },
+                            [
+                              _c("thead", { staticClass: "bg-gray-50" }, [
+                                _c("tr", [
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Name\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Papi/Mami\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Sexo\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Fecha de nacimiento\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass: "relative px-6 py-3",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _c("span", { staticClass: "sr-only" }, [
+                                        _vm._v("Edit")
+                                      ])
+                                    ]
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "tbody",
+                                {
+                                  staticClass:
+                                    "bg-white divide-y divide-gray-200"
+                                },
+                                _vm._l(_vm.children, function(child) {
+                                  return _c("tr", { key: child.id }, [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "px-6 py-4 whitespace-nowrap"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "flex items-center" },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "flex-shrink-0 h-10 w-10"
+                                              },
+                                              [
+                                                _c("img", {
+                                                  staticClass:
+                                                    "h-10 w-10 rounded-full",
+                                                  attrs: {
+                                                    src:
+                                                      child.gender == "Niño"
+                                                        ? "/Images/boy.svg"
+                                                        : "/Images/girl.svg",
+                                                    alt: ""
+                                                  }
+                                                })
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("div", { staticClass: "ml-4" }, [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "text-sm font-medium text-gray-900"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                    " +
+                                                      _vm._s(child.name) +
+                                                      "\n                                    "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "text-sm text-gray-500"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                        " +
+                                                      _vm._s(
+                                                        _vm.calculateAge(
+                                                          child.birth_date
+                                                        )
+                                                      ) +
+                                                      "\n                                    "
+                                                  )
+                                                ]
+                                              )
+                                            ])
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "px-6 py-4 whitespace-nowrap"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "text-sm text-gray-900"
+                                          },
+                                          [
+                                            _vm._v(
+                                              _vm._s(child.dad_or_mom.name)
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "px-6 py-4 whitespace-nowrap"
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          {
+                                            staticClass:
+                                              "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                " +
+                                                _vm._s(child.gender) +
+                                                "\n                                "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(child.birth_date) +
+                                            "\n                            "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                                      },
+                                      [
+                                        _c("div", { staticClass: "flex" }, [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
+                                              attrs: {
+                                                "aria-label": "Edit user"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.newOrEdit(
+                                                    _vm.parent,
+                                                    "Editar padre/madre"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_c("EditIcon")],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
+                                              attrs: {
+                                                "aria-label": "Delete user"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  ;(_vm.planBeingDeleted = true),
+                                                    (_vm.toDelete =
+                                                      _vm.parent.id)
+                                                }
+                                              }
+                                            },
+                                            [_c("Trash2Icon")],
+                                            1
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                }),
+                                0
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("Pagination", { attrs: { pages: 1, init: 1, end: 1 } })
+            ],
+            1
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Children/EditOrNew.vue?vue&type=template&id=63288ee8&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Children/EditOrNew.vue?vue&type=template&id=63288ee8& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("jet-dialog-modal", {
+    attrs: { show: _vm.toggleNewOrEditChildrenModal },
+    on: { close: _vm.toggleModal },
+    scopedSlots: _vm._u([
+      {
+        key: "title",
+        fn: function() {
+          return [
+            _vm._v("\n              " + _vm._s(_vm.title) + "\n          ")
+          ]
+        },
+        proxy: true
+      },
+      {
+        key: "content",
+        fn: function() {
+          return [
+            _c(
+              "div",
+              { staticClass: "flex mt-4" },
+              [
+                _c("jet-input", {
+                  ref: "name",
+                  staticClass: "mt-1 block w-full",
+                  attrs: { type: "text", placeholder: "Nombre completo" },
+                  model: {
+                    value: _vm.form.name,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form, "name", $$v)
+                    },
+                    expression: "form.name"
+                  }
+                }),
+                _vm._v(" "),
+                _c("jet-input-error", {
+                  staticClass: "mt-2",
+                  attrs: { message: _vm.form.error }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "flex mt-4" },
+              [
+                _c(
+                  "VueTailwindPicker",
+                  {
+                    staticClass: "mt-1  block w-full",
+                    on: {
+                      change: function(v) {
+                        return (_vm.checkin = v)
+                      }
+                    }
+                  },
+                  [
+                    _c("jet-input", {
+                      attrs: { type: "text" },
+                      model: {
+                        value: _vm.form.birth_date,
+                        callback: function($$v) {
+                          _vm.$set(_vm.form, "birth_date", $$v)
+                        },
+                        expression: "form.birth_date"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("jet-input-error", {
+                  staticClass: "mt-2",
+                  attrs: { message: _vm.form.error }
+                }),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.gender,
+                        expression: "form.gender"
+                      }
+                    ],
+                    staticClass:
+                      "w-full border bg-white rounded  py-2 outline-none",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.form,
+                          "gender",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "", disabled: "" } }, [
+                      _vm._v("¿Niño o niña?")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "option",
+                      { staticClass: "py-1", attrs: { value: "Niño" } },
+                      [_vm._v("Niño")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "option",
+                      { staticClass: "py-1", attrs: { value: "Niña" } },
+                      [_vm._v("Niña")]
+                    )
+                  ]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "flex mt-4" },
+              [
+                _c("jet-input", {
+                  ref: "name",
+                  staticClass: "mt-1 block w-3/5",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Nombre completo",
+                    disabled: ""
+                  },
+                  model: {
+                    value: _vm.form.parent.name,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form.parent, "name", $$v)
+                    },
+                    expression: "form.parent.name"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v("s\n          ")
+          ]
+        },
+        proxy: true
+      },
+      {
+        key: "footer",
+        fn: function() {
+          return [
+            _c(
+              "jet-secondary-button",
+              {
+                nativeOn: {
+                  click: function($event) {
+                    return _vm.toggleModal($event)
+                  }
+                }
+              },
+              [_vm._v("\n                  Cancelar\n              ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "jet-button",
+              {
+                staticClass: "ml-2",
+                class: { "opacity-25": _vm.form.processing },
+                attrs: { disabled: _vm.form.processing },
+                nativeOn: {
+                  click: function($event) {
+                    return _vm.onSave($event)
+                  }
+                }
+              },
+              [_vm._v("\n                  Guardar\n              ")]
+            )
+          ]
+        },
+        proxy: true
+      }
+    ])
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Dashboard.vue?vue&type=template&id=097ba13b&":
 /*!*******************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Dashboard.vue?vue&type=template&id=097ba13b& ***!
@@ -47621,8 +64827,8 @@ var render = function() {
         _c("div", { staticClass: "max-w-7xl mx-auto sm:px-6 lg:px-8" }, [
           _c(
             "div",
-            { staticClass: "bg-white overflow-hidden shadow-xl sm:rounded-lg" },
-            [_c("welcome")],
+            { staticClass: "bg-white overflow-hidden  sm:rounded-lg" },
+            [_c("Statistics", { attrs: { data: _vm.statistics } })],
             1
           )
         ])
@@ -47637,10 +64843,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Patients/All.vue?vue&type=template&id=7ee07429&scoped=true&":
-/*!**********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Patients/All.vue?vue&type=template&id=7ee07429&scoped=true& ***!
-  \**********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/All.vue?vue&type=template&id=77bc97b4&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Insurances/All.vue?vue&type=template&id=77bc97b4& ***!
+  \************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -47652,7 +64858,1521 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "app-layout",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [_vm._v("\n            Aseguradoras y Planes\n        ")]
+              )
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _vm.editingOrCreatingInsurance
+        ? _c("EditOrNew", { attrs: { title: _vm.title, data: _vm.toEdit } })
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "py-5" }, [
+        _c("div", { staticClass: "max-w-7xl mx-auto sm:px-6 lg:px-8" }, [
+          _c("div", { staticClass: "flex flex-col" }, [
+            _c(
+              "div",
+              { staticClass: "-my-1 overflow-x-auto sm:-mx-6 lg:-mx-8" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+                  },
+                  [
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center",
+                          on: {
+                            click: function($event) {
+                              return _vm.editOrNew(null, "Nueva aseguradora")
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "svg",
+                            {
+                              staticClass: "w-6 h-6",
+                              attrs: {
+                                fill: "currentColor",
+                                viewBox: "0 0 20 20",
+                                xmlns: "http://www.w3.org/2000/svg"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  "fill-rule": "evenodd",
+                                  d:
+                                    "M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z",
+                                  "clip-rule": "evenodd"
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "mr-2" }, [
+                            _vm._v("Agregar")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "md:grid md:h-full md:grid-flow-row md:gap-4 md:grid-cols-4"
+                      },
+                      _vm._l(_vm.insurances, function(insurance) {
+                        return _c(
+                          "div",
+                          {
+                            key: insurance.id,
+                            staticClass:
+                              "shadow-lg p-10 transition duration-500 ease-in-out  hover:bg-white-600 transform hover:-translate-y-1 hover:scale-110 ..."
+                          },
+                          [
+                            _c("div", { staticClass: "text-lg font-bold " }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(insurance.name) +
+                                  "\n                                "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(insurance.phone) +
+                                  "\n                                "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "flex items-center justify-end mt-15 top-auto"
+                              },
+                              [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "bg-white text-red-500 px-4 py-2 rounded mr-auto hover:underline",
+                                    on: {
+                                      click: function($event) {
+                                        ;(_vm.planBeingDeleted = true),
+                                          (_vm.toDelete = insurance)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticClass: "w-6 h-6",
+                                        attrs: {
+                                          fill: "none",
+                                          stroke: "currentColor",
+                                          viewBox: "0 0 24 24",
+                                          xmlns: "http://www.w3.org/2000/svg"
+                                        }
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            "stroke-linecap": "round",
+                                            "stroke-linejoin": "round",
+                                            "stroke-width": "2",
+                                            d:
+                                              "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      " bg-gray-200 text-blue-600 px-2 py-2 rounded-md ml-4 mr-2",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.editOrNew(
+                                          insurance,
+                                          "Editar aseguradora"
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticClass: "w-6 h-6",
+                                        attrs: {
+                                          fill: "currentColor",
+                                          viewBox: "0 0 20 20",
+                                          xmlns: "http://www.w3.org/2000/svg"
+                                        }
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "inertia-link",
+                                  {
+                                    attrs: {
+                                      href: _vm.route("plans", insurance.id)
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          " bg-blue-600 text-gray-200 px-2 py-2 rounded-md "
+                                      },
+                                      [_vm._v("Planes")]
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("jet-confirmation-modal", {
+        attrs: { show: _vm.planBeingDeleted },
+        on: {
+          close: function($event) {
+            _vm.planBeingDeleted = null
+          }
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [_vm._v("\n            Borrar aseguradora\n        ")]
+            },
+            proxy: true
+          },
+          {
+            key: "content",
+            fn: function() {
+              return [
+                _vm._v(
+                  "\n            ¿Estás seguro que deseas borrar la aseguradora "
+                ),
+                _c("span", { staticClass: "font-bold" }, [
+                  _vm._v(" " + _vm._s(_vm.toDelete.name))
+                ]),
+                _vm._v("?\n        ")
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "footer",
+            fn: function() {
+              return [
+                _c(
+                  "jet-secondary-button",
+                  {
+                    nativeOn: {
+                      click: function($event) {
+                        ;(_vm.planBeingDeleted = null), (_vm.toDelete = {})
+                      }
+                    }
+                  },
+                  [_vm._v("\n                Cancelar\n            ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "jet-danger-button",
+                  {
+                    staticClass: "ml-2",
+                    nativeOn: {
+                      click: function($event) {
+                        return _vm.deleteInsurance($event)
+                      }
+                    }
+                  },
+                  [_vm._v("\n                Confirmar\n            ")]
+                )
+              ]
+            },
+            proxy: true
+          }
+        ])
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=template&id=67b419a6&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=template&id=67b419a6& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("jet-dialog-modal", {
+    attrs: { show: _vm.toggleNewOrEditInsuranceModal },
+    on: { close: _vm.toggleModal },
+    scopedSlots: _vm._u([
+      {
+        key: "title",
+        fn: function() {
+          return [
+            _vm._v("\n              " + _vm._s(_vm.title) + "\n          ")
+          ]
+        },
+        proxy: true
+      },
+      {
+        key: "content",
+        fn: function() {
+          return [
+            _c(
+              "div",
+              { staticClass: "flex mt-4" },
+              [
+                _c("jet-input", {
+                  ref: "name",
+                  staticClass: "mt-1 block w-3/5",
+                  attrs: { type: "text", placeholder: "Nombre completo" },
+                  model: {
+                    value: _vm.form.name,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form, "name", $$v)
+                    },
+                    expression: "form.name"
+                  }
+                }),
+                _vm._v(" "),
+                _c("jet-input", {
+                  ref: "name",
+                  staticClass: "mt-1 ml-3 block w-2/5",
+                  attrs: { type: "text", placeholder: "Teléfono" },
+                  model: {
+                    value: _vm.form.phone,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form, "phone", $$v)
+                    },
+                    expression: "form.phone"
+                  }
+                }),
+                _vm._v(" "),
+                _c("jet-input-error", {
+                  staticClass: "mt-2",
+                  attrs: { message: _vm.form.error }
+                })
+              ],
+              1
+            )
+          ]
+        },
+        proxy: true
+      },
+      {
+        key: "footer",
+        fn: function() {
+          return [
+            _c(
+              "jet-secondary-button",
+              {
+                nativeOn: {
+                  click: function($event) {
+                    return _vm.toggleModal($event)
+                  }
+                }
+              },
+              [_vm._v("\n                  Cancelar\n              ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "jet-button",
+              {
+                staticClass: "ml-2",
+                class: { "opacity-25": _vm.form.processing },
+                attrs: { disabled: _vm.form.processing },
+                nativeOn: {
+                  click: function($event) {
+                    return _vm.onSave($event)
+                  }
+                }
+              },
+              [_vm._v("\n                  Guardar\n              ")]
+            )
+          ]
+        },
+        proxy: true
+      }
+    ])
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/Plans.vue?vue&type=template&id=51ff593d&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Insurances/Plans.vue?vue&type=template&id=51ff593d& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "app-layout",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [
+                  _vm._v(
+                    "\n            Planes - " +
+                      _vm._s(_vm.insurance.name) +
+                      "\n        "
+                  )
+                ]
+              )
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { show: _vm.toggleModal },
+          scopedSlots: _vm._u([
+            {
+              key: "title",
+              fn: function() {
+                return [_vm._v("\n                Delete Account\n        ")]
+              },
+              proxy: true
+            }
+          ])
+        },
+        [
+          _vm._v(" "),
+          _c("div", { staticClass: "p-5" }, [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "bg-white text-red-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center",
+                on: {
+                  click: function($event) {
+                    _vm.toggleModal = !_vm.toggleModal
+                  }
+                }
+              },
+              [
+                _c(
+                  "svg",
+                  {
+                    staticClass: "w-6 h-6",
+                    attrs: {
+                      fill: "none",
+                      stroke: "currentColor",
+                      viewBox: "0 0 24 24",
+                      xmlns: "http://www.w3.org/2000/svg"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "stroke-linecap": "round",
+                        "stroke-linejoin": "round",
+                        "stroke-width": "2",
+                        d:
+                          "M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("span", { staticClass: "mr-2" }, [_vm._v("Cerrar")])
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "py-5" }, [
+        _c("div", { staticClass: "max-w-7xl mx-auto sm:px-6 lg:px-8" }, [
+          _c("div", { staticClass: "flex flex-col" }, [
+            _c(
+              "div",
+              { staticClass: "-my-1 overflow-x-auto sm:-mx-6 lg:-mx-8" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "min-h-screen w-screen flex  justify-center"
+                      },
+                      [
+                        _c(
+                          "ul",
+                          { staticClass: "w-full max-w-md mt-10" },
+                          [
+                            _vm.plans.length == 0
+                              ? _c(
+                                  "div",
+                                  { staticClass: "flex justify-center mb-3 " },
+                                  [
+                                    _c("h2", [
+                                      _vm._v("No existen planes agregados")
+                                    ])
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "form",
+                              {
+                                staticClass: "flex flex-wrap -mx-2 mb-5",
+                                attrs: { action: "/users", method: "POST" },
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.createPlan($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "w-3/4" },
+                                  [
+                                    _c("Input", {
+                                      staticClass: "w-full",
+                                      class:
+                                        this.edit != ""
+                                          ? "border-yellow-200"
+                                          : "",
+                                      attrs: {
+                                        value: _vm.form.name,
+                                        id: "name"
+                                      },
+                                      model: {
+                                        value: _vm.form.name,
+                                        callback: function($$v) {
+                                          _vm.$set(_vm.form, "name", $$v)
+                                        },
+                                        expression: "form.name"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "mt-2" }, [
+                                      this.edit != ""
+                                        ? _c(
+                                            "span",
+                                            { staticClass: "text-yellow-300" },
+                                            [_vm._v("Editando")]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      this.edit != ""
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "bg-red-600  text-white rounded cursor-pointer p-1",
+                                              on: { click: _vm.cancelEdition }
+                                            },
+                                            [_vm._v("Cancelar")]
+                                          )
+                                        : _vm._e()
+                                    ])
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "w-1/4" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "ml-3 bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center",
+                                      attrs: {
+                                        type: "submit",
+                                        disabled: _vm.form.name.length < 1
+                                      }
+                                    },
+                                    [
+                                      _c("span", { staticClass: "mr-2" }, [
+                                        _vm._v(
+                                          _vm._s(
+                                            this.edit == ""
+                                              ? "Agregar"
+                                              : "Guardar"
+                                          )
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.plans, function(plan) {
+                              return _c(
+                                "li",
+                                {
+                                  key: plan.id,
+                                  staticClass:
+                                    "p-4 mb-3 flex justify-between items-center bg-white shadow rounded-lg cursor-hand transition duration-500 ease-in-out  hover:bg-white-600 transform hover:-translate-y-1 hover:scale-110"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(plan.name) +
+                                      "\n                                    "
+                                  ),
+                                  _c("div", { staticClass: "flex auto" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
+                                        attrs: { "aria-label": "Edit user" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.onEdit(plan)
+                                          }
+                                        }
+                                      },
+                                      [_c("EditIcon")],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
+                                        attrs: { "aria-label": "Delete user" },
+                                        on: {
+                                          click: function($event) {
+                                            ;(_vm.planBeingDeleted = true),
+                                              (_vm.toDelete = plan)
+                                          }
+                                        }
+                                      },
+                                      [_c("Trash2Icon")],
+                                      1
+                                    )
+                                  ])
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("jet-confirmation-modal", {
+        attrs: { show: _vm.planBeingDeleted },
+        on: {
+          close: function($event) {
+            _vm.planBeingDeleted = null
+          }
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [_vm._v("\n            Borrar plan\n        ")]
+            },
+            proxy: true
+          },
+          {
+            key: "content",
+            fn: function() {
+              return [
+                _vm._v(
+                  "\n            ¿Estás seguro que deseas borrar el plan "
+                ),
+                _c("span", { staticClass: "font-bold" }, [
+                  _vm._v(_vm._s(_vm.toDelete.name))
+                ]),
+                _vm._v("?\n        ")
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "footer",
+            fn: function() {
+              return [
+                _c(
+                  "jet-secondary-button",
+                  {
+                    nativeOn: {
+                      click: function($event) {
+                        ;(_vm.planBeingDeleted = null), (_vm.toDelete = "")
+                      }
+                    }
+                  },
+                  [_vm._v("\n                Cancelar\n            ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "jet-danger-button",
+                  {
+                    staticClass: "ml-2",
+                    nativeOn: {
+                      click: function($event) {
+                        return _vm.deletePlan($event)
+                      }
+                    }
+                  },
+                  [_vm._v("\n                Confirmar\n            ")]
+                )
+              ]
+            },
+            proxy: true
+          }
+        ])
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/All.vue?vue&type=template&id=17113a3c&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Parents/All.vue?vue&type=template&id=17113a3c& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "app-layout",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [_vm._v("\n            Padres\n        ")]
+              )
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _vm.editingOrCreatingParent
+        ? _c("EditOrNew", {
+            attrs: { title: _vm.modalTitle, data: _vm.editThisParent }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.editingOrCreatingChildren
+        ? _c("EditOrNewChildren", {
+            attrs: { title: "Nuevo niño/a", data: _vm.newChild }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "py-5" }, [
+        _c("div", { staticClass: "max-w-7xl mx-auto sm:px-6 lg:px-8" }, [
+          _c(
+            "div",
+            { staticClass: "flex flex-col" },
+            [
+              _c(
+                "div",
+                { staticClass: "-my-1 overflow-x-auto sm:-mx-6 lg:-mx-8" },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+                    },
+                    [
+                      _c("div", { staticClass: "mb-3" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center",
+                            on: {
+                              click: function($event) {
+                                return _vm.newOrEdit(null, "Nuevo padre/madre")
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "w-6 h-6",
+                                attrs: {
+                                  fill: "none",
+                                  stroke: "currentColor",
+                                  viewBox: "0 0 24 24",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    "stroke-linecap": "round",
+                                    "stroke-linejoin": "round",
+                                    "stroke-width": "2",
+                                    d:
+                                      "M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "mr-2" }, [
+                              _vm._v("Agregar")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+                        },
+                        [
+                          _c(
+                            "table",
+                            {
+                              staticClass: "min-w-full divide-y divide-gray-200"
+                            },
+                            [
+                              _c("thead", { staticClass: "bg-gray-50" }, [
+                                _c("tr", [
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Nombre completo\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Telefono\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Hijos\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass: "relative px-6 py-3",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _c("span", { staticClass: "sr-only" }, [
+                                        _vm._v("Acciones")
+                                      ])
+                                    ]
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _vm.parents.length > 0
+                                ? _c(
+                                    "tbody",
+                                    {
+                                      staticClass:
+                                        "bg-white divide-y divide-gray-200"
+                                    },
+                                    _vm._l(_vm.parents, function(parent) {
+                                      return _c("tr", { key: parent.id }, [
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 py-4 whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "flex items-center"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "flex-shrink-0 h-10 w-10"
+                                                  },
+                                                  [
+                                                    _c("img", {
+                                                      staticClass:
+                                                        "h-10 w-10 rounded-full",
+                                                      attrs: {
+                                                        src:
+                                                          parent.kinship ==
+                                                          "Madre"
+                                                            ? "/Images/mom.png"
+                                                            : "/Images/dad.png",
+                                                        alt: ""
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "ml-4" },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "text-sm font-medium text-gray-900"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        " +
+                                                            _vm._s(
+                                                              parent.name
+                                                            ) +
+                                                            "\n                                        "
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "text-sm text-gray-500"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        " +
+                                                            _vm._s(
+                                                              parent.kinship
+                                                            ) +
+                                                            "\n                                        "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 py-4 whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                    " +
+                                                    _vm._s(parent.phone) +
+                                                    "\n                                    "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                          },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "bg-green-600  text-white rounded cursor-pointer p-1",
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.addChild(parent)
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Agregar hijo/a")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                                          },
+                                          [
+                                            _c("div", { staticClass: "flex" }, [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
+                                                  attrs: {
+                                                    "aria-label": "Edit user"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.newOrEdit(
+                                                        parent,
+                                                        "Editar padre/madre"
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [_c("EditIcon")],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
+                                                  attrs: {
+                                                    "aria-label": "Delete user"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      ;(_vm.planBeingDeleted = true),
+                                                        (_vm.toDelete =
+                                                          parent.id)
+                                                    }
+                                                  }
+                                                },
+                                                [_c("Trash2Icon")],
+                                                1
+                                              )
+                                            ])
+                                          ]
+                                        )
+                                      ])
+                                    }),
+                                    0
+                                  )
+                                : _vm._e()
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("Pagination", {
+                attrs: { pages: _vm.pagination.last_page, init: 1, end: 10 }
+              })
+            ],
+            1
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("jet-confirmation-modal", {
+        attrs: { show: _vm.planBeingDeleted },
+        on: {
+          close: function($event) {
+            _vm.planBeingDeleted = null
+          }
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [_vm._v("\n            Borrar padre/madre\n        ")]
+            },
+            proxy: true
+          },
+          {
+            key: "content",
+            fn: function() {
+              return [
+                _vm._v(
+                  "\n            ¿Estás seguro que deseas borrar este padre?\n        "
+                )
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "footer",
+            fn: function() {
+              return [
+                _c(
+                  "jet-secondary-button",
+                  {
+                    nativeOn: {
+                      click: function($event) {
+                        ;(_vm.planBeingDeleted = null), (_vm.toDelete = "")
+                      }
+                    }
+                  },
+                  [_vm._v("\n                Cancelar\n            ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "jet-danger-button",
+                  {
+                    staticClass: "ml-2",
+                    nativeOn: {
+                      click: function($event) {
+                        return _vm.deleteParent($event)
+                      }
+                    }
+                  },
+                  [_vm._v("\n                Confirmar\n            ")]
+                )
+              ]
+            },
+            proxy: true
+          }
+        ])
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/Create.vue?vue&type=template&id=3cc66c6a&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Parents/Create.vue?vue&type=template&id=3cc66c6a& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "app-layout",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [_vm._v("\n            Pacientes\n        ")]
+              )
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _c("div", { staticClass: "py-12" }, [
+        _c("div", { staticClass: "max-w-7xl mx-auto sm:px-6 lg:px-8" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "bg-white overflow-hidden shadow-xl sm:rounded-lg p-5"
+            },
+            _vm._l(_vm.parents, function(parent) {
+              return _c(
+                "div",
+                { key: parent.id },
+                [_c("Input", { attrs: { value: _vm.name } })],
+                1
+              )
+            }),
+            0
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/EditOrNew.vue?vue&type=template&id=03494a54&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Parents/EditOrNew.vue?vue&type=template&id=03494a54& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("jet-dialog-modal", {
+    attrs: { show: _vm.editingOrCreatingParent },
+    on: { close: _vm.toggleModal },
+    scopedSlots: _vm._u([
+      {
+        key: "title",
+        fn: function() {
+          return [
+            _vm._v("\n              " + _vm._s(_vm.title) + "\n          ")
+          ]
+        },
+        proxy: true
+      },
+      {
+        key: "content",
+        fn: function() {
+          return [
+            _c(
+              "div",
+              { staticClass: "flex mt-4" },
+              [
+                _c("jet-input", {
+                  ref: "name",
+                  staticClass: "mt-1 block w-3/5",
+                  attrs: { type: "text", placeholder: "Nombre completo" },
+                  model: {
+                    value: _vm.form.name,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form, "name", $$v)
+                    },
+                    expression: "form.name"
+                  }
+                }),
+                _vm._v(" "),
+                _c("jet-input", {
+                  ref: "name",
+                  staticClass: "mt-1 ml-3 block w-2/5",
+                  attrs: { type: "text", placeholder: "Teléfono" },
+                  model: {
+                    value: _vm.form.phone,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form, "phone", $$v)
+                    },
+                    expression: "form.phone"
+                  }
+                }),
+                _vm._v(" "),
+                _c("jet-input-error", {
+                  staticClass: "mt-2",
+                  attrs: { message: _vm.form.error }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "flex mt-4" },
+              [
+                _c("jet-input", {
+                  ref: "name",
+                  staticClass: "mt-1 block w-full",
+                  attrs: { type: "text", placeholder: "Dirección" },
+                  model: {
+                    value: _vm.form.address,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form, "address", $$v)
+                    },
+                    expression: "form.address"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "flex mt-4" },
+              [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.kinship,
+                        expression: "form.kinship"
+                      }
+                    ],
+                    staticClass:
+                      "w-3/5 border bg-white rounded px-3 py-2 outline-none",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.form,
+                          "kinship",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "option",
+                      { staticClass: "py-1", attrs: { value: "Padre" } },
+                      [_vm._v("Padre")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "option",
+                      { staticClass: "py-1", attrs: { value: "Madre" } },
+                      [_vm._v("Madre")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("jet-input-error", {
+                  staticClass: "mt-2",
+                  attrs: { message: _vm.form.error }
+                })
+              ],
+              1
+            )
+          ]
+        },
+        proxy: true
+      },
+      {
+        key: "footer",
+        fn: function() {
+          return [
+            _c(
+              "jet-secondary-button",
+              {
+                nativeOn: {
+                  click: function($event) {
+                    return _vm.toggleModal($event)
+                  }
+                }
+              },
+              [_vm._v("\n                  Cancelar\n              ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "jet-button",
+              {
+                staticClass: "ml-2",
+                class: { "opacity-25": _vm.form.processing },
+                attrs: { disabled: _vm.form.processing },
+                nativeOn: {
+                  click: function($event) {
+                    return _vm.onSave($event)
+                  }
+                }
+              },
+              [_vm._v("\n                  Guardar\n              ")]
+            )
+          ]
+        },
+        proxy: true
+      }
+    ])
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48937,6 +67657,76 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Users/All.vue?vue&type=template&id=0ab5bca1&":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Users/All.vue?vue&type=template&id=0ab5bca1& ***!
+  \*******************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "app-layout",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [_vm._v("\n            Usuarios\n        ")]
+              )
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _c("div", { staticClass: "py-12" }, [
+        _c("div", { staticClass: "max-w-7xl mx-auto sm:px-6 lg:px-8" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "bg-white overflow-hidden shadow-xl sm:rounded-lg p-5"
+            },
+            _vm._l(_vm.users, function(user) {
+              return _c("div", { key: user.id }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(user.name) +
+                    "\n                "
+                )
+              ])
+            }),
+            0
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -49046,6 +67836,1557 @@ function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-tailwind-picker/dist/vue-tailwind-picker.esm.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/vue-tailwind-picker/dist/vue-tailwind-picker.esm.js ***!
+  \**************************************************************************/
+/*! exports provided: default, install */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs/plugin/isToday */ "./node_modules/dayjs/plugin/isToday.js");
+/* harmony import */ var dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var dayjs_plugin_customParseFormat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs/plugin/customParseFormat */ "./node_modules/dayjs/plugin/customParseFormat.js");
+/* harmony import */ var dayjs_plugin_customParseFormat__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_customParseFormat__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dayjs/plugin/isBetween */ "./node_modules/dayjs/plugin/isBetween.js");
+/* harmony import */ var dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! dayjs/plugin/localizedFormat */ "./node_modules/dayjs/plugin/localizedFormat.js");
+/* harmony import */ var dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! dayjs/plugin/advancedFormat */ "./node_modules/dayjs/plugin/advancedFormat.js");
+/* harmony import */ var dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var dayjs_plugin_isSameOrBefore__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! dayjs/plugin/isSameOrBefore */ "./node_modules/dayjs/plugin/isSameOrBefore.js");
+/* harmony import */ var dayjs_plugin_isSameOrBefore__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isSameOrBefore__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var dayjs_plugin_isSameOrAfter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! dayjs/plugin/isSameOrAfter */ "./node_modules/dayjs/plugin/isSameOrAfter.js");
+/* harmony import */ var dayjs_plugin_isSameOrAfter__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isSameOrAfter__WEBPACK_IMPORTED_MODULE_7__);
+
+
+
+
+
+
+
+
+
+//
+
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_1___default.a);
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_customParseFormat__WEBPACK_IMPORTED_MODULE_2___default.a);
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3___default.a);
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_4___default.a);
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_5___default.a);
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_isSameOrBefore__WEBPACK_IMPORTED_MODULE_6___default.a);
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_isSameOrAfter__WEBPACK_IMPORTED_MODULE_7___default.a);
+
+var handleOutsideClick;
+
+// import './css/tailwind.css' // Development only
+
+/**
+ * Author: kenhyuwa <wahyu.dhiraashandy8@gmail.com
+ * Url: https://github.com/kenhyuwa
+ **/
+
+var script = {
+  name: 'VueTailwindPicker',
+  directives: {
+    closable: {
+      // https://github.com/TahaSh/vue-closable // resource
+      bind: function bind(el, binding, vnode) {
+        // Here's the click/touchstart handler
+        // (it is registered below)
+        handleOutsideClick = function (e) {
+          e.stopPropagation();
+          // Get the handler method name and the exclude array
+          // from the object used in v-closable
+          var ref = binding.value;
+          var handler = ref.handler;
+          var exclude = ref.exclude;
+
+          // This variable indicates if the clicked element is excluded
+          var clickedOnExcludedEl = false;
+          if (exclude) {
+            exclude.forEach(function (refName) {
+              // We only run this code if we haven't detected
+              // any excluded element yet
+              if (!clickedOnExcludedEl) {
+                // Get the element using the reference name
+                var excludedEl = vnode.context.$refs[refName];
+                // See if this excluded element
+                // is the same element the user just clicked on
+                clickedOnExcludedEl = excludedEl
+                  ? excludedEl.contains(e.target)
+                  : false;
+              }
+            });
+          }
+
+          // We check to see if the clicked element is not
+          // the dialog element and not excluded
+          if (clickedOnExcludedEl && vnode.context.autoClose) {
+            vnode.context[handler]();
+          }
+          if (!el.contains(e.target) && !clickedOnExcludedEl) {
+            // If the clicked element is outside the dialog
+            // and not the button, then call the outside-click handler
+            // from the same component this directive is used in
+            vnode.context[handler]();
+          }
+        };
+        // Register click/touchstart event listeners on the whole page
+        document.addEventListener('click', handleOutsideClick);
+        document.addEventListener('touchstart', handleOutsideClick);
+      },
+
+      unbind: function unbind() {
+        // If the element that has v-closable is removed, then
+        // unbind click/touchstart listeners from the whole page
+        document.removeEventListener('click', handleOutsideClick);
+        document.removeEventListener('touchstart', handleOutsideClick);
+      },
+    },
+  },
+  props: {
+    init: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    selectedDate: {
+      type: String,
+      required: false,
+    },
+    startDate: {
+      type: String,
+      required: false,
+      default: dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format('YYYY-MM-DD'),
+    },
+    endDate: {
+      type: String,
+      required: false,
+      default: undefined,
+    },
+    // Next future
+    disableDate: {
+      type: Array,
+      required: false,
+      default: function () { return []; },
+    },
+    eventDate: {
+      type: Array,
+      required: false,
+      default: function () { return []; },
+    },
+    formatDate: {
+      type: String,
+      required: false,
+      default: 'YYYY-MM-DD',
+    },
+    // Confused with this
+    formatDisplay: {
+      type: String,
+      required: false,
+      default: 'YYYY-MM-DD',
+    },
+    inline: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    // Not make sure with this
+    tailwindPickerValue: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    // Next future
+    dateRange: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    // Next future
+    autoClose: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    startFromMonday: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    theme: {
+      type: Object,
+      required: false,
+      default: function () { return ({
+        background: '#FFFFFF',
+        text: 'text-gray-700',
+        border: 'border-gray-200',
+        currentColor: 'text-gray-200',
+        navigation: {
+          background: 'bg-gray-100',
+          hover: 'hover:bg-gray-200',
+          focus: 'bg-gray-200',
+        },
+        picker: {
+          rounded: 'rounded-full',
+          selected: {
+            background: 'bg-red-500',
+            border: 'border-red-500',
+            hover: 'hover:border-red-500',
+          },
+          holiday: 'text-red-400',
+          weekend: 'text-green-400',
+          event: 'bg-indigo-500',
+        },
+        event: {
+          border: 'border-gray-200',
+        },
+      }); },
+    },
+  },
+  data: function data() {
+    var startDatepicker = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(this.startDate, this.formatDate);
+    // Featured for my own project
+    //   .add(
+    //   dayjs().hour() >= 20 ? 1 : 0,
+    //   'day',
+    // )
+    var endDatepicker = this.endDate
+      ? dayjs__WEBPACK_IMPORTED_MODULE_0___default()(this.endDate, this.formatDate)
+      : undefined;
+    var today = this.selectedDate && this.startDate < this.selectedDate
+      ? dayjs__WEBPACK_IMPORTED_MODULE_0___default()(this.selectedDate, this.formatDate)
+      : dayjs__WEBPACK_IMPORTED_MODULE_0___default()(startDatepicker, this.formatDate);
+    var months = Array.from(Array(12), function (v, i) {
+      return dayjs__WEBPACK_IMPORTED_MODULE_0___default()().month(i).format('MMMM')
+    });
+    var years = Array.from(
+      Array(
+        this.endDate
+          ? endDatepicker.diff(today, 'year') + 1
+          : today.diff(today, 'year') + 36
+      ),
+      function (v, i) {
+        return today.add(i, 'year').$y
+      }
+    );
+    var visibleMonth = false;
+    var visibleYear = false;
+    var showPicker = false;
+    return {
+      startDatepicker: startDatepicker,
+      endDatepicker: endDatepicker,
+      today: today,
+      visibleMonth: visibleMonth,
+      months: months,
+      visibleYear: visibleYear,
+      years: years,
+      showPicker: showPicker,
+    }
+  },
+  computed: {
+    days: function days() {
+      var customWeekend = this.startFromMonday ? 1 : 0;
+      return Array.from(Array(7), function (v, i) {
+        return dayjs__WEBPACK_IMPORTED_MODULE_0___default()()
+          .day(i + customWeekend)
+          .format('ddd')
+      })
+    },
+    previousPicker: function previousPicker() {
+      var customWeekend = this.startFromMonday ? 1 : 0;
+      var display = [];
+      var previous = this.today.date(0);
+      var current = this.today.date(0);
+      for (var i = 0; i <= current.day() - customWeekend; i++) {
+        display.push(previous.subtract(i, 'day'));
+      }
+      return display.sort(function (a, b) { return a.$d - b.$d; })
+    },
+    currentPicker: function currentPicker() {
+      var this$1 = this;
+
+      var customWeekend = this.startFromMonday ? 1 : 0;
+      var eventDate = this.eventDate.length > 0 ? this.eventDate : [];
+      return Array.from(
+        Array(this.today.daysInMonth() - customWeekend),
+        function (v, i) {
+          var events = this$1.today.date(++i);
+          events.$events = eventDate.find(function (o) {
+            return o.date === events.format(this$1.formatDate)
+          });
+          return events
+        }
+      )
+    },
+    nextPicker: function nextPicker() {
+      var customWeekend = this.startFromMonday ? 1 : 0;
+      var display = [];
+      var previous = this.previousPicker.length;
+      var current = this.today.daysInMonth();
+      for (var i = 1; i <= 42 - (previous + current) + customWeekend; i++) {
+        display.push(this.today.date(i).add(1, 'month'));
+      }
+      return display
+    },
+    enableMonth: function enableMonth() {
+      return this.visibleMonth
+    },
+    enableYear: function enableYear() {
+      return this.visibleYear
+    },
+    visiblePrev: function visiblePrev() {
+      if (!this.dateRange) {
+        var endOf = this.today.subtract(1, 'month').endOf('month');
+        var diff = this.startDatepicker.diff(endOf, 'day');
+        return diff < this.today.daysInMonth() - this.today.$D
+      }
+      return true
+    },
+    visibleNext: function visibleNext() {
+      if (!this.dateRange && this.endDate) {
+        var startOf = this.today.add(1, 'month').startOf('month');
+        return this.endDatepicker.diff(startOf, 'day') > 0
+      }
+      return true
+    },
+  },
+  watch: {
+    showPicker: function showPicker(prev, next) {
+      if (prev) {
+        this.visibleMonth = next;
+        this.visibleYear = next;
+      }
+    },
+  },
+  mounted: function mounted() {
+    if (this.init) { this.emit(); }
+  },
+  methods: {
+    dayjs: dayjs__WEBPACK_IMPORTED_MODULE_0___default.a,
+    emit: function emit() {
+      this.$emit('change', this.today.format(this.formatDate));
+    },
+    changePicker: function changePicker(date) {
+      this.today = date;
+      this.emit();
+      this.showPicker = !this.showPicker;
+    },
+    onPrevious: function onPrevious() {
+      if (this.visiblePrev) {
+        var today = this.today
+          .set('month', this.today.$M === 0 ? 11 : this.today.$M - 1)
+          .set('year', this.today.$M === 0 ? this.today.$y - 1 : this.today.$y);
+        if (this.possibleDate(today)) {
+          this.today = today;
+        } else {
+          this.today = this.startDatepicker;
+        }
+        this.emit();
+      }
+    },
+    onNext: function onNext() {
+      if (this.visibleNext) {
+        var today = this.today
+          .set('month', (this.today.$M + 1) % 12)
+          .set('year', this.today.$M === 11 ? this.today.$y + 1 : this.today.$y);
+        if (this.possibleDate(today)) {
+          this.today = today;
+        } else {
+          this.today = this.endDatepicker;
+        }
+        this.emit();
+      }
+    },
+    possibleStartDate: function possibleStartDate(date) {
+      return this.dateRange
+        ? true
+        : date.isSameOrAfter(this.startDatepicker, 'day')
+    },
+    possibleEndDate: function possibleEndDate(date) {
+      if (this.endDate) {
+        return this.dateRange
+          ? true
+          : date.isSameOrBefore(this.endDatepicker, 'day')
+      }
+      return false
+    },
+    possibleDate: function possibleDate(date) {
+      if (this.endDate) {
+        return this.possibleStartDate(date) && this.possibleEndDate(date)
+      }
+      return this.possibleStartDate(date)
+    },
+    holidayDate: function holidayDate(date) {
+      return !!(date.$events && date.$events.holiday)
+    },
+    toggleMonth: function toggleMonth() {
+      this.visibleMonth = !this.visibleMonth;
+      if (this.visibleMonth) {
+        this.visibleYear = false;
+      }
+    },
+    toggleYear: function toggleYear() {
+      this.visibleYear = !this.visibleYear;
+      if (this.visibleYear) {
+        this.visibleMonth = false;
+      }
+    },
+    setMonth: function setMonth(month) {
+      if (this.possibleDate(this.today.set('month', month))) {
+        this.today = this.today.set('month', month);
+      } else {
+        this.today = this.startDatepicker;
+      }
+      this.emit();
+      this.toggleMonth();
+    },
+    setYear: function setYear(year) {
+      if (this.possibleDate(this.today.set('year', year))) {
+        this.today = this.today.set('year', year);
+      } else {
+        this.today = this.startDatepicker;
+      }
+      this.emit();
+      this.toggleYear();
+    },
+    onAway: function onAway() {
+      this.showPicker = false;
+    },
+    onFeedBack: function onFeedBack() {
+      this.showPicker = true;
+    },
+  },
+};
+
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+    if (typeof shadowMode !== 'boolean') {
+        createInjectorSSR = createInjector;
+        createInjector = shadowMode;
+        shadowMode = false;
+    }
+    // Vue.extend constructor export interop.
+    var options = typeof script === 'function' ? script.options : script;
+    // render functions
+    if (template && template.render) {
+        options.render = template.render;
+        options.staticRenderFns = template.staticRenderFns;
+        options._compiled = true;
+        // functional template
+        if (isFunctionalTemplate) {
+            options.functional = true;
+        }
+    }
+    // scopedId
+    if (scopeId) {
+        options._scopeId = scopeId;
+    }
+    var hook;
+    if (moduleIdentifier) {
+        // server build
+        hook = function (context) {
+            // 2.3 injection
+            context =
+                context || // cached call
+                    (this.$vnode && this.$vnode.ssrContext) || // stateful
+                    (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
+            // 2.2 with runInNewContext: true
+            if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                context = __VUE_SSR_CONTEXT__;
+            }
+            // inject component styles
+            if (style) {
+                style.call(this, createInjectorSSR(context));
+            }
+            // register component module identifier for async chunk inference
+            if (context && context._registeredComponents) {
+                context._registeredComponents.add(moduleIdentifier);
+            }
+        };
+        // used by ssr in case component is cached and beforeCreate
+        // never gets called
+        options._ssrRegister = hook;
+    }
+    else if (style) {
+        hook = shadowMode
+            ? function (context) {
+                style.call(this, createInjectorShadow(context, this.$root.$options.shadowRoot));
+            }
+            : function (context) {
+                style.call(this, createInjector(context));
+            };
+    }
+    if (hook) {
+        if (options.functional) {
+            // register for functional component in vue file
+            var originalRender = options.render;
+            options.render = function renderWithStyleInjection(h, context) {
+                hook.call(context);
+                return originalRender(h, context);
+            };
+        }
+        else {
+            // inject component registration as beforeCreate hook
+            var existing = options.beforeCreate;
+            options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+        }
+    }
+    return script;
+}
+
+var isOldIE = typeof navigator !== 'undefined' &&
+    /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+function createInjector(context) {
+    return function (id, style) { return addStyle(id, style); };
+}
+var HEAD;
+var styles = {};
+function addStyle(id, css) {
+    var group = isOldIE ? css.media || 'default' : id;
+    var style = styles[group] || (styles[group] = { ids: new Set(), styles: [] });
+    if (!style.ids.has(id)) {
+        style.ids.add(id);
+        var code = css.source;
+        if (css.map) {
+            // https://developer.chrome.com/devtools/docs/javascript-debugging
+            // this makes source maps inside style tags work properly in Chrome
+            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+            // http://stackoverflow.com/a/26603875
+            code +=
+                '\n/*# sourceMappingURL=data:application/json;base64,' +
+                    btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+                    ' */';
+        }
+        if (!style.element) {
+            style.element = document.createElement('style');
+            style.element.type = 'text/css';
+            if (css.media)
+                { style.element.setAttribute('media', css.media); }
+            if (HEAD === undefined) {
+                HEAD = document.head || document.getElementsByTagName('head')[0];
+            }
+            HEAD.appendChild(style.element);
+        }
+        if ('styleSheet' in style.element) {
+            style.styles.push(code);
+            style.element.styleSheet.cssText = style.styles
+                .filter(Boolean)
+                .join('\n');
+        }
+        else {
+            var index = style.ids.size - 1;
+            var textNode = document.createTextNode(code);
+            var nodes = style.element.childNodes;
+            if (nodes[index])
+                { style.element.removeChild(nodes[index]); }
+            if (nodes.length)
+                { style.element.insertBefore(textNode, nodes[index]); }
+            else
+                { style.element.appendChild(textNode); }
+        }
+    }
+}
+
+/* script */
+var __vue_script__ = script;
+
+/* template */
+var __vue_render__ = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "closable",
+          rawName: "v-closable",
+          value: {
+            handler: "onAway",
+            exclude: ["currentPicker"]
+          },
+          expression:
+            "{\n    handler: 'onAway',\n    exclude: ['currentPicker'],\n  }"
+        }
+      ],
+      ref: "vTailwindPickerRef",
+      staticClass: "relative select-none",
+      style: "--bg-tailwind-picker: " + _vm.theme.background + ";",
+      on: { click: _vm.onFeedBack }
+    },
+    [
+      _vm._t("default"),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "v-tailwind-picker" } }, [
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.showPicker || _vm.inline,
+                expression: "showPicker || inline"
+              }
+            ]
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "bg-transparent mt-3 z-10",
+                class: [
+                  { "inline-mode": _vm.inline },
+                  _vm.inline ? "static" : "absolute bottom-0 inset-x-0",
+                  _vm.theme.currentColor
+                ],
+                attrs: { id: "v-tailwind-picker" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "w-88 h-auto max-w-xs transition-all duration-150 ease-linear rounded overflow-hidden border",
+                    class: [
+                      _vm.theme.border,
+                      _vm.theme.text,
+                      _vm.inline ? "shadow-xs" : "shadow-md"
+                    ],
+                    style: { backgroundColor: "var(--bg-tailwind-picker)" }
+                  },
+                  [
+                    _c("div", { attrs: { id: "v-tailwind-picker-header" } }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "flex flex-row justify-center items-center px-2 py-1"
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "flex items-center text-2xl xl:text-3xl"
+                            },
+                            [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(_vm.today.format("DD")) +
+                                  "\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "mx-1" }, [
+                            _c(
+                              "div",
+                              { staticClass: "leading-none text-xxs" },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.today.format("dddd")) +
+                                    "\n                "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "leading-none text-xs" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.today.format("MMMM YYYY")) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "relative p-1" }, [
+                      _c("div", {
+                        staticClass: "absolute inset-0",
+                        class: _vm.theme.navigation.background
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "flex justify-between items-center relative"
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "flex-shrink-0 w-8" },
+                            [
+                              _c(
+                                "transition",
+                                {
+                                  attrs: {
+                                    name: "v-tailwind-picker-chevron-left"
+                                  }
+                                },
+                                [
+                                  !_vm.enableMonth && !_vm.enableYear
+                                    ? _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "rounded-full overflow-hidden"
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "transition duration-150 ease-out p-2",
+                                              class: [
+                                                _vm.visiblePrev
+                                                  ? "cursor-pointer"
+                                                  : "cursor-not-allowed opacity-30",
+                                                _vm.theme.navigation.hover
+                                              ],
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.onPrevious()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "svg",
+                                                {
+                                                  staticClass: "h-4 w-auto",
+                                                  attrs: {
+                                                    xmlns:
+                                                      "http://www.w3.org/2000/svg",
+                                                    viewBox:
+                                                      "0 0 511.641 511.641",
+                                                    fill: "currentColor"
+                                                  }
+                                                },
+                                                [
+                                                  _c("path", {
+                                                    attrs: {
+                                                      d:
+                                                        "M148.32 255.76L386.08 18c4.053-4.267 3.947-10.987-.213-15.04a10.763 10.763 0 00-14.827 0L125.707 248.293a10.623 10.623 0 000 15.04L371.04 508.667c4.267 4.053 10.987 3.947 15.04-.213a10.763 10.763 0 000-14.827L148.32 255.76z"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e()
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "flex flex-1" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "flex-1 rounded overflow-hidden py-1 ml-2 mr-1 text-center cursor-pointer transition duration-150 ease-out",
+                                class: [
+                                  _vm.enableMonth
+                                    ? _vm.theme.navigation.focus
+                                    : "",
+                                  _vm.theme.navigation.hover
+                                ],
+                                on: {
+                                  click: function($event) {
+                                    return _vm.toggleMonth()
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.today.format("MMMM")) +
+                                    "\n                "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "flex-1 rounded overflow-hidden py-1 mr-2 ml-1 text-center cursor-pointer transition duration-150 ease-out",
+                                class: [
+                                  _vm.enableYear
+                                    ? _vm.theme.navigation.focus
+                                    : "",
+                                  _vm.theme.navigation.hover
+                                ],
+                                on: {
+                                  click: function($event) {
+                                    return _vm.toggleYear()
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.today.$y) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "flex-shrink-0 w-8" },
+                            [
+                              _c(
+                                "transition",
+                                {
+                                  attrs: {
+                                    name: "v-tailwind-picker-chevron-right"
+                                  }
+                                },
+                                [
+                                  !_vm.enableMonth && !_vm.enableYear
+                                    ? _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "rounded-full overflow-hidden"
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "transition duration-150 ease-out p-2",
+                                              class: [
+                                                _vm.visibleNext
+                                                  ? "cursor-pointer"
+                                                  : "cursor-not-allowed opacity-30",
+                                                _vm.theme.navigation.hover
+                                              ],
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.onNext()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "svg",
+                                                {
+                                                  staticClass: "h-4 w-auto",
+                                                  attrs: {
+                                                    xmlns:
+                                                      "http://www.w3.org/2000/svg",
+                                                    viewBox:
+                                                      "0 0 511.949 511.949",
+                                                    fill: "currentColor"
+                                                  }
+                                                },
+                                                [
+                                                  _c("path", {
+                                                    attrs: {
+                                                      d:
+                                                        "M386.235 248.308L140.902 2.975c-4.267-4.053-10.987-3.947-15.04.213a10.763 10.763 0 000 14.827l237.76 237.76-237.76 237.867c-4.267 4.053-4.373 10.88-.213 15.04 4.053 4.267 10.88 4.373 15.04.213l.213-.213 245.333-245.333a10.624 10.624 0 000-15.041z"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e()
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "smooth-scrolling overflow-x-hidden overflow-y-auto"
+                      },
+                      [
+                        _c(
+                          "transition",
+                          { attrs: { name: "v-tailwind-picker-body" } },
+                          [
+                            !_vm.enableMonth && !_vm.enableYear
+                              ? _c("div", { staticClass: "relative" }, [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "flex flex-no-wrap py-2 border-b",
+                                      class: _vm.theme.border
+                                    },
+                                    _vm._l(_vm.days, function(day) {
+                                      return _c(
+                                        "div",
+                                        {
+                                          key: day,
+                                          staticClass:
+                                            "w-1/7 flex justify-center"
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "leading-relaxed text-sm",
+                                              class: [
+                                                day === "Sun"
+                                                  ? _vm.theme.picker.holiday
+                                                  : day === "Fri"
+                                                  ? _vm.theme.picker.weekend
+                                                  : ""
+                                              ]
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      " +
+                                                  _vm._s(day) +
+                                                  "\n                    "
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      ref: "currentPicker",
+                                      staticClass: "flex flex-wrap relative"
+                                    },
+                                    [
+                                      _vm._l(_vm.previousPicker, function(
+                                        date,
+                                        i
+                                      ) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key:
+                                              "" +
+                                              date.$D +
+                                              date.$M +
+                                              date.$y +
+                                              "-previous",
+                                            staticClass:
+                                              "w-1/7 flex justify-center my-2px cursor-not-allowed",
+                                            class: [
+                                              i ===
+                                              _vm.previousPicker.length - 1
+                                                ? "rounded-r-full"
+                                                : "",
+                                              _vm.theme.navigation.background
+                                            ]
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "h-8 w-8 flex justify-center items-center",
+                                                attrs: {
+                                                  "data-tailwind-datepicker":
+                                                    date.$d
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "text-xs opacity-75",
+                                                    class: [
+                                                      date.day() === 0
+                                                        ? _vm.theme.picker
+                                                            .holiday
+                                                        : date.day() === 5
+                                                        ? _vm.theme.picker
+                                                            .weekend
+                                                        : ""
+                                                    ]
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                        " +
+                                                        _vm._s(date.$D) +
+                                                        "\n                      "
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      }),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.currentPicker, function(date) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key:
+                                              "" +
+                                              date.$D +
+                                              date.$M +
+                                              date.$y +
+                                              "-current",
+                                            staticClass:
+                                              "w-1/7 group flex justify-center items-center my-2px"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "relative overflow-hidden",
+                                                class: _vm.theme.picker.rounded
+                                              },
+                                              [
+                                                date.$events
+                                                  ? _c("div", {
+                                                      staticClass:
+                                                        "absolute top-0 right-0 h-2 w-2 z-2",
+                                                      class:
+                                                        _vm.theme.picker.event,
+                                                      style: {
+                                                        backgroundColor: date
+                                                          .$events.color
+                                                          ? date.$events.color
+                                                          : ""
+                                                      }
+                                                    })
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "relative h-8 w-8 flex justify-center items-center overflow-hidden",
+                                                    class: [
+                                                      _vm.theme.picker.rounded,
+                                                      _vm.possibleDate(date)
+                                                        ? "cursor-pointer"
+                                                        : "cursor-not-allowed"
+                                                    ]
+                                                  },
+                                                  [
+                                                    _vm.possibleDate(date)
+                                                      ? _c("div", {
+                                                          staticClass:
+                                                            "absolute inset-0 transition duration-150 ease-in-out border border-dotted border-transparent",
+                                                          class: [
+                                                            _vm.theme.picker
+                                                              .rounded,
+                                                            _vm.possibleDate(
+                                                              date
+                                                            )
+                                                              ? "hover:" +
+                                                                _vm.theme.picker
+                                                                  .selected
+                                                                  .border
+                                                              : "",
+                                                            date.$D ===
+                                                            _vm.today.$D
+                                                              ? _vm.theme.picker
+                                                                  .selected
+                                                                  .background +
+                                                                " shadow-xs"
+                                                              : ""
+                                                          ],
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.changePicker(
+                                                                date
+                                                              )
+                                                            }
+                                                          }
+                                                        })
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "flex justify-center items-center",
+                                                        attrs: {
+                                                          "data-tailwind-datepicker":
+                                                            date.$d
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            class: [
+                                                              (_vm.holidayDate(
+                                                                date
+                                                              ) ||
+                                                                date.day() ===
+                                                                  0) &&
+                                                              date.$D !==
+                                                                _vm.today.$D
+                                                                ? _vm.theme
+                                                                    .picker
+                                                                    .holiday
+                                                                : "",
+                                                              date.day() ===
+                                                                5 &&
+                                                              date.$D !==
+                                                                _vm.today.$D
+                                                                ? _vm.theme
+                                                                    .picker
+                                                                    .weekend
+                                                                : "",
+                                                              {
+                                                                "z-10 text-white ":
+                                                                  date.$D ===
+                                                                    _vm.today
+                                                                      .$D &&
+                                                                  _vm.possibleDate(
+                                                                    date
+                                                                  )
+                                                              },
+                                                              {
+                                                                "opacity-50": !_vm.possibleDate(
+                                                                  date
+                                                                )
+                                                              }
+                                                            ]
+                                                          },
+                                                          [
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(date.$D)
+                                                              )
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      }),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.nextPicker, function(date) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key:
+                                              "" +
+                                              date.$D +
+                                              date.$M +
+                                              date.$y +
+                                              "-next",
+                                            staticClass:
+                                              "w-1/7 flex justify-center my-2px cursor-not-allowed",
+                                            class: [
+                                              date.$D === 1
+                                                ? "rounded-l-full"
+                                                : "",
+                                              _vm.theme.navigation.background
+                                            ]
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "h-8 w-8 flex justify-center items-center",
+                                                attrs: {
+                                                  "data-tailwind-datepicker":
+                                                    date.$d
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "text-xs opacity-75",
+                                                    class: [
+                                                      date.day() ===
+                                                      (_vm.startFromMonday
+                                                        ? 1
+                                                        : 0)
+                                                        ? _vm.theme.picker
+                                                            .holiday
+                                                        : date.day() ===
+                                                          (_vm.startFromMonday
+                                                            ? 6
+                                                            : 5)
+                                                        ? _vm.theme.picker
+                                                            .weekend
+                                                        : ""
+                                                    ]
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                        " +
+                                                        _vm._s(date.$D) +
+                                                        "\n                      "
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      })
+                                    ],
+                                    2
+                                  )
+                                ])
+                              : _vm._e()
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "transition",
+                          { attrs: { name: "v-tailwind-picker-months" } },
+                          [
+                            _vm.enableMonth
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "relative flex items-center smooth-scrolling overflow-y-auto overflow-x-hidden"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "flex flex-wrap py-1" },
+                                      _vm._l(_vm.months, function(month, i) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key: i,
+                                            staticClass:
+                                              "w-1/3 flex justify-center items-center px-2"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "w-full flex justify-center items-center py-2 my-1 transition duration-150 ease-out rounded border cursor-pointer",
+                                                class: [
+                                                  i === _vm.today.$M
+                                                    ? "" +
+                                                      _vm.theme.picker.selected
+                                                        .border
+                                                    : _vm.theme.border +
+                                                      " " +
+                                                      _vm.theme.picker.selected
+                                                        .hover
+                                                ],
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.setMonth(i)
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticClass: "font-medium"
+                                                  },
+                                                  [_vm._v(_vm._s(month))]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      }),
+                                      0
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "transition",
+                          { attrs: { name: "v-tailwind-picker-years" } },
+                          [
+                            _vm.enableYear
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "relative smooth-scrolling overflow-y-auto overflow-x-hidden"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "flex flex-wrap py-1" },
+                                      _vm._l(_vm.years, function(year, i) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key: i,
+                                            staticClass:
+                                              "w-1/3 flex justify-center items-center px-2"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "w-full flex justify-center items-center py-2 my-1 transition duration-150 ease-out rounded border cursor-pointer",
+                                                class: [
+                                                  year === _vm.today.$y
+                                                    ? "" +
+                                                      _vm.theme.picker.selected
+                                                        .border
+                                                    : _vm.theme.border +
+                                                      " " +
+                                                      _vm.theme.picker.selected
+                                                        .hover
+                                                ],
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.setYear(year)
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticClass: "font-medium"
+                                                  },
+                                                  [_vm._v(_vm._s(year))]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      }),
+                                      0
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.currentPicker.filter(function(o) {
+                      return o.$events !== undefined
+                    }).length > 0
+                      ? _c(
+                          "div",
+                          { attrs: { id: "v-tailwind-picker-footer" } },
+                          [
+                            _c(
+                              "transition-group",
+                              {
+                                staticClass: "flex flex-wrap border-t p-1",
+                                class: _vm.theme.event.border,
+                                attrs: {
+                                  name: "v-tailwind-picker-footer",
+                                  tag: "div"
+                                }
+                              },
+                              _vm._l(
+                                _vm.currentPicker.filter(function(o) {
+                                  return o.$events !== undefined
+                                }),
+                                function(event, i) {
+                                  return _c(
+                                    "div",
+                                    {
+                                      key: i + "-event",
+                                      staticClass:
+                                        "w-full flex flex-row space-x-1 mb-px"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "inline-flex justify-end w-4"
+                                        },
+                                        [
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "text-xs leading-none",
+                                              class: _vm.theme.picker.holiday
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                    " +
+                                                  _vm._s(
+                                                    _vm.dayjs(
+                                                      event.$events.date,
+                                                      _vm.formatDate
+                                                    ).$D
+                                                  ) +
+                                                  "\n                  "
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "flex flex-wrap" },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "w-full flex items-end"
+                                            },
+                                            [
+                                              _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "text-xxs leading-none"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                      " +
+                                                      _vm._s(
+                                                        event.$events
+                                                          .description
+                                                      ) +
+                                                      "\n                    "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                }
+                              ),
+                              0
+                            )
+                          ],
+                          1
+                        )
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+      ])
+    ],
+    2
+  )
+};
+var __vue_staticRenderFns__ = [];
+__vue_render__._withStripped = true;
+
+  /* style */
+  var __vue_inject_styles__ = function (inject) {
+    if (!inject) { return }
+    inject("data-v-e8d8c230_0", { source: "\n#v-tailwind-picker[data-v-e8d8c230] {\n  top: 95%;\n}\n#v-tailwind-picker .w-1\\/7[data-v-e8d8c230] {\n  width: 14.285714%;\n}\n#v-tailwind-picker .w-88[data-v-e8d8c230] {\n  width: 22rem;\n}\n#v-tailwind-picker .text-xxs[data-v-e8d8c230] {\n  font-size: 0.6rem;\n}\n#v-tailwind-picker .my-2px[data-v-e8d8c230] {\n  margin-top: 2px;\n  margin-bottom: 2px;\n}\n#v-tailwind-picker[data-v-e8d8c230]:not(.inline-mode)::before {\n  content: '';\n  width: 14px;\n  height: 14px;\n  z-index: 10;\n  top: -7px;\n  left: 12px;\n  border-radius: 2px;\n  border-color: currentColor;\n  position: absolute;\n  display: block;\n  background-color: var(--bg-tailwind-picker);\n  border-left-width: 1px;\n  border-top-width: 1px;\n  transform: rotate(45deg);\n}\n#v-tailwind-picker .smooth-scrolling[data-v-e8d8c230] {\n  height: 255px;\n  max-height: 255px;\n}\n#v-tailwind-picker .smooth-scrolling[data-v-e8d8c230]::-webkit-scrollbar {\n  width: 4px;\n}\n#v-tailwind-picker .smooth-scrolling[data-v-e8d8c230] ::-webkit-scrollbar-thumb {\n  border-radius: 8px;\n  background-color: rgba(0, 0, 0, 0.1);\n}\n.v-tailwind-picker-enter-active[data-v-e8d8c230],\n.v-tailwind-picker-leave-active[data-v-e8d8c230] {\n  transition: all 0.1s;\n}\n.v-tailwind-picker-enter[data-v-e8d8c230],\n.v-tailwind-picker-leave-to[data-v-e8d8c230] {\n  opacity: 0;\n  transform: translateY(15px);\n}\n.v-tailwind-picker-body-enter-active[data-v-e8d8c230],\n.v-tailwind-picker-body-leave-active[data-v-e8d8c230] {\n  transition: all 0.2s;\n}\n.v-tailwind-picker-body-enter[data-v-e8d8c230],\n.v-tailwind-picker-body-leave-to[data-v-e8d8c230] {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n.v-tailwind-picker-months-enter-active[data-v-e8d8c230],\n.v-tailwind-picker-months-leave-active[data-v-e8d8c230] {\n  transition: all 0.2s;\n}\n.v-tailwind-picker-months-enter[data-v-e8d8c230],\n.v-tailwind-picker-months-leave-to[data-v-e8d8c230] {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n.v-tailwind-picker-years-enter-active[data-v-e8d8c230],\n.v-tailwind-picker-years-leave-active[data-v-e8d8c230] {\n  transition: all 0.2s;\n}\n.v-tailwind-picker-years-enter[data-v-e8d8c230],\n.v-tailwind-picker-years-leave-to[data-v-e8d8c230] {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n.v-tailwind-picker-footer-enter-active[data-v-e8d8c230],\n.v-tailwind-picker-footer-leave-active[data-v-e8d8c230] {\n  transition: all 0.2s;\n}\n.v-tailwind-picker-footer-enter[data-v-e8d8c230],\n.v-tailwind-picker-footer-leave-to[data-v-e8d8c230] {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n", map: {"version":3,"sources":["/Users/user/Documents/vue-tailwind-picker/src/vue-tailwind-picker.vue"],"names":[],"mappings":";AA2xBA;EACA,QAAA;AACA;AAEA;EACA,iBAAA;AACA;AAEA;EACA,YAAA;AACA;AAEA;EACA,iBAAA;AACA;AAEA;EACA,eAAA;EACA,kBAAA;AACA;AAEA;EACA,WAAA;EACA,WAAA;EACA,YAAA;EACA,WAAA;EACA,SAAA;EACA,UAAA;EACA,kBAAA;EACA,0BAAA;EACA,kBAAA;EACA,cAAA;EACA,2CAAA;EACA,sBAAA;EACA,qBAAA;EACA,wBAAA;AACA;AAEA;EACA,aAAA;EACA,iBAAA;AACA;AAEA;EACA,UAAA;AACA;AAEA;EACA,kBAAA;EACA,oCAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,2BAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,4BAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,4BAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,4BAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,4BAAA;AACA","file":"vue-tailwind-picker.vue","sourcesContent":["<template>\n  <div\n    ref=\"vTailwindPickerRef\"\n    class=\"relative select-none\"\n    v-closable=\"{\n      handler: 'onAway',\n      exclude: ['currentPicker'],\n    }\"\n    @click=\"onFeedBack\"\n    :style=\"`--bg-tailwind-picker: ${theme.background};`\"\n  >\n    <slot></slot>\n    <transition name=\"v-tailwind-picker\">\n      <div v-show=\"showPicker || inline\">\n        <div\n          id=\"v-tailwind-picker\"\n          class=\"bg-transparent mt-3 z-10\"\n          :class=\"[\n            { 'inline-mode': inline },\n            inline ? 'static' : 'absolute bottom-0 inset-x-0',\n            theme.currentColor,\n          ]\"\n        >\n          <div\n            class=\"w-88 h-auto max-w-xs transition-all duration-150 ease-linear rounded overflow-hidden border\"\n            :class=\"[\n              theme.border,\n              theme.text,\n              inline ? 'shadow-xs' : 'shadow-md',\n            ]\"\n            :style=\"{ backgroundColor: `var(--bg-tailwind-picker)` }\"\n          >\n            <!--            Header of picker-->\n            <div id=\"v-tailwind-picker-header\">\n              <div class=\"flex flex-row justify-center items-center px-2 py-1\">\n                <div class=\"flex items-center text-2xl xl:text-3xl\">\n                  {{ today.format('DD') }}\n                </div>\n                <div class=\"mx-1\">\n                  <div class=\"leading-none text-xxs\">\n                    {{ today.format('dddd') }}\n                  </div>\n                  <div class=\"leading-none text-xs\">\n                    {{ today.format('MMMM YYYY') }}\n                  </div>\n                </div>\n              </div>\n            </div>\n            <!--            Navigation of picker-->\n            <div class=\"relative p-1\">\n              <div\n                class=\"absolute inset-0\"\n                :class=\"theme.navigation.background\"\n              ></div>\n              <div class=\"flex justify-between items-center relative\">\n                <div class=\"flex-shrink-0 w-8\">\n                  <transition name=\"v-tailwind-picker-chevron-left\">\n                    <div\n                      v-if=\"!enableMonth && !enableYear\"\n                      class=\"rounded-full overflow-hidden\"\n                    >\n                      <div\n                        class=\"transition duration-150 ease-out p-2\"\n                        :class=\"[\n                          visiblePrev\n                            ? 'cursor-pointer'\n                            : 'cursor-not-allowed opacity-30',\n                          theme.navigation.hover,\n                        ]\"\n                        @click=\"onPrevious()\"\n                      >\n                        <svg\n                          class=\"h-4 w-auto\"\n                          xmlns=\"http://www.w3.org/2000/svg\"\n                          viewBox=\"0 0 511.641 511.641\"\n                          fill=\"currentColor\"\n                        >\n                          <path\n                            d=\"M148.32 255.76L386.08 18c4.053-4.267 3.947-10.987-.213-15.04a10.763 10.763 0 00-14.827 0L125.707 248.293a10.623 10.623 0 000 15.04L371.04 508.667c4.267 4.053 10.987 3.947 15.04-.213a10.763 10.763 0 000-14.827L148.32 255.76z\"\n                          />\n                        </svg>\n                      </div>\n                    </div>\n                  </transition>\n                </div>\n                <div class=\"flex flex-1\">\n                  <div\n                    class=\"flex-1 rounded overflow-hidden py-1 ml-2 mr-1 text-center cursor-pointer transition duration-150 ease-out\"\n                    :class=\"[\n                      enableMonth ? theme.navigation.focus : '',\n                      theme.navigation.hover,\n                    ]\"\n                    @click=\"toggleMonth()\"\n                  >\n                    {{ today.format('MMMM') }}\n                  </div>\n                  <div\n                    class=\"flex-1 rounded overflow-hidden py-1 mr-2 ml-1 text-center cursor-pointer transition duration-150 ease-out\"\n                    :class=\"[\n                      enableYear ? theme.navigation.focus : '',\n                      theme.navigation.hover,\n                    ]\"\n                    @click=\"toggleYear()\"\n                  >\n                    {{ today.$y }}\n                  </div>\n                </div>\n\n                <div class=\"flex-shrink-0 w-8\">\n                  <transition name=\"v-tailwind-picker-chevron-right\">\n                    <div\n                      v-if=\"!enableMonth && !enableYear\"\n                      class=\"rounded-full overflow-hidden\"\n                    >\n                      <div\n                        class=\"transition duration-150 ease-out p-2\"\n                        :class=\"[\n                          visibleNext\n                            ? 'cursor-pointer'\n                            : 'cursor-not-allowed opacity-30',\n                          theme.navigation.hover,\n                        ]\"\n                        @click=\"onNext()\"\n                      >\n                        <svg\n                          class=\"h-4 w-auto\"\n                          xmlns=\"http://www.w3.org/2000/svg\"\n                          viewBox=\"0 0 511.949 511.949\"\n                          fill=\"currentColor\"\n                        >\n                          <path\n                            d=\"M386.235 248.308L140.902 2.975c-4.267-4.053-10.987-3.947-15.04.213a10.763 10.763 0 000 14.827l237.76 237.76-237.76 237.867c-4.267 4.053-4.373 10.88-.213 15.04 4.053 4.267 10.88 4.373 15.04.213l.213-.213 245.333-245.333a10.624 10.624 0 000-15.041z\"\n                          />\n                        </svg>\n                      </div>\n                    </div>\n                  </transition>\n                </div>\n              </div>\n            </div>\n            <!--            Body of picker-->\n            <div class=\"smooth-scrolling overflow-x-hidden overflow-y-auto\">\n              <transition name=\"v-tailwind-picker-body\">\n                <div v-if=\"!enableMonth && !enableYear\" class=\"relative\">\n                  <div\n                    class=\"flex flex-no-wrap py-2 border-b\"\n                    :class=\"theme.border\"\n                  >\n                    <div\n                      v-for=\"day in days\"\n                      :key=\"day\"\n                      class=\"w-1/7 flex justify-center\"\n                    >\n                      <div\n                        class=\"leading-relaxed text-sm\"\n                        :class=\"[\n                          day === 'Sun'\n                            ? theme.picker.holiday\n                            : day === 'Fri'\n                            ? theme.picker.weekend\n                            : '',\n                        ]\"\n                      >\n                        {{ day }}\n                      </div>\n                    </div>\n                  </div>\n\n                  <div ref=\"currentPicker\" class=\"flex flex-wrap relative\">\n                    <div\n                      v-for=\"(date, i) in previousPicker\"\n                      :key=\"`${date.$D}${date.$M}${date.$y}-previous`\"\n                      class=\"w-1/7 flex justify-center my-2px cursor-not-allowed\"\n                      :class=\"[\n                        i === previousPicker.length - 1 ? 'rounded-r-full' : '',\n                        theme.navigation.background,\n                      ]\"\n                    >\n                      <div\n                        class=\"h-8 w-8 flex justify-center items-center\"\n                        :data-tailwind-datepicker=\"date.$d\"\n                      >\n                        <div\n                          class=\"text-xs opacity-75\"\n                          :class=\"[\n                            date.day() === 0\n                              ? theme.picker.holiday\n                              : date.day() === 5\n                              ? theme.picker.weekend\n                              : '',\n                          ]\"\n                        >\n                          {{ date.$D }}\n                        </div>\n                      </div>\n                    </div>\n\n                    <div\n                      v-for=\"date in currentPicker\"\n                      :key=\"`${date.$D}${date.$M}${date.$y}-current`\"\n                      class=\"w-1/7 group flex justify-center items-center my-2px\"\n                    >\n                      <div\n                        class=\"relative overflow-hidden\"\n                        :class=\"theme.picker.rounded\"\n                      >\n                        <div\n                          v-if=\"date.$events\"\n                          class=\"absolute top-0 right-0 h-2 w-2 z-2\"\n                          :class=\"theme.picker.event\"\n                          :style=\"{\n                            backgroundColor: date.$events.color\n                              ? date.$events.color\n                              : '',\n                          }\"\n                        ></div>\n                        <div\n                          class=\"relative h-8 w-8 flex justify-center items-center overflow-hidden\"\n                          :class=\"[\n                            theme.picker.rounded,\n                            possibleDate(date)\n                              ? 'cursor-pointer'\n                              : 'cursor-not-allowed',\n                          ]\"\n                        >\n                          <div\n                            v-if=\"possibleDate(date)\"\n                            class=\"absolute inset-0 transition duration-150 ease-in-out border border-dotted border-transparent\"\n                            :class=\"[\n                              theme.picker.rounded,\n                              possibleDate(date)\n                                ? `hover:${theme.picker.selected.border}`\n                                : '',\n                              date.$D === today.$D\n                                ? `${theme.picker.selected.background} shadow-xs`\n                                : '',\n                            ]\"\n                            @click=\"changePicker(date)\"\n                          ></div>\n                          <div\n                            class=\"flex justify-center items-center\"\n                            :data-tailwind-datepicker=\"date.$d\"\n                          >\n                            <div\n                              :class=\"[\n                                (holidayDate(date) || date.day() === 0) &&\n                                date.$D !== today.$D\n                                  ? theme.picker.holiday\n                                  : '',\n                                date.day() === 5 && date.$D !== today.$D\n                                  ? theme.picker.weekend\n                                  : '',\n                                {\n                                  'z-10 text-white ':\n                                    date.$D === today.$D && possibleDate(date),\n                                },\n                                {\n                                  'opacity-50': !possibleDate(date),\n                                },\n                              ]\"\n                            >\n                              <span>{{ date.$D }}</span>\n                            </div>\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n\n                    <div\n                      v-for=\"date in nextPicker\"\n                      :key=\"`${date.$D}${date.$M}${date.$y}-next`\"\n                      class=\"w-1/7 flex justify-center my-2px cursor-not-allowed\"\n                      :class=\"[\n                        date.$D === 1 ? 'rounded-l-full' : '',\n                        theme.navigation.background,\n                      ]\"\n                    >\n                      <div\n                        class=\"h-8 w-8 flex justify-center items-center\"\n                        :data-tailwind-datepicker=\"date.$d\"\n                      >\n                        <div\n                          class=\"text-xs opacity-75\"\n                          :class=\"[\n                            date.day() === (startFromMonday ? 1 : 0)\n                              ? theme.picker.holiday\n                              : date.day() === (startFromMonday ? 6 : 5)\n                              ? theme.picker.weekend\n                              : '',\n                          ]\"\n                        >\n                          {{ date.$D }}\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </transition>\n              <transition name=\"v-tailwind-picker-months\">\n                <div\n                  v-if=\"enableMonth\"\n                  class=\"relative flex items-center smooth-scrolling overflow-y-auto overflow-x-hidden\"\n                >\n                  <div class=\"flex flex-wrap py-1\">\n                    <div\n                      v-for=\"(month, i) in months\"\n                      :key=\"i\"\n                      class=\"w-1/3 flex justify-center items-center px-2\"\n                    >\n                      <div\n                        :class=\"[\n                          i === today.$M\n                            ? `${theme.picker.selected.border}`\n                            : `${theme.border} ${theme.picker.selected.hover}`,\n                        ]\"\n                        class=\"w-full flex justify-center items-center py-2 my-1 transition duration-150 ease-out rounded border cursor-pointer\"\n                        @click=\"setMonth(i)\"\n                      >\n                        <span class=\"font-medium\">{{ month }}</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </transition>\n              <transition name=\"v-tailwind-picker-years\">\n                <div\n                  v-if=\"enableYear\"\n                  class=\"relative smooth-scrolling overflow-y-auto overflow-x-hidden\"\n                >\n                  <div class=\"flex flex-wrap py-1\">\n                    <div\n                      v-for=\"(year, i) in years\"\n                      :key=\"i\"\n                      class=\"w-1/3 flex justify-center items-center px-2\"\n                    >\n                      <div\n                        :class=\"[\n                          year === today.$y\n                            ? `${theme.picker.selected.border}`\n                            : `${theme.border} ${theme.picker.selected.hover}`,\n                        ]\"\n                        class=\"w-full flex justify-center items-center py-2 my-1 transition duration-150 ease-out rounded border cursor-pointer\"\n                        @click=\"setYear(year)\"\n                      >\n                        <span class=\"font-medium\">{{ year }}</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </transition>\n            </div>\n            <!--            Event of picker-->\n            <div\n              v-if=\"\n                currentPicker.filter((o) => o.$events !== undefined).length > 0\n              \"\n              id=\"v-tailwind-picker-footer\"\n            >\n              <transition-group\n                name=\"v-tailwind-picker-footer\"\n                tag=\"div\"\n                class=\"flex flex-wrap border-t p-1\"\n                :class=\"theme.event.border\"\n              >\n                <div\n                  v-for=\"(event, i) in currentPicker.filter(\n                    (o) => o.$events !== undefined,\n                  )\"\n                  :key=\"`${i}-event`\"\n                  class=\"w-full flex flex-row space-x-1 mb-px\"\n                >\n                  <div class=\"inline-flex justify-end w-4\">\n                    <span\n                      class=\"text-xs leading-none\"\n                      :class=\"theme.picker.holiday\"\n                    >\n                      {{ dayjs(event.$events.date, formatDate).$D }}\n                    </span>\n                  </div>\n                  <div class=\"flex flex-wrap\">\n                    <div class=\"w-full flex items-end\">\n                      <span class=\"text-xxs leading-none\">\n                        {{ event.$events.description }}\n                      </span>\n                    </div>\n                  </div>\n                </div>\n              </transition-group>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  </div>\n</template>\n\n<script>\nimport dayjs from 'dayjs'\nimport isToday from 'dayjs/plugin/isToday'\nimport customParseFormat from 'dayjs/plugin/customParseFormat'\nimport isBetween from 'dayjs/plugin/isBetween'\nimport localizedFormat from 'dayjs/plugin/localizedFormat'\nimport advancedFormat from 'dayjs/plugin/advancedFormat'\nimport isSameOrBefore from 'dayjs/plugin/isSameOrBefore'\nimport isSameOrAfter from 'dayjs/plugin/isSameOrAfter'\n\ndayjs.extend(isToday)\ndayjs.extend(customParseFormat)\ndayjs.extend(isBetween)\ndayjs.extend(localizedFormat)\ndayjs.extend(advancedFormat)\ndayjs.extend(isSameOrBefore)\ndayjs.extend(isSameOrAfter)\n\nlet handleOutsideClick\n\n// import './css/tailwind.css' // Development only\n\n/**\n * Author: kenhyuwa <wahyu.dhiraashandy8@gmail.com\n * Url: https://github.com/kenhyuwa\n **/\n\nexport default {\n  name: 'VueTailwindPicker',\n  directives: {\n    closable: {\n      // https://github.com/TahaSh/vue-closable // resource\n      bind(el, binding, vnode) {\n        // Here's the click/touchstart handler\n        // (it is registered below)\n        handleOutsideClick = (e) => {\n          e.stopPropagation()\n          // Get the handler method name and the exclude array\n          // from the object used in v-closable\n          const { handler, exclude } = binding.value\n\n          // This variable indicates if the clicked element is excluded\n          let clickedOnExcludedEl = false\n          if (exclude) {\n            exclude.forEach((refName) => {\n              // We only run this code if we haven't detected\n              // any excluded element yet\n              if (!clickedOnExcludedEl) {\n                // Get the element using the reference name\n                const excludedEl = vnode.context.$refs[refName]\n                // See if this excluded element\n                // is the same element the user just clicked on\n                clickedOnExcludedEl = excludedEl\n                  ? excludedEl.contains(e.target)\n                  : false\n              }\n            })\n          }\n\n          // We check to see if the clicked element is not\n          // the dialog element and not excluded\n          if (clickedOnExcludedEl && vnode.context.autoClose) {\n            vnode.context[handler]()\n          }\n          if (!el.contains(e.target) && !clickedOnExcludedEl) {\n            // If the clicked element is outside the dialog\n            // and not the button, then call the outside-click handler\n            // from the same component this directive is used in\n            vnode.context[handler]()\n          }\n        }\n        // Register click/touchstart event listeners on the whole page\n        document.addEventListener('click', handleOutsideClick)\n        document.addEventListener('touchstart', handleOutsideClick)\n      },\n\n      unbind() {\n        // If the element that has v-closable is removed, then\n        // unbind click/touchstart listeners from the whole page\n        document.removeEventListener('click', handleOutsideClick)\n        document.removeEventListener('touchstart', handleOutsideClick)\n      },\n    },\n  },\n  props: {\n    init: {\n      type: Boolean,\n      required: false,\n      default: true,\n    },\n    selectedDate: {\n      type: String,\n      required: false,\n    },\n    startDate: {\n      type: String,\n      required: false,\n      default: dayjs().format('YYYY-MM-DD'),\n    },\n    endDate: {\n      type: String,\n      required: false,\n      default: undefined,\n    },\n    // Next future\n    disableDate: {\n      type: Array,\n      required: false,\n      default: () => [],\n    },\n    eventDate: {\n      type: Array,\n      required: false,\n      default: () => [],\n    },\n    formatDate: {\n      type: String,\n      required: false,\n      default: 'YYYY-MM-DD',\n    },\n    // Confused with this\n    formatDisplay: {\n      type: String,\n      required: false,\n      default: 'YYYY-MM-DD',\n    },\n    inline: {\n      type: Boolean,\n      required: false,\n      default: false,\n    },\n    // Not make sure with this\n    tailwindPickerValue: {\n      type: String,\n      required: false,\n      default: '',\n    },\n    // Next future\n    dateRange: {\n      type: Boolean,\n      required: false,\n      default: false,\n    },\n    // Next future\n    autoClose: {\n      type: Boolean,\n      required: false,\n      default: true,\n    },\n    startFromMonday: {\n      type: Boolean,\n      required: false,\n      default: false,\n    },\n    theme: {\n      type: Object,\n      required: false,\n      default: () => ({\n        background: '#FFFFFF',\n        text: 'text-gray-700',\n        border: 'border-gray-200',\n        currentColor: 'text-gray-200',\n        navigation: {\n          background: 'bg-gray-100',\n          hover: 'hover:bg-gray-200',\n          focus: 'bg-gray-200',\n        },\n        picker: {\n          rounded: 'rounded-full',\n          selected: {\n            background: 'bg-red-500',\n            border: 'border-red-500',\n            hover: 'hover:border-red-500',\n          },\n          holiday: 'text-red-400',\n          weekend: 'text-green-400',\n          event: 'bg-indigo-500',\n        },\n        event: {\n          border: 'border-gray-200',\n        },\n      }),\n    },\n  },\n  data() {\n    const startDatepicker = dayjs(this.startDate, this.formatDate)\n    // Featured for my own project\n    //   .add(\n    //   dayjs().hour() >= 20 ? 1 : 0,\n    //   'day',\n    // )\n    const endDatepicker = this.endDate\n      ? dayjs(this.endDate, this.formatDate)\n      : undefined\n    const today = this.selectedDate && this.startDate < this.selectedDate\n      ? dayjs(this.selectedDate, this.formatDate)\n      : dayjs(startDatepicker, this.formatDate);\n    const months = Array.from(Array(12), (v, i) => {\n      return dayjs().month(i).format('MMMM')\n    })\n    const years = Array.from(\n      Array(\n        this.endDate\n          ? endDatepicker.diff(today, 'year') + 1\n          : today.diff(today, 'year') + 36,\n      ),\n      (v, i) => {\n        return today.add(i, 'year').$y\n      },\n    )\n    const visibleMonth = false\n    const visibleYear = false\n    const showPicker = false\n    return {\n      startDatepicker,\n      endDatepicker,\n      today,\n      visibleMonth,\n      months,\n      visibleYear,\n      years,\n      showPicker,\n    }\n  },\n  computed: {\n    days() {\n      const customWeekend = this.startFromMonday ? 1 : 0\n      return Array.from(Array(7), (v, i) => {\n        return dayjs()\n          .day(i + customWeekend)\n          .format('ddd')\n      })\n    },\n    previousPicker() {\n      const customWeekend = this.startFromMonday ? 1 : 0\n      const display = []\n      const previous = this.today.date(0)\n      const current = this.today.date(0)\n      for (let i = 0; i <= current.day() - customWeekend; i++) {\n        display.push(previous.subtract(i, 'day'))\n      }\n      return display.sort((a, b) => a.$d - b.$d)\n    },\n    currentPicker() {\n      const customWeekend = this.startFromMonday ? 1 : 0\n      const eventDate = this.eventDate.length > 0 ? this.eventDate : []\n      return Array.from(\n        Array(this.today.daysInMonth() - customWeekend),\n        (v, i) => {\n          const events = this.today.date(++i)\n          events.$events = eventDate.find((o) => {\n            return o.date === events.format(this.formatDate)\n          })\n          return events\n        },\n      )\n    },\n    nextPicker() {\n      const customWeekend = this.startFromMonday ? 1 : 0\n      const display = []\n      const previous = this.previousPicker.length\n      const current = this.today.daysInMonth()\n      for (let i = 1; i <= 42 - (previous + current) + customWeekend; i++) {\n        display.push(this.today.date(i).add(1, 'month'))\n      }\n      return display\n    },\n    enableMonth() {\n      return this.visibleMonth\n    },\n    enableYear() {\n      return this.visibleYear\n    },\n    visiblePrev() {\n      if (!this.dateRange) {\n        const endOf = this.today.subtract(1, 'month').endOf('month')\n        const diff = this.startDatepicker.diff(endOf, 'day')\n        return diff < this.today.daysInMonth() - this.today.$D\n      }\n      return true\n    },\n    visibleNext() {\n      if (!this.dateRange && this.endDate) {\n        const startOf = this.today.add(1, 'month').startOf('month')\n        return this.endDatepicker.diff(startOf, 'day') > 0\n      }\n      return true\n    },\n  },\n  watch: {\n    showPicker(prev, next) {\n      if (prev) {\n        this.visibleMonth = next\n        this.visibleYear = next\n      }\n    },\n  },\n  mounted() {\n    if (this.init) this.emit()\n  },\n  methods: {\n    dayjs,\n    emit() {\n      this.$emit('change', this.today.format(this.formatDate))\n    },\n    changePicker(date) {\n      this.today = date\n      this.emit()\n      this.showPicker = !this.showPicker\n    },\n    onPrevious() {\n      if (this.visiblePrev) {\n        const today = this.today\n          .set('month', this.today.$M === 0 ? 11 : this.today.$M - 1)\n          .set('year', this.today.$M === 0 ? this.today.$y - 1 : this.today.$y)\n        if (this.possibleDate(today)) {\n          this.today = today\n        } else {\n          this.today = this.startDatepicker\n        }\n        this.emit()\n      }\n    },\n    onNext() {\n      if (this.visibleNext) {\n        const today = this.today\n          .set('month', (this.today.$M + 1) % 12)\n          .set('year', this.today.$M === 11 ? this.today.$y + 1 : this.today.$y)\n        if (this.possibleDate(today)) {\n          this.today = today\n        } else {\n          this.today = this.endDatepicker\n        }\n        this.emit()\n      }\n    },\n    possibleStartDate(date) {\n      return this.dateRange\n        ? true\n        : date.isSameOrAfter(this.startDatepicker, 'day')\n    },\n    possibleEndDate(date) {\n      if (this.endDate) {\n        return this.dateRange\n          ? true\n          : date.isSameOrBefore(this.endDatepicker, 'day')\n      }\n      return false\n    },\n    possibleDate(date) {\n      if (this.endDate) {\n        return this.possibleStartDate(date) && this.possibleEndDate(date)\n      }\n      return this.possibleStartDate(date)\n    },\n    holidayDate(date) {\n      return !!(date.$events && date.$events.holiday)\n    },\n    toggleMonth() {\n      this.visibleMonth = !this.visibleMonth\n      if (this.visibleMonth) {\n        this.visibleYear = false\n      }\n    },\n    toggleYear() {\n      this.visibleYear = !this.visibleYear\n      if (this.visibleYear) {\n        this.visibleMonth = false\n      }\n    },\n    setMonth(month) {\n      if (this.possibleDate(this.today.set('month', month))) {\n        this.today = this.today.set('month', month)\n      } else {\n        this.today = this.startDatepicker\n      }\n      this.emit()\n      this.toggleMonth()\n    },\n    setYear(year) {\n      if (this.possibleDate(this.today.set('year', year))) {\n        this.today = this.today.set('year', year)\n      } else {\n        this.today = this.startDatepicker\n      }\n      this.emit()\n      this.toggleYear()\n    },\n    onAway() {\n      this.showPicker = false\n    },\n    onFeedBack() {\n      this.showPicker = true\n    },\n  },\n}\n</script>\n\n<style scoped>\n#v-tailwind-picker {\n  top: 95%;\n}\n\n#v-tailwind-picker .w-1\\/7 {\n  width: 14.285714%;\n}\n\n#v-tailwind-picker .w-88 {\n  width: 22rem;\n}\n\n#v-tailwind-picker .text-xxs {\n  font-size: 0.6rem;\n}\n\n#v-tailwind-picker .my-2px {\n  margin-top: 2px;\n  margin-bottom: 2px;\n}\n\n#v-tailwind-picker:not(.inline-mode)::before {\n  content: '';\n  width: 14px;\n  height: 14px;\n  z-index: 10;\n  top: -7px;\n  left: 12px;\n  border-radius: 2px;\n  border-color: currentColor;\n  position: absolute;\n  display: block;\n  background-color: var(--bg-tailwind-picker);\n  border-left-width: 1px;\n  border-top-width: 1px;\n  transform: rotate(45deg);\n}\n\n#v-tailwind-picker .smooth-scrolling {\n  height: 255px;\n  max-height: 255px;\n}\n\n#v-tailwind-picker .smooth-scrolling::-webkit-scrollbar {\n  width: 4px;\n}\n\n#v-tailwind-picker .smooth-scrolling ::-webkit-scrollbar-thumb {\n  border-radius: 8px;\n  background-color: rgba(0, 0, 0, 0.1);\n}\n\n.v-tailwind-picker-enter-active,\n.v-tailwind-picker-leave-active {\n  transition: all 0.1s;\n}\n\n.v-tailwind-picker-enter,\n.v-tailwind-picker-leave-to {\n  opacity: 0;\n  transform: translateY(15px);\n}\n\n.v-tailwind-picker-body-enter-active,\n.v-tailwind-picker-body-leave-active {\n  transition: all 0.2s;\n}\n\n.v-tailwind-picker-body-enter,\n.v-tailwind-picker-body-leave-to {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n\n.v-tailwind-picker-months-enter-active,\n.v-tailwind-picker-months-leave-active {\n  transition: all 0.2s;\n}\n\n.v-tailwind-picker-months-enter,\n.v-tailwind-picker-months-leave-to {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n\n.v-tailwind-picker-years-enter-active,\n.v-tailwind-picker-years-leave-active {\n  transition: all 0.2s;\n}\n\n.v-tailwind-picker-years-enter,\n.v-tailwind-picker-years-leave-to {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n\n.v-tailwind-picker-footer-enter-active,\n.v-tailwind-picker-footer-leave-active {\n  transition: all 0.2s;\n}\n\n.v-tailwind-picker-footer-enter,\n.v-tailwind-picker-footer-leave-to {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n</style>\n"]}, media: undefined });
+
+  };
+  /* scoped */
+  var __vue_scope_id__ = "data-v-e8d8c230";
+  /* module identifier */
+  var __vue_module_identifier__ = undefined;
+  /* functional template */
+  var __vue_is_functional_template__ = false;
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  var __vue_component__ = /*#__PURE__*/normalizeComponent(
+    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    false,
+    createInjector,
+    undefined,
+    undefined
+  );
+
+// Import vue component
+
+// Declare install function executed by Vue.use()
+function install(Vue) {
+  if (install.installed) { return }
+  install.installed = true;
+  Vue.component('VueTailwindPicker', __vue_component__);
+}
+
+// Create module definition for Vue.use()
+var plugin = {
+  install: install,
+};
+
+// Auto-install when vue is found (eg. in browser via <script> tag)
+var GlobalVue = null;
+if (typeof window !== 'undefined') {
+  GlobalVue = window.Vue;
+} else if (typeof global !== 'undefined') {
+  GlobalVue = global.Vue;
+}
+if (GlobalVue) {
+  GlobalVue.use(plugin);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (__vue_component__);
+
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -61035,6 +81376,1271 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/vuex/dist/vuex.esm.js":
+/*!********************************************!*\
+  !*** ./node_modules/vuex/dist/vuex.esm.js ***!
+  \********************************************/
+/*! exports provided: default, Store, createLogger, createNamespacedHelpers, install, mapActions, mapGetters, mapMutations, mapState */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLogger", function() { return createLogger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
+/*!
+ * vuex v3.6.0
+ * (c) 2020 Evan You
+ * @license MIT
+ */
+function applyMixin (Vue) {
+  var version = Number(Vue.version.split('.')[0]);
+
+  if (version >= 2) {
+    Vue.mixin({ beforeCreate: vuexInit });
+  } else {
+    // override init and inject vuex init procedure
+    // for 1.x backwards compatibility.
+    var _init = Vue.prototype._init;
+    Vue.prototype._init = function (options) {
+      if ( options === void 0 ) options = {};
+
+      options.init = options.init
+        ? [vuexInit].concat(options.init)
+        : vuexInit;
+      _init.call(this, options);
+    };
+  }
+
+  /**
+   * Vuex init hook, injected into each instances init hooks list.
+   */
+
+  function vuexInit () {
+    var options = this.$options;
+    // store injection
+    if (options.store) {
+      this.$store = typeof options.store === 'function'
+        ? options.store()
+        : options.store;
+    } else if (options.parent && options.parent.$store) {
+      this.$store = options.parent.$store;
+    }
+  }
+}
+
+var target = typeof window !== 'undefined'
+  ? window
+  : typeof global !== 'undefined'
+    ? global
+    : {};
+var devtoolHook = target.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+function devtoolPlugin (store) {
+  if (!devtoolHook) { return }
+
+  store._devtoolHook = devtoolHook;
+
+  devtoolHook.emit('vuex:init', store);
+
+  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+    store.replaceState(targetState);
+  });
+
+  store.subscribe(function (mutation, state) {
+    devtoolHook.emit('vuex:mutation', mutation, state);
+  }, { prepend: true });
+
+  store.subscribeAction(function (action, state) {
+    devtoolHook.emit('vuex:action', action, state);
+  }, { prepend: true });
+}
+
+/**
+ * Get the first item that pass the test
+ * by second argument function
+ *
+ * @param {Array} list
+ * @param {Function} f
+ * @return {*}
+ */
+function find (list, f) {
+  return list.filter(f)[0]
+}
+
+/**
+ * Deep copy the given object considering circular structure.
+ * This function caches all nested objects and its copies.
+ * If it detects circular structure, use cached copy to avoid infinite loop.
+ *
+ * @param {*} obj
+ * @param {Array<Object>} cache
+ * @return {*}
+ */
+function deepCopy (obj, cache) {
+  if ( cache === void 0 ) cache = [];
+
+  // just return if obj is immutable value
+  if (obj === null || typeof obj !== 'object') {
+    return obj
+  }
+
+  // if obj is hit, it is in circular structure
+  var hit = find(cache, function (c) { return c.original === obj; });
+  if (hit) {
+    return hit.copy
+  }
+
+  var copy = Array.isArray(obj) ? [] : {};
+  // put the copy into cache at first
+  // because we want to refer it in recursive deepCopy
+  cache.push({
+    original: obj,
+    copy: copy
+  });
+
+  Object.keys(obj).forEach(function (key) {
+    copy[key] = deepCopy(obj[key], cache);
+  });
+
+  return copy
+}
+
+/**
+ * forEach for object
+ */
+function forEachValue (obj, fn) {
+  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+function isPromise (val) {
+  return val && typeof val.then === 'function'
+}
+
+function assert (condition, msg) {
+  if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+function partial (fn, arg) {
+  return function () {
+    return fn(arg)
+  }
+}
+
+// Base data struct for store's module, package with some attribute and method
+var Module = function Module (rawModule, runtime) {
+  this.runtime = runtime;
+  // Store some children item
+  this._children = Object.create(null);
+  // Store the origin module object which passed by programmer
+  this._rawModule = rawModule;
+  var rawState = rawModule.state;
+
+  // Store the origin module's state
+  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+};
+
+var prototypeAccessors = { namespaced: { configurable: true } };
+
+prototypeAccessors.namespaced.get = function () {
+  return !!this._rawModule.namespaced
+};
+
+Module.prototype.addChild = function addChild (key, module) {
+  this._children[key] = module;
+};
+
+Module.prototype.removeChild = function removeChild (key) {
+  delete this._children[key];
+};
+
+Module.prototype.getChild = function getChild (key) {
+  return this._children[key]
+};
+
+Module.prototype.hasChild = function hasChild (key) {
+  return key in this._children
+};
+
+Module.prototype.update = function update (rawModule) {
+  this._rawModule.namespaced = rawModule.namespaced;
+  if (rawModule.actions) {
+    this._rawModule.actions = rawModule.actions;
+  }
+  if (rawModule.mutations) {
+    this._rawModule.mutations = rawModule.mutations;
+  }
+  if (rawModule.getters) {
+    this._rawModule.getters = rawModule.getters;
+  }
+};
+
+Module.prototype.forEachChild = function forEachChild (fn) {
+  forEachValue(this._children, fn);
+};
+
+Module.prototype.forEachGetter = function forEachGetter (fn) {
+  if (this._rawModule.getters) {
+    forEachValue(this._rawModule.getters, fn);
+  }
+};
+
+Module.prototype.forEachAction = function forEachAction (fn) {
+  if (this._rawModule.actions) {
+    forEachValue(this._rawModule.actions, fn);
+  }
+};
+
+Module.prototype.forEachMutation = function forEachMutation (fn) {
+  if (this._rawModule.mutations) {
+    forEachValue(this._rawModule.mutations, fn);
+  }
+};
+
+Object.defineProperties( Module.prototype, prototypeAccessors );
+
+var ModuleCollection = function ModuleCollection (rawRootModule) {
+  // register root module (Vuex.Store options)
+  this.register([], rawRootModule, false);
+};
+
+ModuleCollection.prototype.get = function get (path) {
+  return path.reduce(function (module, key) {
+    return module.getChild(key)
+  }, this.root)
+};
+
+ModuleCollection.prototype.getNamespace = function getNamespace (path) {
+  var module = this.root;
+  return path.reduce(function (namespace, key) {
+    module = module.getChild(key);
+    return namespace + (module.namespaced ? key + '/' : '')
+  }, '')
+};
+
+ModuleCollection.prototype.update = function update$1 (rawRootModule) {
+  update([], this.root, rawRootModule);
+};
+
+ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
+    var this$1 = this;
+    if ( runtime === void 0 ) runtime = true;
+
+  if ((true)) {
+    assertRawModule(path, rawModule);
+  }
+
+  var newModule = new Module(rawModule, runtime);
+  if (path.length === 0) {
+    this.root = newModule;
+  } else {
+    var parent = this.get(path.slice(0, -1));
+    parent.addChild(path[path.length - 1], newModule);
+  }
+
+  // register nested modules
+  if (rawModule.modules) {
+    forEachValue(rawModule.modules, function (rawChildModule, key) {
+      this$1.register(path.concat(key), rawChildModule, runtime);
+    });
+  }
+};
+
+ModuleCollection.prototype.unregister = function unregister (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+  var child = parent.getChild(key);
+
+  if (!child) {
+    if ((true)) {
+      console.warn(
+        "[vuex] trying to unregister module '" + key + "', which is " +
+        "not registered"
+      );
+    }
+    return
+  }
+
+  if (!child.runtime) {
+    return
+  }
+
+  parent.removeChild(key);
+};
+
+ModuleCollection.prototype.isRegistered = function isRegistered (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+
+  if (parent) {
+    return parent.hasChild(key)
+  }
+
+  return false
+};
+
+function update (path, targetModule, newModule) {
+  if ((true)) {
+    assertRawModule(path, newModule);
+  }
+
+  // update target module
+  targetModule.update(newModule);
+
+  // update nested modules
+  if (newModule.modules) {
+    for (var key in newModule.modules) {
+      if (!targetModule.getChild(key)) {
+        if ((true)) {
+          console.warn(
+            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+            'manual reload is needed'
+          );
+        }
+        return
+      }
+      update(
+        path.concat(key),
+        targetModule.getChild(key),
+        newModule.modules[key]
+      );
+    }
+  }
+}
+
+var functionAssert = {
+  assert: function (value) { return typeof value === 'function'; },
+  expected: 'function'
+};
+
+var objectAssert = {
+  assert: function (value) { return typeof value === 'function' ||
+    (typeof value === 'object' && typeof value.handler === 'function'); },
+  expected: 'function or object with "handler" function'
+};
+
+var assertTypes = {
+  getters: functionAssert,
+  mutations: functionAssert,
+  actions: objectAssert
+};
+
+function assertRawModule (path, rawModule) {
+  Object.keys(assertTypes).forEach(function (key) {
+    if (!rawModule[key]) { return }
+
+    var assertOptions = assertTypes[key];
+
+    forEachValue(rawModule[key], function (value, type) {
+      assert(
+        assertOptions.assert(value),
+        makeAssertionMessage(path, key, type, value, assertOptions.expected)
+      );
+    });
+  });
+}
+
+function makeAssertionMessage (path, key, type, value, expected) {
+  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
+  if (path.length > 0) {
+    buf += " in module \"" + (path.join('.')) + "\"";
+  }
+  buf += " is " + (JSON.stringify(value)) + ".";
+  return buf
+}
+
+var Vue; // bind on install
+
+var Store = function Store (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #731
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  if ((true)) {
+    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
+    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
+    assert(this instanceof Store, "store must be called with the new operator.");
+  }
+
+  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
+  var strict = options.strict; if ( strict === void 0 ) strict = false;
+
+  // store internal state
+  this._committing = false;
+  this._actions = Object.create(null);
+  this._actionSubscribers = [];
+  this._mutations = Object.create(null);
+  this._wrappedGetters = Object.create(null);
+  this._modules = new ModuleCollection(options);
+  this._modulesNamespaceMap = Object.create(null);
+  this._subscribers = [];
+  this._watcherVM = new Vue();
+  this._makeLocalGettersCache = Object.create(null);
+
+  // bind commit and dispatch to self
+  var store = this;
+  var ref = this;
+  var dispatch = ref.dispatch;
+  var commit = ref.commit;
+  this.dispatch = function boundDispatch (type, payload) {
+    return dispatch.call(store, type, payload)
+  };
+  this.commit = function boundCommit (type, payload, options) {
+    return commit.call(store, type, payload, options)
+  };
+
+  // strict mode
+  this.strict = strict;
+
+  var state = this._modules.root.state;
+
+  // init root module.
+  // this also recursively registers all sub-modules
+  // and collects all module getters inside this._wrappedGetters
+  installModule(this, state, [], this._modules.root);
+
+  // initialize the store vm, which is responsible for the reactivity
+  // (also registers _wrappedGetters as computed properties)
+  resetStoreVM(this, state);
+
+  // apply plugins
+  plugins.forEach(function (plugin) { return plugin(this$1); });
+
+  var useDevtools = options.devtools !== undefined ? options.devtools : Vue.config.devtools;
+  if (useDevtools) {
+    devtoolPlugin(this);
+  }
+};
+
+var prototypeAccessors$1 = { state: { configurable: true } };
+
+prototypeAccessors$1.state.get = function () {
+  return this._vm._data.$$state
+};
+
+prototypeAccessors$1.state.set = function (v) {
+  if ((true)) {
+    assert(false, "use store.replaceState() to explicit replace store state.");
+  }
+};
+
+Store.prototype.commit = function commit (_type, _payload, _options) {
+    var this$1 = this;
+
+  // check object-style commit
+  var ref = unifyObjectStyle(_type, _payload, _options);
+    var type = ref.type;
+    var payload = ref.payload;
+    var options = ref.options;
+
+  var mutation = { type: type, payload: payload };
+  var entry = this._mutations[type];
+  if (!entry) {
+    if ((true)) {
+      console.error(("[vuex] unknown mutation type: " + type));
+    }
+    return
+  }
+  this._withCommit(function () {
+    entry.forEach(function commitIterator (handler) {
+      handler(payload);
+    });
+  });
+
+  this._subscribers
+    .slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+    .forEach(function (sub) { return sub(mutation, this$1.state); });
+
+  if (
+    ( true) &&
+    options && options.silent
+  ) {
+    console.warn(
+      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
+      'Use the filter functionality in the vue-devtools'
+    );
+  }
+};
+
+Store.prototype.dispatch = function dispatch (_type, _payload) {
+    var this$1 = this;
+
+  // check object-style dispatch
+  var ref = unifyObjectStyle(_type, _payload);
+    var type = ref.type;
+    var payload = ref.payload;
+
+  var action = { type: type, payload: payload };
+  var entry = this._actions[type];
+  if (!entry) {
+    if ((true)) {
+      console.error(("[vuex] unknown action type: " + type));
+    }
+    return
+  }
+
+  try {
+    this._actionSubscribers
+      .slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+      .filter(function (sub) { return sub.before; })
+      .forEach(function (sub) { return sub.before(action, this$1.state); });
+  } catch (e) {
+    if ((true)) {
+      console.warn("[vuex] error in before action subscribers: ");
+      console.error(e);
+    }
+  }
+
+  var result = entry.length > 1
+    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
+    : entry[0](payload);
+
+  return new Promise(function (resolve, reject) {
+    result.then(function (res) {
+      try {
+        this$1._actionSubscribers
+          .filter(function (sub) { return sub.after; })
+          .forEach(function (sub) { return sub.after(action, this$1.state); });
+      } catch (e) {
+        if ((true)) {
+          console.warn("[vuex] error in after action subscribers: ");
+          console.error(e);
+        }
+      }
+      resolve(res);
+    }, function (error) {
+      try {
+        this$1._actionSubscribers
+          .filter(function (sub) { return sub.error; })
+          .forEach(function (sub) { return sub.error(action, this$1.state, error); });
+      } catch (e) {
+        if ((true)) {
+          console.warn("[vuex] error in error action subscribers: ");
+          console.error(e);
+        }
+      }
+      reject(error);
+    });
+  })
+};
+
+Store.prototype.subscribe = function subscribe (fn, options) {
+  return genericSubscribe(fn, this._subscribers, options)
+};
+
+Store.prototype.subscribeAction = function subscribeAction (fn, options) {
+  var subs = typeof fn === 'function' ? { before: fn } : fn;
+  return genericSubscribe(subs, this._actionSubscribers, options)
+};
+
+Store.prototype.watch = function watch (getter, cb, options) {
+    var this$1 = this;
+
+  if ((true)) {
+    assert(typeof getter === 'function', "store.watch only accepts a function.");
+  }
+  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
+};
+
+Store.prototype.replaceState = function replaceState (state) {
+    var this$1 = this;
+
+  this._withCommit(function () {
+    this$1._vm._data.$$state = state;
+  });
+};
+
+Store.prototype.registerModule = function registerModule (path, rawModule, options) {
+    if ( options === void 0 ) options = {};
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if ((true)) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+    assert(path.length > 0, 'cannot register the root module by using registerModule.');
+  }
+
+  this._modules.register(path, rawModule);
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
+  // reset store to update getters...
+  resetStoreVM(this, this.state);
+};
+
+Store.prototype.unregisterModule = function unregisterModule (path) {
+    var this$1 = this;
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if ((true)) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  this._modules.unregister(path);
+  this._withCommit(function () {
+    var parentState = getNestedState(this$1.state, path.slice(0, -1));
+    Vue.delete(parentState, path[path.length - 1]);
+  });
+  resetStore(this);
+};
+
+Store.prototype.hasModule = function hasModule (path) {
+  if (typeof path === 'string') { path = [path]; }
+
+  if ((true)) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  return this._modules.isRegistered(path)
+};
+
+Store.prototype.hotUpdate = function hotUpdate (newOptions) {
+  this._modules.update(newOptions);
+  resetStore(this, true);
+};
+
+Store.prototype._withCommit = function _withCommit (fn) {
+  var committing = this._committing;
+  this._committing = true;
+  fn();
+  this._committing = committing;
+};
+
+Object.defineProperties( Store.prototype, prototypeAccessors$1 );
+
+function genericSubscribe (fn, subs, options) {
+  if (subs.indexOf(fn) < 0) {
+    options && options.prepend
+      ? subs.unshift(fn)
+      : subs.push(fn);
+  }
+  return function () {
+    var i = subs.indexOf(fn);
+    if (i > -1) {
+      subs.splice(i, 1);
+    }
+  }
+}
+
+function resetStore (store, hot) {
+  store._actions = Object.create(null);
+  store._mutations = Object.create(null);
+  store._wrappedGetters = Object.create(null);
+  store._modulesNamespaceMap = Object.create(null);
+  var state = store.state;
+  // init all modules
+  installModule(store, state, [], store._modules.root, true);
+  // reset vm
+  resetStoreVM(store, state, hot);
+}
+
+function resetStoreVM (store, state, hot) {
+  var oldVm = store._vm;
+
+  // bind store public getters
+  store.getters = {};
+  // reset local getters cache
+  store._makeLocalGettersCache = Object.create(null);
+  var wrappedGetters = store._wrappedGetters;
+  var computed = {};
+  forEachValue(wrappedGetters, function (fn, key) {
+    // use computed to leverage its lazy-caching mechanism
+    // direct inline function use will lead to closure preserving oldVm.
+    // using partial to return function with only arguments preserved in closure environment.
+    computed[key] = partial(fn, store);
+    Object.defineProperty(store.getters, key, {
+      get: function () { return store._vm[key]; },
+      enumerable: true // for local getters
+    });
+  });
+
+  // use a Vue instance to store the state tree
+  // suppress warnings just in case the user has added
+  // some funky global mixins
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  store._vm = new Vue({
+    data: {
+      $$state: state
+    },
+    computed: computed
+  });
+  Vue.config.silent = silent;
+
+  // enable strict mode for new vm
+  if (store.strict) {
+    enableStrictMode(store);
+  }
+
+  if (oldVm) {
+    if (hot) {
+      // dispatch changes in all subscribed watchers
+      // to force getter re-evaluation for hot reloading.
+      store._withCommit(function () {
+        oldVm._data.$$state = null;
+      });
+    }
+    Vue.nextTick(function () { return oldVm.$destroy(); });
+  }
+}
+
+function installModule (store, rootState, path, module, hot) {
+  var isRoot = !path.length;
+  var namespace = store._modules.getNamespace(path);
+
+  // register in namespace map
+  if (module.namespaced) {
+    if (store._modulesNamespaceMap[namespace] && ("development" !== 'production')) {
+      console.error(("[vuex] duplicate namespace " + namespace + " for the namespaced module " + (path.join('/'))));
+    }
+    store._modulesNamespaceMap[namespace] = module;
+  }
+
+  // set state
+  if (!isRoot && !hot) {
+    var parentState = getNestedState(rootState, path.slice(0, -1));
+    var moduleName = path[path.length - 1];
+    store._withCommit(function () {
+      if ((true)) {
+        if (moduleName in parentState) {
+          console.warn(
+            ("[vuex] state field \"" + moduleName + "\" was overridden by a module with the same name at \"" + (path.join('.')) + "\"")
+          );
+        }
+      }
+      Vue.set(parentState, moduleName, module.state);
+    });
+  }
+
+  var local = module.context = makeLocalContext(store, namespace, path);
+
+  module.forEachMutation(function (mutation, key) {
+    var namespacedType = namespace + key;
+    registerMutation(store, namespacedType, mutation, local);
+  });
+
+  module.forEachAction(function (action, key) {
+    var type = action.root ? key : namespace + key;
+    var handler = action.handler || action;
+    registerAction(store, type, handler, local);
+  });
+
+  module.forEachGetter(function (getter, key) {
+    var namespacedType = namespace + key;
+    registerGetter(store, namespacedType, getter, local);
+  });
+
+  module.forEachChild(function (child, key) {
+    installModule(store, rootState, path.concat(key), child, hot);
+  });
+}
+
+/**
+ * make localized dispatch, commit, getters and state
+ * if there is no namespace, just use root ones
+ */
+function makeLocalContext (store, namespace, path) {
+  var noNamespace = namespace === '';
+
+  var local = {
+    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if (( true) && !store._actions[type]) {
+          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      return store.dispatch(type, payload)
+    },
+
+    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if (( true) && !store._mutations[type]) {
+          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      store.commit(type, payload, options);
+    }
+  };
+
+  // getters and state object must be gotten lazily
+  // because they will be changed by vm update
+  Object.defineProperties(local, {
+    getters: {
+      get: noNamespace
+        ? function () { return store.getters; }
+        : function () { return makeLocalGetters(store, namespace); }
+    },
+    state: {
+      get: function () { return getNestedState(store.state, path); }
+    }
+  });
+
+  return local
+}
+
+function makeLocalGetters (store, namespace) {
+  if (!store._makeLocalGettersCache[namespace]) {
+    var gettersProxy = {};
+    var splitPos = namespace.length;
+    Object.keys(store.getters).forEach(function (type) {
+      // skip if the target getter is not match this namespace
+      if (type.slice(0, splitPos) !== namespace) { return }
+
+      // extract local getter type
+      var localType = type.slice(splitPos);
+
+      // Add a port to the getters proxy.
+      // Define as getter property because
+      // we do not want to evaluate the getters in this time.
+      Object.defineProperty(gettersProxy, localType, {
+        get: function () { return store.getters[type]; },
+        enumerable: true
+      });
+    });
+    store._makeLocalGettersCache[namespace] = gettersProxy;
+  }
+
+  return store._makeLocalGettersCache[namespace]
+}
+
+function registerMutation (store, type, handler, local) {
+  var entry = store._mutations[type] || (store._mutations[type] = []);
+  entry.push(function wrappedMutationHandler (payload) {
+    handler.call(store, local.state, payload);
+  });
+}
+
+function registerAction (store, type, handler, local) {
+  var entry = store._actions[type] || (store._actions[type] = []);
+  entry.push(function wrappedActionHandler (payload) {
+    var res = handler.call(store, {
+      dispatch: local.dispatch,
+      commit: local.commit,
+      getters: local.getters,
+      state: local.state,
+      rootGetters: store.getters,
+      rootState: store.state
+    }, payload);
+    if (!isPromise(res)) {
+      res = Promise.resolve(res);
+    }
+    if (store._devtoolHook) {
+      return res.catch(function (err) {
+        store._devtoolHook.emit('vuex:error', err);
+        throw err
+      })
+    } else {
+      return res
+    }
+  });
+}
+
+function registerGetter (store, type, rawGetter, local) {
+  if (store._wrappedGetters[type]) {
+    if ((true)) {
+      console.error(("[vuex] duplicate getter key: " + type));
+    }
+    return
+  }
+  store._wrappedGetters[type] = function wrappedGetter (store) {
+    return rawGetter(
+      local.state, // local state
+      local.getters, // local getters
+      store.state, // root state
+      store.getters // root getters
+    )
+  };
+}
+
+function enableStrictMode (store) {
+  store._vm.$watch(function () { return this._data.$$state }, function () {
+    if ((true)) {
+      assert(store._committing, "do not mutate vuex store state outside mutation handlers.");
+    }
+  }, { deep: true, sync: true });
+}
+
+function getNestedState (state, path) {
+  return path.reduce(function (state, key) { return state[key]; }, state)
+}
+
+function unifyObjectStyle (type, payload, options) {
+  if (isObject(type) && type.type) {
+    options = payload;
+    payload = type;
+    type = type.type;
+  }
+
+  if ((true)) {
+    assert(typeof type === 'string', ("expects string as the type, but found " + (typeof type) + "."));
+  }
+
+  return { type: type, payload: payload, options: options }
+}
+
+function install (_Vue) {
+  if (Vue && _Vue === Vue) {
+    if ((true)) {
+      console.error(
+        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+      );
+    }
+    return
+  }
+  Vue = _Vue;
+  applyMixin(Vue);
+}
+
+/**
+ * Reduce the code which written in Vue.js for getting the state.
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} states # Object's item can be a function which accept state and getters for param, you can do something for state and getters in it.
+ * @param {Object}
+ */
+var mapState = normalizeNamespace(function (namespace, states) {
+  var res = {};
+  if (( true) && !isValidMap(states)) {
+    console.error('[vuex] mapState: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(states).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedState () {
+      var state = this.$store.state;
+      var getters = this.$store.getters;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
+        if (!module) {
+          return
+        }
+        state = module.context.state;
+        getters = module.context.getters;
+      }
+      return typeof val === 'function'
+        ? val.call(this, state, getters)
+        : state[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+/**
+ * Reduce the code which written in Vue.js for committing the mutation
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} mutations # Object's item can be a function which accept `commit` function as the first param, it can accept anthor params. You can commit mutation and do any other things in this function. specially, You need to pass anthor params from the mapped function.
+ * @return {Object}
+ */
+var mapMutations = normalizeNamespace(function (namespace, mutations) {
+  var res = {};
+  if (( true) && !isValidMap(mutations)) {
+    console.error('[vuex] mapMutations: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(mutations).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedMutation () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      // Get the commit method from store
+      var commit = this.$store.commit;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
+        if (!module) {
+          return
+        }
+        commit = module.context.commit;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [commit].concat(args))
+        : commit.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+/**
+ * Reduce the code which written in Vue.js for getting the getters
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} getters
+ * @return {Object}
+ */
+var mapGetters = normalizeNamespace(function (namespace, getters) {
+  var res = {};
+  if (( true) && !isValidMap(getters)) {
+    console.error('[vuex] mapGetters: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(getters).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    // The namespace has been mutated by normalizeNamespace
+    val = namespace + val;
+    res[key] = function mappedGetter () {
+      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        return
+      }
+      if (( true) && !(val in this.$store.getters)) {
+        console.error(("[vuex] unknown getter: " + val));
+        return
+      }
+      return this.$store.getters[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+/**
+ * Reduce the code which written in Vue.js for dispatch the action
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} actions # Object's item can be a function which accept `dispatch` function as the first param, it can accept anthor params. You can dispatch action and do any other things in this function. specially, You need to pass anthor params from the mapped function.
+ * @return {Object}
+ */
+var mapActions = normalizeNamespace(function (namespace, actions) {
+  var res = {};
+  if (( true) && !isValidMap(actions)) {
+    console.error('[vuex] mapActions: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(actions).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedAction () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      // get dispatch function from store
+      var dispatch = this.$store.dispatch;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
+        if (!module) {
+          return
+        }
+        dispatch = module.context.dispatch;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [dispatch].concat(args))
+        : dispatch.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+/**
+ * Rebinding namespace param for mapXXX function in special scoped, and return them by simple object
+ * @param {String} namespace
+ * @return {Object}
+ */
+var createNamespacedHelpers = function (namespace) { return ({
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace)
+}); };
+
+/**
+ * Normalize the map
+ * normalizeMap([1, 2, 3]) => [ { key: 1, val: 1 }, { key: 2, val: 2 }, { key: 3, val: 3 } ]
+ * normalizeMap({a: 1, b: 2, c: 3}) => [ { key: 'a', val: 1 }, { key: 'b', val: 2 }, { key: 'c', val: 3 } ]
+ * @param {Array|Object} map
+ * @return {Object}
+ */
+function normalizeMap (map) {
+  if (!isValidMap(map)) {
+    return []
+  }
+  return Array.isArray(map)
+    ? map.map(function (key) { return ({ key: key, val: key }); })
+    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
+}
+
+/**
+ * Validate whether given map is valid or not
+ * @param {*} map
+ * @return {Boolean}
+ */
+function isValidMap (map) {
+  return Array.isArray(map) || isObject(map)
+}
+
+/**
+ * Return a function expect two param contains namespace and map. it will normalize the namespace and then the param's function will handle the new namespace and the map.
+ * @param {Function} fn
+ * @return {Function}
+ */
+function normalizeNamespace (fn) {
+  return function (namespace, map) {
+    if (typeof namespace !== 'string') {
+      map = namespace;
+      namespace = '';
+    } else if (namespace.charAt(namespace.length - 1) !== '/') {
+      namespace += '/';
+    }
+    return fn(namespace, map)
+  }
+}
+
+/**
+ * Search a special module from store by namespace. if module not exist, print error message.
+ * @param {Object} store
+ * @param {String} helper
+ * @param {String} namespace
+ * @return {Object}
+ */
+function getModuleByNamespace (store, helper, namespace) {
+  var module = store._modulesNamespaceMap[namespace];
+  if (( true) && !module) {
+    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
+  }
+  return module
+}
+
+// Credits: borrowed code from fcomb/redux-logger
+
+function createLogger (ref) {
+  if ( ref === void 0 ) ref = {};
+  var collapsed = ref.collapsed; if ( collapsed === void 0 ) collapsed = true;
+  var filter = ref.filter; if ( filter === void 0 ) filter = function (mutation, stateBefore, stateAfter) { return true; };
+  var transformer = ref.transformer; if ( transformer === void 0 ) transformer = function (state) { return state; };
+  var mutationTransformer = ref.mutationTransformer; if ( mutationTransformer === void 0 ) mutationTransformer = function (mut) { return mut; };
+  var actionFilter = ref.actionFilter; if ( actionFilter === void 0 ) actionFilter = function (action, state) { return true; };
+  var actionTransformer = ref.actionTransformer; if ( actionTransformer === void 0 ) actionTransformer = function (act) { return act; };
+  var logMutations = ref.logMutations; if ( logMutations === void 0 ) logMutations = true;
+  var logActions = ref.logActions; if ( logActions === void 0 ) logActions = true;
+  var logger = ref.logger; if ( logger === void 0 ) logger = console;
+
+  return function (store) {
+    var prevState = deepCopy(store.state);
+
+    if (typeof logger === 'undefined') {
+      return
+    }
+
+    if (logMutations) {
+      store.subscribe(function (mutation, state) {
+        var nextState = deepCopy(state);
+
+        if (filter(mutation, prevState, nextState)) {
+          var formattedTime = getFormattedTime();
+          var formattedMutation = mutationTransformer(mutation);
+          var message = "mutation " + (mutation.type) + formattedTime;
+
+          startMessage(logger, message, collapsed);
+          logger.log('%c prev state', 'color: #9E9E9E; font-weight: bold', transformer(prevState));
+          logger.log('%c mutation', 'color: #03A9F4; font-weight: bold', formattedMutation);
+          logger.log('%c next state', 'color: #4CAF50; font-weight: bold', transformer(nextState));
+          endMessage(logger);
+        }
+
+        prevState = nextState;
+      });
+    }
+
+    if (logActions) {
+      store.subscribeAction(function (action, state) {
+        if (actionFilter(action, state)) {
+          var formattedTime = getFormattedTime();
+          var formattedAction = actionTransformer(action);
+          var message = "action " + (action.type) + formattedTime;
+
+          startMessage(logger, message, collapsed);
+          logger.log('%c action', 'color: #03A9F4; font-weight: bold', formattedAction);
+          endMessage(logger);
+        }
+      });
+    }
+  }
+}
+
+function startMessage (logger, message, collapsed) {
+  var startMessage = collapsed
+    ? logger.groupCollapsed
+    : logger.group;
+
+  // render
+  try {
+    startMessage.call(logger, message);
+  } catch (e) {
+    logger.log(message);
+  }
+}
+
+function endMessage (logger) {
+  try {
+    logger.groupEnd();
+  } catch (e) {
+    logger.log('—— log end ——');
+  }
+}
+
+function getFormattedTime () {
+  var time = new Date();
+  return (" @ " + (pad(time.getHours(), 2)) + ":" + (pad(time.getMinutes(), 2)) + ":" + (pad(time.getSeconds(), 2)) + "." + (pad(time.getMilliseconds(), 3)))
+}
+
+function repeat (str, times) {
+  return (new Array(times + 1)).join(str)
+}
+
+function pad (num, maxLength) {
+  return repeat('0', maxLength - num.toString().length) + num
+}
+
+var index = {
+  Store: Store,
+  install: install,
+  version: '3.6.0',
+  mapState: mapState,
+  mapMutations: mapMutations,
+  mapGetters: mapGetters,
+  mapActions: mapActions,
+  createNamespacedHelpers: createNamespacedHelpers,
+  createLogger: createLogger
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (index);
+
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -61107,6 +82713,144 @@ module.exports = function(module) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/js/Components/Pagination.vue":
+/*!************************************************!*\
+  !*** ./resources/js/Components/Pagination.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Pagination_vue_vue_type_template_id_0e1fe725___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pagination.vue?vue&type=template&id=0e1fe725& */ "./resources/js/Components/Pagination.vue?vue&type=template&id=0e1fe725&");
+/* harmony import */ var _Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pagination.vue?vue&type=script&lang=js& */ "./resources/js/Components/Pagination.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Pagination_vue_vue_type_template_id_0e1fe725___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Pagination_vue_vue_type_template_id_0e1fe725___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Components/Pagination.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Components/Pagination.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/Components/Pagination.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Pagination.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/Pagination.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Components/Pagination.vue?vue&type=template&id=0e1fe725&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/Components/Pagination.vue?vue&type=template&id=0e1fe725& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_0e1fe725___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Pagination.vue?vue&type=template&id=0e1fe725& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/Pagination.vue?vue&type=template&id=0e1fe725&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_0e1fe725___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_0e1fe725___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/Statistics.vue":
+/*!************************************************!*\
+  !*** ./resources/js/Components/Statistics.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Statistics_vue_vue_type_template_id_3249742e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Statistics.vue?vue&type=template&id=3249742e& */ "./resources/js/Components/Statistics.vue?vue&type=template&id=3249742e&");
+/* harmony import */ var _Statistics_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Statistics.vue?vue&type=script&lang=js& */ "./resources/js/Components/Statistics.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Statistics_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Statistics_vue_vue_type_template_id_3249742e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Statistics_vue_vue_type_template_id_3249742e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Components/Statistics.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Components/Statistics.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/Components/Statistics.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Statistics_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Statistics.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/Statistics.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Statistics_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Components/Statistics.vue?vue&type=template&id=3249742e&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/Components/Statistics.vue?vue&type=template&id=3249742e& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Statistics_vue_vue_type_template_id_3249742e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Statistics.vue?vue&type=template&id=3249742e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/Statistics.vue?vue&type=template&id=3249742e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Statistics_vue_vue_type_template_id_3249742e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Statistics_vue_vue_type_template_id_3249742e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -62573,7 +84317,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AppLayout_vue_vue_type_template_id_5663af57___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppLayout.vue?vue&type=template&id=5663af57& */ "./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&");
+/* harmony import */ var _AppLayout_vue_vue_type_template_id_5663af57_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppLayout.vue?vue&type=template&id=5663af57&scoped=true& */ "./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&scoped=true&");
 /* harmony import */ var _AppLayout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppLayout.vue?vue&type=script&lang=js& */ "./resources/js/Layouts/AppLayout.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -62585,11 +84329,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _AppLayout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AppLayout_vue_vue_type_template_id_5663af57___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _AppLayout_vue_vue_type_template_id_5663af57___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _AppLayout_vue_vue_type_template_id_5663af57_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AppLayout_vue_vue_type_template_id_5663af57_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "5663af57",
   null
   
 )
@@ -62615,19 +84359,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&":
-/*!***************************************************************************!*\
-  !*** ./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57& ***!
-  \***************************************************************************/
+/***/ "./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&scoped=true&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&scoped=true& ***!
+  \***************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLayout_vue_vue_type_template_id_5663af57___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AppLayout.vue?vue&type=template&id=5663af57& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLayout_vue_vue_type_template_id_5663af57___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLayout_vue_vue_type_template_id_5663af57_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AppLayout.vue?vue&type=template&id=5663af57&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Layouts/AppLayout.vue?vue&type=template&id=5663af57&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLayout_vue_vue_type_template_id_5663af57_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLayout_vue_vue_type_template_id_5663af57___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLayout_vue_vue_type_template_id_5663af57_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -62645,10 +84389,24 @@ var map = {
 	"./API/ApiTokenManager.vue": "./resources/js/Pages/API/ApiTokenManager.vue",
 	"./API/Index": "./resources/js/Pages/API/Index.vue",
 	"./API/Index.vue": "./resources/js/Pages/API/Index.vue",
+	"./Children/All": "./resources/js/Pages/Children/All.vue",
+	"./Children/All.vue": "./resources/js/Pages/Children/All.vue",
+	"./Children/EditOrNew": "./resources/js/Pages/Children/EditOrNew.vue",
+	"./Children/EditOrNew.vue": "./resources/js/Pages/Children/EditOrNew.vue",
 	"./Dashboard": "./resources/js/Pages/Dashboard.vue",
 	"./Dashboard.vue": "./resources/js/Pages/Dashboard.vue",
-	"./Patients/All": "./resources/js/Pages/Patients/All.vue",
-	"./Patients/All.vue": "./resources/js/Pages/Patients/All.vue",
+	"./Insurances/All": "./resources/js/Pages/Insurances/All.vue",
+	"./Insurances/All.vue": "./resources/js/Pages/Insurances/All.vue",
+	"./Insurances/EditOrNew": "./resources/js/Pages/Insurances/EditOrNew.vue",
+	"./Insurances/EditOrNew.vue": "./resources/js/Pages/Insurances/EditOrNew.vue",
+	"./Insurances/Plans": "./resources/js/Pages/Insurances/Plans.vue",
+	"./Insurances/Plans.vue": "./resources/js/Pages/Insurances/Plans.vue",
+	"./Parents/All": "./resources/js/Pages/Parents/All.vue",
+	"./Parents/All.vue": "./resources/js/Pages/Parents/All.vue",
+	"./Parents/Create": "./resources/js/Pages/Parents/Create.vue",
+	"./Parents/Create.vue": "./resources/js/Pages/Parents/Create.vue",
+	"./Parents/EditOrNew": "./resources/js/Pages/Parents/EditOrNew.vue",
+	"./Parents/EditOrNew.vue": "./resources/js/Pages/Parents/EditOrNew.vue",
 	"./Profile/DeleteUserForm": "./resources/js/Pages/Profile/DeleteUserForm.vue",
 	"./Profile/DeleteUserForm.vue": "./resources/js/Pages/Profile/DeleteUserForm.vue",
 	"./Profile/LogoutOtherBrowserSessionsForm": "./resources/js/Pages/Profile/LogoutOtherBrowserSessionsForm.vue",
@@ -62660,7 +84418,9 @@ var map = {
 	"./Profile/UpdatePasswordForm": "./resources/js/Pages/Profile/UpdatePasswordForm.vue",
 	"./Profile/UpdatePasswordForm.vue": "./resources/js/Pages/Profile/UpdatePasswordForm.vue",
 	"./Profile/UpdateProfileInformationForm": "./resources/js/Pages/Profile/UpdateProfileInformationForm.vue",
-	"./Profile/UpdateProfileInformationForm.vue": "./resources/js/Pages/Profile/UpdateProfileInformationForm.vue"
+	"./Profile/UpdateProfileInformationForm.vue": "./resources/js/Pages/Profile/UpdateProfileInformationForm.vue",
+	"./Users/All": "./resources/js/Pages/Users/All.vue",
+	"./Users/All.vue": "./resources/js/Pages/Users/All.vue"
 };
 
 
@@ -62823,6 +84583,144 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Children/All.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/Pages/Children/All.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _All_vue_vue_type_template_id_a69249cc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./All.vue?vue&type=template&id=a69249cc& */ "./resources/js/Pages/Children/All.vue?vue&type=template&id=a69249cc&");
+/* harmony import */ var _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./All.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Children/All.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _All_vue_vue_type_template_id_a69249cc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _All_vue_vue_type_template_id_a69249cc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Children/All.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Children/All.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/Pages/Children/All.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Children/All.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Children/All.vue?vue&type=template&id=a69249cc&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/Pages/Children/All.vue?vue&type=template&id=a69249cc& ***!
+  \****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_a69249cc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=template&id=a69249cc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Children/All.vue?vue&type=template&id=a69249cc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_a69249cc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_a69249cc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Children/EditOrNew.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/Pages/Children/EditOrNew.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditOrNew_vue_vue_type_template_id_63288ee8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditOrNew.vue?vue&type=template&id=63288ee8& */ "./resources/js/Pages/Children/EditOrNew.vue?vue&type=template&id=63288ee8&");
+/* harmony import */ var _EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditOrNew.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Children/EditOrNew.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditOrNew_vue_vue_type_template_id_63288ee8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditOrNew_vue_vue_type_template_id_63288ee8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Children/EditOrNew.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Children/EditOrNew.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/Pages/Children/EditOrNew.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditOrNew.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Children/EditOrNew.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Children/EditOrNew.vue?vue&type=template&id=63288ee8&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/Pages/Children/EditOrNew.vue?vue&type=template&id=63288ee8& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_template_id_63288ee8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditOrNew.vue?vue&type=template&id=63288ee8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Children/EditOrNew.vue?vue&type=template&id=63288ee8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_template_id_63288ee8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_template_id_63288ee8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Dashboard.vue":
 /*!******************************************!*\
   !*** ./resources/js/Pages/Dashboard.vue ***!
@@ -62892,17 +84790,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Patients/All.vue":
-/*!*********************************************!*\
-  !*** ./resources/js/Pages/Patients/All.vue ***!
-  \*********************************************/
+/***/ "./resources/js/Pages/Insurances/All.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/Pages/Insurances/All.vue ***!
+  \***********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _All_vue_vue_type_template_id_7ee07429_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./All.vue?vue&type=template&id=7ee07429&scoped=true& */ "./resources/js/Pages/Patients/All.vue?vue&type=template&id=7ee07429&scoped=true&");
-/* harmony import */ var _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./All.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Patients/All.vue?vue&type=script&lang=js&");
+/* harmony import */ var _All_vue_vue_type_template_id_77bc97b4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./All.vue?vue&type=template&id=77bc97b4& */ "./resources/js/Pages/Insurances/All.vue?vue&type=template&id=77bc97b4&");
+/* harmony import */ var _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./All.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Insurances/All.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -62913,49 +84811,394 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _All_vue_vue_type_template_id_7ee07429_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _All_vue_vue_type_template_id_7ee07429_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _All_vue_vue_type_template_id_77bc97b4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _All_vue_vue_type_template_id_77bc97b4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "7ee07429",
+  null,
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/Pages/Patients/All.vue"
+component.options.__file = "resources/js/Pages/Insurances/All.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Patients/All.vue?vue&type=script&lang=js&":
-/*!**********************************************************************!*\
-  !*** ./resources/js/Pages/Patients/All.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************/
+/***/ "./resources/js/Pages/Insurances/All.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/Pages/Insurances/All.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Patients/All.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/All.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Patients/All.vue?vue&type=template&id=7ee07429&scoped=true&":
-/*!****************************************************************************************!*\
-  !*** ./resources/js/Pages/Patients/All.vue?vue&type=template&id=7ee07429&scoped=true& ***!
-  \****************************************************************************************/
+/***/ "./resources/js/Pages/Insurances/All.vue?vue&type=template&id=77bc97b4&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/Pages/Insurances/All.vue?vue&type=template&id=77bc97b4& ***!
+  \******************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_7ee07429_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=template&id=7ee07429&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Patients/All.vue?vue&type=template&id=7ee07429&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_7ee07429_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_77bc97b4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=template&id=77bc97b4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/All.vue?vue&type=template&id=77bc97b4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_77bc97b4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_7ee07429_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_77bc97b4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Insurances/EditOrNew.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/Pages/Insurances/EditOrNew.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditOrNew_vue_vue_type_template_id_67b419a6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditOrNew.vue?vue&type=template&id=67b419a6& */ "./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=template&id=67b419a6&");
+/* harmony import */ var _EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditOrNew.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditOrNew_vue_vue_type_template_id_67b419a6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditOrNew_vue_vue_type_template_id_67b419a6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Insurances/EditOrNew.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditOrNew.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=template&id=67b419a6&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=template&id=67b419a6& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_template_id_67b419a6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditOrNew.vue?vue&type=template&id=67b419a6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/EditOrNew.vue?vue&type=template&id=67b419a6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_template_id_67b419a6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_template_id_67b419a6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Insurances/Plans.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/Pages/Insurances/Plans.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Plans_vue_vue_type_template_id_51ff593d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Plans.vue?vue&type=template&id=51ff593d& */ "./resources/js/Pages/Insurances/Plans.vue?vue&type=template&id=51ff593d&");
+/* harmony import */ var _Plans_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Plans.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Insurances/Plans.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Plans_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Plans_vue_vue_type_template_id_51ff593d___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Plans_vue_vue_type_template_id_51ff593d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Insurances/Plans.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Insurances/Plans.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/Pages/Insurances/Plans.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Plans_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Plans.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/Plans.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Plans_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Insurances/Plans.vue?vue&type=template&id=51ff593d&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/Pages/Insurances/Plans.vue?vue&type=template&id=51ff593d& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Plans_vue_vue_type_template_id_51ff593d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Plans.vue?vue&type=template&id=51ff593d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Insurances/Plans.vue?vue&type=template&id=51ff593d&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Plans_vue_vue_type_template_id_51ff593d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Plans_vue_vue_type_template_id_51ff593d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parents/All.vue":
+/*!********************************************!*\
+  !*** ./resources/js/Pages/Parents/All.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _All_vue_vue_type_template_id_17113a3c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./All.vue?vue&type=template&id=17113a3c& */ "./resources/js/Pages/Parents/All.vue?vue&type=template&id=17113a3c&");
+/* harmony import */ var _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./All.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Parents/All.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _All_vue_vue_type_template_id_17113a3c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _All_vue_vue_type_template_id_17113a3c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Parents/All.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parents/All.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/Pages/Parents/All.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/All.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parents/All.vue?vue&type=template&id=17113a3c&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/Pages/Parents/All.vue?vue&type=template&id=17113a3c& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_17113a3c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=template&id=17113a3c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/All.vue?vue&type=template&id=17113a3c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_17113a3c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_17113a3c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parents/Create.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/Pages/Parents/Create.vue ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Create_vue_vue_type_template_id_3cc66c6a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Create.vue?vue&type=template&id=3cc66c6a& */ "./resources/js/Pages/Parents/Create.vue?vue&type=template&id=3cc66c6a&");
+/* harmony import */ var _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Create.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Parents/Create.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Create_vue_vue_type_template_id_3cc66c6a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Create_vue_vue_type_template_id_3cc66c6a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Parents/Create.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parents/Create.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/Pages/Parents/Create.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/Create.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parents/Create.vue?vue&type=template&id=3cc66c6a&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/Pages/Parents/Create.vue?vue&type=template&id=3cc66c6a& ***!
+  \******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_3cc66c6a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=template&id=3cc66c6a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/Create.vue?vue&type=template&id=3cc66c6a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_3cc66c6a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_3cc66c6a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parents/EditOrNew.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/Pages/Parents/EditOrNew.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditOrNew_vue_vue_type_template_id_03494a54___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditOrNew.vue?vue&type=template&id=03494a54& */ "./resources/js/Pages/Parents/EditOrNew.vue?vue&type=template&id=03494a54&");
+/* harmony import */ var _EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditOrNew.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Parents/EditOrNew.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditOrNew_vue_vue_type_template_id_03494a54___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditOrNew_vue_vue_type_template_id_03494a54___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Parents/EditOrNew.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parents/EditOrNew.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/Pages/Parents/EditOrNew.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditOrNew.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/EditOrNew.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parents/EditOrNew.vue?vue&type=template&id=03494a54&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/Pages/Parents/EditOrNew.vue?vue&type=template&id=03494a54& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_template_id_03494a54___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditOrNew.vue?vue&type=template&id=03494a54& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parents/EditOrNew.vue?vue&type=template&id=03494a54&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_template_id_03494a54___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditOrNew_vue_vue_type_template_id_03494a54___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -63375,6 +85618,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Users/All.vue":
+/*!******************************************!*\
+  !*** ./resources/js/Pages/Users/All.vue ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _All_vue_vue_type_template_id_0ab5bca1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./All.vue?vue&type=template&id=0ab5bca1& */ "./resources/js/Pages/Users/All.vue?vue&type=template&id=0ab5bca1&");
+/* harmony import */ var _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./All.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Users/All.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _All_vue_vue_type_template_id_0ab5bca1___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _All_vue_vue_type_template_id_0ab5bca1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Users/All.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Users/All.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/Pages/Users/All.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Users/All.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Users/All.vue?vue&type=template&id=0ab5bca1&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/Pages/Users/All.vue?vue&type=template&id=0ab5bca1& ***!
+  \*************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_0ab5bca1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=template&id=0ab5bca1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Users/All.vue?vue&type=template&id=0ab5bca1&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_0ab5bca1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_0ab5bca1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -63386,15 +85698,19 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue */ "./node_modules/@inertiajs/inertia-vue/dist/index.js");
-/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var laravel_jetstream__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! laravel-jetstream */ "./node_modules/laravel-jetstream/dist/index.js");
-/* harmony import */ var laravel_jetstream__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(laravel_jetstream__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! portal-vue */ "./node_modules/portal-vue/dist/portal-vue.common.js");
-/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
+/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @inertiajs/inertia-vue */ "./node_modules/@inertiajs/inertia-vue/dist/index.js");
+/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var laravel_jetstream__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! laravel-jetstream */ "./node_modules/laravel-jetstream/dist/index.js");
+/* harmony import */ var laravel_jetstream__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(laravel_jetstream__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! portal-vue */ "./node_modules/portal-vue/dist/portal-vue.common.js");
+/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_5__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
+
 
 
 
@@ -63405,13 +85721,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.mixin({
     route: route
   }
 });
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1__["InertiaApp"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(laravel_jetstream__WEBPACK_IMPORTED_MODULE_2__["InertiaForm"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(portal_vue__WEBPACK_IMPORTED_MODULE_3___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_3__["InertiaApp"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(laravel_jetstream__WEBPACK_IMPORTED_MODULE_4__["InertiaForm"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
 var app = document.getElementById('app');
 new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   render: function render(h) {
-    return h(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1__["InertiaApp"], {
+    return h(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_3__["InertiaApp"], {
       props: {
         initialPage: JSON.parse(app.dataset.page),
         resolveComponent: function resolveComponent(name) {
@@ -63419,7 +85735,8 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         }
       }
     });
-  }
+  },
+  store: _store_store__WEBPACK_IMPORTED_MODULE_2__["default"]
 }).$mount(app);
 
 /***/ }),
@@ -63453,6 +85770,56 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/store/store.js":
+/*!*************************************!*\
+  !*** ./resources/js/store/store.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+  state: {
+    editingOrCreatingParent: false,
+    editingOrCreatingInsurance: false,
+    editingOrCreatingChildren: false
+  },
+  mutations: {
+    TOGGLE_NEW_OR_EDIT_PARENT_MODAL: function TOGGLE_NEW_OR_EDIT_PARENT_MODAL(state) {
+      state.editingOrCreatingParent = !state.editingOrCreatingParent;
+    },
+    TOGGLE_NEW_OR_EDIT_INSURANCE_MODAL: function TOGGLE_NEW_OR_EDIT_INSURANCE_MODAL(state) {
+      state.editingOrCreatingInsurance = !state.editingOrCreatingInsurance;
+    },
+    TOGGLE_NEW_OR_EDIT_CHILDREN_MODAL: function TOGGLE_NEW_OR_EDIT_CHILDREN_MODAL(state) {
+      state.editingOrCreatingChildren = !state.editingOrCreatingChildren;
+    }
+  },
+  actions: {
+    toggleNewOrEditParentModal: function toggleNewOrEditParentModal(_ref) {
+      var commit = _ref.commit;
+      commit('TOGGLE_NEW_OR_EDIT_PARENT_MODAL');
+    },
+    toggleNewOrEditInsuranceModal: function toggleNewOrEditInsuranceModal(_ref2) {
+      var commit = _ref2.commit;
+      commit('TOGGLE_NEW_OR_EDIT_INSURANCE_MODAL');
+    },
+    toggleNewOrEditChildrenModal: function toggleNewOrEditChildrenModal(_ref3) {
+      var commit = _ref3.commit;
+      commit('TOGGLE_NEW_OR_EDIT_CHILDREN_MODAL');
+    }
+  }
+}));
 
 /***/ }),
 

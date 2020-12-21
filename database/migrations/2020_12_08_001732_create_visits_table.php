@@ -16,9 +16,9 @@ class CreateVisitsTable extends Migration
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
             $table->date('visit_date');
-            $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('children_id');
 
-            $table->foreign('patient_id')->references('id')->on('patients');
+            $table->foreign('children_id')->references('id')->on('children');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateVisitsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('consultations');
+        Schema::dropIfExists('visits');
     }
 }
