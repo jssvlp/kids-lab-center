@@ -2,24 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="233d08eb-d384-46bd-9208-cf9386040ade" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Insurance.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Insurance.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/InsurancePlan.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Parent.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Patient.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Patient.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_07_004359_create_insurance_plans_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_07_235708_create_parents_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_08_000211_create_patients_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_08_001732_create_visits_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_12_08_001732_create_visits_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChildController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChildController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ParentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ParentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Child.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Child.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Components/Statistics.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Components/Statistics.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Patients/All.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Children/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Children/All.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Children/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Children/EditOrNew.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Insurances/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Insurances/All.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Insurances/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Insurances/EditOrNew.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Parents/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Parents/All.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Parents/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Parents/EditOrNew.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/store.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -200,6 +198,7 @@
       <workItem from="1607401041215" duration="4503000" />
       <workItem from="1607742241325" duration="7308000" />
       <workItem from="1608172177836" duration="2489000" />
+      <workItem from="1608686945995" duration="50000" />
     </task>
     <servers />
   </component>

@@ -16,9 +16,9 @@ class CreateVisitsTable extends Migration
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
             $table->date('visit_date');
-            $table->unsignedBigInteger('children_id');
+            $table->unsignedBigInteger('child_id');
 
-            $table->foreign('children_id')->references('id')->on('children');
+            $table->foreign('child_id')->references('id')->on('children');
             $table->timestamps();
         });
     }

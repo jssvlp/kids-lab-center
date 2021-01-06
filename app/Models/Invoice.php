@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     use HasFactory;
+
+    protected $fillable = [];
+
+
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 }

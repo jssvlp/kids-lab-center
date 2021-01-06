@@ -91,7 +91,7 @@ export default {
         planBeingDeleted: null
     }),
     computed:{
-         ...mapState(['editingOrCreatingInsurance'])
+        ...mapState(['editingOrCreatingInsurance'])
     },
     methods:{
         ...mapActions({

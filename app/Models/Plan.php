@@ -13,11 +13,11 @@ class Plan extends Model
 
     public function insurance()
     {
-        return $this->belongsTo(App\Models\Insurance::class);
+        return $this->belongsTo(Insurance::class);
     }
 
-    public function patients()
+    public function children()
     {
-        return $this->belongsToMany(App\Models\Patient::class);
+        return $this->hasMany(Child::class);
     }
 }

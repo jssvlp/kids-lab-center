@@ -8,6 +8,14 @@ import store from './store/store'
 import { InertiaApp } from '@inertiajs/inertia-vue';
 import { InertiaForm } from 'laravel-jetstream';
 import PortalVue from 'portal-vue';
+import { Datetime } from 'vue-datetime'
+// You need a specific loader for CSS files
+import 'vue-datetime/dist/vue-datetime.css'
+import { Settings } from 'luxon'
+
+Settings.defaultLocale = 'es'
+
+Vue.use(Datetime)
 
 Vue.mixin({ methods: { route } });
 Vue.use(InertiaApp);

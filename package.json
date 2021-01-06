@@ -29,9 +29,12 @@
     "dependencies": {
         "@coding-wisely/vue-tailwind-datepicker": "^1.1.5",
         "dayjs": "^1.9.7",
+        "luxon": "^1.25.0",
+        "vue-datetime": "^1.0.0-beta.14",
         "vue-feather-icons": "^5.1.0",
         "vue-tailwind-modal": "^1.0.5",
         "vue-tailwind-picker": "^1.1.5",
-        "vuex": "^3.6.0"
+        "vuex": "^3.6.0",
+        "weekstart": "^1.0.1"
     }
 }

@@ -6,11 +6,11 @@
             </h2>
         </template>
         <EditOrNew v-if="editingOrCreatingParent" :title="modalTitle" :data="editThisParent"/>
-        <EditOrNewChildren v-if="editingOrCreatingChildren" :title="'Nuevo niño/a'" :data="newChild"/>
-        <div class="py-5">
+        <EditOrNewChildren v-if="editingOrCreatingChild" :title="'Nuevo niño/a'" :data="newChild"/>
+        <div class="py-2">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col">
-                    <div class="-my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                             <div class="mb-3">
                                 <button @click="newOrEdit(null,'Nuevo padre/madre')" class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
@@ -22,29 +22,29 @@
                                 <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Nombre completo
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Telefono
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Hijos
                                     </th>
-                                    <th scope="col" class="relative px-6 py-3">
+                                    <th scope="col" class="relative px-6 py-2">
                                         <span class="sr-only">Acciones</span>
                                     </th>
                                     </tr>
                                 </thead>
                                 <tbody v-if="parents.length > 0" class="bg-white divide-y divide-gray-200">
                                     <tr  v-for="parent in parents" :key="parent.id" >
-                                    <td  class="px-6 py-4 whitespace-nowrap">
+                                    <td  class="px-6 whitespace-nowrap">
                                         <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full" :src="(parent.kinship == 'Madre' ? '/Images/mom.png' : '/Images/dad.png')" alt="">
+                                        <div class="flex-shrink-0 h-7 w-7">
+                                            <img class="h-7 w-7 rounded-full" :src="(parent.kinship == 'Madre' ? '/Images/mom.png' : '/Images/dad.png')" alt="">
                                         </div>
                                         <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">
+                                            <div class="text-sm font-medium text-gray-900 font-bold">
                                             {{parent.name}}
                                             </div>
                                             <div class="text-sm text-gray-500">
@@ -59,19 +59,19 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <span @click="addChild(parent)" class="bg-green-600  text-white rounded cursor-pointer p-1" >Agregar hijo/a</span>
+                                        <span @click="addChild(parent)" class="bg-green-600  text-white rounded cursor-pointer p-1" >Agregar</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <div class="flex">
                                             <button aria-label="Edit user"
                                                     class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
                                                     @click="newOrEdit(parent, 'Editar padre/madre')">
-                                                <EditIcon/>
+                                                <EditIcon size="1.2x"/>
                                             </button>
                                             <button aria-label="Delete user"
                                                     class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
-                                                    @click="planBeingDeleted = true, toDelete= parent.id">
-                                                <Trash2Icon/>
+                                                    @click="planBeingDeleted = true, toDelete= parent">
+                                                <Trash2Icon size="1.2x"/>
                                             </button>
                                         </div>
                                     </td>
@@ -92,11 +92,11 @@
             </template>
 
             <template #content>
-                ¿Estás seguro que deseas borrar este padre?
+                ¿Estás seguro que deseas borrar a <span class="font-bold">{{toDelete.name}}</span>?
             </template>
 
             <template #footer>
-                <jet-secondary-button @click.native="planBeingDeleted = null, toDelete = ''">
+                <jet-secondary-button @click.native="planBeingDeleted = null, toDelete = {}">
                     Cancelar
                 </jet-secondary-button>
 
@@ -123,6 +123,7 @@ import Button from '../../Jetstream/Button.vue'
 import EditOrNewChildren from '../Children/EditOrNew'
 import axios from 'axios'
 export default {
+    props:['parents'],
     components: {
         AppLayout,
         Pagination,
@@ -143,20 +144,19 @@ export default {
         editThisParent: null,
         modalTitle: '',
         planBeingDeleted: null,
-        toDelete: null,
+        toDelete: {},
         newChild: null,
-        parents: [],
+        parentss: [],
         pagination: {}
 
     }),
     computed:{
-        ...mapState(['editingOrCreatingParent','editingOrCreatingChildren'])
+        ...mapState(['editingOrCreatingParent','editingOrCreatingChild'])
     },
     methods:{
         ...mapActions({
             toggleNewOrEditParentModal: "toggleNewOrEditParentModal",
-            toggleNewOrEditChildrenModal: "toggleNewOrEditChildrenModal",
-            
+            toggleNewOrEditChildModal: "toggleNewOrEditChildModal",
         }),
         openModal(){
             this.openInformationModal();
@@ -167,18 +167,17 @@ export default {
             this.toggleNewOrEditParentModal()
         },
         deleteParent(){
-            this.$inertia.delete(`/parents/${this.toDelete}`)
+            this.$inertia.delete(`/parents/${this.toDelete.id}`)
             .then( (data) =>{
                 this.planBeingDeleted = null
             })
         },
         addChild(parent){
             this.newChild = {
-                'parent' : parent
+                'id': null,
+                'dad_or_mom' : parent
             }
-
-            this.toggleNewOrEditChildrenModal();
-
+            this.toggleNewOrEditChildModal();
         },
         getChildren(children){
             var result = '';
@@ -197,12 +196,12 @@ export default {
         
     },
     mounted(){
-       axios.get('parents/all')
+       /* axios.get('parents/all')
        .then( data =>{
            this.parents = data.data.data
            this.pagination = data.data
            console.log(this.pagination)
-       })
+       }) */
     },
     getParents()
     {

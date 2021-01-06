@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Insurance;
 use Inertia\Inertia;
 Use App\Models\Plan;
+use Illuminate\Support\Facades\DB;
 
 class PlanController extends Controller
 {
@@ -15,6 +16,14 @@ class PlanController extends Controller
             'plans' => $insurance->plans,
             'insurance' => $insurance
         ]);
+    }
+
+    public function list()
+    {
+        return DB::table('plans')
+                ->join('insurances','insurances.id','plans.insurance_id')
+                ->select(['plans.id','plans.name','insurances.name as ars'])
+                ->get();
     }
 
     public function store(Request $request)

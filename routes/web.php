@@ -32,9 +32,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::patch('/parents/{parent}',[Controllers\ParentController::class,'update'])->name('parents.update');
     Route::delete('/parents/{parent}',[Controllers\ParentController::class,'destroy']);
     Route::get('/parents/all',[Controllers\ParentController::class, 'all'])->name('parents.paginate');
-    
+    Route::get('/parents/list',[Controllers\ParentController::class,'list'])->name('parents.list');
+    Route::get('/parents/{parent}',[Controllers\ParentController::class,'show'])->name('parents.show');
     //Children
     Route::get('/children',[Controllers\ChildController::class, 'index'])->name('children.index');
+    Route::post('/children',[Controllers\ChildController::class,'store'])->name('children.store');
+    Route::patch('/children/{child}',[Controllers\ChildController::class,'update'])->name('children.udpate');
+    Route::delete('/children/{child}',[Controllers\ChildController::class,'destroy'])->name('children.delete');
+    Route::get('/children/all')->name('childre.paginate');
 
     //Users
     Route::get('/users',[Controllers\UserController::class, 'index'])->name('users.index');
@@ -55,6 +60,20 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::post('/plans',[Controllers\PlanController::class,'store']);
     Route::delete('/plans/{plan}',[Controllers\PlanController::class,'destroy']);
     Route::patch('/plans/{plan}',[Controllers\PlanController::class,'update']);
+    Route::get('plans/list', [Controllers\PlanController::class,'list'])->name('plans.list');
+
+    //Vaccines
+    Route::get('/vaccines',[Controllers\VaccineController::class,'index'])->name('vaccines.index');
+    Route::post('/vaccines',[Controllers\VaccineController::class,'store'])->name('vaccines.store');
+    Route::patch('/vaccines/{vaccine}',[Controllers\VaccineController::class,'update'])->name('vaccines.update');
+    Route::delete('/vaccines/{vaccine}',[Controllers\VaccineController::class,'destroy'])->name('vaccines.destroy');
+
+    Route::get('/visits',[Controllers\VisitController::class, 'index'])->name('visits.index');
+    Route::get('/visits/{id}',[Controllers\VisitController::class,'show'])->name('visits.show');
+    Route::post('/visits',[Controllers\VisitController::class, 'store'])->name('visits.store');
+    Route::patch('/visits/{id}',[Controllers\VisitController::class, 'update'])->name('visits.update');
+    Route::delete('/visits/{id}', [Controllers\VisitController::class, 'destroy'])->name('visits.destroy');
+    Route::get('/visit/newOrEdit/{id?}',[Controllers\VisitController::class, 'newOrEdit'])->name('visits.new');
 });
 
 

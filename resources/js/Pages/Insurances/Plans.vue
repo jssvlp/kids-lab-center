@@ -76,7 +76,7 @@
             </template>
 
             <template #footer>
-                <jet-secondary-button @click.native="planBeingDeleted = null, toDelete = ''">
+                <jet-secondary-button @click.native="planBeingDeleted = null, toDelete = {}">
                     Cancelar
                 </jet-secondary-button>
 
@@ -116,7 +116,7 @@ export default {
             insurance_id: ''
         },
         planBeingDeleted: null,
-        toDelete: null
+        toDelete: {}
     }),
     mounted(){
         this.form.insurance_id = this.insurance.id

@@ -1,47 +1,57 @@
 <template>
-  <jet-dialog-modal :show="toggleNewOrEditChildrenModal" @close="toggleModal">
+  <jet-dialog-modal :show="editingOrCreatingChildren" @close="toggleModal">
             <template #title>
-                {{ title }}
+                <div class="ml-10 mt-5">{{title}}</div>
             </template>
 
             <template #content>
                 <div class="flex mt-4">
-                    <jet-input type="text" class="mt-1 block w-full" placeholder="Nombre completo"
-                                ref="name"
-                                v-model="form.name"
+                    <div class="w-full mx-10">
+                        <jet-label :value="'Nombre completo'"></jet-label>
+                        <jet-input type="text" class="mt-1 block w-full" placeholder="Nombre completo"
+                                    ref="name"
+                                    v-model="form.name"
+                            />
+                        <jet-input-error :message="form.error" class="mt-2" />
+                    </div>
+                </div>
+                <div class="flex mt-4">
+                    <div class="w-full mx-10">
+                        <PlanSelect :selectedForEdition="plan"/>
+                    </div>
+                </div>
+                <div class="flex mt-4">
+                    <div class="w-full mx-10">
+                        <jet-label :value="'Fecha de nacimiento'"></jet-label>
+                        <datetime
+                            type="date"
+                            v-model="form.birth_date"
+                            input-class="border w-full bg-white rounded  py-2 outline-none"
+                        ></datetime>
+                    </div>
+                    <jet-input-error :message="form.error" class="mt-2" />
+                </div>
+                <div class="flex mt-4 mx-10">
+                    <div class="w-full">
+                        <jet-label :value="'¿Niño o Niña?'"></jet-label>
+                        <select class="border w-full bg-white rounded  py-2 outline-none" v-model="form.gender"> 
+                            <option class="py-1" value="Niño">Niño</option>
+                            <option class="py-1" value="Niña">Niña</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex mt-4 mx-10">
+                    <div class="w-full">
+                        <jet-label :value="'Padre/Madre'"></jet-label>
+                        <jet-input type="text" class="mt-1 block w-full" placeholder="Nombre completo"
+                                    ref="name"
+                                    v-model="form.parent.name"
+                                    disabled
                         />
-
-                    
-                    <jet-input-error :message="form.error" class="mt-2" />
-                </div>
-                <div class="flex mt-4">
-                    <VueTailwindPicker
-                        class="mt-1  block w-full"
-                                @change="(v) => checkin = v"
-                            >
-                            <jet-input type="text" v-model="form.birth_date"/>
-                            
-                    </VueTailwindPicker>
-                    <jet-input-error :message="form.error" class="mt-2" />
-                    <select class="w-full border bg-white rounded  py-2 outline-none" v-model="form.gender"> 
-                        <option selected disabled>¿Niño o niña?</option>
-                        <option class="py-1" value="Niño">Niño</option>
-                        <option class="py-1" value="Niña">Niña</option>
-                    </select>
-                </div>
-                <div class="flex mt-4">
-                    <jet-input type="text" class="mt-1 block w-3/5" placeholder="Nombre completo"
-                                ref="name"
-                                v-model="form.parent.name"
-                                disabled
-                    />
+                    </div>
                 </div>
                 <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>s
+                
             </template>
 
             <template #footer class="">
@@ -61,15 +71,17 @@ import JetDialogModal from '@/Jetstream/DialogModal'
 import JetButton from '@/Jetstream/Button'
 import JetInputError from '@/Jetstream/InputError'
 import JetInput from '@/Jetstream/Input'
+import JetLabel from '@/Jetstream/Label'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import {mapState,mapActions} from 'vuex'
 import VueTailwindPicker from 'vue-tailwind-picker'
+import { Datetime } from 'vue-datetime'
+import PlanSelect from '../Insurances/PlanSelect'
 export default {
     props: {
         title: {
             default: 'Nueva aseguradora',
         },
-        
         data:{
             default: null
         }
@@ -80,51 +92,72 @@ export default {
         JetSecondaryButton,
         JetInput,
         JetButton,
-        VueTailwindPicker
+        JetLabel,
+        VueTailwindPicker,
+        Datetime,
+        PlanSelect
     },
     data: ()=>({
         form: {
-            id:'',
-            name:'',
-            birth_date: '',
-            gender:'¿Niño o niña?',
-            parent:{}
-
+            id: null,
+            name: '',
+            birth_date: null,
+            gender: '',
+            parent: {},
         },
+        plan: null
     }),
+    created(){
+        if(this.data.id){
+            this.form.birth_date = this.data.birth_date
+        }
+    },
+
     mounted(){
-       console.log(this.data)
-       if(this.data){
+       if(this.data.id){
             this.form.id = this.data.id
             this.form.name = this.data.name
-            this.form.birth_date = this.data.birth_date,
-            this.form.parent = this.data.parent
+            this.plan = this.data.plan
+            this.form.gender = this.data.gender
+            this.setPlanForEditOrNewChild(this.data.plan)
        }
+       this.form.parent = this.data.dad_or_mom
     },
     computed:{
-        ...mapState(['editingOrCreatingChildren'])
+        ...mapState(['editingOrCreatingChildren','planForEditOrNewChild'])
     },
     methods:{
         setBirthDayDate(date){
             this.form.birth_date = date
         },
         ...mapActions({
-            toggleNewOrEditChildrenModal: "toggleNewOrEditChildrenModal"
+            toggleNewOrEditChildModal: "toggleNewOrEditChildModal",
+            setPlanForEditOrNewChild: "setPlanForEditOrNewChild"
         }),
         toggleModal(){
-            this.toggleNewOrEditChildrenModal()
+            this.toggleNewOrEditChildModal()
         },
         onSave(){
-            if(this.form.id){
-                this.$inertia.patch(`/children/${this.form.id}`, this.form)
+            const child = {
+                    'name' : this.form.name,
+                    'birth_date' : this.form.birth_date,
+                    'gender': this.form.gender,
+                    'dad_or_mom_id': this.form.parent.id,
+                    'plan_id' : this.planForEditOrNewChild.id
+                }
+
+
+            if(this.form.id != null){
+                this.$inertia.patch(`/children/${this.form.id}`, child)
                 .then( (data) =>{
-                    this.toggleNewOrEditChildrenModal()
+                    this.toggleNewOrEditChildModal()
                 })
             }
             else{
-                this.$inertia.post('/children', this.form)
+                this.$inertia.post('/children', child)
                 .then( (data) =>{
-                    this.toggleNewOrEditChildrenModal()
+                    this.toggleNewOrEditChildModal()
+                    console.log(data)
                 })
             }
         },

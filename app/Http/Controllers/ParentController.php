@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\DadOrMom;
+use App\Models\Parentt;
 use Illuminate\Validation\Rule;
 
 class ParentController extends Controller
@@ -12,15 +13,23 @@ class ParentController extends Controller
     public function index(): \Inertia\Response
     {
         return Inertia::render('Parents/All',[
-           
+           'parents' => DadOrMom::with(['children'])->get()
         ]);
+    }
+
+    public function show(DadOrMom $parent)
+    {
+        return $parent;
     }
 
     public function all()
     {
-        $parents = DadOrMom::with(['children'])->paginate(3);
+        return DadOrMom::with(['children'])->paginate(5);
+    }
 
-        return $parents;
+    public function list()
+    {
+        return DadOrMom::select('id','name','kinship')->get();
     }
 
     public function store(Request $request)
