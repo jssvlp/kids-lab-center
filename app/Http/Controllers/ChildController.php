@@ -16,6 +16,11 @@ class ChildController extends Controller
             'children' => Child::with(['dadOrMom','plan'])->get()
         ]);
     }
+    
+    public function list()
+    {
+        return Child::all();
+    }
 
     public function store(Request $request)
     {

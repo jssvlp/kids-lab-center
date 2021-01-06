@@ -10,9 +10,25 @@ export default new Vuex.Store({
     editingOrCreatingChild: false,
     editingOrCreatingVaccine: false,
     parentForNewChild: null,
-    planForEditOrNewChild: null
+    planForEditOrNewChild: null,
+    childForNewVisit: null,
+    titleForVisit:'Nueva visita',
+    vaccineList: []
   },
   mutations: {
+    PUSH_TO_VACCINE_LIST(state, vaccine){
+      state.vaccineList.push(vaccine)
+    },
+    REMOVE_FROM_VACCINE_LIST(state,vaccine){
+      //TODO: remove from vaccine list
+    },
+
+    SET_TITLE_FOR_VISIT(state,title){
+      state.titleForVisit = title
+    },
+    SET_CHILD_FOR_NEW_VISIT(state,child){
+      state.childForNewVisit = child
+    },
     SET_PARENT_NEW_CHILD(state, parent){
       state.parentForNewChild = parent;
     },
@@ -43,7 +59,6 @@ export default new Vuex.Store({
       commit('TOGGLE_NEW_OR_EDIT_INSURANCE_MODAL')
     },
     toggleNewOrEditChildModal({commit}){
-      
       commit('TOGGLE_NEW_OR_EDIT_CHILD_MODAL')
     },
     setParentForNewChild({commit},parent){
@@ -51,6 +66,18 @@ export default new Vuex.Store({
     },
     setPlanForEditOrNewChild({commit},plan){
       commit('SET_PLAN_NEW_CHILD',plan)
+    },
+    setChildForNewVisit({commit},child){
+      commit('SET_CHILD_FOR_NEW_VISIT',child)
+    },
+    setTitleForVisit({commit},title){
+      commit('SET_TITLE_FOR_VISIT',title)
+    },
+    pushToVaccineList({commit},vaccine){
+      commit('PUSH_TO_VACCINE_LIST',vaccine)
+    },
+    removeFromVaccineList({commit},vaccine){
+      commit('REMOVE_FROM_VACCINE_LIST',vaccine)
     }
   }
 })

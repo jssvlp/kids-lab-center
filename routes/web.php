@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::patch('/children/{child}',[Controllers\ChildController::class,'update'])->name('children.udpate');
     Route::delete('/children/{child}',[Controllers\ChildController::class,'destroy'])->name('children.delete');
     Route::get('/children/all')->name('childre.paginate');
+    Route::get('/children/list',[Controllers\ChildController::class,'list'])->name('children.list');
 
     //Users
     Route::get('/users',[Controllers\UserController::class, 'index'])->name('users.index');
@@ -67,13 +68,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::post('/vaccines',[Controllers\VaccineController::class,'store'])->name('vaccines.store');
     Route::patch('/vaccines/{vaccine}',[Controllers\VaccineController::class,'update'])->name('vaccines.update');
     Route::delete('/vaccines/{vaccine}',[Controllers\VaccineController::class,'destroy'])->name('vaccines.destroy');
-
+    Route::get('/vaccines/list',[Controllers\VaccineController::class,'list'])->name('vaccines.list');
+    //Visits
     Route::get('/visits',[Controllers\VisitController::class, 'index'])->name('visits.index');
     Route::get('/visits/{id}',[Controllers\VisitController::class,'show'])->name('visits.show');
     Route::post('/visits',[Controllers\VisitController::class, 'store'])->name('visits.store');
     Route::patch('/visits/{id}',[Controllers\VisitController::class, 'update'])->name('visits.update');
     Route::delete('/visits/{id}', [Controllers\VisitController::class, 'destroy'])->name('visits.destroy');
-    Route::get('/visit/newOrEdit/{id?}',[Controllers\VisitController::class, 'newOrEdit'])->name('visits.new');
+    Route::get('/visits/newOrEdit/{id?}',[Controllers\VisitController::class, 'newOrEdit'])->name('visits.newOrEdit');
+    Route::post('/visits/{visit}/vaccine/{vaccine}',[Controllers\VisitController::class, 'addVaccine'])->name('visits.add.vaccine');
+    Route::delete('/visits/{visit}/vaccine/{vaccine}',[Controllers\VisitController::class, 'removeVaccine'])->name('visits.remove.vaccine');
+    Route::get('/visits/{visit}/vaccines',[Controllers\VisitController::class,'vaccines']);
 });
 
 

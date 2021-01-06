@@ -1,5 +1,5 @@
 <template>
-  <jet-dialog-modal :show="editingOrCreatingChildren" @close="toggleModal">
+  <jet-dialog-modal :show="editingOrCreatingChild" @close="toggleModal">
             <template #title>
                 <div class="ml-10 mt-5">{{title}}</div>
             </template>
@@ -124,7 +124,7 @@ export default {
        this.form.parent = this.data.dad_or_mom
     },
     computed:{
-        ...mapState(['editingOrCreatingChildren','planForEditOrNewChild'])
+        ...mapState(['editingOrCreatingChild','planForEditOrNewChild'])
     },
     methods:{
         setBirthDayDate(date){

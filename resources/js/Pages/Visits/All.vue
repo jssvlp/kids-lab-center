@@ -10,7 +10,7 @@
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <inertia-link :href="route('visits.new')" class="mb-3">
+                            <inertia-link :href="route('visits.newOrEdit','_')" class="mb-3">
                                 <button  class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
                                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path></svg>                                    <span class="mr-2">Iniciar</span>
                                 </button>
@@ -64,11 +64,13 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
-                                        <button aria-label="Edit user"
-                                                class="p-1 focus:outline-none focus:shadow-outline text-yellow-500 hover:text-yellow-600"
-                                                @click="newOrEdit(visit,'Editar vacuna')">
-                                            <EditIcon size="1.2x"/>
-                                        </button>
+                                        <inertia-link :href="route('visits.newOrEdit',visit.id)">
+                                            <button aria-label="Edit user"
+                                                    class="p-1 focus:outline-none focus:shadow-outline text-yellow-500 hover:text-yellow-600"
+                                                   >
+                                                <EditIcon size="1.2x"/>
+                                            </button>
+                                        </inertia-link>
                                         <button aria-label="Delete user"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
                                                 @click="planBeingDeleted = true, toDelete= visit">
@@ -92,13 +94,13 @@
                     </div>
             </div>
         </div>
-        <jet-confirmation-modal :show="planBeingDeleted" @close="planBeingDeleted = null">
+        <jet-confirmation-modal :show="planBeingDeleted" v-if="toDelete.child" @close="planBeingDeleted = null">
             <template #title>
-                Borrar Vacuna
+                Borrar Visita
             </template>
 
             <template #content>
-                ¿Estás seguro que deseas borrar la visita <span class="font-bold"> {{toDelete.name}}</span>?
+                ¿Estás seguro que deseas borrar la visita de  <span class="font-bold"> {{toDelete.child.name}}</span>?
             </template>
 
             <template #footer>
@@ -159,11 +161,6 @@ export default {
         ...mapActions({
             
         }),
-        newOrEdit(visit, title){
-            this.toNewOrEdit = visit
-            this.modalTitle = title
-            this.toggleNewOrEditVisitModal()
-        },
         deleteVisit(){
             this.$inertia.delete(`/visits/${this.toDelete.id}`)
             .then( (data) =>{

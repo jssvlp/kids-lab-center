@@ -177,7 +177,8 @@ export default {
         planBeingDeleted: null,
         planBeingAdd: null,
         newChild: null,
-        title: ''
+        title: '',
+        test: false
     }),
     computed: {
         ...mapState(['editingOrCreatingChild','parentForNewChild'])

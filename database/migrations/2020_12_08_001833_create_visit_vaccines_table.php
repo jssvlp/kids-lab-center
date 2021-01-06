@@ -14,10 +14,9 @@ class CreateVisitVaccinesTable extends Migration
     public function up()
     {
         Schema::create('visit_vaccines', function (Blueprint $table) {
-            $table->id();
+            $table->primary(['visit_id','vaccine_id']);
             $table->unsignedBigInteger('visit_id');
             $table->unsignedBigInteger('vaccine_id');
-
             $table->foreign('visit_id')->references('id')->on('visits');
             $table->foreign('vaccine_id')->references('id')->on('vaccines');
             $table->timestamps();

@@ -14,6 +14,11 @@ class VaccineController extends Controller
             'vaccines' => Vaccine::all()
         ]);
     }
+    
+    public function list()
+    {
+        return Vaccine::all();
+    }
 
     public function store(Request $request)
     {
