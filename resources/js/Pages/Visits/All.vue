@@ -59,11 +59,11 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
-                                       {{ (visit.invoced == true ? 'Sí' : "No")}}
+                                       {{ visit.invoiced == true ? 'Sí' : "No" }}
                                     </div>
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
-                                    <div class="flex">
+                                    <div class="flex" v-if="!visit.invoiced">
                                         <inertia-link :href="route('visits.newOrEdit',visit.id)">
                                             <button aria-label="Edit user"
                                                     class="p-1 focus:outline-none focus:shadow-outline text-yellow-500 hover:text-yellow-600"
@@ -76,7 +76,7 @@
                                                 @click="planBeingDeleted = true, toDelete= visit">
                                             <Trash2Icon size="1.2x"/>
                                         </button>
-                                        <button aria-label="Facturar"
+                                        <button v-if="visit.vaccines.length > 0" aria-label="Facturar"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-green-500 hover:text-green-600"
                                                 @click="alert('Enviar a facturacion')">
                                             <DollarSignIcon size="1.2x"/>

@@ -12,8 +12,8 @@ class Child extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'gender','birth_date', 'dad_or_mom_id','plan_id'];
-    protected $appends = ['age'];
+    protected $fillable = ['name', 'gender','birth_date', 'dad_or_mom_id','plan_id','health_insurance_id'];
+    protected $appends = ['age','visitsCount','lastVisit'];
 
     public function dadOrMom(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -32,7 +32,40 @@ class Child extends Model
 
     public function getAgeAttribute()
     {
-        return '';
+        return \Carbon\Carbon::parse( $this->birth_date )->diff(\Carbon\Carbon::now())->format('%y años y %m meses');
+    }
+
+    public function getVisitsCountAttribute()
+    {
+        return count($this->visits);
+    }
+
+    public function getLastVisitAttribute()
+    {
+        
+        if(count($this->visits) > 0)
+        {
+            $visits = $this->visits->sortByDesc('visit_date');
+            //$invoice = Invoice::where('visit_id',$visit->id)->first();
+            $today = Carbon::now()->format('Y-m-d');
+            
+            if(count($visits) == 1)
+            {
+                return null;
+            }
+            
+            /* if($invoice != null && $visit->visit_date != $today)
+            {
+                return $visit->visit_date;
+            } */
+            
+            /* $visit = Visit::where('visit_date','<=',$today)
+                        ->orderBy('visit_date','desc')->first();
+            return $visit->visit_date; */
+            
+        }
+        return null;
+        
     }
 
 }

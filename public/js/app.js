@@ -3843,48 +3843,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$inertia["delete"]("/children/".concat(this.toDelete.id)).then(function (data) {
         _this.planBeingDeleted = null;
       });
-    },
-    calculateAge: function calculateAge(fecha) {
-      // Si la fecha es correcta, calculamos la edad
-      if (typeof fecha != "string" && fecha && esNumero(fecha.getTime())) {
-        fecha = formatDate(fecha, "yyyy-MM-dd");
-      }
-
-      var values = fecha.split("-");
-      var dia = values[2];
-      var mes = values[1];
-      var ano = values[0]; // cogemos los valores actuales
-
-      var fecha_hoy = new Date();
-      var ahora_ano = fecha_hoy.getYear();
-      var ahora_mes = fecha_hoy.getMonth() + 1;
-      var ahora_dia = fecha_hoy.getDate(); // realizamos el calculo
-
-      var edad = ahora_ano + 1900 - ano;
-
-      if (ahora_mes < mes) {
-        edad--;
-      }
-
-      if (mes == ahora_mes && ahora_dia < dia) {
-        edad--;
-      }
-
-      if (edad > 1900) {
-        edad -= 1900;
-      } // calculamos los meses
-
-
-      var meses = 0;
-      if (ahora_mes > mes && dia > ahora_dia) meses = ahora_mes - mes - 1;else if (ahora_mes > mes) meses = ahora_mes - mes;
-      if (ahora_mes < mes && dia < ahora_dia) meses = 12 - (mes - ahora_mes);else if (ahora_mes < mes) meses = 12 - (mes - ahora_mes + 1);
-      if (ahora_mes == mes && dia > ahora_dia) meses = 11;
-
-      if (edad > 0) {
-        return "".concat(edad, " a\xF1os");
-      }
-
-      return "".concat(meses, " meses");
     }
   })
 });
@@ -3917,6 +3875,15 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4021,6 +3988,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         id: null,
         name: '',
         birth_date: null,
+        health_insurance_id: '',
         gender: '',
         parent: {}
       },
@@ -4038,6 +4006,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.name = this.data.name;
       this.plan = this.data.plan;
       this.form.gender = this.data.gender;
+      this.form.health_insurance_id = this.data.health_insurance_id;
       this.setPlanForEditOrNewChild(this.data.plan);
     }
 
@@ -4050,7 +4019,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapActions"])({
     toggleNewOrEditChildModal: "toggleNewOrEditChildModal",
-    setPlanForEditOrNewChild: "setPlanForEditOrNewChild"
+    setPlanForEditOrNewChild: "setPlanForEditOrNewChild",
+    setParentForNewChild: 'setParentForNewChild'
   })), {}, {
     toggleModal: function toggleModal() {
       this.toggleNewOrEditChildModal();
@@ -4063,8 +4033,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'birth_date': this.form.birth_date,
         'gender': this.form.gender,
         'dad_or_mom_id': this.form.parent.id,
-        'plan_id': this.planForEditOrNewChild.id
+        'plan_id': this.planForEditOrNewChild != null ? this.planForEditOrNewChild.id : null,
+        'health_insurance_id': this.form.health_insurance_id
       };
+      this.setPlanForEditOrNewChild(null);
+      this.setParentForNewChild(null);
 
       if (this.form.id != null) {
         this.$inertia.patch("/children/".concat(this.form.id), child).then(function (data) {
@@ -4816,6 +4789,484 @@ __webpack_require__.r(__webpack_exports__);
       this.edit = '';
     }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Invoices/All.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Invoices/All.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Jetstream_Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Welcome */ "./resources/js/Jetstream/Welcome.vue");
+/* harmony import */ var _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/Pagination */ "./resources/js/Components/Pagination.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue_feather_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-feather-icons */ "./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js");
+/* harmony import */ var _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Jetstream/ConfirmationModal */ "./resources/js/Jetstream/ConfirmationModal.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/Jetstream/DangerButton */ "./resources/js/Jetstream/DangerButton.vue");
+/* harmony import */ var _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/Jetstream/DialogModal */ "./resources/js/Jetstream/DialogModal.vue");
+/* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['invoices'],
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Pagination: _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__["default"],
+    EditIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_4__["EditIcon"],
+    Trash2Icon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_4__["Trash2Icon"],
+    PrinterIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_4__["PrinterIcon"],
+    JetConfirmationModal: _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_5__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_6__["default"],
+    JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_7__["default"],
+    JetDangerButton: _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_8__["default"],
+    JetDialogModal: _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_9__["default"]
+  },
+  data: function data() {
+    var _ref;
+
+    return _ref = {
+      toNewOrEdit: null,
+      toDelete: {},
+      title: '',
+      planBeingDeleted: null,
+      planBeingAdd: null,
+      newChild: null
+    }, _defineProperty(_ref, "title", ''), _defineProperty(_ref, "test", false), _ref;
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['editingOrCreatingChild', 'parentForNewChild'])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({
+    toggleNewOrEditChildModal: "toggleNewOrEditChildModal"
+  })), {}, {
+    total: function total(vaccines) {
+      return vaccines.reduce(function (a, b) {
+        return a + b.price;
+      }, 0);
+    },
+    print: function print(invoice) {
+      console.log('printing invoice');
+    },
+    editChild: function editChild(child) {
+      this.toNewOrEdit = child;
+      this.title = 'Editar paciente';
+      this.toggleNewOrEditChildModal();
+    },
+    addChild: function addChild() {
+      this.planBeingAdd = false;
+      this.title = 'Nuevo paciente';
+      this.toNewOrEdit = {
+        id: null,
+        dad_or_mom: this.parentForNewChild
+      };
+      this.toggleNewOrEditChildModal();
+    },
+    deleteChild: function deleteChild(child) {
+      var _this = this;
+
+      this.$inertia["delete"]("/children/".concat(this.toDelete.id)).then(function (data) {
+        _this.planBeingDeleted = null;
+      });
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Invoices/Invoice.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Invoices/Invoice.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
+/* harmony import */ var _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Jetstream/DialogModal */ "./resources/js/Jetstream/DialogModal.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var vue_feather_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-feather-icons */ "./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js");
+var _components;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['invoice'],
+  components: (_components = {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_1__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_3__["default"],
+    JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__["default"],
+    JetLabel: _Jetstream_Label__WEBPACK_IMPORTED_MODULE_5__["default"],
+    JetDialogModal: _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }, _defineProperty(_components, "JetSecondaryButton", _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_3__["default"]), _defineProperty(_components, "Trash2Icon", vue_feather_icons__WEBPACK_IMPORTED_MODULE_8__["Trash2Icon"]), _components),
+  data: function data() {
+    return {
+      parent: {},
+      discount: '0',
+      discountVisible: false,
+      modalDiscountVisible: false,
+      paymentModalVisible: false,
+      paymentMethod: ''
+    };
+  },
+  computed: {
+    total: function total() {
+      return this.calculateTotal();
+    },
+    discounted: function discounted() {
+      var total = this.calculateTotal();
+      return Math.trunc(total * (this.discount / 100) * 100) / 100;
+    }
+  },
+  methods: {
+    openPayModal: function openPayModal() {
+      this.paymentModalVisible = true;
+    },
+    collectMoney: function collectMoney() {
+      var data = {
+        vaccines: this.invoice.vaccines,
+        discount: this.discount,
+        transaction_number: '12323',
+        payment_method: this.paymentMethod
+      };
+      this.$inertia.post("/invoices/pay/".concat(this.invoice.id), data).then(function (data) {
+        console.log(data);
+      });
+    },
+    calculateTotal: function calculateTotal() {
+      return this.invoice.vaccines.reduce(function (a, b) {
+        return (parseInt(a) + parseInt(b.price)) / 1;
+      }, 0);
+    },
+    applyDicount: function applyDicount() {
+      this.discountVisible = true;
+      this.modalDiscountVisible = false;
+    },
+    removeDiscount: function removeDiscount() {
+      this.discount = 0;
+      this.discountVisible = false;
+      this.modalDiscountVisible = false;
+    }
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -6846,9 +7297,7 @@ __webpack_require__.r(__webpack_exports__);
     JetDangerButton: _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   data: function data() {
-    return {
-      parent: {}
-    };
+    return {};
   },
   computed: {
     total: function total() {
@@ -6858,18 +7307,8 @@ __webpack_require__.r(__webpack_exports__);
       }, 0);
     }
   },
-  methods: {
-    getParent: function getParent() {
-      var _this = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_7___default.a.get("/parents/".concat(this.visit.child.dad_or_mom_id)).then(function (data) {
-        _this.parent = data.data;
-      });
-    }
-  },
-  mounted: function mounted() {
-    this.getParent();
-  }
+  methods: {},
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -6904,13 +7343,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -7102,6 +7534,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({
     setTitleForVisit: "setTitleForVisit"
   })), {}, {
+    facturar: function facturar() {
+      var data = {
+        visit_id: this.visit.id
+      };
+      this.$inertia.post('/invoices', data).then(function (data) {
+        console.log(data);
+      });
+    },
     addVaccine: function addVaccine(vaccine) {
       var _this2 = this;
 
@@ -7123,20 +7563,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this4.visit.vaccines = data.data;
       });
     },
-    getParent: function getParent() {
-      var _this5 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_7___default.a.get("/parents/".concat(this.visit.child.dad_or_mom_id)).then(function (data) {
-        _this5.parent = data.data;
-      });
-    },
     saveVisit: function saveVisit() {
-      var _this6 = this;
+      var _this5 = this;
 
       this.$inertia.post('/visits', {
         'child_id': this.childForNewVisit.id
       }).then(function (data) {
-        _this6.setTitleForVisit('Nueva visita');
+        _this5.setTitleForVisit('Nueva visita');
       });
     },
     scrollToEnd: function scrollToEnd() {
@@ -7148,7 +7581,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.setTitleForVisit('Nueva visita');
 
     if (this.visit != null) {
-      this.getParent();
       this.setTitleForVisit('Editar visita');
     }
   }
@@ -72348,6 +72780,140 @@ var ZoomOutIcon = {
 
 /***/ }),
 
+/***/ "./node_modules/vue-filter-date-format/dist/vue-filter-date-format.esm.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/vue-filter-date-format/dist/vue-filter-date-format.esm.js ***!
+  \********************************************************************************/
+/*! exports provided: default, dateFormat */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateFormat", function() { return dateFormat; });
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+var version = "1.3.1";
+
+var padZeros = function (input, maxLength) {
+    if (maxLength === void 0) { maxLength = 0; }
+    return ("0000" + input).slice(-maxLength);
+};
+var defaultConfig = {
+    dayOfWeekNames: [
+        'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+        'Friday', 'Saturday'
+    ],
+    dayOfWeekNamesShort: [
+        'Su', 'Mo', 'Tu', 'We', 'Tr', 'Fr', 'Sa'
+    ],
+    monthNames: [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ],
+    monthNamesShort: [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ]
+};
+var dateFormat = function (input, format, config) {
+    if (format === void 0) { format = 'YYYY.MM.DD HH:mm:ss'; }
+    if (config === void 0) { config = {}; }
+    config = __assign(__assign({}, defaultConfig), config);
+    var year = input.getFullYear();
+    var month = input.getMonth() + 1;
+    var date = input.getDate();
+    var hours24 = input.getHours();
+    var hours12 = hours24 % 12 === 0 ? 12 : hours24 % 12;
+    var minutes = input.getMinutes();
+    var seconds = input.getSeconds();
+    var weekday = input.getDay();
+    return format
+        // Normalize tokens
+        .replace('YYYY', '%01%')
+        .replace('YY', '%02%')
+        .replace('MMMM', '%03%')
+        .replace('MMM', '%04%')
+        .replace('MM', '%05%')
+        .replace('M', '%06%')
+        .replace('DD', '%07%')
+        .replace('D', '%08%')
+        .replace('HH', '%09%')
+        .replace('H', '%10%')
+        .replace('hh', '%11%')
+        .replace('h', '%12%')
+        .replace('mm', '%13%')
+        .replace('m', '%14%')
+        .replace('ss', '%15%')
+        .replace('s', '%16%')
+        .replace('A', '%17%')
+        .replace('a', '%18%')
+        .replace('dddd', '%19%')
+        .replace('dd', '%20%')
+        .replace('d', '%21%')
+        // Insert values
+        .replace('%01%', padZeros(year, 4))
+        .replace('%02%', padZeros(year % 100, 2))
+        .replace('%03%', config.monthNames[month - 1])
+        .replace('%04%', config.monthNamesShort[month - 1])
+        .replace('%05%', padZeros(month, 2))
+        .replace('%06%', "" + month)
+        .replace('%07%', padZeros(date, 2))
+        .replace('%08%', "" + date)
+        .replace('%09%', padZeros(hours24, 2))
+        .replace('%10%', "" + hours24)
+        .replace('%11%', padZeros(hours12, 2))
+        .replace('%12%', "" + hours12)
+        .replace('%13%', padZeros(minutes, 2))
+        .replace('%14%', "" + minutes)
+        .replace('%15%', padZeros(seconds, 2))
+        .replace('%16%', "" + seconds)
+        .replace('%17%', hours24 < 12 ? 'AM' : 'PM')
+        .replace('%18%', hours24 < 12 ? 'am' : 'pm')
+        .replace('%19%', config.dayOfWeekNames[weekday])
+        .replace('%20%', config.dayOfWeekNamesShort[weekday])
+        .replace('%21%', "" + weekday);
+};
+
+var main = {
+    install: function (Vue, baseConfig) {
+        Vue.filter('dateFormat', function (date, format, config) {
+            if (config === void 0) { config = {}; }
+            return dateFormat(date, format, __assign(__assign({}, baseConfig), config));
+        });
+    },
+    version: version
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (main);
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/Pagination.vue?vue&type=template&id=0e1fe725&":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Components/Pagination.vue?vue&type=template&id=0e1fe725& ***!
@@ -74410,8 +74976,8 @@ var render = function() {
                     {
                       ref: "",
                       attrs: {
-                        href: _vm.route("children.index"),
-                        active: _vm.route().current("children.index")
+                        href: _vm.route("invoices.index"),
+                        active: _vm.route().current("invoices.index")
                       }
                     },
                     [
@@ -76062,11 +76628,7 @@ var render = function() {
                                                 [
                                                   _vm._v(
                                                     "\n                                        " +
-                                                      _vm._s(
-                                                        _vm.calculateAge(
-                                                          child.birth_date
-                                                        )
-                                                      ) +
+                                                      _vm._s(child.age) +
                                                       "\n                                    "
                                                   )
                                                 ]
@@ -76426,8 +76988,35 @@ var render = function() {
             _c("div", { staticClass: "flex mt-4" }, [
               _c(
                 "div",
-                { staticClass: "w-full mx-10" },
+                { staticClass: "w-full ml-10" },
                 [_c("PlanSelect", { attrs: { selectedForEdition: _vm.plan } })],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "w-full mx-10" },
+                [
+                  _c("jet-label", { attrs: { value: "Id/Número seguro:" } }),
+                  _vm._v(" "),
+                  _c("jet-input", {
+                    ref: "name",
+                    staticClass: "mt-1 block w-full",
+                    attrs: { type: "text", placeholder: "1234" },
+                    model: {
+                      value: _vm.form.health_insurance_id,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "health_insurance_id", $$v)
+                      },
+                      expression: "form.health_insurance_id"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("jet-input-error", {
+                    staticClass: "mt-2",
+                    attrs: { message: _vm.form.error }
+                  })
+                ],
                 1
               )
             ]),
@@ -77909,6 +78498,1076 @@ var render = function() {
                     }
                   },
                   [_vm._v("\n                Confirmar\n            ")]
+                )
+              ]
+            },
+            proxy: true
+          }
+        ])
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Invoices/All.vue?vue&type=template&id=b10a6dfe&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Invoices/All.vue?vue&type=template&id=b10a6dfe& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "app-layout",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [_vm._v("\n            Facturas\n        ")]
+              )
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _c("div", { staticClass: "py-2" }, [
+        _c("div", { staticClass: "max-w-7xl mx-auto sm:px-6 lg:px-8" }, [
+          _c(
+            "div",
+            { staticClass: "flex flex-col" },
+            [
+              _c(
+                "div",
+                { staticClass: "-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8" },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+                        },
+                        [
+                          _c(
+                            "table",
+                            {
+                              staticClass: "min-w-full divide-y divide-gray-200"
+                            },
+                            [
+                              _c("thead", { staticClass: "bg-gray-50" }, [
+                                _c("tr", [
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Paciente\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Fecha \n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Vacunas\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass:
+                                        "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Total\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "th",
+                                    {
+                                      staticClass: "relative px-6 py-2",
+                                      attrs: { scope: "col" }
+                                    },
+                                    [
+                                      _c("span", { staticClass: "sr-only" }, [
+                                        _vm._v("Acciones")
+                                      ])
+                                    ]
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "tbody",
+                                {
+                                  staticClass:
+                                    "bg-white divide-y divide-gray-200"
+                                },
+                                _vm._l(_vm.invoices, function(invoice) {
+                                  return _c("tr", { key: invoice.id }, [
+                                    _c(
+                                      "td",
+                                      { staticClass: "px-6 whitespace-nowrap" },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "flex items-center" },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "ml-4" },
+                                              [
+                                                _c(
+                                                  "inertia-link",
+                                                  {
+                                                    staticClass:
+                                                      "text-sm font-medium text-gray-900 font-bold",
+                                                    attrs: {
+                                                      href: _vm.route(
+                                                        "invoices.detail",
+                                                        invoice.id
+                                                      )
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                        " +
+                                                        _vm._s(
+                                                          invoice.visit.child
+                                                            .name
+                                                        ) +
+                                                        "\n                                    "
+                                                    )
+                                                  ]
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      { staticClass: "px-6 whitespace-nowrap" },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "text-sm text-gray-900"
+                                          },
+                                          [_vm._v(_vm._s(invoice.invoice_date))]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass: "px-6  whitespace-nowrap"
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          {
+                                            staticClass:
+                                              "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                " +
+                                                _vm._s(
+                                                  invoice.visit.vaccines.length
+                                                ) +
+                                                "\n                                "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          {
+                                            staticClass:
+                                              "font-bold text-green-600"
+                                          },
+                                          [
+                                            _vm._v(
+                                              "RD$" +
+                                                _vm._s(
+                                                  _vm.total(
+                                                    invoice.visit.vaccines
+                                                  )
+                                                )
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "px-6 whitespace-nowrap text-right text-sm font-medium"
+                                      },
+                                      [
+                                        _c("div", { staticClass: "flex" }, [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
+                                              attrs: {
+                                                "aria-label": "Edit user"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.editChild(invoice)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("EditIcon", {
+                                                attrs: { size: "1.2x" }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
+                                              attrs: {
+                                                "aria-label": "Delete user"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.print(invoice)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("PrinterIcon", {
+                                                attrs: { size: "1.2x" }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                }),
+                                0
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("Pagination", { attrs: { pages: 1, init: 1, end: 1 } })
+            ],
+            1
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Invoices/Invoice.vue?vue&type=template&id=573c088d&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Invoices/Invoice.vue?vue&type=template&id=573c088d& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "app-layout",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [_vm._v("\n                Factura\n            ")]
+              )
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _c("div", { staticClass: "py-2" }, [
+        _c("div", { staticClass: "max-w-2xl mx-auto sm:px-2" }, [
+          _c("div", { staticClass: "flex flex-col" }, [
+            _c(
+              "div",
+              { staticClass: "-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8"
+                  },
+                  [
+                    _c("div", { staticClass: "flex justify-center" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex mt-3" }, [
+                      _c("div", { staticClass: "mx-3" }, [
+                        _vm._v(
+                          "\n                                       Nombre: "
+                        ),
+                        _c("span", { staticClass: "font-bold" }, [
+                          _vm._v(" " + _vm._s(_vm.invoice.visit.child.name))
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mx-3" }, [
+                      _vm._v(
+                        "\n                                       Padre/Madre: "
+                      ),
+                      _c("span", { staticClass: "font-bold" }, [
+                        _vm._v(
+                          " " + _vm._s(_vm.invoice.visit.child.dad_or_mom.name)
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex justify-between" }, [
+                      _c("div", { staticClass: "mx-3" }, [
+                        _vm._v(
+                          "\n                                       Fecha visita: "
+                        ),
+                        _c("span", { staticClass: "font-bold" }, [
+                          _vm._v(" " + _vm._s(_vm.invoice.visit.visit_date))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _vm._v(
+                          "\n                                        Fecha factura: "
+                        ),
+                        _c("span", { staticClass: "font-bold" }, [
+                          _vm._v(_vm._s(_vm.invoice.invoice_date))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex mt-4 mx-3" }, [
+                      _c(
+                        "div",
+                        [
+                          _c("jet-label", { attrs: { value: "Seguro salud" } }),
+                          _vm._v(" "),
+                          _vm.invoice.visit.child.plan
+                            ? _c("div", [
+                                _vm._v(
+                                  " \n                                            Plan "
+                                ),
+                                _c("span", { staticClass: "font-bold" }, [
+                                  _vm._v(
+                                    _vm._s(_vm.invoice.visit.child.plan.name)
+                                  )
+                                ]),
+                                _vm._v(" de "),
+                                _c("span", { staticClass: "font-bold" }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.invoice.visit.child.plan.insurance
+                                        .name
+                                    )
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(
+                                    "\n                                                Numero/id seguro: "
+                                  ),
+                                  _c("span", { staticClass: "font-bold" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.invoice.visit.child
+                                          .health_insurance_id
+                                      )
+                                    )
+                                  ])
+                                ])
+                              ])
+                            : _c("div", [_vm._v("No tiene")])
+                        ],
+                        1
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "py-6 align-middle pb-10 shadow-md rounded-md bg-white mt-3 inline-block min-w-full sm:px-6 lg:px-8"
+                  },
+                  [
+                    _vm.invoice.payment_status == "Pendiente"
+                      ? _c("div", { staticClass: "flex justify-end" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "flex cursor-pointer hover:-translate-y-1 hover:scale-110",
+                              on: { click: _vm.openPayModal }
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "flex items-center justify-center flex-shrink-0 h-8 w-8 rounded-xl bg-green-100 text-green-500"
+                                },
+                                [
+                                  _c(
+                                    "svg",
+                                    {
+                                      staticClass: "w-6 h-6",
+                                      attrs: {
+                                        fill: "currentColor",
+                                        viewBox: "0 0 20 20",
+                                        xmlns: "http://www.w3.org/2000/svg"
+                                      }
+                                    },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          "fill-rule": "evenodd",
+                                          d:
+                                            "M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z",
+                                          "clip-rule": "evenodd"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "ml-2 mt-1" }, [
+                                _vm._v("Cobrar")
+                              ])
+                            ]
+                          )
+                        ])
+                      : _c("div", { staticClass: "flex justify-center" }, [
+                          _c(
+                            "span",
+                            { staticClass: "font-extrabold text-red-600" },
+                            [_vm._v("FACTURA PAGADA")]
+                          )
+                        ]),
+                    _vm._v(
+                      "\n                                Vacunas facturadas:\n                                "
+                    ),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "shadow mt-2 overflow-hidden border-b border-gray-200 sm:rounded-lg"
+                      },
+                      [
+                        _c(
+                          "table",
+                          {
+                            staticClass: "min-w-full divide-y divide-gray-200"
+                          },
+                          [
+                            _c("thead", { staticClass: "bg-gray-50" }, [
+                              _c("tr", [
+                                _c(
+                                  "th",
+                                  {
+                                    staticClass:
+                                      "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                    attrs: { scope: "col" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        Nombre\n                                    "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "th",
+                                  {
+                                    staticClass:
+                                      "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                    attrs: { scope: "col" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        Precio\n                                    "
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              {
+                                staticClass: "bg-white divide-y divide-gray-200"
+                              },
+                              [
+                                _vm._l(_vm.invoice.vaccines, function(vaccine) {
+                                  return _c("tr", { key: vaccine.id }, [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "px-6 py-3 whitespace-nowrap"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "flex items-center" },
+                                          [
+                                            _c("div", { staticClass: "ml-4" }, [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "text-sm font-medium text-gray-900   "
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                " +
+                                                      _vm._s(vaccine.name) +
+                                                      "\n                                            "
+                                                  )
+                                                ]
+                                              )
+                                            ])
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      { staticClass: "px-6 whitespace-nowrap" },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "text-sm text-gray-900"
+                                          },
+                                          [
+                                            _c("jet-input", {
+                                              ref: "name",
+                                              refInFor: true,
+                                              attrs: {
+                                                type: "text",
+                                                placeholder: "precio",
+                                                disabled:
+                                                  _vm.invoice.payment_status ==
+                                                  "Pago"
+                                              },
+                                              model: {
+                                                value: vaccine.price,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    vaccine,
+                                                    "price",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "vaccine.price"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c(
+                                    "td",
+                                    {
+                                      staticClass: "px-6 py-3 whitespace-nowrap"
+                                    },
+                                    [
+                                      _c("span", { staticClass: "font-bold" }, [
+                                        _vm._v("Total")
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    {
+                                      staticClass: "px-6 py-3 whitespace-nowrap"
+                                    },
+                                    [
+                                      _c("div", { staticClass: "flex" }, [
+                                        _c(
+                                          "span",
+                                          {
+                                            staticClass:
+                                              "font-bold text-green-700 mt-1"
+                                          },
+                                          [_vm._v("RD$ " + _vm._s(_vm.total))]
+                                        ),
+                                        _vm._v(" "),
+                                        !_vm.discountVisible &&
+                                        _vm.invoice.payment_status ==
+                                          "Pendiente"
+                                          ? _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "flex cursor-pointer ml-2",
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.modalDiscountVisible = true
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "flex items-center justify-center flex-shrink-0 h-8 w-8 rounded-xl bg-red-100 text-red-500"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "svg",
+                                                      {
+                                                        staticClass: "w-6 h-6",
+                                                        attrs: {
+                                                          fill: "currentColor",
+                                                          viewBox: "0 0 20 20",
+                                                          xmlns:
+                                                            "http://www.w3.org/2000/svg"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("path", {
+                                                          attrs: {
+                                                            d:
+                                                              "M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"
+                                                          }
+                                                        }),
+                                                        _c("path", {
+                                                          attrs: {
+                                                            "fill-rule":
+                                                              "evenodd",
+                                                            d:
+                                                              "M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z",
+                                                            "clip-rule":
+                                                              "evenodd"
+                                                          }
+                                                        })
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "ml-2 mt-1" },
+                                                  [_vm._v("Aplicar descuento")]
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _vm.discountVisible
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "flex mt-1" },
+                                              [
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticClass:
+                                                      "text-yellow-600"
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "- " +
+                                                        _vm._s(_vm.discount) +
+                                                        "% descuento "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
+                                                    attrs: {
+                                                      "aria-label":
+                                                        "remove discount"
+                                                    },
+                                                    on: {
+                                                      click: _vm.removeDiscount
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("Trash2Icon", {
+                                                      attrs: { size: "1.2x" }
+                                                    })
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ])
+                                    ]
+                                  )
+                                ])
+                              ],
+                              2
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("jet-dialog-modal", {
+        attrs: { maxWidth: "md", show: _vm.modalDiscountVisible },
+        on: {
+          close: function($event) {
+            _vm.modalDiscountVisible = false
+          }
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [
+                _vm._v("\n                Aplicar descuento\n            ")
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "content",
+            fn: function() {
+              return [
+                _c("jet-label", { attrs: { value: "Digite un descuento" } }),
+                _vm._v(" "),
+                _c("jet-input", {
+                  ref: "name",
+                  staticClass: "w-full",
+                  attrs: { type: "number", placeholder: "0%" },
+                  model: {
+                    value: _vm.discount,
+                    callback: function($$v) {
+                      _vm.discount = $$v
+                    },
+                    expression: "discount"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "footer",
+            fn: function() {
+              return [
+                _c(
+                  "jet-secondary-button",
+                  {
+                    nativeOn: {
+                      click: function($event) {
+                        _vm.modalDiscountVisible = false
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Cancelar\n                ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "jet-button",
+                  {
+                    staticClass: "ml-2 text-white bg-green-500",
+                    nativeOn: {
+                      click: function($event) {
+                        return _vm.applyDicount($event)
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Aplicar\n                ")]
+                )
+              ]
+            },
+            proxy: true
+          }
+        ])
+      }),
+      _vm._v(" "),
+      _c("jet-dialog-modal", {
+        attrs: { maxWidth: "md", show: _vm.paymentModalVisible },
+        on: {
+          close: function($event) {
+            _vm.paymentModalVisible = false
+          }
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [
+                _c("span", { staticClass: "font-extrabold px-4" }, [
+                  _vm._v("Confirmación de cobro")
+                ])
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "content",
+            fn: function() {
+              return [
+                _c("div", { staticClass: "px-4" }, [
+                  _c("div", { staticClass: "flex justify-between" }, [
+                    _c("span", [_vm._v("Vacunas:")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("RD$" + _vm._s(_vm.total))])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "flex justify-between" }, [
+                    _c("span", [_vm._v("Descuento:")]),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        _vm._s(_vm.discount > 0 ? "-" : "") +
+                          _vm._s(_vm.discount == "" ? 0 : _vm.discount) +
+                          "% (RD$ " +
+                          _vm._s(_vm.discounted) +
+                          ")"
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "flex justify-between" }, [
+                    _c("span", [_vm._v("Total:")]),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v("RD$" + _vm._s(_vm.total - _vm.discounted))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-4" }, [
+                    _c("div", [
+                      _c("span", { staticClass: "font-bold" }, [
+                        _vm._v("Método de pago")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.paymentMethod,
+                          expression: "paymentMethod"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        id: "efectivo",
+                        value: "Efectivo"
+                      },
+                      domProps: {
+                        checked: _vm._q(_vm.paymentMethod, "Efectivo")
+                      },
+                      on: {
+                        change: function($event) {
+                          _vm.paymentMethod = "Efectivo"
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "efectivo" } }, [
+                      _vm._v("Efectivo")
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.paymentMethod,
+                          expression: "paymentMethod"
+                        }
+                      ],
+                      attrs: { type: "radio", id: "tarjeta", value: "Tarjeta" },
+                      domProps: {
+                        checked: _vm._q(_vm.paymentMethod, "Tarjeta")
+                      },
+                      on: {
+                        change: function($event) {
+                          _vm.paymentMethod = "Tarjeta"
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "tarjeta" } }, [
+                      _vm._v("Tarjeta")
+                    ]),
+                    _c("br")
+                  ])
+                ])
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "footer",
+            fn: function() {
+              return [
+                _c(
+                  "jet-secondary-button",
+                  {
+                    nativeOn: {
+                      click: function($event) {
+                        _vm.paymentModalVisible = false
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Cancelar\n                ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "jet-button",
+                  {
+                    staticClass: "ml-2 text-white bg-green-500",
+                    nativeOn: {
+                      click: function($event) {
+                        return _vm.collectMoney($event)
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Cobrar\n                ")]
                 )
               ]
             },
@@ -81099,7 +82758,7 @@ var render = function() {
                                             _vm._v(
                                               "\n                                   " +
                                                 _vm._s(
-                                                  visit.invoced == true
+                                                  visit.invoiced == true
                                                     ? "Sí"
                                                     : "No"
                                                 ) +
@@ -81117,89 +82776,102 @@ var render = function() {
                                           "px-6 whitespace-nowrap text-right text-sm font-medium"
                                       },
                                       [
-                                        _c(
-                                          "div",
-                                          { staticClass: "flex" },
-                                          [
-                                            _c(
-                                              "inertia-link",
-                                              {
-                                                attrs: {
-                                                  href: _vm.route(
-                                                    "visits.newOrEdit",
-                                                    visit.id
-                                                  )
-                                                }
-                                              },
+                                        !visit.invoiced
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "flex" },
                                               [
+                                                _c(
+                                                  "inertia-link",
+                                                  {
+                                                    attrs: {
+                                                      href: _vm.route(
+                                                        "visits.newOrEdit",
+                                                        visit.id
+                                                      )
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "p-1 focus:outline-none focus:shadow-outline text-yellow-500 hover:text-yellow-600",
+                                                        attrs: {
+                                                          "aria-label":
+                                                            "Edit user"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("EditIcon", {
+                                                          attrs: {
+                                                            size: "1.2x"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
                                                 _c(
                                                   "button",
                                                   {
                                                     staticClass:
-                                                      "p-1 focus:outline-none focus:shadow-outline text-yellow-500 hover:text-yellow-600",
+                                                      "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
                                                     attrs: {
-                                                      "aria-label": "Edit user"
+                                                      "aria-label":
+                                                        "Delete user"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        ;(_vm.planBeingDeleted = true),
+                                                          (_vm.toDelete = visit)
+                                                      }
                                                     }
                                                   },
                                                   [
-                                                    _c("EditIcon", {
+                                                    _c("Trash2Icon", {
                                                       attrs: { size: "1.2x" }
                                                     })
                                                   ],
                                                   1
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
-                                                attrs: {
-                                                  "aria-label": "Delete user"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    ;(_vm.planBeingDeleted = true),
-                                                      (_vm.toDelete = visit)
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _c("Trash2Icon", {
-                                                  attrs: { size: "1.2x" }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "p-1 focus:outline-none focus:shadow-outline text-green-500 hover:text-green-600",
-                                                attrs: {
-                                                  "aria-label": "Facturar"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.alert(
-                                                      "Enviar a facturacion"
+                                                ),
+                                                _vm._v(" "),
+                                                visit.vaccines.length > 0
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "p-1 focus:outline-none focus:shadow-outline text-green-500 hover:text-green-600",
+                                                        attrs: {
+                                                          "aria-label":
+                                                            "Facturar"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.alert(
+                                                              "Enviar a facturacion"
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("DollarSignIcon", {
+                                                          attrs: {
+                                                            size: "1.2x"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
                                                     )
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _c("DollarSignIcon", {
-                                                  attrs: { size: "1.2x" }
-                                                })
+                                                  : _vm._e()
                                               ],
                                               1
                                             )
-                                          ],
-                                          1
-                                        )
+                                          : _vm._e()
                                       ]
                                     )
                                   ])
@@ -81396,7 +83068,7 @@ var render = function() {
                       _c("div", { staticClass: "mx-3" }, [
                         _vm._v("\n                                   Padre: "),
                         _c("span", { staticClass: "font-bold" }, [
-                          _vm._v(" " + _vm._s(_vm.parent.name))
+                          _vm._v(" " + _vm._s(_vm.visit.child.dad_or_mom.name))
                         ])
                       ])
                     ])
@@ -81662,409 +83334,354 @@ var render = function() {
     },
     [
       _vm._v(" "),
-      _c("div", { staticClass: "py-2" }, [
-        _vm.visit != null
-          ? _c("div", { staticClass: "max-w-2xl mx-auto sm:px-2" }, [
-              _c("div", { staticClass: "flex flex-col" }, [
-                _c(
+      _vm.visit != null
+        ? _c("div", { staticClass: "py-2" }, [
+            !_vm.visit.invoiced && _vm.visit.vaccines.length > 0
+              ? _c(
                   "div",
-                  { staticClass: "-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8" },
+                  { staticClass: "flex justify-end mr-15 mt-4" },
                   [
                     _c(
-                      "div",
+                      "jet-button",
                       {
-                        staticClass:
-                          "py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8"
+                        nativeOn: {
+                          click: function($event) {
+                            return _vm.facturar($event)
+                          }
+                        }
                       },
                       [
-                        !_vm.visit.facturado
-                          ? _c(
-                              "div",
-                              { staticClass: "flex justify-end" },
-                              [
-                                _c("jet-button", [
-                                  _c(
-                                    "svg",
-                                    {
-                                      staticClass: "w-5 h-5",
-                                      attrs: {
-                                        fill: "currentColor",
-                                        viewBox: "0 0 20 20",
-                                        xmlns: "http://www.w3.org/2000/svg"
-                                      }
-                                    },
-                                    [
-                                      _c("path", {
-                                        attrs: {
-                                          d:
-                                            "M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"
-                                        }
-                                      }),
-                                      _c("path", {
-                                        attrs: {
-                                          "fill-rule": "evenodd",
-                                          d:
-                                            "M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z",
-                                          "clip-rule": "evenodd"
-                                        }
-                                      })
-                                    ]
-                                  ),
-                                  _vm._v(
-                                    "\n                                    Finalizar y Facturar\n                                "
-                                  )
-                                ])
-                              ],
-                              1
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "flex justify-center" }, [
-                          _c("img", {
-                            staticClass: "h-15 w-15 shadow-md rounded-full",
-                            attrs: {
-                              src:
-                                _vm.visit.child.gender == "Niño"
-                                  ? "/Images/boy.svg"
-                                  : "/Images/girl.svg",
-                              alt: ""
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "flex mt-3" }, [
-                          _c("div", { staticClass: "mx-3" }, [
-                            _vm._v(
-                              "\n                                   Nombre: "
-                            ),
-                            _c("span", { staticClass: "font-bold" }, [
-                              _vm._v(" " + _vm._s(_vm.visit.child.name))
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "mx-3 ml-12" }, [
-                            _vm._v(
-                              "\n                                   Fecha de nacimiento: "
-                            ),
-                            _c("span", { staticClass: "font-bold" }, [
-                              _vm._v(" " + _vm._s(_vm.visit.child.birth_date))
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div")
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "flex mt-2" }, [
-                          _c("div", { staticClass: "mx-3" }, [
-                            _vm._v(
-                              "\n                                   Padre: "
-                            ),
-                            _c("span", { staticClass: "font-bold" }, [
-                              _vm._v(" " + _vm._s(_vm.parent.name))
-                            ])
-                          ])
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "py-6 mt-3 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8"
-                      },
-                      [
-                        _c("div", { staticClass: "flex justify-between" }, [
-                          _c("div", { staticClass: "mx-3" }, [
-                            _vm._v(
-                              "\n                                   Fecha visita: "
-                            ),
-                            _c("span", { staticClass: "font-bold" }, [
-                              _vm._v(" " + _vm._s(_vm.visit.visit_date))
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "mr-3" }, [
-                            _vm._v(
-                              "\n                                   Facturado: "
-                            ),
-                            _c(
-                              "span",
-                              {
-                                staticClass: "font-bold",
-                                class: _vm.visit.invoiced
-                                  ? "text-green-600"
-                                  : "text-red-600"
-                              },
-                              [
-                                _vm._v(
-                                  " " +
-                                    _vm._s(
-                                      _vm.visit.invoiced == true ? "Si" : "No"
-                                    )
-                                )
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div"),
-                          _vm._v(" "),
-                          _c("div")
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _vm.visit != null
-                      ? _c(
-                          "div",
+                        _c(
+                          "svg",
                           {
-                            staticClass:
-                              "py-6 align-middle pb-10 shadow-md rounded-md bg-white mt-3 inline-block min-w-full sm:px-6 lg:px-8"
+                            staticClass: "w-5 h-5",
+                            attrs: {
+                              fill: "currentColor",
+                              viewBox: "0 0 20 20",
+                              xmlns: "http://www.w3.org/2000/svg"
+                            }
                           },
                           [
-                            _c("SelectVaccine", {
-                              on: { pushed: _vm.addVaccine }
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"
+                              }
                             }),
-                            _vm._v(" "),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "font-bold mt-10" }, [
-                              _vm._v("Colocadas:")
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "shadow mt-2 overflow-hidden border-b border-gray-200 sm:rounded-lg"
-                              },
-                              [
-                                _c(
-                                  "table",
-                                  {
-                                    staticClass:
-                                      "min-w-full divide-y divide-gray-200"
-                                  },
-                                  [
-                                    _c("thead", { staticClass: "bg-gray-50" }, [
-                                      _c("tr", [
+                            _c("path", {
+                              attrs: {
+                                "fill-rule": "evenodd",
+                                d:
+                                  "M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z",
+                                "clip-rule": "evenodd"
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(
+                          "\n                Finalizar y Facturar\n            "
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "flex mt-8 mx-5 justify-center" }, [
+              _c("div", { staticClass: "w-2/5" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bg-white shadow-lg rounded-md mx-10 px-6 py-6",
+                    attrs: { id: "childInfo" }
+                  },
+                  [
+                    _c("div", { staticClass: "flex justify-center" }, [
+                      _c("img", {
+                        staticClass: "h-15 w-15 shadow-md rounded-full",
+                        attrs: {
+                          src:
+                            _vm.visit.child.gender == "Niño"
+                              ? "/Images/boy.svg"
+                              : "/Images/girl.svg",
+                          alt: ""
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex justify-center" }, [
+                      _c("span", { staticClass: "font-bold" }, [
+                        _vm._v(" " + _vm._s(_vm.visit.child.name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex justify-center -my-1" }, [
+                      _c("span", [_vm._v(_vm._s(_vm.visit.child.age))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mt-4" }, [
+                      _c("div", { staticClass: "mx-3" }, [
+                        _vm._v("\n                        Padre: "),
+                        _c("span", { staticClass: "font-bold" }, [
+                          _vm._v(" " + _vm._s(_vm.visit.child.dad_or_mom.name))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mx-3" }, [
+                        _vm._v("\n                        Visitas: "),
+                        _c("span", { staticClass: "font-bold" }, [
+                          _vm._v(_vm._s(_vm.visit.child.visitsCount))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mx-3" }, [
+                        _vm._v("\n                        Última visita: "),
+                        _c("span", { staticClass: "font-bold" }, [
+                          _vm._v(" " + _vm._s(_vm.visit.child.lastVisit))
+                        ])
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bg-white shadow-lg rounded-md mx-10 px-6 py-6 mt-6"
+                  },
+                  [
+                    _c("div", [
+                      _vm._v("\n                        Facturado: "),
+                      _c(
+                        "span",
+                        {
+                          staticClass: "font-bold",
+                          class: _vm.visit.invoiced
+                            ? "text-green-600"
+                            : "text-red-600"
+                        },
+                        [
+                          _vm._v(
+                            " " +
+                              _vm._s(_vm.visit.invoiced == true ? "Si" : "No")
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _vm._v("\n                        Fecha visita actual: "),
+                      _c("span", { staticClass: "font-bold" }, [
+                        _vm._v(" " + _vm._s(_vm.visit.visit_date))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _vm._v("\n                        Vacunas: "),
+                      _c("span", { staticClass: "font-bold" }, [
+                        _vm._v(" " + _vm._s(_vm.visit.vaccines.length))
+                      ])
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-3/5 bg-white shadow-lg rounded-md px-6 py-6 mr-10",
+                  attrs: { id: "vaccines" }
+                },
+                [
+                  !_vm.visit.invoiced
+                    ? _c("SelectVaccine", {
+                        staticClass: "mb-4",
+                        on: { pushed: _vm.addVaccine }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "font-bold mt-10" }, [
+                    _vm._v("Colocadas:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "table",
+                    { staticClass: "min-w-full divide-y divide-gray-200" },
+                    [
+                      _c("thead", { staticClass: "bg-gray-50" }, [
+                        _c("tr", [
+                          _c(
+                            "th",
+                            {
+                              staticClass:
+                                "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                              attrs: { scope: "col" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Nombre\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "th",
+                            {
+                              staticClass:
+                                "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                              attrs: { scope: "col" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Precio\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          !_vm.visit.invoiced
+                            ? _c(
+                                "th",
+                                {
+                                  staticClass:
+                                    "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                                  attrs: { scope: "col" }
+                                },
+                                [_c("span", {}, [_vm._v("Acciones")])]
+                              )
+                            : _vm._e()
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        { staticClass: "bg-white divide-y divide-gray-200" },
+                        [
+                          _vm._l(_vm.visit.vaccines, function(vaccine) {
+                            return _c("tr", { key: vaccine.id }, [
+                              _c(
+                                "td",
+                                { staticClass: "px-6 py-3 whitespace-nowrap" },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "flex items-center" },
+                                    [
+                                      _c("div", { staticClass: "ml-4" }, [
                                         _c(
-                                          "th",
+                                          "div",
                                           {
                                             staticClass:
-                                              "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
-                                            attrs: { scope: "col" }
+                                              "text-sm font-medium text-gray-900   "
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    Nombre\n                                "
+                                              "\n                                        " +
+                                                _vm._s(vaccine.name) +
+                                                "\n                                    "
                                             )
                                           ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "th",
-                                          {
-                                            staticClass:
-                                              "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
-                                            attrs: { scope: "col" }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                    Precio\n                                "
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "th",
-                                          {
-                                            staticClass:
-                                              "px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
-                                            attrs: { scope: "col" }
-                                          },
-                                          [_c("span", {}, [_vm._v("Quitar")])]
                                         )
                                       ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "tbody",
-                                      {
-                                        staticClass:
-                                          "bg-white divide-y divide-gray-200"
-                                      },
-                                      [
-                                        _vm._l(_vm.visit.vaccines, function(
-                                          vaccine
-                                        ) {
-                                          return _c("tr", { key: vaccine.id }, [
-                                            _c(
-                                              "td",
-                                              {
-                                                staticClass:
-                                                  "px-6 py-3 whitespace-nowrap"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "flex items-center"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      { staticClass: "ml-4" },
-                                                      [
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "text-sm font-medium text-gray-900   "
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                " +
-                                                                _vm._s(
-                                                                  vaccine.name
-                                                                ) +
-                                                                "\n                                            "
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "td",
-                                              {
-                                                staticClass:
-                                                  "px-6 whitespace-nowrap"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "text-sm text-gray-900"
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "\n                                            " +
-                                                        _vm._s(vaccine.price) +
-                                                        "\n                                        "
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "td",
-                                              {
-                                                staticClass:
-                                                  "px-6 whitespace-nowrap text-right text-sm font-medium"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "flex" },
-                                                  [
-                                                    _c(
-                                                      "button",
-                                                      {
-                                                        staticClass:
-                                                          "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
-                                                        attrs: {
-                                                          "aria-label":
-                                                            "Quitar vacuna"
-                                                        },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.removeVaccine(
-                                                              vaccine
-                                                            )
-                                                          }
-                                                        }
-                                                      },
-                                                      [
-                                                        _c("Trash2Icon", {
-                                                          attrs: {
-                                                            size: "1.2x"
-                                                          }
-                                                        })
-                                                      ],
-                                                      1
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            )
-                                          ])
-                                        }),
-                                        _vm._v(" "),
-                                        _c("tr", [
-                                          _c(
-                                            "td",
-                                            {
-                                              staticClass:
-                                                "px-6 py-3 whitespace-nowrap"
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                { staticClass: "px-6 whitespace-nowrap" },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "text-sm text-gray-900" },
+                                    [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(vaccine.price) +
+                                          "\n                                "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              !_vm.visit.invoiced
+                                ? _c(
+                                    "td",
+                                    {
+                                      staticClass:
+                                        "px-6 whitespace-nowrap text-right text-sm font-medium"
+                                    },
+                                    [
+                                      _c("div", { staticClass: "flex" }, [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
+                                            attrs: {
+                                              "aria-label": "Quitar vacuna"
                                             },
-                                            [
-                                              _c(
-                                                "span",
-                                                { staticClass: "font-bold" },
-                                                [_vm._v("Total")]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            {
-                                              staticClass:
-                                                "px-6 py-3 whitespace-nowrap"
-                                            },
-                                            [
-                                              _c(
-                                                "span",
-                                                {
-                                                  staticClass:
-                                                    "font-bold text-green-700"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "RD$ " + _vm._s(_vm.total)
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ])
-                                      ],
-                                      2
-                                    )
-                                  ]
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.removeVaccine(
+                                                  vaccine
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("Trash2Icon", {
+                                              attrs: { size: "1.2x" }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c(
+                              "td",
+                              { staticClass: "px-6 py-3 whitespace-nowrap" },
+                              [
+                                _c("span", { staticClass: "font-bold" }, [
+                                  _vm._v("Total")
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticClass: "px-6 py-3 whitespace-nowrap" },
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "font-bold text-green-700" },
+                                  [_vm._v("RD$ " + _vm._s(_vm.total))]
                                 )
                               ]
                             )
-                          ],
-                          1
-                        )
-                      : _vm._e()
-                  ]
-                )
-              ])
+                          ])
+                        ],
+                        2
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
             ])
-          : _vm._e()
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("jet-dialog-modal", {
         attrs: { show: _vm.visit == null },
@@ -99489,6 +101106,10 @@ var map = {
 	"./Insurances/PlanSelect.vue": "./resources/js/Pages/Insurances/PlanSelect.vue",
 	"./Insurances/Plans": "./resources/js/Pages/Insurances/Plans.vue",
 	"./Insurances/Plans.vue": "./resources/js/Pages/Insurances/Plans.vue",
+	"./Invoices/All": "./resources/js/Pages/Invoices/All.vue",
+	"./Invoices/All.vue": "./resources/js/Pages/Invoices/All.vue",
+	"./Invoices/Invoice": "./resources/js/Pages/Invoices/Invoice.vue",
+	"./Invoices/Invoice.vue": "./resources/js/Pages/Invoices/Invoice.vue",
 	"./Parents/All": "./resources/js/Pages/Parents/All.vue",
 	"./Parents/All.vue": "./resources/js/Pages/Parents/All.vue",
 	"./Parents/Create": "./resources/js/Pages/Parents/Create.vue",
@@ -100232,6 +101853,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Plans_vue_vue_type_template_id_51ff593d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Plans_vue_vue_type_template_id_51ff593d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Invoices/All.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/Pages/Invoices/All.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _All_vue_vue_type_template_id_b10a6dfe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./All.vue?vue&type=template&id=b10a6dfe& */ "./resources/js/Pages/Invoices/All.vue?vue&type=template&id=b10a6dfe&");
+/* harmony import */ var _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./All.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Invoices/All.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _All_vue_vue_type_template_id_b10a6dfe___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _All_vue_vue_type_template_id_b10a6dfe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Invoices/All.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Invoices/All.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/Pages/Invoices/All.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Invoices/All.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Invoices/All.vue?vue&type=template&id=b10a6dfe&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/Pages/Invoices/All.vue?vue&type=template&id=b10a6dfe& ***!
+  \****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_b10a6dfe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./All.vue?vue&type=template&id=b10a6dfe& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Invoices/All.vue?vue&type=template&id=b10a6dfe&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_b10a6dfe___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_All_vue_vue_type_template_id_b10a6dfe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Invoices/Invoice.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/Pages/Invoices/Invoice.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Invoice_vue_vue_type_template_id_573c088d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Invoice.vue?vue&type=template&id=573c088d& */ "./resources/js/Pages/Invoices/Invoice.vue?vue&type=template&id=573c088d&");
+/* harmony import */ var _Invoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Invoice.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Invoices/Invoice.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Invoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Invoice_vue_vue_type_template_id_573c088d___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Invoice_vue_vue_type_template_id_573c088d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Invoices/Invoice.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Invoices/Invoice.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/Pages/Invoices/Invoice.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Invoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Invoice.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Invoices/Invoice.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Invoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Invoices/Invoice.vue?vue&type=template&id=573c088d&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/Pages/Invoices/Invoice.vue?vue&type=template&id=573c088d& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Invoice_vue_vue_type_template_id_573c088d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Invoice.vue?vue&type=template&id=573c088d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Invoices/Invoice.vue?vue&type=template&id=573c088d&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Invoice_vue_vue_type_template_id_573c088d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Invoice_vue_vue_type_template_id_573c088d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -101435,6 +103194,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! luxon */ "./node_modules/luxon/build/cjs-browser/luxon.js");
 /* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(luxon__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var vue_filter_date_format__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-filter-date-format */ "./node_modules/vue-filter-date-format/dist/vue-filter-date-format.esm.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
@@ -101449,6 +103209,7 @@ __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
 
 
+
 luxon__WEBPACK_IMPORTED_MODULE_8__["Settings"].defaultLocale = 'es';
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_datetime__WEBPACK_IMPORTED_MODULE_6__["Datetime"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.mixin({
@@ -101459,6 +103220,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.mixin({
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_3__["InertiaApp"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(laravel_jetstream__WEBPACK_IMPORTED_MODULE_4__["InertiaForm"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_filter_date_format__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  dayOfWeekNames: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+  dayOfWeekNamesShort: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+  monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octobre', 'Noviembre', 'Diciembre'],
+  monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+});
 var app = document.getElementById('app');
 new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   render: function render(h) {

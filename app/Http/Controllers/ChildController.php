@@ -32,12 +32,13 @@ class ChildController extends Controller
         ]);
         
         $birthDate = Carbon::parse($request->birth_date)->format('Y-m-d');
-        Child::create([
+        $created = Child::create([
             'name' => $request->name,
             'birth_date' =>$birthDate,
             'dad_or_mom_id'  => $request->dad_or_mom_id,
             'gender'     => $request->gender,
-            'plan_id'    => $request->plan_id
+            'plan_id'    => $request->plan_id,
+            'health_insurance_id' => $request->health_insurance_id
         ]);
         
         return redirect()->route('children.index')->with('successMessage', 'Paciente actualizado sactisfacoriamente');
@@ -59,7 +60,8 @@ class ChildController extends Controller
             'birth_date' =>$birthDate,
             'parent_id'  => $request->parent_id,
             'gender'     => $request->gender,
-            'plan_id'    => $request->plan_id
+            'plan_id'    => $request->plan_id,
+            'health_insurance_id' => $request->health_insurance_id
         ]);
             
         return redirect()->route('children.index')->with('successMessage', 'Paciente creado sactisfacoriamente');

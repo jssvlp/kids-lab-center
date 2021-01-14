@@ -18,6 +18,7 @@ class CreateChildrenTable extends Migration
             $table->string('name');
             $table->date('birth_date');
             $table->enum('gender',['Niño','Niña']);
+            $table->string('health_insurance_id')->nullable();
             $table->unsignedBigInteger('dad_or_mom_id');
             $table->unsignedBigInteger('plan_id')->nullable();
             $table->foreign('dad_or_mom_id')->references('id')->on('dad_or_moms');

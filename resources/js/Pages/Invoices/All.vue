@@ -2,82 +2,69 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Niños/as
+                Facturas
             </h2>
         </template>
-        <EditOrNew v-if="editingOrCreatingChild" :title="title" :data="toNewOrEdit"/>
         <div class="py-2">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="mb-3">
-                                <button @click="planBeingAdd = true" class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
-                                    <span class="mr-2">Agregar</span>
-                                </button>
-                            </div>
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Name
+                                    Paciente
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Papi/Mami
+                                    Fecha 
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Sexo
+                                    Vacunas
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Fecha de nacimiento
+                                    Total
                                 </th>
                                 <th scope="col" class="relative px-6 py-2">
-                                    <span class="sr-only">Edit</span>
+                                    <span class="sr-only">Acciones</span>
                                 </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <tr v-for="child in children" :key="child.id">
+                                <tr v-for="invoice in invoices" :key="invoice.id">
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-7 w-7">
-                                        <img class="h-7 w-7 rounded-full" :src="child.gender == 'Niño' ?'/Images/boy.svg':'/Images/girl.svg'" alt="">
-                                    </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900 font-bold">
-                                            {{child.name}}
-                                        </div>
-                                        <div class="text-sm text-gray-500">
-                                            {{child.age}}
-                                        </div>
+                                        <inertia-link :href="route('invoices.detail',invoice.id)" class="text-sm font-medium text-gray-900 font-bold">
+                                            {{invoice.visit.child.name}}
+                                        </inertia-link>
                                     </div>
                                     </div>
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{child.dad_or_mom.name}}</div>
+                                    <div class="text-sm text-gray-900">{{invoice.invoice_date}}</div>
                                     
                                 </td>
                                 <td class="px-6  whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    {{child.gender}}
+                                    {{invoice.visit.vaccines.length}}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{child.birth_date}}
+                                    <span class="font-bold text-green-600">RD${{total(invoice.visit.vaccines)}}</span>
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
                                         <button aria-label="Edit user"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
-                                                @click="editChild(child)">
+                                                @click="editChild(invoice)">
                                             <EditIcon size="1.2x"/>
                                         </button>
                                         <button aria-label="Delete user"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
-                                                @click="planBeingDeleted = true, toDelete= child">
-                                            <Trash2Icon size="1.2x"/>
+                                                @click="print(invoice)">
+                                            <PrinterIcon size="1.2x"/>
                                         </button>
                                     </div>
                                 </td>
@@ -92,51 +79,6 @@
                     </div>
             </div>
         </div>
-        <jet-confirmation-modal :show="planBeingDeleted" @close="planBeingDeleted = null">
-            <template #title>
-                Borrar Paciente
-            </template>
-
-            <template #content>
-                ¿Estás seguro que deseas borrar el paciente <span class="font-bold"> {{toDelete.name}}</span>?
-            </template>
-
-            <template #footer>
-                <jet-secondary-button @click.native="planBeingDeleted = null, toDelete = {}">
-                    Cancelar
-                </jet-secondary-button>
-
-                <jet-danger-button class="ml-2" @click.native="deleteChild" >
-                    Confirmar
-                </jet-danger-button>
-            </template>
-        </jet-confirmation-modal>
-        <jet-dialog-modal :show="planBeingAdd" @close="planBeingAdd = null">
-            <template #title>
-                Primero seleccione un padre/madre
-            </template>
-
-            <template #content>
-                <SelectParentBefore  />
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-            </template>
-
-            <template #footer>
-                <jet-secondary-button @click.native="planBeingAdd = null">
-                    Cancelar
-                </jet-secondary-button>
-
-                <jet-button class="ml-2" @click.native="addChild()" >
-                    Confirmar
-                </jet-button>
-            </template>
-        </jet-dialog-modal>
     </app-layout>
 </template>
 
@@ -145,28 +87,25 @@ import AppLayout from '@/Layouts/AppLayout'
 import Welcome from '@/Jetstream/Welcome'
 import Pagination from '@/Components/Pagination'
 import { mapState, mapActions} from 'vuex'
-import { EditIcon, Trash2Icon } from "vue-feather-icons";
+import { EditIcon, Trash2Icon, PrinterIcon } from "vue-feather-icons";
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetButton from '@/Jetstream/Button'
 import JetDangerButton from '@/Jetstream/DangerButton'
-import EditOrNew from './EditOrNew'
-import SelectParentBefore from './SelectParentBefore'
 import JetDialogModal from '@/Jetstream/DialogModal'
 import JetInputError from '@/Jetstream/InputError'
 
 export default {
-    props:['children'],
+    props:['invoices'],
     components: {
         AppLayout,
         Pagination,
         EditIcon,
         Trash2Icon,
+        PrinterIcon,
         JetConfirmationModal,
         JetSecondaryButton,
         JetButton,
-        EditOrNew,
-        SelectParentBefore,
         JetDangerButton,
         JetDialogModal
     },
@@ -181,13 +120,22 @@ export default {
         test: false
     }),
     computed: {
-        ...mapState(['editingOrCreatingChild','parentForNewChild'])
+        ...mapState(['editingOrCreatingChild','parentForNewChild']),
+        
     },
 
     methods:{
         ...mapActions({
             toggleNewOrEditChildModal: "toggleNewOrEditChildModal"
         }),
+        total(vaccines){
+            return vaccines.reduce(function(a, b){
+               return a + b.price;
+            }, 0); 
+        },
+        print(invoice){
+            console.log('printing invoice')
+        },
         editChild(child){
             this.toNewOrEdit = child
             this.title = 'Editar paciente'

@@ -16,10 +16,19 @@
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <div class="w-full mx-10">
+                    <div class="w-full ml-10">
                         <PlanSelect :selectedForEdition="plan"/>
                     </div>
+                    <div class="w-full mx-10">
+                        <jet-label :value="'Id/Número seguro:'"></jet-label>
+                        <jet-input type="text" class="mt-1 block w-full" placeholder="1234"
+                                    ref="name"
+                                    v-model="form.health_insurance_id"
+                            />
+                        <jet-input-error :message="form.error" class="mt-2" />
+                    </div>
                 </div>
+                
                 <div class="flex mt-4">
                     <div class="w-full mx-10">
                         <jet-label :value="'Fecha de nacimiento'"></jet-label>
@@ -102,6 +111,7 @@ export default {
             id: null,
             name: '',
             birth_date: null,
+            health_insurance_id:'',
             gender: '',
             parent: {},
         },
@@ -119,6 +129,7 @@ export default {
             this.form.name = this.data.name
             this.plan = this.data.plan
             this.form.gender = this.data.gender
+            this.form.health_insurance_id = this.data.health_insurance_id
             this.setPlanForEditOrNewChild(this.data.plan)
        }
        this.form.parent = this.data.dad_or_mom
@@ -132,20 +143,25 @@ export default {
         },
         ...mapActions({
             toggleNewOrEditChildModal: "toggleNewOrEditChildModal",
-            setPlanForEditOrNewChild: "setPlanForEditOrNewChild"
+            setPlanForEditOrNewChild: "setPlanForEditOrNewChild",
+            setParentForNewChild: 'setParentForNewChild'
         }),
         toggleModal(){
             this.toggleNewOrEditChildModal()
         },
         onSave(){
+           
             const child = {
                     'name' : this.form.name,
                     'birth_date' : this.form.birth_date,
                     'gender': this.form.gender,
                     'dad_or_mom_id': this.form.parent.id,
-                    'plan_id' : this.planForEditOrNewChild.id
+                    'plan_id' : this.planForEditOrNewChild != null ? this.planForEditOrNewChild.id : null,
+                    'health_insurance_id' : this.form.health_insurance_id
                 }
 
+            this.setPlanForEditOrNewChild(null);
+            this.setParentForNewChild(null);
 
             if(this.form.id != null){
                 this.$inertia.patch(`/children/${this.form.id}`, child)

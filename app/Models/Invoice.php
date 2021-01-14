@@ -9,12 +9,23 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = [ 'invoice_number','invoice_date',
+                            'discount','visit_id','payment_method',
+                            'transaction_number','payment_status'
+                        ];
 
 
 
-    public function invoice()
+    public function visit()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Visit::class);
+    }
+
+    public function vaccines()
+    {
+        return $this->belongsToMany(Vaccine::class,'invoice_details',
+                    'invoice_id','vaccine_id')
+                    ->withPivot('price')
+                    ->withTimestamps();
     }
 }

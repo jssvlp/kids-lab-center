@@ -20,7 +20,7 @@ class VisitController extends Controller
     public function show($id)
     {
         return Inertia::render('Visits/Detaill',[
-            'visit' => Visit::with(['vaccines','child'])->find($id)
+            'visit' => Visit::with(['vaccines','child','child.dadOrMom'])->find($id)
         ]);
     }
     public function vaccines(Visit $visit)
@@ -63,7 +63,7 @@ class VisitController extends Controller
         $title = 'Nueva visita';
 
         if($id != null || $id != '_'){
-            $visit = Visit::with(['vaccines','child'])->find($id);
+            $visit = Visit::with(['vaccines','child','child.dadOrMom'])->find($id);
             $title = 'Editar visita';
         }
 

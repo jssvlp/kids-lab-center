@@ -12,6 +12,7 @@ import { Datetime } from 'vue-datetime'
 // You need a specific loader for CSS files
 import 'vue-datetime/dist/vue-datetime.css'
 import { Settings } from 'luxon'
+import VueFilterDateFormat from 'vue-filter-date-format';
 
 Settings.defaultLocale = 'es'
 
@@ -21,9 +22,27 @@ Vue.mixin({ methods: { route } });
 Vue.use(InertiaApp);
 Vue.use(InertiaForm);
 Vue.use(PortalVue);
-
+Vue.use(VueFilterDateFormat, {
+    dayOfWeekNames: [
+      'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves',
+      'Viernes', 'Sabado'
+    ],
+    dayOfWeekNamesShort: [
+      'Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'
+    ],
+    monthNames: [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octobre', 'Noviembre', 'Diciembre'
+    ],
+    monthNamesShort: [
+      'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+      'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+    ]
+  });
 
 const app = document.getElementById('app');
+
+
 
 new Vue({
     render: (h) =>

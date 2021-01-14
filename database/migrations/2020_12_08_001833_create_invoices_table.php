@@ -15,12 +15,13 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('invoice_number');
+            $table->string('invoice_number')->nullable();
             $table->date('invoice_date');
-            $table->double('discount')->nullable();
+            $table->double('discount')->default(0);
             $table->unsignedBigInteger('visit_id');
-            $table->enum('payment_method',['Efectivo','Tarjeta']);
+            $table->enum('payment_method',['Efectivo','Tarjeta'])->nullable();
             $table->string('transaction_number')->nullable();
+            $table->enum('payment_status',['Pendiente','Pago'])->default('Pendiente');
 
             $table->foreign('visit_id')->references('id')->on('visits');
             $table->timestamps();

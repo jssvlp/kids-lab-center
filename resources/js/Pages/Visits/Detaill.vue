@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="flex mt-2">
                                     <div class="mx-3">
-                                       Padre: <span class="font-bold"> {{ parent.name }}</span> 
+                                       Padre: <span class="font-bold"> {{ visit.child.dad_or_mom.name }}</span> 
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +116,6 @@ export default {
         JetDangerButton
     },
     data:() =>({
-       parent: {}
     }),
     computed:{
         total(){
@@ -127,15 +126,10 @@ export default {
         }
     },
     methods:{
-        getParent(){
-            axios.get(`/parents/${this.visit.child.dad_or_mom_id}`)
-                .then( data =>{
-                    this.parent = data.data;
-            })
-        }
+       
     },
     mounted(){
-        this.getParent();
+        
     }
 }
 </script>

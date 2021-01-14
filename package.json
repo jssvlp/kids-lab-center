@@ -32,6 +32,7 @@
         "luxon": "^1.25.0",
         "vue-datetime": "^1.0.0-beta.14",
         "vue-feather-icons": "^5.1.0",
+        "vue-filter-date-format": "^1.3.1",
         "vue-tailwind-modal": "^1.0.5",
         "vue-tailwind-picker": "^1.1.5",
         "vuex": "^3.6.0",

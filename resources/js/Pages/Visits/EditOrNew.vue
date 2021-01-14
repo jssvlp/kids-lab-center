@@ -4,115 +4,108 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{titleForVisit}}
             </h2>
-            
         </template>
-        <div class="py-2">           
-            <div class="max-w-2xl mx-auto sm:px-2" v-if="visit != null">
-                <div class="flex flex-col">
-                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div class="py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="flex justify-end" v-if="!visit.facturado">
-                                    <jet-button>
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path></svg>
-                                        Finalizar y Facturar
-                                    </jet-button>
-                                </div>
-                                <div class="flex justify-center">
-                                    <img class="h-15 w-15 shadow-md rounded-full" :src="visit.child.gender == 'Niño' ?'/Images/boy.svg':'/Images/girl.svg'" alt="">
-                                </div>
-                                <div class="flex mt-3">
-                                    <div class="mx-3">
-                                       Nombre: <span class="font-bold"> {{visit.child.name}}</span> 
-                                    </div>
-                                    <div class="mx-3 ml-12">
-                                       Fecha de nacimiento: <span class="font-bold"> {{visit.child.birth_date}}</span> 
-                                    </div>
-                                    <div></div>
-                                </div>
-                                <div class="flex mt-2">
-                                    <div class="mx-3">
-                                       Padre: <span class="font-bold"> {{ parent.name }}</span> 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="py-6 mt-3 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
-                                
-                                <div class="flex justify-between">
-                                    <div class="mx-3">
-                                       Fecha visita: <span class="font-bold"> {{visit.visit_date}}</span> 
-                                    </div>
-                                    <div class="mr-3">
-                                       Facturado: <span class="font-bold" :class="visit.invoiced ? 'text-green-600' : 'text-red-600'"> {{visit.invoiced == true ? "Si" : "No"}}</span> 
-                                    </div>
-                                    <div>
-                                    </div>
-                                    <div></div>
-                                </div>
-                            </div>
-
-                            <div v-if="visit != null" class="py-6 align-middle pb-10 shadow-md rounded-md bg-white mt-3 inline-block min-w-full sm:px-6 lg:px-8">
-                                <SelectVaccine @pushed="addVaccine"/>
-                                <br>
-                                <span class="font-bold mt-10">Colocadas:</span>
-                                <div class="shadow mt-2 overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Nombre
-                                    </th>
-                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Precio
-                                    </th>
-                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        <span class="">Quitar</span>
-                                    </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr v-for="vaccine in visit.vaccines" :key="vaccine.id">
-                                        <td class="px-6 py-3 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900   ">
-                                                    {{ vaccine.name}}
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">
-                                                {{vaccine.price}}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex">
-                                                <button aria-label="Quitar vacuna"
-                                                        class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
-                                                        @click="removeVaccine(vaccine)">
-                                                    <Trash2Icon size="1.2x"/>
-                                                </button>
-                                                
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-3 whitespace-nowrap">
-                                            <span class="font-bold">Total</span>
-                                        </td>
-                                        <td class="px-6 py-3 whitespace-nowrap">
-                                            <span class="font-bold text-green-700">RD$ {{total}}</span>
-                                        </td>
-                                        
-                                    </tr>
-                                    <!-- More rows... -->
-                                </tbody>
-                                </table>
-                            </div>
+        <div class="py-2" v-if="visit !=null"> 
+            <div class="flex justify-end mr-15 mt-4" v-if="!visit.invoiced && visit.vaccines.length > 0">
+                <jet-button @click.native="facturar"> 
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path></svg>
+                    Finalizar y Facturar
+                </jet-button>
+            </div>
+            <div class="flex mt-8 mx-5 justify-center">
+                <div class="w-2/5">
+                    <div id="childInfo" class="bg-white shadow-lg rounded-md mx-10 px-6 py-6">
+                    <div class="flex justify-center">
+                        <img class="h-15 w-15 shadow-md rounded-full" :src="visit.child.gender == 'Niño' ?'/Images/boy.svg':'/Images/girl.svg'" alt="">
+                    </div>
+                    <div class="flex justify-center">
+                        <span class="font-bold"> {{visit.child.name}}</span> 
+                    </div>
+                     <div class="flex justify-center -my-1">
+                        <span>{{visit.child.age}}</span>
+                    </div>
+                    <div class="mt-4">
+                        <div class="mx-3">
+                            Padre: <span class="font-bold"> {{ visit.child.dad_or_mom.name }}</span> 
+                        </div>
+                        <div class="mx-3">
+                            Visitas: <span class="font-bold">{{visit.child.visitsCount}}</span> 
+                        </div>
+                        <div class="mx-3">
+                            Última visita: <span class="font-bold"> {{visit.child.lastVisit}}</span> 
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="bg-white shadow-lg rounded-md mx-10 px-6 py-6 mt-6"> 
+                        <div>
+                            Facturado: <span class="font-bold" :class="visit.invoiced ? 'text-green-600' : 'text-red-600'"> {{visit.invoiced == true ? "Si" : "No"}}</span> 
+                        </div>
+                        <div>
+                            Fecha visita actual: <span class="font-bold"> {{visit.visit_date}}</span> 
+                        </div>
+                        <div>
+                            Vacunas: <span class="font-bold"> {{visit.vaccines.length}}</span> 
+                        </div>
+                </div>
+                </div>
+                
+                <div id="vaccines" class="w-3/5 bg-white shadow-lg rounded-md px-6 py-6 mr-10">
+                    <SelectVaccine v-if="!visit.invoiced" class="mb-4" @pushed="addVaccine"/>
+                    <span class="font-bold mt-10">Colocadas:</span>
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                            <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nombre
+                            </th>
+                            <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Precio
+                            </th>
+                            <th v-if="!visit.invoiced" scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <span class="">Acciones</span>
+                            </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr v-for="vaccine in visit.vaccines" :key="vaccine.id">
+                                <td class="px-6 py-3 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900   ">
+                                            {{ vaccine.name}}
+                                        </div>
+                                    </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">
+                                        {{vaccine.price}}
+                                    </div>
+                                </td>
+                                <td v-if="!visit.invoiced" class="px-6 whitespace-nowrap text-right text-sm font-medium">
+                                    <div class="flex" >
+                                        <button aria-label="Quitar vacuna"
+                                                class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
+                                                @click="removeVaccine(vaccine)">
+                                            <Trash2Icon size="1.2x"/>
+                                        </button>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-3 whitespace-nowrap">
+                                    <span class="font-bold">Total</span>
+                                </td>
+                                <td class="px-6 py-3 whitespace-nowrap">
+                                    <span class="font-bold text-green-700">RD$ {{total}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>          
+            
         </div>
         <jet-dialog-modal :show="visit == null" >
                     <template #title>
@@ -194,6 +187,13 @@ export default {
         ...mapActions({
             setTitleForVisit : "setTitleForVisit"
         }),
+        facturar(){
+            const data = { visit_id : this.visit.id }
+            this.$inertia.post('/invoices', data)
+                .then(data => {
+                    console.log(data)
+            })
+        },
         addVaccine(vaccine){
             axios.post(`/visits/${this.visit.id}/vaccine/${vaccine}`)
             .then(data =>{
@@ -212,12 +212,6 @@ export default {
                     this.visit.vaccines = data.data
                 })
         },
-        getParent(){
-                axios.get(`/parents/${this.visit.child.dad_or_mom_id}`)
-                    .then( data =>{
-                        this.parent = data.data;
-                })
-            },
         saveVisit(){
             this.$inertia.post('/visits',{'child_id' : this.childForNewVisit.id})
                 .then(data => {
@@ -232,7 +226,6 @@ export default {
     mounted(){
         this.setTitleForVisit('Nueva visita')
         if(this.visit != null){
-            this.getParent();
             this.setTitleForVisit('Editar visita')
         }
         

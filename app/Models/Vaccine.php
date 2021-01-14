@@ -16,4 +16,12 @@ class Vaccine extends Model
         return $this->belongsToMany(Visit::class,'visit_vaccines',
                     'vaccine_id','visite_id')->withTimestamps();
     }
+
+    public function invoices()
+    {
+        return $this->belongsToMany(Invoice::class,'invoice_details',
+                    'vaccine_id','invoice_id')
+                    ->withPivot('price')
+                    ->withTimestamps();
+    }
 }

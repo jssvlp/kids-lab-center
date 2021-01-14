@@ -79,6 +79,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::post('/visits/{visit}/vaccine/{vaccine}',[Controllers\VisitController::class, 'addVaccine'])->name('visits.add.vaccine');
     Route::delete('/visits/{visit}/vaccine/{vaccine}',[Controllers\VisitController::class, 'removeVaccine'])->name('visits.remove.vaccine');
     Route::get('/visits/{visit}/vaccines',[Controllers\VisitController::class,'vaccines']);
+
+    //Invoices
+    Route::post('/invoices',[Controllers\InvoiceController::class,'store'])->name('invoices.store');
+    Route::get('/invoices',[Controllers\InvoiceController::class,'index'])->name('invoices.index');
+    Route::get('/invoices/{invoice}',[Controllers\InvoiceController::class,'detail'])->name('invoices.detail');
+    Route::post('/invoices/pay/{invoice}',[Controllers\InvoiceController::class,'pay'])->name('invoices.pay');
 });
 
 

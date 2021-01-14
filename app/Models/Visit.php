@@ -31,7 +31,7 @@ class Visit extends Model
 
     public function getInvoicedAttribute()
     {
-        return $this->invoice() == null;
+        return $this->invoice != null;
     }
     
 }
