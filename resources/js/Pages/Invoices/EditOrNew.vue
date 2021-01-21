@@ -245,9 +245,13 @@ export default {
                 transaction_number: '12323',
                 payment_method: this.paymentMethod
             }
-            this.$inertia.post(`/invoices/pay/${this.invoice.id}`,data)
+            axios.post(`/invoices/pay/${this.invoice.id}`,data)
             .then( data =>{
-                console.log(data)
+                if(data.data.success == true)
+                {
+                    window.open(`/invoices/${this.invoice.id}/print`,'_blank')
+                    this.$inertia.get('/invoices');
+                }
             })
            
         },

@@ -6,7 +6,7 @@
             </h2>
         </template>
         <div class="py-2">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -56,16 +56,19 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
-                                        <button aria-label="Edit user"
-                                                class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
-                                                @click="editChild(invoice)">
+                                        <inertia-link :href="route('invoices.detail',invoice.id)"  v-if="invoice.payment_status != 'Pago'" aria-label="Edit user"
+                                                class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600">
                                             <EditIcon size="1.2x"/>
-                                        </button>
-                                        <button aria-label="Delete user"
-                                                class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
-                                                @click="print(invoice)">
-                                            <PrinterIcon size="1.2x"/>
-                                        </button>
+                                        </inertia-link>
+                                        <inertia-link v-else :href="route('invoices.detail',invoice.id)"  aria-label="Ver factura"
+                                                class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
+                                                @click="invoiceDetail(invoice.id)">
+                                            <EyeIcon size="1.2x"/>
+                                        </inertia-link>
+                                        <a v-if="invoice.payment_status == 'Pago'" :href="route('invoices.print',invoice.id)"  target= '_blank' class="mt-1" >
+                                           <PrinterIcon size="1.2x"/>
+                                        </a>
+                                       
                                     </div>
                                 </td>
                                 </tr>
@@ -87,7 +90,7 @@ import AppLayout from '@/Layouts/AppLayout'
 import Welcome from '@/Jetstream/Welcome'
 import Pagination from '@/Components/Pagination'
 import { mapState, mapActions} from 'vuex'
-import { EditIcon, Trash2Icon, PrinterIcon } from "vue-feather-icons";
+import { EditIcon, Trash2Icon, PrinterIcon, EyeIcon } from "vue-feather-icons";
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetButton from '@/Jetstream/Button'
@@ -103,6 +106,7 @@ export default {
         EditIcon,
         Trash2Icon,
         PrinterIcon,
+        EyeIcon,
         JetConfirmationModal,
         JetSecondaryButton,
         JetButton,
@@ -128,6 +132,9 @@ export default {
         ...mapActions({
             toggleNewOrEditChildModal: "toggleNewOrEditChildModal"
         }),
+        invoiceDetail(id){
+            console.log('abriendo detail')
+        },
         total(vaccines){
             return vaccines.reduce(function(a, b){
                return a + b.price;

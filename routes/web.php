@@ -85,6 +85,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::get('/invoices',[Controllers\InvoiceController::class,'index'])->name('invoices.index');
     Route::get('/invoices/{invoice}',[Controllers\InvoiceController::class,'detail'])->name('invoices.detail');
     Route::post('/invoices/pay/{invoice}',[Controllers\InvoiceController::class,'pay'])->name('invoices.pay');
+    Route::get('/invoices/{invoice}/print',[Controllers\InvoiceController::class,'print'])->name('invoices.print');
 });
 
 

@@ -18,11 +18,26 @@ class InvoiceController extends Controller
         ]);
     }
 
+    public function print($invoice)
+    {
+        $_invoice = Invoice::with(['visit','visit.child','visit.child.dadOrMom','visit.child.plan.insurance','vaccines'])->whereId($invoice)->first();
+       
+        return Inertia::render('Invoices/Print',[
+            'invoice' => $_invoice
+        ]);
+    }
+
     public function detail($invoice)
     {
         $_invoice = Invoice::with(['visit','visit.child','visit.child.dadOrMom','visit.child.plan.insurance','vaccines'])->whereId($invoice)->first();
        
-        return Inertia::render('Invoices/Invoice',[
+        if($_invoice['payment_status']=='Pago')
+        {
+            return Inertia::render('Invoices/Show',[
+                'invoice' => $_invoice
+            ]);
+        }
+        return Inertia::render('Invoices/EditOrNew',[
             'invoice' => $_invoice
         ]);
     }
@@ -74,6 +89,7 @@ class InvoiceController extends Controller
             'payment_status' => 'Pago'
         ]);
 
+        return response()->json(['success' => true, 'message' => 'Pago efectuado correctamente']);
         return redirect()->route('invoices.index',$invoice->id)->with('successMessage', 'Pago realizado correctamente');
 
     }
