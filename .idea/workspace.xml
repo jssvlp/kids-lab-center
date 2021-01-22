@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="233d08eb-d384-46bd-9208-cf9386040ade" name="Default Changelist" comment="" />
+    <list default="true" id="233d08eb-d384-46bd-9208-cf9386040ade" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChildController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChildController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ParentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ParentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Child.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Child.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Components/Statistics.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Components/Statistics.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Children/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Children/All.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Children/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Children/EditOrNew.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Insurances/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Insurances/All.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Insurances/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Insurances/EditOrNew.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Parents/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Parents/All.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Parents/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Parents/EditOrNew.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,6 +28,16 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -142,6 +170,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -160,7 +194,11 @@
       <option name="presentableId" value="Default" />
       <updated>1607385571432</updated>
       <workItem from="1607385578789" duration="18000" />
-      <workItem from="1607385612404" duration="386000" />
+      <workItem from="1607385612404" duration="10915000" />
+      <workItem from="1607401041215" duration="4503000" />
+      <workItem from="1607742241325" duration="7308000" />
+      <workItem from="1608172177836" duration="2489000" />
+      <workItem from="1608686945995" duration="50000" />
     </task>
     <servers />
   </component>
