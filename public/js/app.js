@@ -1995,6 +1995,8 @@ function mergeFn (a, b) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2003,32 +2005,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["pages", "init", "end"],
+  props: ["links"],
   data: function data() {
     return {
-      currentPage: 1
+      current: null
     };
   },
   methods: {
-    next: function next() {},
-    previous: function previous() {},
-    setPage: function setPage(page) {
-      console.log(page);
-      this.currentPage = page;
+    getLabel: function getLabel(label) {
+      if (label == '&laquo; Previous') {
+        return 'Anterior';
+      } else if (label == 'Next &raquo;') {
+        return 'Siguiente';
+      } else {
+        return label;
+      }
+    },
+    setCurrent: function setCurrent(page) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(page.url).then(function (data) {
+        _this.$emit('next', data.data);
+      });
     }
-  }
+  },
+  computed: {}
 });
 
 /***/ }),
@@ -3248,6 +3251,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3779,6 +3785,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3793,7 +3809,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['children'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     Pagination: _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -3817,9 +3832,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       planBeingDeleted: null,
       planBeingAdd: null,
       newChild: null
-    }, _defineProperty(_ref, "title", ''), _defineProperty(_ref, "test", false), _ref;
+    }, _defineProperty(_ref, "title", ''), _defineProperty(_ref, "test", false), _defineProperty(_ref, "children", {}), _defineProperty(_ref, "filter", ''), _ref;
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['editingOrCreatingChild', 'parentForNewChild'])),
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('children/all').then(function (data) {
+      _this.children = data.data;
+    });
+  },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({
     toggleNewOrEditChildModal: "toggleNewOrEditChildModal"
   })), {}, {
@@ -3838,11 +3860,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.toggleNewOrEditChildModal();
     },
     deleteChild: function deleteChild(child) {
-      var _this = this;
+      var _this2 = this;
 
       this.$inertia["delete"]("/children/".concat(this.toDelete.id)).then(function (data) {
-        _this.planBeingDeleted = null;
+        _this2.planBeingDeleted = null;
       });
+    },
+    refresh: function refresh(data) {
+      this.children = data;
+    },
+    search: function search() {
+      var _this3 = this;
+
+      console.log(this.filter);
+
+      if (this.filter.length > 2 || this.filter == '') {
+        axios.get("/children/all?name=".concat(this.filter)).then(function (data) {
+          _this3.children = data.data;
+        });
+      }
     }
   })
 });
@@ -4041,13 +4077,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.form.id != null) {
         this.$inertia.patch("/children/".concat(this.form.id), child).then(function (data) {
+          _this.$emit('refresh');
+
           _this.toggleNewOrEditChildModal();
         });
       } else {
         this.$inertia.post('/children', child).then(function (data) {
-          _this.toggleNewOrEditChildModal();
+          _this.$emit('refresh');
 
-          console.log(data);
+          _this.toggleNewOrEditChildModal();
         });
       }
     }
@@ -4297,6 +4335,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4319,7 +4364,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       toEdit: null,
       toDelete: {},
       title: '',
-      planBeingDeleted: null
+      planBeingDeleted: null,
+      filter: ''
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['editingOrCreatingInsurance'])),
@@ -4337,6 +4383,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$inertia["delete"]("/insurances/".concat(this.toDelete.id)).then(function (data) {
         _this.planBeingDeleted = null;
       });
+    },
+    search: function search() {
+      var _this2 = this;
+
+      console.log(this.filter);
+
+      if (this.filter.length > 2 || this.filter == '') {
+        axios.get("/insurances/all?name=".concat(this.filter)).then(function (data) {
+          _this2.insurances = data.data;
+        });
+      }
     }
   })
 });
@@ -4459,10 +4516,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.form.id) {
         this.$inertia.patch("/insurances/".concat(this.form.id), this.form).then(function (data) {
+          _this.$emit('refresh');
+
           _this.toggleNewOrEditInsuranceModal();
         });
       } else {
         this.$inertia.post('/insurances', this.form).then(function (data) {
+          _this.$emit('refresh');
+
           _this.toggleNewOrEditInsuranceModal();
         });
       }
@@ -4906,6 +4967,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4918,7 +4988,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['invoices'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     Pagination: _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -4942,9 +5011,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       planBeingDeleted: null,
       planBeingAdd: null,
       newChild: null
-    }, _defineProperty(_ref, "title", ''), _defineProperty(_ref, "test", false), _ref;
+    }, _defineProperty(_ref, "title", ''), _defineProperty(_ref, "test", false), _defineProperty(_ref, "invoices", {}), _defineProperty(_ref, "filter", ''), _ref;
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['editingOrCreatingChild', 'parentForNewChild'])),
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('invoices/all/paginated').then(function (data) {
+      _this.invoices = data.data;
+    });
+  },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({
     toggleNewOrEditChildModal: "toggleNewOrEditChildModal"
   })), {}, {
@@ -4974,11 +5050,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.toggleNewOrEditChildModal();
     },
     deleteChild: function deleteChild(child) {
-      var _this = this;
+      var _this2 = this;
 
       this.$inertia["delete"]("/children/".concat(this.toDelete.id)).then(function (data) {
-        _this.planBeingDeleted = null;
+        _this2.planBeingDeleted = null;
       });
+    },
+    refresh: function refresh(data) {
+      this.invoices = data;
+    },
+    search: function search() {
+      var _this3 = this;
+
+      console.log(this.filter);
+
+      if (this.filter.length > 2 || this.filter == '') {
+        axios.get("/invoices/all/paginated?name=".concat(this.filter)).then(function (data) {
+          _this3.invoices = data.data;
+        });
+      }
     }
   })
 });
@@ -5332,6 +5422,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5358,7 +5456,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       discountVisible: false,
       modalDiscountVisible: false,
       paymentModalVisible: false,
-      paymentMethod: ''
+      paymentMethod: '',
+      authorization: ''
     };
   },
   computed: {
@@ -5381,7 +5480,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         vaccines: this.invoice.vaccines,
         discount: this.discount,
         transaction_number: '12323',
-        payment_method: this.paymentMethod
+        payment_method: this.paymentMethod,
+        authorization: this.authorization
       };
       axios__WEBPACK_IMPORTED_MODULE_7___default.a.post("/invoices/pay/".concat(this.invoice.id), data).then(function (data) {
         if (data.data.success == true) {
@@ -5480,6 +5580,9 @@ __webpack_require__.r(__webpack_exports__);
     Detail: _Detail__WEBPACK_IMPORTED_MODULE_1__["default"],
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_2__["default"],
     PrinterIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["PrinterIcon"]
+  },
+  mounted: function mounted() {
+    window.scroll(100, 100);
   }
 });
 
@@ -5504,10 +5607,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/Jetstream/ConfirmationModal */ "./resources/js/Jetstream/ConfirmationModal.vue");
 /* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
 /* harmony import */ var _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/Jetstream/DangerButton */ "./resources/js/Jetstream/DangerButton.vue");
-/* harmony import */ var _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Jetstream/Button.vue */ "./resources/js/Jetstream/Button.vue");
-/* harmony import */ var _Children_EditOrNew__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Children/EditOrNew */ "./resources/js/Pages/Children/EditOrNew.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
+/* harmony import */ var _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Jetstream/Button.vue */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var _Children_EditOrNew__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Children/EditOrNew */ "./resources/js/Pages/Children/EditOrNew.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_14__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -5624,6 +5729,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 
@@ -5638,7 +5755,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['parents'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     Pagination: _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -5650,8 +5766,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     JetConfirmationModal: _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_7__["default"],
     JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_8__["default"],
     JetDangerButton: _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_9__["default"],
-    Button: _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
-    EditOrNewChildren: _Children_EditOrNew__WEBPACK_IMPORTED_MODULE_11__["default"]
+    Button: _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
+    EditOrNewChildren: _Children_EditOrNew__WEBPACK_IMPORTED_MODULE_13__["default"],
+    JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_10__["default"],
+    JetLabel: _Jetstream_Label__WEBPACK_IMPORTED_MODULE_11__["default"],
+    Input: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_10__["default"]
   },
   data: function data() {
     return {
@@ -5662,8 +5781,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       planBeingDeleted: null,
       toDelete: {},
       newChild: null,
-      parentss: [],
-      pagination: {}
+      parents: {},
+      filter: ''
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapState"])(['editingOrCreatingParent', 'editingOrCreatingChild'])),
@@ -5703,15 +5822,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       });
       return result;
+    },
+    refresh: function refresh(data) {
+      this.parents = data;
+    },
+    search: function search() {
+      var _this2 = this;
+
+      console.log(this.filter);
+      axios__WEBPACK_IMPORTED_MODULE_14___default.a.get("/parents/all?name=".concat(this.filter)).then(function (data) {
+        _this2.parents = data.data;
+      });
     }
   }),
   mounted: function mounted() {
-    /* axios.get('parents/all')
-    .then( data =>{
-        this.parents = data.data.data
-        this.pagination = data.data
-        console.log(this.pagination)
-    }) */
+    var _this3 = this;
+
+    axios__WEBPACK_IMPORTED_MODULE_14___default.a.get('parents/all').then(function (data) {
+      _this3.parents = data.data;
+    });
   },
   getParents: function getParents() {}
 });
@@ -5783,6 +5912,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
 /* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -5851,6 +5982,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     title: {
@@ -5901,10 +6033,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.form.id != '') {
         this.$inertia.patch("/parents/".concat(this.form.id), this.form).then(function (data) {
+          _this.$emit('refresh');
+
           _this.toggleNewOrEditParentModal();
         });
       } else {
         this.$inertia.post('/parents', this.form).then(function (data) {
+          _this.$emit('refresh');
+
           _this.toggleNewOrEditParentModal();
         });
       }
@@ -6701,6 +6837,53 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Reports/Reports.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Reports/Reports.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['users'],
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Users/All.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Users/All.vue?vue&type=script&lang=js& ***!
@@ -6868,6 +7051,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6881,7 +7071,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['vaccines'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     Pagination: _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -6895,17 +7084,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     JetDialogModal: _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_10__["default"]
   },
   data: function data() {
-    return _defineProperty({
+    var _ref;
+
+    return _ref = {
       toNewOrEdit: null,
       toDelete: {},
       title: '',
       planBeingDeleted: null,
       planBeingAdd: null,
       newChild: null
-    }, "title", '');
+    }, _defineProperty(_ref, "title", ''), _defineProperty(_ref, "vaccines", {}), _defineProperty(_ref, "filter", ''), _ref;
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['editingOrCreatingChild', 'parentForNewChild', 'editingOrCreatingVaccine'])),
-  created: function created() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('vaccines/all/paginated').then(function (data) {
+      _this.vaccines = data.data;
+    });
+  },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({
     toggleNewOrEditVaccineModal: 'toggleNewOrEditVaccineModal'
   })), {}, {
@@ -6916,11 +7113,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.toggleNewOrEditVaccineModal();
     },
     deleteVaccine: function deleteVaccine(vaccine) {
-      var _this = this;
+      var _this2 = this;
 
       this.$inertia["delete"]("/vaccines/".concat(this.toDelete.id)).then(function (data) {
-        _this.planBeingDeleted = null;
+        _this2.planBeingDeleted = null;
       });
+    },
+    refresh: function refresh(data) {
+      this.vaccines = data;
+    },
+    search: function search() {
+      var _this3 = this;
+
+      console.log(this.filter);
+
+      if (this.filter.length > 2 || this.filter == '') {
+        axios.get("/vaccines/all/paginated?name=".concat(this.filter)).then(function (data) {
+          _this3.vaccines = data.data;
+        });
+      }
     }
   })
 });
@@ -7042,13 +7253,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.form.id != null) {
         this.$inertia.patch("/vaccines/".concat(this.form.id), vaccine).then(function (data) {
+          _this.$emit('refresh');
+
           _this.toggleNewOrEditVaccineModal();
         });
       } else {
         this.$inertia.post('/vaccines', vaccine).then(function (data) {
-          _this.toggleNewOrEditVaccineModal();
+          _this.$emit('refresh');
 
-          console.log(data);
+          _this.toggleNewOrEditVaccineModal();
         });
       }
     }
@@ -7329,6 +7542,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7341,7 +7564,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['visits'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     Pagination: _Components_Pagination__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -7358,18 +7580,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       planBeingDeleted: null,
       title: '',
-      toDelete: {}
+      toDelete: {},
+      visits: {},
+      filter: ''
     };
   },
   computed: {},
-  created: function created() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('visits/all/paginated').then(function (data) {
+      _this.visits = data.data;
+      console.log(_this.visits);
+    });
+  },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({})), {}, {
     deleteVisit: function deleteVisit() {
-      var _this = this;
+      var _this2 = this;
 
       this.$inertia["delete"]("/visits/".concat(this.toDelete.id)).then(function (data) {
-        _this.planBeingDeleted = null;
+        _this2.planBeingDeleted = null;
       });
+    },
+    refresh: function refresh(data) {
+      this.visits = data;
+    },
+    search: function search() {
+      var _this3 = this;
+
+      console.log(this.filter);
+
+      if (this.filter.length > 2 || this.filter == '') {
+        axios.get("/visits/all/paginated?name=".concat(this.filter)).then(function (data) {
+          _this3.visits = data.data;
+        });
+      }
     }
   })
 });
@@ -73195,82 +73440,33 @@ var render = function() {
   return _c(
     "ul",
     { staticClass: "flex justify-center mt-3" },
-    [
-      _c(
-        "li",
-        { staticClass: "mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded-lg" },
-        [
-          _c(
-            "a",
-            {
-              staticClass: "flex items-center font-bold",
-              attrs: { href: "#" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.setPage(_vm.index - 1)
-                }
-              }
-            },
-            [_c("span", { staticClass: "mx-1" }, [_vm._v("Anterior")])]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _vm._l(_vm.pages, function(index) {
-        return _c(
-          "li",
-          {
-            key: index,
-            staticClass:
-              "mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg",
-            class:
-              index == _vm.currentPage ? "hover:bg-gray-700" : "bg-gray-200"
-          },
-          [
-            _c(
-              "a",
-              {
-                staticClass: "font-bold",
-                attrs: { href: "#" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.setPage(index)
-                  }
-                }
-              },
-              [_vm._v(_vm._s(index))]
-            )
-          ]
-        )
-      }),
-      _vm._v(" "),
-      _c(
+    _vm._l(_vm.links, function(link) {
+      return _c(
         "li",
         {
+          key: link.label,
           staticClass:
-            "mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg"
+            "mx-1 px-3 py-2 bg-gray-200 hover:bg-gray-700 hover:text-gray-200 rounded-lg cursor-pointer",
+          class: {
+            "bg-gray-700": link.active,
+            "text-gray-200": link.active,
+            "text-gray-700": !link.active
+          },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.setCurrent(link)
+            }
+          }
         },
         [
-          _c(
-            "a",
-            {
-              staticClass: "flex items-center font-bold",
-              attrs: { href: "#" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.setPage(_vm.index + 1)
-                }
-              }
-            },
-            [_c("span", { staticClass: "mx-1" }, [_vm._v("Siguiente")])]
-          )
+          _c("a", { staticClass: "font-bold", attrs: { href: "#" } }, [
+            _vm._v(_vm._s(_vm.getLabel(link.label)))
+          ])
         ]
       )
-    ],
-    2
+    }),
+    0
   )
 }
 var staticRenderFns = []
@@ -75460,6 +75656,20 @@ var render = function() {
                                       ]
                                     ),
                                     _vm._v(" "),
+                                    _c(
+                                      "jet-dropdown-link",
+                                      {
+                                        attrs: {
+                                          href: _vm.route("reports.index")
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                        Reportes\n                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
                                     _c("div", {
                                       staticClass: "border-t border-gray-100"
                                     })
@@ -76678,7 +76888,8 @@ var render = function() {
       _vm._v(" "),
       _vm.editingOrCreatingChild
         ? _c("EditOrNew", {
-            attrs: { title: _vm.title, data: _vm.toNewOrEdit }
+            attrs: { title: _vm.title, data: _vm.toNewOrEdit },
+            on: { refresh: _vm.search }
           })
         : _vm._e(),
       _vm._v(" "),
@@ -76699,7 +76910,7 @@ var render = function() {
                         "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
                     },
                     [
-                      _c("div", { staticClass: "mb-3" }, [
+                      _c("div", { staticClass: "mb-3 flex justify-between" }, [
                         _c(
                           "button",
                           {
@@ -76740,7 +76951,48 @@ var render = function() {
                               _vm._v("Agregar")
                             ])
                           ]
-                        )
+                        ),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("div", { staticClass: "flex" }, [
+                            _c(
+                              "span",
+                              {
+                                staticClass:
+                                  "text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap"
+                              },
+                              [_vm._v("Buscar:")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.filter,
+                                  expression: "filter"
+                                }
+                              ],
+                              staticClass:
+                                "border border-2 rounded-r px-4 py-2 w-full",
+                              attrs: {
+                                name: "field_name",
+                                type: "text",
+                                placeholder: "Escribe un nombre"
+                              },
+                              domProps: { value: _vm.filter },
+                              on: {
+                                keyup: _vm.search,
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.filter = $event.target.value
+                                }
+                              }
+                            })
+                          ])
+                        ])
                       ]),
                       _vm._v(" "),
                       _c(
@@ -76829,194 +77081,212 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c(
-                                "tbody",
-                                {
-                                  staticClass:
-                                    "bg-white divide-y divide-gray-200"
-                                },
-                                _vm._l(_vm.children, function(child) {
-                                  return _c("tr", { key: child.id }, [
-                                    _c(
-                                      "td",
-                                      { staticClass: "px-6 whitespace-nowrap" },
-                                      [
+                              _vm.children.data
+                                ? _c(
+                                    "tbody",
+                                    {
+                                      staticClass:
+                                        "bg-white divide-y divide-gray-200"
+                                    },
+                                    _vm._l(_vm.children.data, function(child) {
+                                      return _c("tr", { key: child.id }, [
                                         _c(
-                                          "div",
-                                          { staticClass: "flex items-center" },
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "flex items-center"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "flex-shrink-0 h-7 w-7"
+                                                  },
+                                                  [
+                                                    _c("img", {
+                                                      staticClass:
+                                                        "h-7 w-7 rounded-full",
+                                                      attrs: {
+                                                        src:
+                                                          child.gender == "Niño"
+                                                            ? "/Images/boy.svg"
+                                                            : "/Images/girl.svg",
+                                                        alt: ""
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "ml-4" },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "text-sm font-medium text-gray-900 font-bold"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        " +
+                                                            _vm._s(child.name) +
+                                                            "\n                                    "
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "text-sm text-gray-500"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        " +
+                                                            _vm._s(child.age) +
+                                                            "\n                                    "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap"
+                                          },
                                           [
                                             _c(
                                               "div",
                                               {
                                                 staticClass:
-                                                  "flex-shrink-0 h-7 w-7"
+                                                  "text-sm text-gray-900"
                                               },
                                               [
-                                                _c("img", {
-                                                  staticClass:
-                                                    "h-7 w-7 rounded-full",
-                                                  attrs: {
-                                                    src:
-                                                      child.gender == "Niño"
-                                                        ? "/Images/boy.svg"
-                                                        : "/Images/girl.svg",
-                                                    alt: ""
-                                                  }
-                                                })
+                                                _vm._v(
+                                                  _vm._s(child.dad_or_mom.name)
+                                                )
                                               ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("div", { staticClass: "ml-4" }, [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "text-sm font-medium text-gray-900 font-bold"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(child.name) +
-                                                      "\n                                    "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "text-sm text-gray-500"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(child.age) +
-                                                      "\n                                    "
-                                                  )
-                                                ]
-                                              )
-                                            ])
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      { staticClass: "px-6 whitespace-nowrap" },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "text-sm text-gray-900"
-                                          },
-                                          [
-                                            _vm._v(
-                                              _vm._s(child.dad_or_mom.name)
                                             )
                                           ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass: "px-6  whitespace-nowrap"
-                                      },
-                                      [
+                                        ),
+                                        _vm._v(" "),
                                         _c(
-                                          "span",
+                                          "td",
                                           {
                                             staticClass:
-                                              "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                              "px-6  whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                " +
+                                                    _vm._s(child.gender) +
+                                                    "\n                                "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
                                           },
                                           [
                                             _vm._v(
                                               "\n                                " +
-                                                _vm._s(child.gender) +
-                                                "\n                                "
+                                                _vm._s(child.birth_date) +
+                                                "\n                            "
                                             )
                                           ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap text-right text-sm font-medium"
+                                          },
+                                          [
+                                            _c("div", { staticClass: "flex" }, [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
+                                                  attrs: {
+                                                    "aria-label": "Edit user"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.editChild(
+                                                        child
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("EditIcon", {
+                                                    attrs: { size: "1.2x" }
+                                                  })
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
+                                                  attrs: {
+                                                    "aria-label": "Delete user"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      ;(_vm.planBeingDeleted = true),
+                                                        (_vm.toDelete = child)
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("Trash2Icon", {
+                                                    attrs: { size: "1.2x" }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            ])
+                                          ]
                                         )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass:
-                                          "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(child.birth_date) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass:
-                                          "px-6 whitespace-nowrap text-right text-sm font-medium"
-                                      },
-                                      [
-                                        _c("div", { staticClass: "flex" }, [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
-                                              attrs: {
-                                                "aria-label": "Edit user"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.editChild(child)
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("EditIcon", {
-                                                attrs: { size: "1.2x" }
-                                              })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
-                                              attrs: {
-                                                "aria-label": "Delete user"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  ;(_vm.planBeingDeleted = true),
-                                                    (_vm.toDelete = child)
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("Trash2Icon", {
-                                                attrs: { size: "1.2x" }
-                                              })
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      ]
-                                    )
-                                  ])
-                                }),
-                                0
-                              )
+                                      ])
+                                    }),
+                                    0
+                                  )
+                                : _vm._e()
                             ]
                           )
                         ]
@@ -77026,7 +77296,10 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("Pagination", { attrs: { pages: 1, init: 1, end: 1 } })
+              _c("Pagination", {
+                attrs: { links: _vm.children.links },
+                on: { next: _vm.refresh }
+              })
             ],
             1
           )
@@ -77772,7 +78045,10 @@ var render = function() {
     [
       _vm._v(" "),
       _vm.editingOrCreatingInsurance
-        ? _c("EditOrNew", { attrs: { title: _vm.title, data: _vm.toEdit } })
+        ? _c("EditOrNew", {
+            attrs: { title: _vm.title, data: _vm.toEdit },
+            on: { refresh: _vm.search }
+          })
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "py-5" }, [
@@ -77789,7 +78065,7 @@ var render = function() {
                       "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
                   },
                   [
-                    _c("div", { staticClass: "mb-3" }, [
+                    _c("div", { staticClass: "mb-3 flex justify-between" }, [
                       _c(
                         "button",
                         {
@@ -77828,7 +78104,46 @@ var render = function() {
                             _vm._v("Agregar")
                           ])
                         ]
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "flex" }, [
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap"
+                          },
+                          [_vm._v("Buscar:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.filter,
+                              expression: "filter"
+                            }
+                          ],
+                          staticClass:
+                            "border border-2 rounded-r px-2 py-2 w-full",
+                          attrs: {
+                            name: "field_name",
+                            type: "text",
+                            placeholder: "Nombre de una aseguradora"
+                          },
+                          domProps: { value: _vm.filter },
+                          on: {
+                            keyup: _vm.search,
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.filter = $event.target.value
+                            }
+                          }
+                        })
+                      ])
                     ]),
                     _vm._v(" "),
                     _c(
@@ -78822,6 +79137,53 @@ var render = function() {
         _c("div", { staticClass: "max-w-4xl mx-auto sm:px-6 lg:px-8" }, [
           _c(
             "div",
+            {
+              staticClass:
+                "py-2 align-middle inline-block min-w-full  flex justify-end"
+            },
+            [
+              _c("div", { staticClass: "flex" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap"
+                  },
+                  [_vm._v("Buscar:")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.filter,
+                      expression: "filter"
+                    }
+                  ],
+                  staticClass: "border border-2 rounded-r px-2 py-2 w-full",
+                  attrs: {
+                    name: "field_name",
+                    type: "text",
+                    placeholder: "Nombre de un paciente"
+                  },
+                  domProps: { value: _vm.filter },
+                  on: {
+                    keyup: _vm.search,
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.filter = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
             { staticClass: "flex flex-col" },
             [
               _c(
@@ -78921,214 +79283,242 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c(
-                                "tbody",
-                                {
-                                  staticClass:
-                                    "bg-white divide-y divide-gray-200"
-                                },
-                                _vm._l(_vm.invoices, function(invoice) {
-                                  return _c("tr", { key: invoice.id }, [
-                                    _c(
-                                      "td",
-                                      { staticClass: "px-6 whitespace-nowrap" },
-                                      [
+                              _vm.invoices.data
+                                ? _c(
+                                    "tbody",
+                                    {
+                                      staticClass:
+                                        "bg-white divide-y divide-gray-200"
+                                    },
+                                    _vm._l(_vm.invoices.data, function(
+                                      invoice
+                                    ) {
+                                      return _c("tr", { key: invoice.id }, [
                                         _c(
-                                          "div",
-                                          { staticClass: "flex items-center" },
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap"
+                                          },
                                           [
                                             _c(
                                               "div",
-                                              { staticClass: "ml-4" },
+                                              {
+                                                staticClass: "flex items-center"
+                                              },
                                               [
                                                 _c(
-                                                  "inertia-link",
-                                                  {
-                                                    staticClass:
-                                                      "text-sm font-medium text-gray-900 font-bold",
-                                                    attrs: {
-                                                      href: _vm.route(
-                                                        "invoices.detail",
-                                                        invoice.id
-                                                      )
-                                                    }
-                                                  },
+                                                  "div",
+                                                  { staticClass: "ml-4" },
                                                   [
-                                                    _vm._v(
-                                                      "\n                                        " +
-                                                        _vm._s(
-                                                          invoice.visit.child
-                                                            .name
-                                                        ) +
-                                                        "\n                                    "
+                                                    _c(
+                                                      "inertia-link",
+                                                      {
+                                                        staticClass:
+                                                          "text-sm font-medium text-gray-900 font-bold",
+                                                        attrs: {
+                                                          href: _vm.route(
+                                                            "invoices.detail",
+                                                            invoice.id
+                                                          )
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        " +
+                                                            _vm._s(
+                                                              invoice.visit
+                                                                .child.name
+                                                            ) +
+                                                            "\n                                    "
+                                                        )
+                                                      ]
                                                     )
-                                                  ]
+                                                  ],
+                                                  1
                                                 )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "text-sm text-gray-900"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(invoice.invoice_date)
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6  whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                " +
+                                                    _vm._s(
+                                                      invoice.visit.vaccines
+                                                        .length
+                                                    ) +
+                                                    "\n                                "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                          },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "font-bold text-green-600"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "RD$" +
+                                                    _vm._s(
+                                                      _vm.total(
+                                                        invoice.visit.vaccines
+                                                      )
+                                                    )
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap text-right text-sm font-medium"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "flex" },
+                                              [
+                                                invoice.payment_status != "Pago"
+                                                  ? _c(
+                                                      "inertia-link",
+                                                      {
+                                                        staticClass:
+                                                          "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
+                                                        attrs: {
+                                                          href: _vm.route(
+                                                            "invoices.detail",
+                                                            invoice.id
+                                                          ),
+                                                          "aria-label":
+                                                            "Edit user"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("EditIcon", {
+                                                          attrs: {
+                                                            size: "1.2x"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    )
+                                                  : _c(
+                                                      "inertia-link",
+                                                      {
+                                                        staticClass:
+                                                          "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
+                                                        attrs: {
+                                                          href: _vm.route(
+                                                            "invoices.detail",
+                                                            invoice.id
+                                                          ),
+                                                          "aria-label":
+                                                            "Ver factura"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.invoiceDetail(
+                                                              invoice.id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("EyeIcon", {
+                                                          attrs: {
+                                                            size: "1.2x"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    ),
+                                                _vm._v(" "),
+                                                invoice.payment_status == "Pago"
+                                                  ? _c(
+                                                      "a",
+                                                      {
+                                                        staticClass: "mt-1",
+                                                        attrs: {
+                                                          href: _vm.route(
+                                                            "invoices.print",
+                                                            invoice.id
+                                                          ),
+                                                          target: "_blank"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("PrinterIcon", {
+                                                          attrs: {
+                                                            size: "1.2x"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    )
+                                                  : _vm._e()
                                               ],
                                               1
                                             )
                                           ]
                                         )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      { staticClass: "px-6 whitespace-nowrap" },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "text-sm text-gray-900"
-                                          },
-                                          [_vm._v(_vm._s(invoice.invoice_date))]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass: "px-6  whitespace-nowrap"
-                                      },
-                                      [
-                                        _c(
-                                          "span",
-                                          {
-                                            staticClass:
-                                              "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                " +
-                                                _vm._s(
-                                                  invoice.visit.vaccines.length
-                                                ) +
-                                                "\n                                "
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass:
-                                          "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                                      },
-                                      [
-                                        _c(
-                                          "span",
-                                          {
-                                            staticClass:
-                                              "font-bold text-green-600"
-                                          },
-                                          [
-                                            _vm._v(
-                                              "RD$" +
-                                                _vm._s(
-                                                  _vm.total(
-                                                    invoice.visit.vaccines
-                                                  )
-                                                )
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass:
-                                          "px-6 whitespace-nowrap text-right text-sm font-medium"
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "flex" },
-                                          [
-                                            invoice.payment_status != "Pago"
-                                              ? _c(
-                                                  "inertia-link",
-                                                  {
-                                                    staticClass:
-                                                      "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
-                                                    attrs: {
-                                                      href: _vm.route(
-                                                        "invoices.detail",
-                                                        invoice.id
-                                                      ),
-                                                      "aria-label": "Edit user"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("EditIcon", {
-                                                      attrs: { size: "1.2x" }
-                                                    })
-                                                  ],
-                                                  1
-                                                )
-                                              : _c(
-                                                  "inertia-link",
-                                                  {
-                                                    staticClass:
-                                                      "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
-                                                    attrs: {
-                                                      href: _vm.route(
-                                                        "invoices.detail",
-                                                        invoice.id
-                                                      ),
-                                                      "aria-label":
-                                                        "Ver factura"
-                                                    },
-                                                    on: {
-                                                      click: function($event) {
-                                                        return _vm.invoiceDetail(
-                                                          invoice.id
-                                                        )
-                                                      }
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("EyeIcon", {
-                                                      attrs: { size: "1.2x" }
-                                                    })
-                                                  ],
-                                                  1
-                                                ),
-                                            _vm._v(" "),
-                                            invoice.payment_status == "Pago"
-                                              ? _c(
-                                                  "a",
-                                                  {
-                                                    staticClass: "mt-1",
-                                                    attrs: {
-                                                      href: _vm.route(
-                                                        "invoices.print",
-                                                        invoice.id
-                                                      ),
-                                                      target: "_blank"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("PrinterIcon", {
-                                                      attrs: { size: "1.2x" }
-                                                    })
-                                                  ],
-                                                  1
-                                                )
-                                              : _vm._e()
-                                          ],
-                                          1
-                                        )
-                                      ]
-                                    )
-                                  ])
-                                }),
-                                0
-                              )
+                                      ])
+                                    }),
+                                    0
+                                  )
+                                : _vm._e()
                             ]
                           )
                         ]
@@ -79138,7 +79528,10 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("Pagination", { attrs: { pages: 1, init: 1, end: 1 } })
+              _c("Pagination", {
+                attrs: { links: _vm.invoices.links },
+                on: { next: _vm.refresh }
+              })
             ],
             1
           )
@@ -79233,7 +79626,7 @@ var render = function() {
           _vm._v(" "),
           _c("td", [
             _vm.invoice.payment_method == "Tarjeta"
-              ? _c("span", [_vm._v("# Autorización")])
+              ? _c("span", [_vm._v("No. Autorización")])
               : _vm._e()
           ])
         ]),
@@ -79246,7 +79639,7 @@ var render = function() {
           _c("td", [
             _vm.invoice.payment_method == "Tarjeta"
               ? _c("span", [
-                  _vm._v(_vm._s(_vm.invoice.transaction_number) + " ")
+                  _vm._v(_vm._s(_vm.invoice.authorization_number) + " ")
                 ])
               : _vm._e()
           ])
@@ -79304,7 +79697,7 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v("1")]),
             _vm._v(" "),
-            _c("td", [_vm._v("RD$" + _vm._s(_vm._f("currency")(item.price)))])
+            _c("td", [_vm._v("RD$" + _vm._s(item.price))])
           ])
         }),
         _vm._v(" "),
@@ -80088,7 +80481,32 @@ var render = function() {
                     _c("label", { attrs: { for: "tarjeta" } }, [
                       _vm._v("Tarjeta")
                     ]),
-                    _c("br")
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.paymentMethod == "Tarjeta"
+                      ? _c(
+                          "div",
+                          [
+                            _c("jet-label", {
+                              attrs: { value: "Número de autorización" }
+                            }),
+                            _vm._v(" "),
+                            _c("jet-input", {
+                              ref: "name",
+                              staticClass: "w-full",
+                              attrs: { type: "text", placeholder: "" },
+                              model: {
+                                value: _vm.authorization,
+                                callback: function($$v) {
+                                  _vm.authorization = $$v
+                                },
+                                expression: "authorization"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      : _vm._e()
                   ])
                 ])
               ]
@@ -80277,7 +80695,8 @@ var render = function() {
       _vm._v(" "),
       _vm.editingOrCreatingParent
         ? _c("EditOrNew", {
-            attrs: { title: _vm.modalTitle, data: _vm.editThisParent }
+            attrs: { title: _vm.modalTitle, data: _vm.editThisParent },
+            on: { refresh: _vm.search }
           })
         : _vm._e(),
       _vm._v(" "),
@@ -80304,7 +80723,7 @@ var render = function() {
                         "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
                     },
                     [
-                      _c("div", { staticClass: "mb-3" }, [
+                      _c("div", { staticClass: "mb-3 flex justify-between" }, [
                         _c(
                           "button",
                           {
@@ -80345,7 +80764,48 @@ var render = function() {
                               _vm._v("Agregar")
                             ])
                           ]
-                        )
+                        ),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("div", { staticClass: "flex" }, [
+                            _c(
+                              "span",
+                              {
+                                staticClass:
+                                  "text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap"
+                              },
+                              [_vm._v("Buscar:")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.filter,
+                                  expression: "filter"
+                                }
+                              ],
+                              staticClass:
+                                "border border-2 rounded-r px-4 py-2 w-full",
+                              attrs: {
+                                name: "field_name",
+                                type: "text",
+                                placeholder: "Escribe un nombre"
+                              },
+                              domProps: { value: _vm.filter },
+                              on: {
+                                keyup: _vm.search,
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.filter = $event.target.value
+                                }
+                              }
+                            })
+                          ])
+                        ])
                       ]),
                       _vm._v(" "),
                       _c(
@@ -80420,14 +80880,14 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _vm.parents.length > 0
+                              _vm.parents.data
                                 ? _c(
                                     "tbody",
                                     {
                                       staticClass:
                                         "bg-white divide-y divide-gray-200"
                                     },
-                                    _vm._l(_vm.parents, function(parent) {
+                                    _vm._l(_vm.parents.data, function(parent) {
                                       return _c("tr", { key: parent.id }, [
                                         _c(
                                           "td",
@@ -80628,7 +81088,8 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("Pagination", {
-                attrs: { pages: _vm.pagination.last_page, init: 1, end: 10 }
+                attrs: { links: _vm.parents.links },
+                on: { next: _vm.refresh }
               })
             ],
             1
@@ -82285,6 +82746,125 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Reports/Reports.vue?vue&type=template&id=b06bb994&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Reports/Reports.vue?vue&type=template&id=b06bb994& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "app-layout",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "header",
+          fn: function() {
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [_vm._v("\n            Reportes\n        ")]
+              )
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "flex justify-center min-h-screen bg-gray-100 text-gray-800 mx-20"
+        },
+        [
+          _c("div", { staticClass: "p-4 w-full" }, [
+            _c("div", { staticClass: "grid grid-cols-12 gap-4" }, [
+              _c(
+                "div",
+                { staticClass: "col-span-12 sm:col-span-6 md:col-span-3" },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "flex flex-row bg-white shadow-sm rounded p-4 justify-center"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "flex items-center justify-center flex-shrink-0 h-12 w-12 rounded-xl bg-blue-100 text-blue-500"
+                        },
+                        [
+                          _c(
+                            "svg",
+                            {
+                              staticClass: "w-6 h-6",
+                              attrs: {
+                                fill: "currentColor",
+                                viewBox: "0 0 20 20",
+                                xmlns: "http://www.w3.org/2000/svg"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "flex flex-col flex-grow ml-4" },
+                        [
+                          _c("div", { staticClass: "text-sm text-gray-500" }, [
+                            _vm._v("Facturación")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "font-bold text-lg" }, [
+                            _vm._v("1")
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              )
+            ])
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Users/All.vue?vue&type=template&id=0ab5bca1&":
 /*!*******************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Users/All.vue?vue&type=template&id=0ab5bca1& ***!
@@ -82396,7 +82976,8 @@ var render = function() {
       _vm._v(" "),
       _vm.editingOrCreatingVaccine
         ? _c("EditOrNew", {
-            attrs: { title: _vm.title, data: _vm.toNewOrEdit }
+            attrs: { title: _vm.title, data: _vm.toNewOrEdit },
+            on: { refresh: _vm.search }
           })
         : _vm._e(),
       _vm._v(" "),
@@ -82417,7 +82998,7 @@ var render = function() {
                         "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
                     },
                     [
-                      _c("div", { staticClass: "mb-3" }, [
+                      _c("div", { staticClass: "mb-3 flex justify-between" }, [
                         _c(
                           "button",
                           {
@@ -82456,7 +83037,46 @@ var render = function() {
                               _vm._v("Agregar")
                             ])
                           ]
-                        )
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "flex" }, [
+                          _c(
+                            "span",
+                            {
+                              staticClass:
+                                "text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap"
+                            },
+                            [_vm._v("Buscar:")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.filter,
+                                expression: "filter"
+                              }
+                            ],
+                            staticClass:
+                              "border border-2 rounded-r px-2 py-2 w-full",
+                            attrs: {
+                              name: "field_name",
+                              type: "text",
+                              placeholder: "Nombre de una vacuna"
+                            },
+                            domProps: { value: _vm.filter },
+                            on: {
+                              keyup: _vm.search,
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.filter = $event.target.value
+                              }
+                            }
+                          })
+                        ])
                       ]),
                       _vm._v(" "),
                       _c(
@@ -82514,126 +83134,142 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c(
-                                "tbody",
-                                {
-                                  staticClass:
-                                    "bg-white divide-y divide-gray-200"
-                                },
-                                _vm._l(_vm.vaccines, function(vaccine) {
-                                  return _c("tr", { key: vaccine.id }, [
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass:
-                                          "px-6 py-3 whitespace-nowrap"
-                                      },
-                                      [
+                              _vm.vaccines.data
+                                ? _c(
+                                    "tbody",
+                                    {
+                                      staticClass:
+                                        "bg-white divide-y divide-gray-200"
+                                    },
+                                    _vm._l(_vm.vaccines.data, function(
+                                      vaccine
+                                    ) {
+                                      return _c("tr", { key: vaccine.id }, [
                                         _c(
-                                          "div",
-                                          { staticClass: "flex items-center" },
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 py-3 whitespace-nowrap"
+                                          },
                                           [
-                                            _c("div", { staticClass: "ml-4" }, [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "flex items-center"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "ml-4" },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "text-sm font-medium text-gray-900   "
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        " +
+                                                            _vm._s(
+                                                              vaccine.name
+                                                            ) +
+                                                            "\n                                    "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "text-sm text-gray-900"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "RD$ " + _vm._s(vaccine.price)
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap text-right text-sm font-medium"
+                                          },
+                                          [
+                                            _c("div", { staticClass: "flex" }, [
                                               _c(
-                                                "div",
+                                                "button",
                                                 {
                                                   staticClass:
-                                                    "text-sm font-medium text-gray-900   "
+                                                    "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
+                                                  attrs: {
+                                                    "aria-label": "Edit user"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.newOrEdit(
+                                                        vaccine,
+                                                        "Editar vacuna"
+                                                      )
+                                                    }
+                                                  }
                                                 },
                                                 [
-                                                  _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(vaccine.name) +
-                                                      "\n                                    "
-                                                  )
-                                                ]
+                                                  _c("EditIcon", {
+                                                    attrs: { size: "1.2x" }
+                                                  })
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
+                                                  attrs: {
+                                                    "aria-label": "Delete user"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      ;(_vm.planBeingDeleted = true),
+                                                        (_vm.toDelete = vaccine)
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("Trash2Icon", {
+                                                    attrs: { size: "1.2x" }
+                                                  })
+                                                ],
+                                                1
                                               )
                                             ])
                                           ]
                                         )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      { staticClass: "px-6 whitespace-nowrap" },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "text-sm text-gray-900"
-                                          },
-                                          [
-                                            _vm._v(
-                                              "RD$ " + _vm._s(vaccine.price)
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass:
-                                          "px-6 whitespace-nowrap text-right text-sm font-medium"
-                                      },
-                                      [
-                                        _c("div", { staticClass: "flex" }, [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600",
-                                              attrs: {
-                                                "aria-label": "Edit user"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.newOrEdit(
-                                                    vaccine,
-                                                    "Editar vacuna"
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("EditIcon", {
-                                                attrs: { size: "1.2x" }
-                                              })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
-                                              attrs: {
-                                                "aria-label": "Delete user"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  ;(_vm.planBeingDeleted = true),
-                                                    (_vm.toDelete = vaccine)
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("Trash2Icon", {
-                                                attrs: { size: "1.2x" }
-                                              })
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      ]
-                                    )
-                                  ])
-                                }),
-                                0
-                              )
+                                      ])
+                                    }),
+                                    0
+                                  )
+                                : _vm._e()
                             ]
                           )
                         ]
@@ -82643,7 +83279,10 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("Pagination", { attrs: { pages: 1, init: 1, end: 1 } })
+              _c("Pagination", {
+                attrs: { links: _vm.vaccines.links },
+                on: { next: _vm.refresh }
+              })
             ],
             1
           )
@@ -83172,47 +83811,94 @@ var render = function() {
                     },
                     [
                       _c(
-                        "inertia-link",
-                        {
-                          staticClass: "mb-3",
-                          attrs: { href: _vm.route("visits.newOrEdit", "_") }
-                        },
+                        "div",
+                        { staticClass: "mb-3 flex justify-between" },
                         [
                           _c(
-                            "button",
+                            "inertia-link",
                             {
-                              staticClass:
-                                "bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center"
+                              attrs: {
+                                href: _vm.route("visits.newOrEdit", "_")
+                              }
                             },
                             [
                               _c(
-                                "svg",
+                                "button",
                                 {
-                                  staticClass: "w-6 h-6",
-                                  attrs: {
-                                    fill: "currentColor",
-                                    viewBox: "0 0 20 20",
-                                    xmlns: "http://www.w3.org/2000/svg"
-                                  }
+                                  staticClass:
+                                    "bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center"
                                 },
                                 [
-                                  _c("path", {
-                                    attrs: {
-                                      "fill-rule": "evenodd",
-                                      d:
-                                        "M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z",
-                                      "clip-rule": "evenodd"
-                                    }
-                                  })
+                                  _c(
+                                    "svg",
+                                    {
+                                      staticClass: "w-6 h-6",
+                                      attrs: {
+                                        fill: "currentColor",
+                                        viewBox: "0 0 20 20",
+                                        xmlns: "http://www.w3.org/2000/svg"
+                                      }
+                                    },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          "fill-rule": "evenodd",
+                                          d:
+                                            "M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z",
+                                          "clip-rule": "evenodd"
+                                        }
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "mr-2" }, [
+                                    _vm._v("Iniciar")
+                                  ])
                                 ]
-                              ),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "mr-2" }, [
-                                _vm._v("Iniciar")
-                              ])
+                              )
                             ]
-                          )
-                        ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "flex" }, [
+                            _c(
+                              "span",
+                              {
+                                staticClass:
+                                  "text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap"
+                              },
+                              [_vm._v("Buscar:")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.filter,
+                                  expression: "filter"
+                                }
+                              ],
+                              staticClass:
+                                "border border-2 rounded-r px-2 py-2 w-full",
+                              attrs: {
+                                name: "field_name",
+                                type: "text",
+                                placeholder: "Nombre de un paciente"
+                              },
+                              domProps: { value: _vm.filter },
+                              on: {
+                                keyup: _vm.search,
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.filter = $event.target.value
+                                }
+                              }
+                            })
+                          ])
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c(
@@ -83281,7 +83967,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                Facturado\n                            "
+                                        "\n                                Facturada\n                            "
                                       )
                                     ]
                                   ),
@@ -83298,247 +83984,278 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c(
-                                "tbody",
-                                {
-                                  staticClass:
-                                    "bg-white divide-y divide-gray-200"
-                                },
-                                _vm._l(_vm.visits, function(visit) {
-                                  return _c("tr", { key: visit.id }, [
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass:
-                                          "px-6 py-3 whitespace-nowrap "
-                                      },
-                                      [
+                              _vm.visits.data
+                                ? _c(
+                                    "tbody",
+                                    {
+                                      staticClass:
+                                        "bg-white divide-y divide-gray-200"
+                                    },
+                                    _vm._l(_vm.visits.data, function(visit) {
+                                      return _c("tr", { key: visit.id }, [
                                         _c(
-                                          "inertia-link",
-                                          {
-                                            staticClass: "flex items-center",
-                                            attrs: {
-                                              href: _vm.route(
-                                                "visits.show",
-                                                visit.id
-                                              )
-                                            }
-                                          },
-                                          [
-                                            _c("div", { staticClass: "ml-4" }, [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "text-sm font-medium text-gray-900   "
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(visit.child.name) +
-                                                      "\n                                    "
-                                                  )
-                                                ]
-                                              )
-                                            ])
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      { staticClass: "px-6 whitespace-nowrap" },
-                                      [
-                                        _c(
-                                          "inertia-link",
+                                          "td",
                                           {
                                             staticClass:
-                                              "text-sm text-gray-900",
-                                            attrs: {
-                                              href: _vm.route(
-                                                "visits.show",
-                                                visit.id
-                                              )
-                                            }
+                                              "px-6 py-3 whitespace-nowrap "
                                           },
                                           [
-                                            _vm._v(
-                                              "\n                                    " +
-                                                _vm._s(visit.visit_date) +
-                                                "\n                                "
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      { staticClass: "px-6 whitespace-nowrap" },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "text-sm text-gray-900"
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                   " +
-                                                _vm._s(visit.vaccines.length) +
-                                                "\n                                "
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      { staticClass: "px-6 whitespace-nowrap" },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "text-sm text-gray-900"
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                   " +
-                                                _vm._s(
-                                                  visit.invoiced == true
-                                                    ? "Sí"
-                                                    : "No"
-                                                ) +
-                                                "\n                                "
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass:
-                                          "px-6 whitespace-nowrap text-right text-sm font-medium"
-                                      },
-                                      [
-                                        !visit.invoiced
-                                          ? _c(
-                                              "div",
-                                              { staticClass: "flex" },
+                                            _c(
+                                              "inertia-link",
+                                              {
+                                                staticClass:
+                                                  "flex items-center",
+                                                attrs: {
+                                                  href: _vm.route(
+                                                    "visits.show",
+                                                    visit.id
+                                                  )
+                                                }
+                                              },
                                               [
                                                 _c(
-                                                  "inertia-link",
-                                                  {
-                                                    attrs: {
-                                                      href: _vm.route(
-                                                        "visits.newOrEdit",
-                                                        visit.id
-                                                      )
-                                                    }
-                                                  },
+                                                  "div",
+                                                  { staticClass: "ml-4" },
                                                   [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "text-sm font-medium text-gray-900   "
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        " +
+                                                            _vm._s(
+                                                              visit.child.name
+                                                            ) +
+                                                            "\n                                    "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "inertia-link",
+                                              {
+                                                staticClass:
+                                                  "text-sm text-gray-900",
+                                                attrs: {
+                                                  href: _vm.route(
+                                                    "visits.show",
+                                                    visit.id
+                                                  )
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                    " +
+                                                    _vm._s(visit.visit_date) +
+                                                    "\n                                "
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "text-sm text-gray-900"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                   " +
+                                                    _vm._s(
+                                                      visit.vaccines.length
+                                                    ) +
+                                                    "\n                                "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "text-sm text-gray-900"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                   " +
+                                                    _vm._s(
+                                                      visit.invoiced == true
+                                                        ? "Sí"
+                                                        : "No"
+                                                    ) +
+                                                    "\n                                "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass:
+                                              "px-6 whitespace-nowrap text-right text-sm font-medium"
+                                          },
+                                          [
+                                            !visit.invoiced
+                                              ? _c(
+                                                  "div",
+                                                  { staticClass: "flex" },
+                                                  [
+                                                    _c(
+                                                      "inertia-link",
+                                                      {
+                                                        attrs: {
+                                                          href: _vm.route(
+                                                            "visits.newOrEdit",
+                                                            visit.id
+                                                          )
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "button",
+                                                          {
+                                                            staticClass:
+                                                              "p-1 focus:outline-none focus:shadow-outline text-yellow-500 hover:text-yellow-600",
+                                                            attrs: {
+                                                              "aria-label":
+                                                                "Edit user"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("EditIcon", {
+                                                              attrs: {
+                                                                size: "1.2x"
+                                                              }
+                                                            })
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
                                                     _c(
                                                       "button",
                                                       {
                                                         staticClass:
-                                                          "p-1 focus:outline-none focus:shadow-outline text-yellow-500 hover:text-yellow-600",
+                                                          "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
                                                         attrs: {
                                                           "aria-label":
-                                                            "Edit user"
-                                                        }
-                                                      },
-                                                      [
-                                                        _c("EditIcon", {
-                                                          attrs: {
-                                                            size: "1.2x"
-                                                          }
-                                                        })
-                                                      ],
-                                                      1
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "button",
-                                                  {
-                                                    staticClass:
-                                                      "p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600",
-                                                    attrs: {
-                                                      "aria-label":
-                                                        "Delete user"
-                                                    },
-                                                    on: {
-                                                      click: function($event) {
-                                                        ;(_vm.planBeingDeleted = true),
-                                                          (_vm.toDelete = visit)
-                                                      }
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("Trash2Icon", {
-                                                      attrs: { size: "1.2x" }
-                                                    })
-                                                  ],
-                                                  1
-                                                ),
-                                                _vm._v(" "),
-                                                visit.vaccines.length > 0
-                                                  ? _c(
-                                                      "button",
-                                                      {
-                                                        staticClass:
-                                                          "p-1 focus:outline-none focus:shadow-outline text-green-500 hover:text-green-600",
-                                                        attrs: {
-                                                          "aria-label":
-                                                            "Facturar"
+                                                            "Delete user"
                                                         },
                                                         on: {
                                                           click: function(
                                                             $event
                                                           ) {
-                                                            return _vm.alert(
-                                                              "Enviar a facturacion"
-                                                            )
+                                                            ;(_vm.planBeingDeleted = true),
+                                                              (_vm.toDelete = visit)
                                                           }
                                                         }
                                                       },
                                                       [
-                                                        _c("DollarSignIcon", {
+                                                        _c("Trash2Icon", {
                                                           attrs: {
                                                             size: "1.2x"
                                                           }
                                                         })
                                                       ],
                                                       1
-                                                    )
-                                                  : _vm._e()
-                                              ],
-                                              1
-                                            )
-                                          : _vm._e()
-                                      ]
-                                    )
-                                  ])
-                                }),
-                                0
-                              )
+                                                    ),
+                                                    _vm._v(" "),
+                                                    visit.vaccines.length > 0
+                                                      ? _c(
+                                                          "button",
+                                                          {
+                                                            staticClass:
+                                                              "p-1 focus:outline-none focus:shadow-outline text-green-500 hover:text-green-600",
+                                                            attrs: {
+                                                              "aria-label":
+                                                                "Facturar"
+                                                            },
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                return _vm.alert(
+                                                                  "Enviar a facturacion"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "DollarSignIcon",
+                                                              {
+                                                                attrs: {
+                                                                  size: "1.2x"
+                                                                }
+                                                              }
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      : _vm._e()
+                                                  ],
+                                                  1
+                                                )
+                                              : _vm._e()
+                                          ]
+                                        )
+                                      ])
+                                    }),
+                                    0
+                                  )
+                                : _vm._e()
                             ]
                           )
                         ]
                       )
-                    ],
-                    1
+                    ]
                   )
                 ]
               ),
               _vm._v(" "),
-              _c("Pagination", { attrs: { pages: 1, init: 1, end: 1 } })
+              _c("Pagination", {
+                attrs: { links: _vm.visits.links },
+                on: { next: _vm.refresh }
+              })
             ],
             1
           )
@@ -101784,6 +102501,8 @@ var map = {
 	"./Profile/UpdatePasswordForm.vue": "./resources/js/Pages/Profile/UpdatePasswordForm.vue",
 	"./Profile/UpdateProfileInformationForm": "./resources/js/Pages/Profile/UpdateProfileInformationForm.vue",
 	"./Profile/UpdateProfileInformationForm.vue": "./resources/js/Pages/Profile/UpdateProfileInformationForm.vue",
+	"./Reports/Reports": "./resources/js/Pages/Reports/Reports.vue",
+	"./Reports/Reports.vue": "./resources/js/Pages/Reports/Reports.vue",
 	"./Users/All": "./resources/js/Pages/Users/All.vue",
 	"./Users/All.vue": "./resources/js/Pages/Users/All.vue",
 	"./Vaccines/All": "./resources/js/Pages/Vaccines/All.vue",
@@ -103493,6 +104212,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateProfileInformationForm_vue_vue_type_template_id_f38ebb82___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateProfileInformationForm_vue_vue_type_template_id_f38ebb82___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Reports/Reports.vue":
+/*!************************************************!*\
+  !*** ./resources/js/Pages/Reports/Reports.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Reports_vue_vue_type_template_id_b06bb994___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Reports.vue?vue&type=template&id=b06bb994& */ "./resources/js/Pages/Reports/Reports.vue?vue&type=template&id=b06bb994&");
+/* harmony import */ var _Reports_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Reports.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Reports/Reports.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Reports_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Reports_vue_vue_type_template_id_b06bb994___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Reports_vue_vue_type_template_id_b06bb994___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Reports/Reports.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Reports/Reports.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/Pages/Reports/Reports.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Reports_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Reports.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Reports/Reports.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Reports_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Reports/Reports.vue?vue&type=template&id=b06bb994&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/Pages/Reports/Reports.vue?vue&type=template&id=b06bb994& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reports_vue_vue_type_template_id_b06bb994___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Reports.vue?vue&type=template&id=b06bb994& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Reports/Reports.vue?vue&type=template&id=b06bb994&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reports_vue_vue_type_template_id_b06bb994___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reports_vue_vue_type_template_id_b06bb994___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

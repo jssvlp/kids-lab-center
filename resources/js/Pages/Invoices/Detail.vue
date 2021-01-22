@@ -38,12 +38,12 @@
 
             <tr class="heading">
             <td colspan="3">Método de pago</td>
-            <td><span v-if="invoice.payment_method == 'Tarjeta'"># Autorización</span></td>
+            <td><span v-if="invoice.payment_method == 'Tarjeta'">No. Autorización</span></td>
             </tr>
 
             <tr class="details">
             <td colspan="3">{{invoice.payment_method}}</td>
-            <td><span v-if="invoice.payment_method == 'Tarjeta'">{{invoice.transaction_number}} </span></td>
+            <td><span v-if="invoice.payment_method == 'Tarjeta'">{{invoice.authorization_number}} </span></td>
             </tr>
 
             <tr class="heading">
@@ -57,7 +57,7 @@
             <td><input v-model="item.name" /></td>
             <td>RD$<input type="number" v-model="item.price" /></td>
             <td>1</td>
-            <td>RD${{ item.price  | currency }}</td>
+            <td>RD${{ item.price }}</td>
             </tr>
             <tr>
                 <td colspan="6">

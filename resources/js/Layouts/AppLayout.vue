@@ -72,6 +72,9 @@
                                         <jet-dropdown-link :href="route('vaccines.index')">
                                             Vacunas
                                         </jet-dropdown-link>
+                                        <jet-dropdown-link :href="route('reports.index')">
+                                            Reportes
+                                        </jet-dropdown-link>
 
                                         <div class="border-t border-gray-100"></div>
                                         

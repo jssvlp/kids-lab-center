@@ -61,6 +61,7 @@ import JetInput from '@/Jetstream/Input'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetLabel from '@/Jetstream/Label'
 import {mapState,mapActions} from 'vuex'
+import { Inertia } from '@inertiajs/inertia'
 export default {
     props: {
         title: {
@@ -111,16 +112,18 @@ export default {
         },
         onSave(){
             if(this.form.id != ''){
-                
                 this.$inertia.patch(`/parents/${this.form.id}`, this.form)
                 .then( (data) =>{
+                    this.$emit('refresh')
                     this.toggleNewOrEditParentModal()
                 })
             }
             else{
                 this.$inertia.post('/parents', this.form)
                 .then( (data) =>{
+                    this.$emit('refresh')
                     this.toggleNewOrEditParentModal()
+                    
                 })
             }
         },

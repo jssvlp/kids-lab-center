@@ -16,6 +16,14 @@ class InsuranceController extends Controller
         ]);
     }
 
+    public function all()
+    {
+        $name = request('name');
+        if($name){
+            return  Insurance::with(['plans'])->where('name','like','%'.$name.'%')->orderBy('updated_at','desc')->get();
+        }
+        return  Insurance::with(['plans'])->orderBy('updated_at','desc')->get();
+    }
     public function store(Request $request)
     {
         $request->validate([

@@ -1,40 +1,39 @@
 <template>
     <ul class="flex justify-center mt-3">
-        <li class="mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded-lg">
-            <a v-on:click.prevent="setPage(index - 1)" class="flex items-center font-bold" href="#">
-                <span class="mx-1">Anterior</span>
-            </a>
-        </li>
-
-        <li v-for="(index) in pages" :key="index" class="mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg" :class="index == currentPage ?'hover:bg-gray-700' : 'bg-gray-200'">
-            <a v-on:click.prevent="setPage(index)" class="font-bold"  href="#">{{index}}</a>
-        </li>
-        <li class="mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg">
-            <a v-on:click.prevent="setPage(index + 1)" class="flex items-center font-bold" href="#">
-                <span class="mx-1">Siguiente</span>
-            </a>
+        <li v-for="link in links" :key="link.label" v-on:click.prevent="setCurrent(link)" class="mx-1 px-3 py-2 bg-gray-200 hover:bg-gray-700 hover:text-gray-200 rounded-lg cursor-pointer"  v-bind:class="{ 'bg-gray-700': link.active, 'text-gray-200': link.active, 'text-gray-700' :!link.active}">
+            <a  class="font-bold"  href="#">{{getLabel(link.label)}}</a>
         </li>
     </ul>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-    props:["pages","init", "end"],
+    props:["links"],
     data: () =>({
-        currentPage : 1,
+        current: null
     }),
 
     methods: {
-        next(){
-
+        getLabel(label){
+            if(label == '&laquo; Previous'){
+                return 'Anterior'
+            }else if( label =='Next &raquo;'){
+                return 'Siguiente'
+            }else{
+                return label
+            }
         },
-        previous(){
-
+        setCurrent(page){
+            axios.get(page.url)
+            .then(data => {
+                this.$emit('next',data.data)
+            })
         },
-        setPage(page){
-            console.log(page)
-            this.currentPage = page;
-        }
+        
+    },
+    computed:{
+        
     }
 
 }

@@ -7,6 +7,15 @@
         </template>
         <div class="py-2">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+                <div class="py-2 align-middle inline-block min-w-full  flex justify-end">
+                     <div class="flex">
+                        <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Buscar:</span>
+                        <input name="field_name" class="border border-2 rounded-r px-2 py-2 w-full"
+                                v-model="filter"
+                                @keyup="search"
+                                type="text" placeholder="Nombre de un paciente" />
+                    </div>
+                </div>
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -31,8 +40,8 @@
                                 </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr v-for="invoice in invoices" :key="invoice.id">
+                            <tbody v-if="invoices.data" class="bg-white divide-y divide-gray-200">
+                                <tr v-for="invoice in invoices.data" :key="invoice.id">
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="flex items-center">
                                     <div class="ml-4">
@@ -78,7 +87,7 @@
                         </div>
                         </div>
                     </div>
-                    <Pagination :pages="1" :init="1" :end="1"/>
+                        <Pagination  :links="invoices.links" @next="refresh" />
                     </div>
             </div>
         </div>
@@ -99,7 +108,6 @@ import JetDialogModal from '@/Jetstream/DialogModal'
 import JetInputError from '@/Jetstream/InputError'
 
 export default {
-    props:['invoices'],
     components: {
         AppLayout,
         Pagination,
@@ -121,13 +129,20 @@ export default {
         planBeingAdd: null,
         newChild: null,
         title: '',
-        test: false
+        test: false,
+        invoices: {},
+        filter: ''
     }),
     computed: {
         ...mapState(['editingOrCreatingChild','parentForNewChild']),
         
     },
-
+    mounted(){
+        axios.get('invoices/all/paginated')
+        .then( data =>{
+            this.invoices = data.data
+        })
+    },
     methods:{
         ...mapActions({
             toggleNewOrEditChildModal: "toggleNewOrEditChildModal"
@@ -165,6 +180,18 @@ export default {
                 this.planBeingDeleted = null
             })
         },
+        refresh(data){
+            this.invoices = data
+        },
+        search(){
+            console.log(this.filter)
+            if(this.filter.length > 2 || this.filter == ''){
+                axios.get(`/invoices/all/paginated?name=${this.filter}`)
+                .then(data => {
+                    this.invoices = data.data
+                })
+            }
+        }
     }
 }
 </script>

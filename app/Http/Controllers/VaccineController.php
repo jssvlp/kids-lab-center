@@ -15,6 +15,16 @@ class VaccineController extends Controller
         ]);
     }
     
+    public function all()
+    {
+        $name = request('name');
+        if($name)
+        {
+            return Vaccine::where('name','like','%'.$name.'%')->orderBy('updated_at','desc')->paginate(10);
+        }
+        return Vaccine::orderBy('updated_at','desc')->paginate(10);
+    }
+
     public function list()
     {
         return Vaccine::all();

@@ -176,7 +176,15 @@
                         <label for="efectivo">Efectivo</label><br>
                         <input v-model="paymentMethod" type="radio" id="tarjeta" value="Tarjeta">
                         <label for="tarjeta">Tarjeta</label><br>
-                        
+                        <div  v-if="paymentMethod =='Tarjeta'">
+                            <jet-label :value="'Número de autorización'"></jet-label>
+                            <jet-input type="text"  placeholder=""
+                                    ref="name"
+                                    v-model="authorization"
+                                    class="w-full"
+                                
+                            />
+                        </div>
                     </div>
                 </div>
                 
@@ -223,7 +231,8 @@ export default {
        discountVisible: false,
        modalDiscountVisible: false,
        paymentModalVisible: false,
-       paymentMethod: ''
+       paymentMethod: '',
+       authorization:''
     }),
     computed:{
         total(){
@@ -243,7 +252,8 @@ export default {
                 vaccines: this.invoice.vaccines,
                 discount: this.discount,
                 transaction_number: '12323',
-                payment_method: this.paymentMethod
+                payment_method: this.paymentMethod,
+                authorization: this.authorization
             }
             axios.post(`/invoices/pay/${this.invoice.id}`,data)
             .then( data =>{

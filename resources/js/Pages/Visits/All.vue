@@ -10,11 +10,21 @@
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <inertia-link :href="route('visits.newOrEdit','_')" class="mb-3">
-                                <button  class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
-                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path></svg>                                    <span class="mr-2">Iniciar</span>
-                                </button>
-                            </inertia-link>
+                            <div class="mb-3 flex justify-between">
+                                <inertia-link :href="route('visits.newOrEdit','_')">
+                                    <button  class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
+                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path></svg>                                    
+                                        <span class="mr-2">Iniciar</span>
+                                    </button>
+                                </inertia-link>
+                                <div class="flex">
+                                        <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Buscar:</span>
+                                        <input name="field_name" class="border border-2 rounded-r px-2 py-2 w-full"
+                                                v-model="filter"
+                                                @keyup="search"
+                                                type="text" placeholder="Nombre de un paciente" />
+                                </div>
+                            </div>
                         <div class="mt-2 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -29,15 +39,15 @@
                                     Vacunas colocadas
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Facturado
+                                    Facturada
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     <span class="">Acciones</span>
                                 </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr v-for="visit in visits" :key="visit.id">
+                            <tbody v-if="visits.data" class="bg-white divide-y divide-gray-200">
+                                <tr v-for="visit in visits.data" :key="visit.id">
                                 <td class="px-6 py-3 whitespace-nowrap ">
                                     <inertia-link :href="route('visits.show',visit.id)" class="flex items-center">
                                     <div class="ml-4">
@@ -90,7 +100,7 @@
                         </div>
                         </div>
                     </div>
-                    <Pagination :pages="1" :init="1" :end="1"/>
+                       <Pagination  :links="visits.links" @next="refresh" />
                     </div>
             </div>
         </div>
@@ -133,7 +143,6 @@ import JetDialogModal from '@/Jetstream/DialogModal'
 import JetInputError from '@/Jetstream/InputError'
 
 export default {
-    props:['visits'],
     components: {
         AppLayout,
         Pagination,
@@ -149,13 +158,19 @@ export default {
     data: () =>({
         planBeingDeleted: null,
         title: '',
-        toDelete: {}
+        toDelete: {},
+        visits:{},
+        filter:''
     }),
     computed: {
         
     },
-    created(){
-       
+    mounted(){
+        axios.get('visits/all/paginated')
+        .then( data =>{
+            this.visits = data.data
+            console.log(this.visits)
+        })
     },
     methods:{
         ...mapActions({
@@ -166,6 +181,18 @@ export default {
             .then( (data) =>{
                 this.planBeingDeleted = null
             })
+        },
+        refresh(data){
+            this.visits = data
+        },
+        search(){
+            console.log(this.filter)
+            if(this.filter.length > 2 || this.filter == ''){
+                axios.get(`/visits/all/paginated?name=${this.filter}`)
+                .then(data => {
+                    this.visits = data.data
+                })
+            }
         }
     }
 }

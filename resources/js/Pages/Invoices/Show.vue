@@ -28,6 +28,9 @@ export default {
         Detail,
         AppLayout,
         PrinterIcon
+    },
+    mounted(){
+        window.scroll(100,100)
     }
 }
 </script>

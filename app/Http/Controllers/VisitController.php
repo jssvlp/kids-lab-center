@@ -17,6 +17,18 @@ class VisitController extends Controller
         ]);
     }
 
+    public function all()
+    {
+        $name = request('name');
+        if($name)
+        {
+            return Visit::with(['child','vaccines'])->whereHas('child',function($query) use ($name){
+                return $query->where('name', 'like', '%'.$name.'%');
+            })->orderBy('updated_at','desc')->paginate(10);
+        }
+        return Visit::with(['child','vaccines'])->orderBy('updated_at','desc')->paginate(10);
+    }
+
     public function show($id)
     {
         return Inertia::render('Visits/Detaill',[

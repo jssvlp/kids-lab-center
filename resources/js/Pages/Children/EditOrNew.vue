@@ -166,14 +166,16 @@ export default {
             if(this.form.id != null){
                 this.$inertia.patch(`/children/${this.form.id}`, child)
                 .then( (data) =>{
+                    this.$emit('refresh')
                     this.toggleNewOrEditChildModal()
                 })
             }
             else{
                 this.$inertia.post('/children', child)
                 .then( (data) =>{
+                    this.$emit('refresh')
                     this.toggleNewOrEditChildModal()
-                    console.log(data)
+                    
                 })
             }
         },

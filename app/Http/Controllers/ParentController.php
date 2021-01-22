@@ -24,7 +24,12 @@ class ParentController extends Controller
 
     public function all()
     {
-        return DadOrMom::with(['children'])->paginate(5);
+        $name = request('name');
+        if($name)
+        {
+            return DadOrMom::with(['children'])->where('name','like','%'.$name.'%')->orderBy('updated_at','desc')->paginate(7);
+        }
+        return DadOrMom::with(['children'])->orderBy('updated_at','desc')->paginate(7);
     }
 
     public function list()

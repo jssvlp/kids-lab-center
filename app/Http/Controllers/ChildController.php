@@ -17,6 +17,16 @@ class ChildController extends Controller
         ]);
     }
     
+    public function all()
+    {
+        $name = request('name');
+        if($name)
+        {
+            return Child::with(['dadOrMom','plan'])->where('name','like','%'.$name.'%')->orderBy('updated_at','desc')->paginate(10);
+        }
+        return Child::with(['dadOrMom','plan'])->orderBy('updated_at','desc')->paginate(10);
+    }
+
     public function list()
     {
         return Child::all();

@@ -5,18 +5,28 @@
                 Niños/as
             </h2>
         </template>
-        <EditOrNew v-if="editingOrCreatingChild" :title="title" :data="toNewOrEdit"/>
+        <EditOrNew v-if="editingOrCreatingChild" :title="title" :data="toNewOrEdit" @refresh="search"/>
         <div class="py-2">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="mb-3">
+                            <div class="mb-3 flex justify-between">
                                 <button @click="planBeingAdd = true" class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                                     <span class="mr-2">Agregar</span>
                                 </button>
+                                <div>
+                                <div class="flex">
+                                    <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Buscar:</span>
+                                    <input name="field_name" class="border border-2 rounded-r px-4 py-2 w-full"
+                                            v-model="filter"
+                                            @keyup="search"
+                                            type="text" placeholder="Escribe un nombre" />
+                                </div>
                             </div>
+                            </div>
+                            
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -38,8 +48,8 @@
                                 </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr v-for="child in children" :key="child.id">
+                            <tbody  v-if="children.data" class="bg-white divide-y divide-gray-200">
+                                <tr v-for="child in children.data" :key="child.id">
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="flex items-center">
                                     <div class="flex-shrink-0 h-7 w-7">
@@ -88,7 +98,7 @@
                         </div>
                         </div>
                     </div>
-                    <Pagination :pages="1" :init="1" :end="1"/>
+                     <Pagination  :links="children.links" @next="refresh" />
                     </div>
             </div>
         </div>
@@ -156,7 +166,6 @@ import JetDialogModal from '@/Jetstream/DialogModal'
 import JetInputError from '@/Jetstream/InputError'
 
 export default {
-    props:['children'],
     components: {
         AppLayout,
         Pagination,
@@ -178,12 +187,20 @@ export default {
         planBeingAdd: null,
         newChild: null,
         title: '',
-        test: false
+        test: false,
+        children: {},
+        filter:''
+        
     }),
     computed: {
         ...mapState(['editingOrCreatingChild','parentForNewChild'])
     },
-
+    mounted(){
+        axios.get('children/all')
+        .then( data =>{
+            this.children = data.data
+        })
+    },
     methods:{
         ...mapActions({
             toggleNewOrEditChildModal: "toggleNewOrEditChildModal"
@@ -210,6 +227,18 @@ export default {
                 this.planBeingDeleted = null
             })
         },
+        refresh(data){
+            this.children = data
+        },
+        search(){
+            console.log(this.filter)
+            if(this.filter.length > 2 || this.filter == ''){
+                axios.get(`/children/all?name=${this.filter}`)
+                .then(data => {
+                    this.children = data.data
+                })
+            }
+        }
     }
 }
 </script>

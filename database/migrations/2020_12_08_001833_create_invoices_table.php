@@ -20,7 +20,7 @@ class CreateInvoicesTable extends Migration
             $table->double('discount')->default(0);
             $table->unsignedBigInteger('visit_id');
             $table->enum('payment_method',['Efectivo','Tarjeta'])->nullable();
-            $table->string('transaction_number')->nullable();
+            $table->string('authorization_number')->nullable();
             $table->enum('payment_status',['Pendiente','Pago'])->default('Pendiente');
 
             $table->foreign('visit_id')->references('id')->on('visits');

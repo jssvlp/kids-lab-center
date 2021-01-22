@@ -5,18 +5,27 @@
                 Padres
             </h2>
         </template>
-        <EditOrNew v-if="editingOrCreatingParent" :title="modalTitle" :data="editThisParent"/>
+        <EditOrNew v-if="editingOrCreatingParent" :title="modalTitle" :data="editThisParent" @refresh="search"/>
         <EditOrNewChildren v-if="editingOrCreatingChild" :title="'Nuevo niño/a'" :data="newChild"/>
         <div class="py-2">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="mb-3">
+                            <div class="mb-3 flex justify-between">
                                 <button @click="newOrEdit(null,'Nuevo padre/madre')" class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                                     <span class="mr-2">Agregar</span>
                                 </button>
+                                <div>
+                                    <div class="flex">
+                                        <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Buscar:</span>
+                                        <input name="field_name" class="border border-2 rounded-r px-4 py-2 w-full"
+                                                v-model="filter"
+                                                @keyup="search"
+                                                 type="text" placeholder="Escribe un nombre" />
+                                    </div>
+                                </div>
                             </div>
                             <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                                 <table class="min-w-full divide-y divide-gray-200">
@@ -36,8 +45,8 @@
                                     </th>
                                     </tr>
                                 </thead>
-                                <tbody v-if="parents.length > 0" class="bg-white divide-y divide-gray-200">
-                                    <tr  v-for="parent in parents" :key="parent.id" >
+                                <tbody v-if="parents.data" class="bg-white divide-y divide-gray-200">
+                                    <tr  v-for="parent in parents.data" :key="parent.id" >
                                     <td  class="px-6 whitespace-nowrap">
                                         <div class="flex items-center">
                                         <div class="flex-shrink-0 h-7 w-7">
@@ -82,7 +91,7 @@
                         </div>
                     </div>
                     <!-- Paginacion -->
-                    <Pagination :pages="pagination.last_page" :init="1" :end="10"/>
+                    <Pagination  :links="parents.links" @next="refresh" />
                 </div>
             </div>
         </div>
@@ -119,11 +128,13 @@ import EditOrNew from './EditOrNew'
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetDangerButton from '@/Jetstream/DangerButton'
+import JetInput from '@/Jetstream/Input'
+import JetLabel from '@/Jetstream/Label'
 import Button from '../../Jetstream/Button.vue'
 import EditOrNewChildren from '../Children/EditOrNew'
 import axios from 'axios'
+import Input from '../../Jetstream/Input.vue'
 export default {
-    props:['parents'],
     components: {
         AppLayout,
         Pagination,
@@ -136,7 +147,10 @@ export default {
         JetSecondaryButton,
         JetDangerButton,
         Button,
-        EditOrNewChildren
+        EditOrNewChildren,
+        JetInput,
+        JetLabel,
+        Input
     },
     data: () => ({
         toggleModal: false,
@@ -146,8 +160,8 @@ export default {
         planBeingDeleted: null,
         toDelete: {},
         newChild: null,
-        parentss: [],
-        pagination: {}
+        parents: {},
+        filter: ''
 
     }),
     computed:{
@@ -192,16 +206,24 @@ export default {
                  
             });
             return result;
+        },
+        refresh(data){
+            this.parents = data
+        },
+        search(){
+            console.log(this.filter)
+            axios.get(`/parents/all?name=${this.filter}`)
+            .then(data => {
+                this.parents = data.data
+            })
         }
         
     },
     mounted(){
-       /* axios.get('parents/all')
+       axios.get('parents/all')
        .then( data =>{
-           this.parents = data.data.data
-           this.pagination = data.data
-           console.log(this.pagination)
-       }) */
+           this.parents = data.data
+       })
     },
     getParents()
     {

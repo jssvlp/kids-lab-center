@@ -18,6 +18,22 @@ class InvoiceController extends Controller
         ]);
     }
 
+    public function all()
+    {
+        $name = request('name');
+        if($name)
+        {
+            return Invoice::with(['visit','visit.child','visit.vaccines'])->whereHas('visit',function($query) use ($name){
+                return $query->whereHas('child', function($query) use ($name){
+                     return $query->where('name', 'like', '%'.$name.'%');
+                 });
+                 
+             })->orderBy('updated_at','desc')->paginate(10);
+        }
+        
+        return Invoice::with(['visit','visit.child','visit.vaccines'])->orderBy('updated_at','desc')->paginate(10);
+    }
+
     public function print($invoice)
     {
         $_invoice = Invoice::with(['visit','visit.child','visit.child.dadOrMom','visit.child.plan.insurance','vaccines'])->whereId($invoice)->first();
@@ -85,7 +101,7 @@ class InvoiceController extends Controller
         $updated = $invoice->update([
             'discount' => $request->discount,
             'payment_method' => $request->payment_method,
-            'transaction_number' => $request->transaction_number,
+            'authorization_number' => $request->authorization,
             'payment_status' => 'Pago'
         ]);
 

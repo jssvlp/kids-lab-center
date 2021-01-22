@@ -94,12 +94,14 @@ export default {
             if(this.form.id){
                 this.$inertia.patch(`/insurances/${this.form.id}`, this.form)
                 .then( (data) =>{
+                     this.$emit('refresh')
                     this.toggleNewOrEditInsuranceModal()
                 })
             }
             else{
                 this.$inertia.post('/insurances', this.form)
                 .then( (data) =>{
+                     this.$emit('refresh')
                     this.toggleNewOrEditInsuranceModal()
                 })
             }

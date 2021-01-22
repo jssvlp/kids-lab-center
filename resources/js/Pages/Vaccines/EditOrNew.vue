@@ -97,14 +97,15 @@ export default {
             if(this.form.id != null){
                 this.$inertia.patch(`/vaccines/${this.form.id}`, vaccine)
                 .then( (data) =>{
+                    this.$emit('refresh')
                     this.toggleNewOrEditVaccineModal()
                 })
             }
             else{
                 this.$inertia.post('/vaccines', vaccine)
                 .then( (data) =>{
+                    this.$emit('refresh')
                     this.toggleNewOrEditVaccineModal()
-                    console.log(data)
                 })
             }
         },

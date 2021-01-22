@@ -5,17 +5,24 @@
                 Aseguradoras y Planes
             </h2>
         </template>
-        <EditOrNew v-if="editingOrCreatingInsurance" :title="title" :data="toEdit"/>
+        <EditOrNew v-if="editingOrCreatingInsurance" :title="title" :data="toEdit" @refresh="search"/>
         <div class="py-5">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col">
                     <div class="-my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="mb-3">
+                            <div class="mb-3 flex justify-between">
                                 <button @click="editOrNew(null,'Nueva aseguradora')" class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>         
                                     <span class="mr-2">Agregar</span>
                                 </button>
+                                 <div class="flex">
+                                        <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Buscar:</span>
+                                        <input name="field_name" class="border border-2 rounded-r px-2 py-2 w-full"
+                                                v-model="filter"
+                                                @keyup="search"
+                                                type="text" placeholder="Nombre de una aseguradora" />
+                                </div>
                             </div>
                             <div class="md:grid md:h-full md:grid-flow-row md:gap-4 md:grid-cols-4">
                                 <div v-for="insurance in insurances" :key="insurance.id" class="shadow-lg p-10 transition duration-500 ease-in-out  hover:bg-white-600 transform hover:-translate-y-1 hover:scale-110 ...">
@@ -88,7 +95,8 @@ export default {
         toEdit: null,
         toDelete: {},
         title: '',
-        planBeingDeleted: null
+        planBeingDeleted: null,
+        filter: ''
     }),
     computed:{
         ...mapState(['editingOrCreatingInsurance'])
@@ -107,6 +115,15 @@ export default {
             .then( (data) =>{
                 this.planBeingDeleted = null
             })
+        },
+         search(){
+            console.log(this.filter)
+            if(this.filter.length > 2 || this.filter == ''){
+                axios.get(`/insurances/all?name=${this.filter}`)
+                .then(data => {
+                    this.insurances = data.data
+                })
+            }
         }
       
     }
