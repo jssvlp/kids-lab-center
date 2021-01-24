@@ -9,6 +9,7 @@
                         <jet-label :value="'Nombre completo'"></jet-label>
                         <jet-input type="text" class="mt-1 w-full" placeholder="Escriba un nombre"
                                     ref="name"
+                                    :class="{ 'border-red-500': $v.form.email.$error }"
                                     v-model="form.name"
                         />  
                     </div>
@@ -61,7 +62,8 @@ import JetInput from '@/Jetstream/Input'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetLabel from '@/Jetstream/Label'
 import {mapState,mapActions} from 'vuex'
-import { Inertia } from '@inertiajs/inertia'
+import { required, minLength, between } from 'vuelidate/lib/validators'
+
 export default {
     props: {
         title: {
@@ -90,6 +92,11 @@ export default {
             error:''
         },
     }),
+    validations: {
+        form: {
+            name: { required, min: minLength(10) },
+        }
+    },
     mounted(){
       
        if(this.data){
@@ -111,6 +118,8 @@ export default {
             this.toggleNewOrEditParentModal()
         },
         onSave(){
+            this.$v.form.$touch();
+            if(this.$v.form.$error) return
             if(this.form.id != ''){
                 this.$inertia.patch(`/parents/${this.form.id}`, this.form)
                 .then( (data) =>{

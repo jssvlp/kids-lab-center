@@ -86,6 +86,7 @@ import {mapState,mapActions} from 'vuex'
 import VueTailwindPicker from 'vue-tailwind-picker'
 import { Datetime } from 'vue-datetime'
 import PlanSelect from '../Insurances/PlanSelect'
+
 export default {
     props: {
         title: {

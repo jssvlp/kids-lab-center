@@ -14,6 +14,9 @@ import 'vue-datetime/dist/vue-datetime.css'
 import { Settings } from 'luxon'
 import VueFilterDateFormat from 'vue-filter-date-format';
 
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
 Settings.defaultLocale = 'es'
 
 Vue.use(Datetime)
