@@ -73,7 +73,7 @@ import JetInput from '@/Jetstream/Input'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetLabel from '@/Jetstream/Label'
 import {mapState,mapActions} from 'vuex'
-import { required, minLength, between } from 'vuelidate/lib/validators'
+import { required, minLength, bealtween } from 'vuelidate/lib/validators'
 
 export default {
     props: {

@@ -11,12 +11,16 @@
                         <jet-input type="text" class="mt-1 w-full" placeholder="Nombre"
                                 ref="name"
                                 v-model="form.name"
+                                :class="{ 'border-red-500': $v.form.name.$error }"
                         />
+                        <jet-input-error v-if="!$v.form.name.required && $v.form.name.$error" :message="'Es obligatorio escribir un nombre para la aseguradora'" class="mt-2" />
+                        <jet-input-error v-if="!$v.form.name.minLength && $v.form.name.$error" :message="'Mínimo 6 caracteres'" class="mt-2" />   
                     </div>
                     <div class="w-full">
                         <jet-label :value="'Teléfono'"></jet-label>
                         <jet-input type="text" class="mt-1 ml-3 w-full" placeholder="Teléfono"
                             ref="name"
+                            v-mask="'(###) ###-####'"
                             v-model="form.phone"
                     />
                     </div>
@@ -45,6 +49,7 @@ import JetInput from '@/Jetstream/Input'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetLabel from '@/Jetstream/Label'
 import {mapState,mapActions} from 'vuex'
+import { required, minLength, between } from 'vuelidate/lib/validators'
 
 export default {
     name:'EditOrNewChildren',
@@ -72,8 +77,16 @@ export default {
             phone: '',
         },
     }),
+    validations:{
+        form: {
+            name:{
+                required,
+                minLength: minLength(6)
+            }
+        }
+
+    },
     mounted(){
-       console.log(this.data)
        if(this.data){
             this.form.id = this.data.id
             this.form.name = this.data.name
@@ -91,6 +104,8 @@ export default {
             this.toggleNewOrEditInsuranceModal()
         },
         onSave(){
+            this.$v.form.$touch();
+            if(this.$v.form.$error) return
             if(this.form.id){
                 this.$inertia.patch(`/insurances/${this.form.id}`, this.form)
                 .then( (data) =>{

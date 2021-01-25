@@ -10,9 +10,11 @@
                         <jet-label :value="'Nombre completo'"></jet-label>
                         <jet-input type="text" class="mt-1 block w-full" placeholder="Nombre completo"
                                     ref="name"
+                                    :class="{ 'border-red-500': $v.form.name.$error }"
                                     v-model="form.name"
                             />
-                        <jet-input-error :message="form.error" class="mt-2" />
+                        <jet-input-error v-if="!$v.form.name.required && $v.form.name.$error" :message="'El nombre es requerido'" class="mt-2" />
+                        <jet-input-error v-if="!$v.form.name.minLength && $v.form.name.$error" :message="'Nombre muy corto'" class="mt-2" />
                     </div>
                 </div>
                 <div class="flex mt-4">
@@ -35,18 +37,20 @@
                         <datetime
                             type="date"
                             v-model="form.birth_date"
+                            :class="{ 'border-red-500': $v.form.birth_date.$error }"
                             input-class="border w-full bg-white rounded  py-2 outline-none"
                         ></datetime>
+                        <jet-input-error v-if="!$v.form.name.required && $v.form.birth_date.$error" :message="'La fecha de nacimiento es requerida'" class="mt-2" />
                     </div>
-                    <jet-input-error :message="form.error" class="mt-2" />
                 </div>
                 <div class="flex mt-4 mx-10">
                     <div class="w-full">
                         <jet-label :value="'¿Niño o Niña?'"></jet-label>
-                        <select class="border w-full bg-white rounded  py-2 outline-none" v-model="form.gender"> 
+                        <select class="border w-full bg-white rounded  py-2 outline-none" v-model="form.gender" :class="{ 'border-red-500': $v.form.gender.$error }"> 
                             <option class="py-1" value="Niño">Niño</option>
                             <option class="py-1" value="Niña">Niña</option>
                         </select>
+                        <jet-input-error v-if="!$v.form.name.required && $v.form.gender.$error" :message="'Debe elegir el sexo'" class="mt-2" />
                     </div>
                 </div>
                 <div class="flex mt-4 mx-10">
@@ -86,6 +90,7 @@ import {mapState,mapActions} from 'vuex'
 import VueTailwindPicker from 'vue-tailwind-picker'
 import { Datetime } from 'vue-datetime'
 import PlanSelect from '../Insurances/PlanSelect'
+import { required, minLength, between } from 'vuelidate/lib/validators'
 
 export default {
     props: {
@@ -118,6 +123,20 @@ export default {
         },
         plan: null
     }),
+    validations:{
+        form:{
+            name: {
+                required,
+                minLength: minLength(6)
+            },
+            birth_date: {
+                required
+            },
+            gender:{
+                required
+            }
+        }
+    },
     created(){
         if(this.data.id){
             this.form.birth_date = this.data.birth_date
@@ -151,7 +170,8 @@ export default {
             this.toggleNewOrEditChildModal()
         },
         onSave(){
-           
+            this.$v.form.$touch();
+            if(this.$v.form.$error) return
             const child = {
                     'name' : this.form.name,
                     'birth_date' : this.form.birth_date,
