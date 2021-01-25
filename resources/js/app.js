@@ -13,10 +13,11 @@ import { Datetime } from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 import { Settings } from 'luxon'
 import VueFilterDateFormat from 'vue-filter-date-format';
-
+import VueMask from 'v-mask'
 import Vuelidate from 'vuelidate'
-Vue.use(Vuelidate)
 
+Vue.use(Vuelidate)
+Vue.use(VueMask);
 Settings.defaultLocale = 'es'
 
 Vue.use(Datetime)
