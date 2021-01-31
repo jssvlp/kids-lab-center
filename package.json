@@ -43,6 +43,7 @@
         "vue-html-to-paper": "^1.3.1",
         "vue-tailwind-modal": "^1.0.5",
         "vue-tailwind-picker": "^1.1.5",
+        "vue-tour": "^1.5.0",
         "vue2-filters": "^0.11.1",
         "vuelidate": "^0.7.6",
         "vuex": "^3.6.0",

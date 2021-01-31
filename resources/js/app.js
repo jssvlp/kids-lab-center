@@ -20,6 +20,10 @@ import moment from 'moment'
 import Nprogress from 'nprogress'
 import VueApexCharts from 'vue-apexcharts'
 import 'nprogress/nprogress.css';
+import VueTour from 'vue-tour'
+require('vue-tour/dist/vue-tour.css')
+
+Vue.use(VueTour)
 
 moment.locale('es')
 Vue.use(Vuelidate)
