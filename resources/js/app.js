@@ -17,11 +17,9 @@ import VueMask from 'v-mask'
 import Vuelidate from 'vuelidate'
 import Vue2Filters from 'vue2-filters'
 import moment from 'moment'
-import VueNoty from 'vuejs-noty'
 import Nprogress from 'nprogress'
 import VueApexCharts from 'vue-apexcharts'
 import 'nprogress/nprogress.css';
-import 'vuejs-noty/dist/vuejs-noty.css'
 
 moment.locale('es')
 Vue.use(Vuelidate)
@@ -30,7 +28,6 @@ Vue.use(VueMask);
 Vue.use(VueApexCharts)
 Vue.component('apexchart', VueApexCharts)
 
-Vue.use(VueNoty)
 
 
 Vue.use(Nprogress)

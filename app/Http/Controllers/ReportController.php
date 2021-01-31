@@ -42,6 +42,7 @@ class ReportController extends Controller
     {
         return Invoice::with('vaccines')->whereDate('invoice_date', '>=', $from)
                                              ->whereDate('invoice_date', '<=', $to)
+                                             ->where('payment_status','=','Pago')
                                              ->get();
     }
 }

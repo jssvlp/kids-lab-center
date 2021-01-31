@@ -92,7 +92,7 @@ import { Datetime } from 'vue-datetime'
 import PlanSelect from '../Insurances/PlanSelect'
 import { required, minLength, between } from 'vuelidate/lib/validators'
 import NProgress from 'nprogress'
-import Noty from 'noty';
+
 
 export default {
     props: {

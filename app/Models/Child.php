@@ -46,13 +46,16 @@ class Child extends Model
         if(count($this->visits) > 0)
         {
             $visits = $this->visits->sortByDesc('visit_date');
-            //$invoice = Invoice::where('visit_id',$visit->id)->first();
+
             $today = Carbon::now()->format('Y-m-d');
             
             if(count($visits) == 1)
             {
-                return null;
+                return '';
             }
+           
+            $index = count($visits) - 2;
+            return $visits[$index];
             
             /* if($invoice != null && $visit->visit_date != $today)
             {
@@ -64,7 +67,7 @@ class Child extends Model
             return $visit->visit_date; */
             
         }
-        return null;
+        return '';
         
     }
 

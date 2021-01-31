@@ -12,7 +12,7 @@ class InsuranceController extends Controller
     public function index()
     {
         return Inertia::render('Insurances/All',[
-            'insurances' => Insurance::with(['plans'])->get()
+            'insurances' => Insurance::with(['plans'])->orderBy('updated_at','desc')->get()
         ]);
     }
 
@@ -48,9 +48,15 @@ class InsuranceController extends Controller
 
     public function destroy(Insurance $insurance)
     {
-        $insurance->delete();
+        $toast = ['toast' => ['message' => 'Aseguradora eliminada correctamente','success' => true]];
+        try {
+            $insurance->delete();
+        } catch (\Throwable $th) {
+            $toast = ['toast' => ['message' => 'No es posible eliminar. Existen registros relacionados','success' => false]];
+        }
+        
 
-        return redirect()->route('insurances.index')->with(['toast' => ['message' => 'Aseguradora eliminada correctamente','success' => true]]);
+        return redirect()->route('insurances.index')->with($toast);
     }
 
     

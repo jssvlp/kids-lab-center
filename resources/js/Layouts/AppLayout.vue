@@ -73,7 +73,7 @@
                                         <jet-dropdown-link :href="route('vaccines.index')">
                                             Vacunas
                                         </jet-dropdown-link>
-                                        <jet-dropdown-link :href="route('reports.index')">
+                                        <jet-dropdown-link :href="route('reports.index')" preserve-scroll>
                                             Reportes
                                         </jet-dropdown-link>
 

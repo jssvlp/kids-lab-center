@@ -282,8 +282,9 @@ export default {
             .then( data =>{
                 if(data.data.success == true)
                 {
+                    this.$inertia.visit('/invoices', { preserveScroll: true })
                     window.open(`/invoices/${this.invoice.id}/print`,'_blank')
-                    this.$inertia.get('/invoices');
+                   
                 }
                 NProgress.done()
             })

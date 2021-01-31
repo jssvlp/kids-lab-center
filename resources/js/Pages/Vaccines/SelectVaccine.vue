@@ -57,6 +57,7 @@ import JetLabel from '@/Jetstream/Label'
 import JetButton from '@/Jetstream/Button'
 import { mapActions } from 'vuex'
 export default {
+    props:['added'],
     components:{
         JetLabel,
         JetInput,
@@ -77,7 +78,15 @@ export default {
             if(this.search == ''){
                 this.filtered = this.vaccines
             }
-            this.filtered = this.vaccines.filter(vaccine => vaccine.name.toLowerCase().includes(this.search.toLowerCase()));
+            let matches = this.vaccines.filter(vaccine => vaccine.name.toLowerCase().includes(this.search.toLowerCase()));
+            
+            this.filtered = matches;
+            
+            if(this.added.length > 0){
+                let addedOnlyNames = this.added.map( a => a.name);
+                let notAdded = matches.filter(vaccine => !addedOnlyNames.includes(vaccine.name))
+                this.filtered = notAdded;
+            }
         },
         select(vaccine){
             this.selected = vaccine.id

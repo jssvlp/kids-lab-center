@@ -24,8 +24,8 @@
                                                 type="text" placeholder="Nombre de una aseguradora" />
                                 </div>
                             </div>
-                            <div class="flex flex-wrap">
-                                <div v-for="insurance in insurances" :key="insurance.id" class="flex-none md:flex-1 shadow-lg p-10 transition duration-500 ease-in-out  hover:bg-white-600 transform hover:-translate-y-1 hover:scale-110 mx-3">
+                            <div v-if="insurancesCopy" class="flex flex-wrap mt-6">
+                                <div v-for="insurance in insurancesCopy" :key="insurance.id" class="flex-none bg-white rounded-xl md:flex-2 my-3 shadow-lg p-8 transition duration-500 ease-in-out  hover:bg-white-600 transform hover:-translate-y-1 hover:scale-110 mx-3">
                                     <div  class="text-lg font-bold ">
                                         {{insurance.name}}
                                     </div>
@@ -97,10 +97,14 @@ export default {
         toDelete: {},
         title: '',
         planBeingDeleted: null,
-        filter: ''
+        filter: '',
+        insurancesCopy: null
     }),
     computed:{
         ...mapState(['editingOrCreatingInsurance'])
+    },
+    mounted(){
+        this.insurancesCopy = this.insurances;
     },
     methods:{
         ...mapActions({
@@ -113,18 +117,33 @@ export default {
         },
         deleteInsurance(insurance){
             NProgress.start()
-            this.$inertia.delete(`/insurances/${this.toDelete.id}`)
+            /* this.$inertia.delete(`/insurances/${this.toDelete.id}`)
             .then( (data) =>{
                 this.planBeingDeleted = null
                 NProgress.done()
+            }) */
+
+            this.$inertia.delete(`/insurances/${this.toDelete.id}`,{
+                onSuccess: () => {
+                    this.planBeingDeleted = null
+                    $toast.success('asdasd', 'Ok')
+                    
+                },
+                onError: (errors) => {
+                    // Handle validation errors
+                },
+                onFinish: () => {
+                   NProgress.done()
+                },
             })
+            
         },
          search(){
             if(this.filter.length > 2 || this.filter == ''){
                 NProgress.start()
                 axios.get(`/insurances/all?name=${this.filter}`)
                 .then(data => {
-                    this.insurances = data.data
+                    this.insurancesCopy = data.data
                     NProgress.done()
                 })
             }
