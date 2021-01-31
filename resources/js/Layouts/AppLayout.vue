@@ -112,16 +112,16 @@
                                         Configurar cuenta
                                     </div>
 
-                                    <jet-dropdown-link :href="route('profile.show')">
+                                    <!-- <jet-dropdown-link :href="route('profile.show')">
                                         Profile
-                                    </jet-dropdown-link>
+                                    </jet-dropdown-link> -->
 
                                     <div class="border-t border-gray-100"></div>
 
                                     <!-- Authentication -->
                                     <form @submit.prevent="logout">
                                         <jet-dropdown-link as="button">
-                                            Logout
+                                            Cerrar sesión
                                         </jet-dropdown-link>
                                     </form>
                                 </template>
