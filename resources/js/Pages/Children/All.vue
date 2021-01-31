@@ -75,7 +75,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{child.birth_date}}
+                                    {{child.birth_date | formatLargeDate}}
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
@@ -164,6 +164,7 @@ import EditOrNew from './EditOrNew'
 import SelectParentBefore from './SelectParentBefore'
 import JetDialogModal from '@/Jetstream/DialogModal'
 import JetInputError from '@/Jetstream/InputError'
+import NProgress from 'nprogress'
 
 export default {
     components: {
@@ -196,9 +197,11 @@ export default {
         ...mapState(['editingOrCreatingChild','parentForNewChild'])
     },
     mounted(){
+        NProgress.start();
         axios.get('children/all')
         .then( data =>{
             this.children = data.data
+            NProgress.done()
         })
     },
     methods:{
@@ -222,20 +225,23 @@ export default {
             this.toggleNewOrEditChildModal()
         },
         deleteChild(child){
-             this.$inertia.delete(`/children/${this.toDelete.id}`)
+            NProgress.start()
+            this.$inertia.delete(`/children/${this.toDelete.id}`)
             .then( (data) =>{
                 this.planBeingDeleted = null
+                NProgress.done()
             })
         },
         refresh(data){
             this.children = data
         },
         search(){
-            console.log(this.filter)
             if(this.filter.length > 2 || this.filter == ''){
+                NProgress.start()
                 axios.get(`/children/all?name=${this.filter}`)
                 .then(data => {
                     this.children = data.data
+                    NProgress.done()
                 })
             }
         }

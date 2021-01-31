@@ -74,6 +74,7 @@ import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetLabel from '@/Jetstream/Label'
 import {mapState,mapActions} from 'vuex'
 import { required, minLength, bealtween } from 'vuelidate/lib/validators'
+import NProgress from 'nprogress'
 
 export default {
     props: {
@@ -143,11 +144,13 @@ export default {
         onSave(){
             this.$v.form.$touch();
             if(this.$v.form.$error) return
+            NProgress.start();
             if(this.form.id != ''){
                 this.$inertia.patch(`/parents/${this.form.id}`, this.form)
                 .then( (data) =>{
                     this.$emit('refresh')
                     this.toggleNewOrEditParentModal()
+                    NProgress.done();
                 })
             }
             else{
@@ -155,7 +158,8 @@ export default {
                 .then( (data) =>{
                     this.$emit('refresh')
                     this.toggleNewOrEditParentModal()
-                    
+                    NProgress.done();
+                    console.log(this.successMessage)
                 })
             }
         },

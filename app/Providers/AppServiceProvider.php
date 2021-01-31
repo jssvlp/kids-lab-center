@@ -20,13 +20,13 @@ class AppServiceProvider extends ServiceProvider
             return session()->get('errors') ? session()->get('errors')->getBag('default')->getMessages() : (object) [];
         });
 
-        Inertia::share('successMessage', function () {
-            return session()->get('successMessage') ? session()->get('successMessage') : null;
+        Inertia::share('toast', function () {
+            return session()->get('toast') ? session()->get('toast') : null;
         });
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap any application services.r
      *
      * @return void
      */

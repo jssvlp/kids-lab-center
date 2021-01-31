@@ -38,7 +38,7 @@
                             type="date"
                             v-model="form.birth_date"
                             :class="{ 'border-red-500': $v.form.birth_date.$error }"
-                            input-class="border w-full bg-white rounded  py-2 outline-none"
+                            input-class="border w-full bg-white rounded  py-2 px-2 outline-none"
                         ></datetime>
                         <jet-input-error v-if="!$v.form.name.required && $v.form.birth_date.$error" :message="'La fecha de nacimiento es requerida'" class="mt-2" />
                     </div>
@@ -46,7 +46,7 @@
                 <div class="flex mt-4 mx-10">
                     <div class="w-full">
                         <jet-label :value="'¿Niño o Niña?'"></jet-label>
-                        <select class="border w-full bg-white rounded  py-2 outline-none" v-model="form.gender" :class="{ 'border-red-500': $v.form.gender.$error }"> 
+                        <select class="border w-full bg-white rounded  py-2 px-2 outline-none" v-model="form.gender" :class="{ 'border-red-500': $v.form.gender.$error }"> 
                             <option class="py-1" value="Niño">Niño</option>
                             <option class="py-1" value="Niña">Niña</option>
                         </select>
@@ -91,6 +91,8 @@ import VueTailwindPicker from 'vue-tailwind-picker'
 import { Datetime } from 'vue-datetime'
 import PlanSelect from '../Insurances/PlanSelect'
 import { required, minLength, between } from 'vuelidate/lib/validators'
+import NProgress from 'nprogress'
+import Noty from 'noty';
 
 export default {
     props: {
@@ -184,19 +186,21 @@ export default {
             this.setPlanForEditOrNewChild(null);
             this.setParentForNewChild(null);
 
+            NProgress.start()
             if(this.form.id != null){
                 this.$inertia.patch(`/children/${this.form.id}`, child)
                 .then( (data) =>{
-                    this.$emit('refresh')
+                    NProgress.done()
                     this.toggleNewOrEditChildModal()
+                    this.$emit('refresh')
                 })
             }
             else{
                 this.$inertia.post('/children', child)
                 .then( (data) =>{
-                    this.$emit('refresh')
+                    NProgress.done()
                     this.toggleNewOrEditChildModal()
-                    
+                    this.$emit('refresh')
                 })
             }
         },

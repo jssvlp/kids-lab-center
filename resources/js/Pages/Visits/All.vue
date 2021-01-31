@@ -59,7 +59,7 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
                                     <inertia-link :href="route('visits.show',visit.id)" class="text-sm text-gray-900" >
-                                        {{visit.visit_date}}
+                                        {{visit.visit_date  | formatShortDate }}
                                     </inertia-link>
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
@@ -88,7 +88,7 @@
                                         </button>
                                         <button v-if="visit.vaccines.length > 0" aria-label="Facturar"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-green-500 hover:text-green-600"
-                                                @click="alert('Enviar a facturacion')">
+                                                @click="facturar(visit)">
                                             <DollarSignIcon size="1.2x"/>
                                         </button>
                                     </div>
@@ -137,11 +137,9 @@ import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetButton from '@/Jetstream/Button'
 import JetDangerButton from '@/Jetstream/DangerButton'
-
-
 import JetDialogModal from '@/Jetstream/DialogModal'
-import JetInputError from '@/Jetstream/InputError'
 
+import NProgress from 'nprogress'
 export default {
     components: {
         AppLayout,
@@ -166,10 +164,11 @@ export default {
         
     },
     mounted(){
+        NProgress.start()
         axios.get('visits/all/paginated')
         .then( data =>{
             this.visits = data.data
-            console.log(this.visits)
+            NProgress.done()
         })
     },
     methods:{
@@ -177,23 +176,34 @@ export default {
             
         }),
         deleteVisit(){
+            NProgress.start()
             this.$inertia.delete(`/visits/${this.toDelete.id}`)
             .then( (data) =>{
                 this.planBeingDeleted = null
+                NProgress.done()
             })
         },
         refresh(data){
             this.visits = data
         },
         search(){
-            console.log(this.filter)
             if(this.filter.length > 2 || this.filter == ''){
+                NProgress.start()
                 axios.get(`/visits/all/paginated?name=${this.filter}`)
                 .then(data => {
                     this.visits = data.data
+                    NProgress.done()
                 })
             }
-        }
+        },
+        facturar(visit){
+            const data = { visit_id : visit.id }
+            NProgress.start()
+            this.$inertia.post('/invoices', data)
+                .then(data => {
+                    NProgress.done()
+            })
+        },
     }
 }
 </script>

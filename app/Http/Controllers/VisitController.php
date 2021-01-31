@@ -42,6 +42,19 @@ class VisitController extends Controller
     
     public function store(Request $request)
     {
+        //Validate if the patient has any visit pending of be invoiced
+        $visits = Visit::where('child_id','=',$request->child_id)->get();
+        $visits = collect($visits);
+
+        if(count($visits) > 0)
+        {
+            $childHasVisitInvoicePending = $visits->firstWhere('invoiced', false);
+
+            if($childHasVisitInvoicePending){
+                return redirect()->route('visits.newOrEdit',$childHasVisitInvoicePending['id']);
+            }
+        }
+        
         $today = Carbon::now();
         $created = Visit::create(['visit_date' => $today, 'child_id' => $request->child_id]);
 

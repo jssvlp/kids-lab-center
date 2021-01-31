@@ -7,7 +7,7 @@
         </template>
         <Modal :show="toggleModal">
             <template #title>
-                    Delete Account
+                    Borrar plan
             </template>
             <div class="p-5">
                 <button @click="toggleModal = !toggleModal" class="bg-white text-red-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
@@ -21,7 +21,7 @@
                 <div class="flex flex-col">
                     <div class="-my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="min-h-screen w-screen flex  justify-center">
+                            <div class="min-h-screen w-full flex  justify-center">
                                 <ul class="w-full max-w-md mt-10">
                                     <div v-if="plans.length == 0" class="flex justify-center mb-3 "> 
                                         <h2>No existen planes agregados</h2>

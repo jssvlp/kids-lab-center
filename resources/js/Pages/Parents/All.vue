@@ -134,6 +134,8 @@ import Button from '../../Jetstream/Button.vue'
 import EditOrNewChildren from '../Children/EditOrNew'
 import axios from 'axios'
 import Input from '../../Jetstream/Input.vue'
+import NProgress from 'nprogress'
+
 export default {
     components: {
         AppLayout,
@@ -211,23 +213,27 @@ export default {
             this.parents = data
         },
         search(){
-            console.log(this.filter)
+            NProgress.start();
             axios.get(`/parents/all?name=${this.filter}`)
             .then(data => {
                 this.parents = data.data
+                 NProgress.done()
+            })
+        },
+        getParents()
+        {
+            axios.get('parents/all')
+            .then( data =>{
+                this.parents = data.data
+                 NProgress.done();
             })
         }
         
     },
     mounted(){
-       axios.get('parents/all')
-       .then( data =>{
-           this.parents = data.data
-       })
+        NProgress.start();
+        this.getParents();
     },
-    getParents()
-    {
-        
-    }
+    
 }
 </script>

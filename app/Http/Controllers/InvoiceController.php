@@ -28,10 +28,9 @@ class InvoiceController extends Controller
                      return $query->where('name', 'like', '%'.$name.'%');
                  });
                  
-             })->orderBy('updated_at','desc')->paginate(10);
+             })->orderBy('updated_at','desc')->paginate(8);
         }
-        
-        return Invoice::with(['visit','visit.child','visit.vaccines'])->orderBy('updated_at','desc')->paginate(10);
+        return Invoice::with(['visit','visit.child','visit.vaccines'])->orderBy('updated_at','desc')->paginate(8);
     }
 
     public function print($invoice)
@@ -68,8 +67,8 @@ class InvoiceController extends Controller
             'visit_id' => $request->visit_id,
         ]);
 
-        $invoiceNumber = 'KLC'.$invoice->id;
-        $invoice->update(['invoince_number' => $invoiceNumber]);
+        $invoice->invoice_number = 'KLC'.$invoice->id;
+        $invoice->save();
 
         //2. Get the vaccines 
         $visit = Visit::find($request->visit_id);
@@ -84,7 +83,7 @@ class InvoiceController extends Controller
                     ]
            );
         }
-        return redirect()->route('invoices.detail',$invoice->id)->with('successMessage', 'Factura creada sactisfactoriamente');
+        return redirect()->route('invoices.detail',$invoice->id)->with(['toast' => ['message' => 'Factura creada correctamente','success' => true]]);
     }
 
 
@@ -104,9 +103,6 @@ class InvoiceController extends Controller
             'authorization_number' => $request->authorization,
             'payment_status' => 'Pago'
         ]);
-
         return response()->json(['success' => true, 'message' => 'Pago efectuado correctamente']);
-        return redirect()->route('invoices.index',$invoice->id)->with('successMessage', 'Pago realizado correctamente');
-
     }
 }

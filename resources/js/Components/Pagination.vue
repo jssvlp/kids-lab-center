@@ -8,6 +8,7 @@
 
 <script>
 import axios from 'axios'
+import NProgress from 'nprogress'
 export default {
     props:["links"],
     data: () =>({
@@ -25,9 +26,11 @@ export default {
             }
         },
         setCurrent(page){
+            NProgress.start()
             axios.get(page.url)
             .then(data => {
                 this.$emit('next',data.data)
+                NProgress.done()
             })
         },
         

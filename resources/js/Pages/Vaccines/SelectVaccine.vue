@@ -23,8 +23,8 @@
             </div>
             
             
-            <div class="absolute mt-1 w-full rounded-md bg-white shadow-lg">
-            <ul v-show="selected == null && search.length > 0 " tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3" class="overflow-visible max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5  focus:outline-none sm:text-sm">
+            <div class="absolute mt-1 w-full rounded-md bg-gray-200 shadow-lg">
+            <ul v-show="selected == null && search.length > 0 " tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3" class="overflow-visible  rounded-md py-1 text-base ring-1 ring-black ring-opacity-5  focus:outline-none sm:text-sm">
                 <li v-for="vaccine in filtered" @click="select(vaccine)" :key="vaccine.id" id="listbox-item-0" role="option" class="text-gray-900 hover:bg-blue-200 cursor-pointer select-none relative py-2 pl-3 pr-9">
                 <div  class="flex items-center" >
                    <div>

@@ -116,7 +116,7 @@ import JetDangerButton from '@/Jetstream/DangerButton'
 import EditOrNew from './EditOrNew'
 
 import JetDialogModal from '@/Jetstream/DialogModal'
-import JetInputError from '@/Jetstream/InputError'
+import NProgress from 'nprogress'
 
 export default {
     components: {
@@ -146,10 +146,12 @@ export default {
         ...mapState(['editingOrCreatingChild','parentForNewChild','editingOrCreatingVaccine'])
     },
     mounted(){
-       axios.get('vaccines/all/paginated')
-       .then( data =>{
-           this.vaccines = data.data
-       })
+        NProgress.start()
+        axios.get('vaccines/all/paginated')
+        .then( data =>{
+            this.vaccines = data.data
+            NProgress.done()
+        })
     },
     methods:{
         ...mapActions({
@@ -162,20 +164,23 @@ export default {
             this.toggleNewOrEditVaccineModal()
         },
         deleteVaccine(vaccine){
+            NProgress.start()
             this.$inertia.delete(`/vaccines/${this.toDelete.id}`)
             .then( (data) =>{
                 this.planBeingDeleted = null
+                NProgress.done()
             })
         },
         refresh(data){
             this.vaccines = data
         },
         search(){
-            console.log(this.filter)
             if(this.filter.length > 2 || this.filter == ''){
+                NProgress.start()
                 axios.get(`/vaccines/all/paginated?name=${this.filter}`)
                 .then(data => {
                     this.vaccines = data.data
+                    NProgress.done()
                 })
             }
         }
