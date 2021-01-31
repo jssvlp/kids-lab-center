@@ -52,7 +52,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{invoice.invoice_date}}</div>
+                                    <div class="text-sm text-gray-900">{{invoice.invoice_date | formatShortDate}}</div>
                                     
                                 </td>
                                 <td class="px-6  whitespace-nowrap">
@@ -61,17 +61,19 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <span class="font-bold text-green-600">RD${{total(invoice.visit.vaccines)}}</span>
+                                    <span class="font-bold text-green-600">RD{{total(invoice) | currency }}</span>
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
                                         <inertia-link :href="route('invoices.detail',invoice.id)"  v-if="invoice.payment_status != 'Pago'" aria-label="Edit user"
-                                                class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600">
+                                                class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
+                                                preserve-scroll>
                                             <EditIcon size="1.2x"/>
                                         </inertia-link>
                                         <inertia-link v-else :href="route('invoices.detail',invoice.id)"  aria-label="Ver factura"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
-                                                @click="invoiceDetail(invoice.id)">
+                                                @click="invoiceDetail(invoice.id)"
+                                                preserve-scroll>
                                             <EyeIcon size="1.2x"/>
                                         </inertia-link>
                                         <a v-if="invoice.payment_status == 'Pago'" :href="route('invoices.print',invoice.id)"  target= '_blank' class="mt-1" >
@@ -106,6 +108,7 @@ import JetButton from '@/Jetstream/Button'
 import JetDangerButton from '@/Jetstream/DangerButton'
 import JetDialogModal from '@/Jetstream/DialogModal'
 import JetInputError from '@/Jetstream/InputError'
+import NProgress from 'nprogress'
 
 export default {
     components: {
@@ -133,62 +136,40 @@ export default {
         invoices: {},
         filter: ''
     }),
-    computed: {
-        ...mapState(['editingOrCreatingChild','parentForNewChild']),
-        
-    },
+
     mounted(){
+        NProgress.start();
         axios.get('invoices/all/paginated')
         .then( data =>{
             this.invoices = data.data
+            NProgress.done();
+            window.scroll(100,100)
         })
     },
     methods:{
-        ...mapActions({
-            toggleNewOrEditChildModal: "toggleNewOrEditChildModal"
-        }),
         invoiceDetail(id){
             console.log('abriendo detail')
         },
-        total(vaccines){
-            return vaccines.reduce(function(a, b){
-               return a + b.price;
-            }, 0); 
-        },
-        print(invoice){
-            console.log('printing invoice')
-        },
-        editChild(child){
-            this.toNewOrEdit = child
-            this.title = 'Editar paciente'
-            this.toggleNewOrEditChildModal()
-        },
-        addChild()
-        {
-            this.planBeingAdd = false;
-            this.title = 'Nuevo paciente'
-            this.toNewOrEdit = {
-                id: null,
-                dad_or_mom: this.parentForNewChild
-            }
+        total(invoice){
+            const discount = invoice.discount /100;
+            let subTotal =  invoice.visit.vaccines.reduce(function(a, b){
+                return a + b.price;
+            }, 0);
 
-            this.toggleNewOrEditChildModal()
+            const total = subTotal - (subTotal * discount)
+            return total;
         },
-        deleteChild(child){
-             this.$inertia.delete(`/children/${this.toDelete.id}`)
-            .then( (data) =>{
-                this.planBeingDeleted = null
-            })
-        },
+
         refresh(data){
             this.invoices = data
         },
         search(){
-            console.log(this.filter)
             if(this.filter.length > 2 || this.filter == ''){
+                NProgress.start()
                 axios.get(`/invoices/all/paginated?name=${this.filter}`)
                 .then(data => {
                     this.invoices = data.data
+                    NProgress.done()
                 })
             }
         }

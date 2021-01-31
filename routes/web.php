@@ -93,6 +93,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
 
     //Reports
     Route::get('/reports',[Controllers\ReportController::class,'index'])->name('reports.index');
+    Route::post('/reports/filter',[Controllers\ReportController::class,'filter'])->name('reports.filter');
 });
 
 

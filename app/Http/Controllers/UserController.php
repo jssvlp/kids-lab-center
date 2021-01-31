@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Parents/All',[
+        return Inertia::render('Shared/Errors/404',[
             'users' => User::all()
         ]);
     }

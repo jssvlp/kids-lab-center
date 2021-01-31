@@ -6,8 +6,8 @@
             </h2>
         </template>
         <div class="py-2" v-if="visit !=null"> 
-            <div class="flex justify-end mr-15 mt-4" v-if="!visit.invoiced && visit.vaccines.length > 0">
-                <jet-button @click.native="facturar"> 
+            <div class="flex justify-end mr-15 mt-4" >
+                <jet-button @click.native="facturar" :class="{'invisible' : !visit.invoiced && visit.vaccines.length == 0}"> 
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path></svg>
                     Finalizar y Facturar
                 </jet-button>
@@ -29,10 +29,10 @@
                             Padre: <span class="font-bold"> {{ visit.child.dad_or_mom.name }}</span> 
                         </div>
                         <div class="mx-3">
-                            Visitas: <span class="font-bold">{{visit.child.visitsCount}}</span> 
+                           Cantidad Visitas anteriores: <span class="font-bold">{{visit.child.visitsCount -1}}</span> 
                         </div>
                         <div class="mx-3">
-                            Última visita: <span class="font-bold"> {{visit.child.lastVisit}}</span> 
+                            Fecha visita anterior: <span class="font-bold"> {{visit.child.lastVisit.visit_date | formatShortDate}}</span> 
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                             Facturado: <span class="font-bold" :class="visit.invoiced ? 'text-green-600' : 'text-red-600'"> {{visit.invoiced == true ? "Si" : "No"}}</span> 
                         </div>
                         <div>
-                            Fecha visita actual: <span class="font-bold"> {{visit.visit_date}}</span> 
+                            Fecha visita actual: <span class="font-bold"> {{visit.visit_date | formatShortDate}}</span> 
                         </div>
                         <div>
                             Vacunas: <span class="font-bold"> {{visit.vaccines.length}}</span> 
@@ -50,7 +50,7 @@
                 </div>
                 
                 <div id="vaccines" class="w-3/5 bg-white shadow-lg rounded-md px-6 py-6 mr-10">
-                    <SelectVaccine v-if="!visit.invoiced" class="mb-4" @pushed="addVaccine"/>
+                    <SelectVaccine v-if="!visit.invoiced" :added="vaccinesPushed" class="mb-4" @pushed="addVaccine"/>
                     <span class="font-bold mt-10">Colocadas:</span>
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -79,7 +79,7 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
-                                        {{vaccine.price}}
+                                        RD{{vaccine.price |currency }}
                                     </div>
                                 </td>
                                 <td v-if="!visit.invoiced" class="px-6 whitespace-nowrap text-right text-sm font-medium">
@@ -98,7 +98,7 @@
                                     <span class="font-bold">Total</span>
                                 </td>
                                 <td class="px-6 py-3 whitespace-nowrap">
-                                    <span class="font-bold text-green-700">RD$ {{total}}</span>
+                                    <span class="font-bold text-green-700">RD{{total |currency }}</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -152,6 +152,7 @@ import JetInputError from '@/Jetstream/InputError'
 import JetButton from '@/Jetstream/Button'
 import SelectVaccine from '../Vaccines/SelectVaccine'
 import { Trash2Icon } from "vue-feather-icons";
+import NProgress from 'nprogress'
 
 export default {
     props: ['visit','title'],
@@ -169,7 +170,8 @@ export default {
         Trash2Icon
     },
     data:() =>({
-       parent: {}
+       parent: {},
+       vaccinesPushed: []
     }),
     computed:{
         ...mapState(['childForNewVisit','titleForVisit']),
@@ -189,9 +191,10 @@ export default {
         }),
         facturar(){
             const data = { visit_id : this.visit.id }
+            NProgress.start()
             this.$inertia.post('/invoices', data)
                 .then(data => {
-                    console.log(data)
+                    NProgress.done()
             })
         },
         addVaccine(vaccine){
@@ -201,21 +204,27 @@ export default {
             })
         },
         removeVaccine(vaccine){
-            axios.delete(`/visits/${this.visit.id}/vaccine/${vaccine.id}`)
+            
+            axios.delete(`/visits/${this.visit.id}/vaccine/${vaccine}`)
             .then( data =>{
                 this.refreshVaccines()
             })
         },
         refreshVaccines(){
+            NProgress.start()
             axios.get(`/visits/${this.visit.id}/vaccines`)
                 .then( data =>{
                     this.visit.vaccines = data.data
+                    this.vaccinesPushed = this.visit.vaccines
+                    NProgress.done()
                 })
         },
         saveVisit(){
+            NProgress.start()
             this.$inertia.post('/visits',{'child_id' : this.childForNewVisit.id})
                 .then(data => {
                     this.setTitleForVisit('Nueva visita')
+                    NProgress.done()
             })
         },
          scrollToEnd: function () {
@@ -227,6 +236,7 @@ export default {
         this.setTitleForVisit('Nueva visita')
         if(this.visit != null){
             this.setTitleForVisit('Editar visita')
+            this.vaccinesPushed = this.visit.vaccines;
         }
         
     }

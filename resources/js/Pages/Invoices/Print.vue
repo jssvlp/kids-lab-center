@@ -9,7 +9,11 @@ export default {
         Detail
     },
     mounted(){
-        setTimeout(function(){ window.print() }, 1);
+       
+        setTimeout(function(){ 
+            window.print()
+          
+        }, 1);
     }
 }
 </script>

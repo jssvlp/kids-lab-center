@@ -12,7 +12,7 @@ class InsuranceController extends Controller
     public function index()
     {
         return Inertia::render('Insurances/All',[
-            'insurances' => Insurance::with(['plans'])->get()
+            'insurances' => Insurance::with(['plans'])->orderBy('updated_at','desc')->get()
         ]);
     }
 
@@ -32,7 +32,7 @@ class InsuranceController extends Controller
         ]);
         Insurance::create($request->all());
 
-        return redirect()->route('insurances.index')->with('successMessage', 'Aseguradora creada sactisfacoriamente');
+        return redirect()->route('insurances.index')->with(['toast' => ['message' => 'Aseguradora creada correctamente','success' => true]]);
     }
 
     public function update(Insurance $insurance, Request $request)
@@ -43,14 +43,20 @@ class InsuranceController extends Controller
         ]);
         $insurance->update($request->all());
 
-        return redirect()->route('insurances.index')->with('successMessage', 'Aseguradora actualizada sactisfacoriamente');
+        return redirect()->route('insurances.index')->with(['toast' => ['message' => 'Aseguradora actualizada correctamente','success' => true]]);
     }
 
     public function destroy(Insurance $insurance)
     {
-        $insurance->delete();
+        $toast = ['toast' => ['message' => 'Aseguradora eliminada correctamente','success' => true]];
+        try {
+            $insurance->delete();
+        } catch (\Throwable $th) {
+            $toast = ['toast' => ['message' => 'No es posible eliminar. Existen registros relacionados','success' => false]];
+        }
+        
 
-        return redirect()->route('insurances.index')->with('successMessage', 'Aseguradora eliminada sactisfacoriamente');
+        return redirect()->route('insurances.index')->with($toast);
     }
 
     

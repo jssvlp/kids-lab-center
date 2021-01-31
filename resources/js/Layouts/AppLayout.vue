@@ -1,5 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-100">
+        <Toast :toast="$page.toast" />
         <nav class="bg-gray-800 border-b border-gray-100">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,7 +73,7 @@
                                         <jet-dropdown-link :href="route('vaccines.index')">
                                             Vacunas
                                         </jet-dropdown-link>
-                                        <jet-dropdown-link :href="route('reports.index')">
+                                        <jet-dropdown-link :href="route('reports.index')" preserve-scroll>
                                             Reportes
                                         </jet-dropdown-link>
 
@@ -241,6 +242,8 @@
     import JetDropdownLink from '@/Jetstream/DropdownLink'
     import JetNavLink from '@/Jetstream/NavLink'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink'
+    import Toast from '../Components/Toast'
+    import NProgress from 'nprogress'
 
     export default {
         components: {
@@ -249,6 +252,7 @@
             JetDropdownLink,
             JetNavLink,
             JetResponsiveNavLink,
+            Toast
         },
 
         data() {
@@ -267,7 +271,9 @@
             },
 
             logout() {
+                NProgress.start()
                 axios.post(route('logout').url()).then(response => {
+                    NProgress.done()
                     window.location = '/';
                 })
             },

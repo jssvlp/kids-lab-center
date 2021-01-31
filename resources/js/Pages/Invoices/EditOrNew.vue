@@ -24,10 +24,10 @@
                                     </div>
                                 <div class="flex justify-between">
                                     <div class="mx-3">
-                                       Fecha visita: <span class="font-bold"> {{invoice.visit.visit_date}}</span> 
+                                       Fecha visita: <span class="font-bold"> {{invoice.visit.visit_date | formatShortDate}}</span> 
                                     </div>
                                     <div>
-                                        Fecha factura: <span class="font-bold">{{invoice.invoice_date}}</span>
+                                        Fecha factura: <span class="font-bold">{{invoice.invoice_date | formatShortDate}}</span>
                                     </div>
                                     <div></div>
                                 </div>
@@ -100,7 +100,7 @@
                                         </td>
                                         <td class="px-6 py-3 whitespace-nowrap">
                                             <div class="flex">
-                                                <span class="font-bold text-green-700 mt-1">RD$ {{total}}</span> 
+                                                <span class="font-bold text-green-700 mt-1">RD{{total | currency }}</span> 
                                                 <div v-if="!discountVisible && invoice.payment_status == 'Pendiente'" class="flex cursor-pointer ml-2" @click="modalDiscountVisible = true">
                                                     <div class="flex items-center justify-center flex-shrink-0 h-8 w-8 rounded-xl bg-red-100 text-red-500">
                                                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path></svg>                                    
@@ -158,32 +158,36 @@
                 <div class="px-4">
                     <div class="flex justify-between">
                         <span>Vacunas:</span>
-                        <span>RD${{total}}</span>
+                        <span>RD{{total | currency}}</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Descuento:</span>
-                        <span>{{ discount > 0 ? '-':''}}{{discount == '' ? 0 : discount}}% (RD$ {{ discounted }})</span>
+                        <span>{{ discount > 0 ? '-':''}}{{discount == '' ? 0 : discount}}% (RD{{ discounted | currency }})</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Total:</span>
-                        <span>RD${{total - discounted}}</span>
+                        <span>RD{{total - discounted | currency}}</span>
                     </div>
                     <div class="mt-4">
                         <div>
                             <span class="font-bold">Método de pago</span>
                         </div>
-                        <input v-model="paymentMethod" type="radio" id="efectivo" value="Efectivo">
+                        <input v-model="form.paymentMethod" type="radio" id="efectivo" value="Efectivo">
                         <label for="efectivo">Efectivo</label><br>
-                        <input v-model="paymentMethod" type="radio" id="tarjeta" value="Tarjeta">
+                        <input v-model="form.paymentMethod" type="radio" id="tarjeta" value="Tarjeta" @click="form.authorization = ''">
                         <label for="tarjeta">Tarjeta</label><br>
-                        <div  v-if="paymentMethod =='Tarjeta'">
+                        <div  v-if="form.paymentMethod =='Tarjeta'">
                             <jet-label :value="'Número de autorización'"></jet-label>
                             <jet-input type="text"  placeholder=""
                                     ref="name"
-                                    v-model="authorization"
+                                    v-model="form.authorization"
                                     class="w-full"
+                                    :class="{ 'border-red-500': $v.form.authorization.$error }"
                                 
                             />
+                            <jet-input-error v-if="!$v.form.authorization.required && $v.form.authorization.$error" :message="'Debes digitar el numero de autorización'" class="mt-2" />
+                            <jet-input-error v-if="!$v.form.authorization.minLength && $v.form.authorization.$error" :message="'Mínimo 5 caracteres'" class="mt-2" />    
+                            <br>
                         </div>
                     </div>
                 </div>
@@ -213,6 +217,10 @@ import JetLabel from '@/Jetstream/Label'
 import JetDialogModal from '@/Jetstream/DialogModal'
 import axios from 'axios'
 import {  Trash2Icon } from "vue-feather-icons";
+import { required, minLength,minValue } from 'vuelidate/lib/validators'
+import JetInputError from '@/Jetstream/InputError'
+import NProgress from 'nprogress'
+
 export default {
     props: ['invoice'],
     components: {
@@ -223,7 +231,8 @@ export default {
         JetLabel,
         JetDialogModal,
         JetSecondaryButton,
-        Trash2Icon
+        Trash2Icon,
+        JetInputError
     },
     data:() =>({
        parent: {},
@@ -231,9 +240,19 @@ export default {
        discountVisible: false,
        modalDiscountVisible: false,
        paymentModalVisible: false,
-       paymentMethod: '',
-       authorization:''
+       form:{
+            paymentMethod: 'Efectivo',
+            authorization:'',
+       }
     }),
+    validations:{
+       form:{
+            authorization:{
+                required,
+                minLength: minLength(5),
+            }
+       }
+    },
     computed:{
         total(){
             return this.calculateTotal()
@@ -247,21 +266,27 @@ export default {
         openPayModal(){
              this.paymentModalVisible = true
         },
-        collectMoney(){
+        async collectMoney(){
+            if(this.form.paymentMethod == 'Tarjeta'){
+                this.$v.form.$touch();
+                if(this.$v.form.$error) return
+            }
             const data = { 
                 vaccines: this.invoice.vaccines,
                 discount: this.discount,
-                transaction_number: '12323',
-                payment_method: this.paymentMethod,
-                authorization: this.authorization
+                payment_method: this.form.paymentMethod,
+                authorization: this.form.authorization
             }
-            axios.post(`/invoices/pay/${this.invoice.id}`,data)
+            NProgress.start()
+            await axios.post(`/invoices/pay/${this.invoice.id}`,data)
             .then( data =>{
                 if(data.data.success == true)
                 {
+                    this.$inertia.visit('/invoices', { preserveScroll: true })
                     window.open(`/invoices/${this.invoice.id}/print`,'_blank')
-                    this.$inertia.get('/invoices');
+                   
                 }
+                NProgress.done()
             })
            
         },

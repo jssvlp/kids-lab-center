@@ -13,36 +13,51 @@ import { Datetime } from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 import { Settings } from 'luxon'
 import VueFilterDateFormat from 'vue-filter-date-format';
+import VueMask from 'v-mask'
+import Vuelidate from 'vuelidate'
+import Vue2Filters from 'vue2-filters'
+import moment from 'moment'
+import Nprogress from 'nprogress'
+import VueApexCharts from 'vue-apexcharts'
+import 'nprogress/nprogress.css';
+import VueTour from 'vue-tour'
+require('vue-tour/dist/vue-tour.css')
 
+Vue.use(VueTour)
+
+moment.locale('es')
+Vue.use(Vuelidate)
+Vue.use(VueMask);
+
+Vue.use(VueApexCharts)
+Vue.component('apexchart', VueApexCharts)
+
+
+
+Vue.use(Nprogress)
 Settings.defaultLocale = 'es'
 
+Vue.filter('formatLargeDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD MMMM YYYY')
+  }
+})
+
+Vue.filter('formatShortDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD/MM/YYYY')
+  }
+})
+
 Vue.use(Datetime)
+Vue.use(Vue2Filters)
 
 Vue.mixin({ methods: { route } });
 Vue.use(InertiaApp);
 Vue.use(InertiaForm);
 Vue.use(PortalVue);
-Vue.use(VueFilterDateFormat, {
-    dayOfWeekNames: [
-      'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves',
-      'Viernes', 'Sabado'
-    ],
-    dayOfWeekNamesShort: [
-      'Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'
-    ],
-    monthNames: [
-      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octobre', 'Noviembre', 'Diciembre'
-    ],
-    monthNamesShort: [
-      'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-      'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
-    ]
-  });
 
 const app = document.getElementById('app');
-
-
 
 new Vue({
     render: (h) =>

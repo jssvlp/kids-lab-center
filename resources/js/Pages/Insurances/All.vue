@@ -9,8 +9,8 @@
         <div class="py-5">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col">
-                    <div class="-my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="-my-1  sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle  min-w-full ">
                             <div class="mb-3 flex justify-between">
                                 <button @click="editOrNew(null,'Nueva aseguradora')" class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>         
@@ -24,8 +24,8 @@
                                                 type="text" placeholder="Nombre de una aseguradora" />
                                 </div>
                             </div>
-                            <div class="md:grid md:h-full md:grid-flow-row md:gap-4 md:grid-cols-4">
-                                <div v-for="insurance in insurances" :key="insurance.id" class="shadow-lg p-10 transition duration-500 ease-in-out  hover:bg-white-600 transform hover:-translate-y-1 hover:scale-110 ...">
+                            <div v-if="insurancesCopy" class="flex flex-wrap mt-6">
+                                <div v-for="insurance in insurancesCopy" :key="insurance.id" class="flex-none bg-white rounded-xl md:flex-2 my-3 shadow-lg p-8 transition duration-500 ease-in-out  hover:bg-white-600 transform hover:-translate-y-1 hover:scale-110 mx-3">
                                     <div  class="text-lg font-bold ">
                                         {{insurance.name}}
                                     </div>
@@ -80,6 +80,7 @@ import { mapState, mapActions} from 'vuex'
 import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 import JetDangerButton from '@/Jetstream/DangerButton'
+import NProgress from 'nprogress'
 
 export default {
     props: ['insurances'],
@@ -96,10 +97,14 @@ export default {
         toDelete: {},
         title: '',
         planBeingDeleted: null,
-        filter: ''
+        filter: '',
+        insurancesCopy: null
     }),
     computed:{
         ...mapState(['editingOrCreatingInsurance'])
+    },
+    mounted(){
+        this.insurancesCopy = this.insurances;
     },
     methods:{
         ...mapActions({
@@ -111,17 +116,35 @@ export default {
             this.toggleNewOrEditInsuranceModal()
         },
         deleteInsurance(insurance){
-             this.$inertia.delete(`/insurances/${this.toDelete.id}`)
+            NProgress.start()
+            /* this.$inertia.delete(`/insurances/${this.toDelete.id}`)
             .then( (data) =>{
                 this.planBeingDeleted = null
+                NProgress.done()
+            }) */
+
+            this.$inertia.delete(`/insurances/${this.toDelete.id}`,{
+                onSuccess: () => {
+                    this.planBeingDeleted = null
+                    $toast.success('asdasd', 'Ok')
+                    
+                },
+                onError: (errors) => {
+                    // Handle validation errors
+                },
+                onFinish: () => {
+                   NProgress.done()
+                },
             })
+            
         },
          search(){
-            console.log(this.filter)
             if(this.filter.length > 2 || this.filter == ''){
+                NProgress.start()
                 axios.get(`/insurances/all?name=${this.filter}`)
                 .then(data => {
-                    this.insurances = data.data
+                    this.insurancesCopy = data.data
+                    NProgress.done()
                 })
             }
         }

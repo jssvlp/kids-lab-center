@@ -30,7 +30,7 @@ class PlanController extends Controller
     {
         Plan::create(['name' => $request->name, 'insurance_id' => $request->insurance_id]);
 
-        return redirect()->route('plans',$request->insurance_id)->with('successMessage', 'User was successfully added!');
+        return redirect()->route('plans',$request->insurance_id)->with(['toast' => ['message' => 'Plan creado correctamente','success' => true]]);
         //return response()->json(['status' => 'success', 'message' => 'Plan agregado correctamente']);
     }
 
@@ -39,13 +39,13 @@ class PlanController extends Controller
         $plan->update(
             $request->all()
         );
-        return redirect()->route('plans',$plan->insurance_id)->with('successMessage', 'User was successfully added!');
+        return redirect()->route('plans',$plan->insurance_id)->with(['toast' => ['message' => 'Plan actulizado correctamente','success' => true]]);
     }
 
     public function destroy(Plan $plan)
     {
         $plan->delete();
 
-        return redirect()->route('plans',$plan->insurance_id)->with('successMessage', 'User was successfully added!');
+        return redirect()->route('plans',$plan->insurance_id)->with(['toast' => ['message' => 'Plan eliminado correctamente','success' => true]]);
     }
 }

@@ -9,13 +9,12 @@
                     <img src="/Images/Logo.png" style="width:100%; max-width:300px;">
                     </td>
                     <td>
-                    Factura #: {{invoice.invoice_number}}<br>Visita: <span class="font-bold">{{invoice.visit.visit_date}}</span> <br> Factura: <span class="font-bold">{{invoice.invoice_date}}</span>
+                    Factura #: {{invoice.invoice_number}}<br>Visita: <span class="font-bold">{{invoice.visit.visit_date | formatShortDate}}</span> <br> Factura: <span class="font-bold">{{invoice.invoice_date | formatShortDate}}</span>
                     </td>
                 </tr>
                 </table>
             </td>
             </tr>
-
             <tr class="information">
             <td colspan="4">
                 <table>
@@ -24,7 +23,6 @@
                    <p class="font-bold"> Kids Lab Center Gazcue</p>
                     <p>Calle Jose Joaquin perez No. 203, edif Grupo Medico Bolivar 2, Local 103</p>
                 </td>
-
                 </tr>
                 <tr>
                     <td>
@@ -55,9 +53,9 @@
 
             <tr class="item" v-for="item in invoice.vaccines" :key="item.id">
             <td><input v-model="item.name" /></td>
-            <td>RD$<input type="number" v-model="item.price" /></td>
+            <td>RD{{ item.price | currency}}</td>
             <td>1</td>
-            <td>RD${{ item.price }}</td>
+            <td>RD{{ item.price | currency}}</td>
             </tr>
             <tr>
                 <td colspan="6">
@@ -71,15 +69,15 @@
                 <div>
                     <div class="flex justify-between px-1 py-1">
                      <span>Subtotal sin ITBIS</span>
-                    <span class="font-bold">RD$ {{total}}</span>
+                    <span class="font-bold">RD{{total | currency}}</span>
                 </div>
                 <div class="flex justify-between px-1 py-1">
                     <span>Descuento {{ parseFloat(invoice.discount) > 0 ? '-':''}}{{invoice.discount == ''  ? 0 : invoice.discount}}%</span>
-                    <span>RD$ {{ discounted }}</span>
+                    <span>RD{{ discounted | currency}}</span>
                 </div>
                 <div class="flex justify-between  bg-gray-200 py-2 px-1">
                      <span class="font-bold">Total</span>
-                    <span class="font-bold">RD${{totalWithDiscount}}</span>
+                    <span class="font-bold">RD{{totalWithDiscount |currency}}</span>
                 </div>
                 </div>
                

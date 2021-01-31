@@ -19,7 +19,7 @@
                                        Nombre: <span class="font-bold"> {{visit.child.name}}</span> 
                                     </div>
                                     <div class="mx-3 ml-12">
-                                       Fecha de nacimiento: <span class="font-bold"> {{visit.child.birth_date}}</span> 
+                                       Fecha de nacimiento: <span class="font-bold"> {{visit.child.birth_date | formatShortDate}}</span> 
                                     </div>
                                     <div></div>
                                 </div>
@@ -33,7 +33,7 @@
                                 
                                 <div class="flex justify-between">
                                     <div class="mx-3">
-                                       Fecha visita: <span class="font-bold"> {{visit.visit_date}}</span> 
+                                       Fecha visita: <span class="font-bold"> {{visit.visit_date | formatShortDate}}</span> 
                                     </div>
                                     <div class="mr-3">
                                        Facturado: <span class="font-bold" :class="visit.invoiced ? 'text-green-600' : 'text-red-600'"> {{visit.invoiced == true ? "Si" : "No"}}</span> 
@@ -71,7 +71,7 @@
                                     </td>
                                     <td class="px-6 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{vaccine.price}}
+                                            RD{{vaccine.price | currency}}
                                         </div>
                                     </td>
                                     
@@ -81,7 +81,7 @@
                                             <span class="font-bold">Total</span>
                                         </td>
                                         <td class="px-6 py-3 whitespace-nowrap">
-                                            <span class="font-bold text-green-700">RD$ {{total}}</span>
+                                            <span class="font-bold text-green-700">RD{{total | currency}}</span>
                                         </td>
                                     </tr>
                                     <!-- More rows... -->
@@ -120,7 +120,6 @@ export default {
     computed:{
         total(){
             return this.visit.vaccines.reduce(function(a, b){
-               console.log(a)
                return a + b.price;
             }, 0);
         }

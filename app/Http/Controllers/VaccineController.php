@@ -39,7 +39,7 @@ class VaccineController extends Controller
         ]);
         Vaccine::create(['name' => $request->name, 'price' => $request->price]);
 
-        return redirect()->route('vaccines.index',$request->insurance_id)->with('successMessage', 'Vacuna was successfully added!');
+        return redirect()->route('vaccines.index',$request->insurance_id)->with(['toast' => ['message' => 'Vacuna creada correctamente','success' => true]]);
     }
 
     public function update(Vaccine $vaccine, Request $request)
@@ -55,12 +55,12 @@ class VaccineController extends Controller
             'price' => $request->price
         ]);
         
-        return redirect()->route('vaccines.index')->with('successMessage', 'Vacuna actualizada sactisfacoriamente');
+        return redirect()->route('vaccines.index')->with(['toast' => ['message' => 'Vacuna actualizada correctamente','success' => true]]);
     }
 
     public function destroy(Vaccine $vaccine)
     {
         $vaccine->delete();
-        return redirect()->route('vaccines.index')->with('successMessage', 'Vacuna eliminada sactisfacoriamente');
+        return redirect()->route('vaccines.index')->with(['toast' => ['message' => 'Vacuna eliminada correctamente','success' => true]]);
     }
 }

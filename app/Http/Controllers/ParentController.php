@@ -53,7 +53,7 @@ class ParentController extends Controller
             'kinship' => $request->kinship
         ]);
 
-        return redirect()->route('parents.index')->with('successMessage', $request->kinship.' creado sactisfacoriamente');
+        return redirect()->route('parents.index')->with(['toast' => ['message' => 'Padre creado correctamente','success' => true]]);
     }
 
     public function update(DadOrMom $parent, Request $request)
@@ -72,12 +72,13 @@ class ParentController extends Controller
                 'kinship' => $request->kinship
             ]
         );
-        return redirect()->route('parents.index')->with('successMessage', $request->kinship.' creado sactisfacoriamente');
+        return redirect()->route('parents.index')->with(['toast' => ['message' => 'Padre actualizado correctamente','success' => true]]);
     }
 
     public function destroy(DadOrMom $parent)
     {
         $parent->delete();
-        return redirect()->route('parents.index')->with('successMessage', 'Eliminado sactisfacoriamente');
+
+        return redirect()->route('parents.index')->with(['toast' => ['message' => 'Padre eliminado correctamente','success' => true]]);
     }
 }

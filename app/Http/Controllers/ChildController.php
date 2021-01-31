@@ -51,7 +51,7 @@ class ChildController extends Controller
             'health_insurance_id' => $request->health_insurance_id
         ]);
         
-        return redirect()->route('children.index')->with('successMessage', 'Paciente actualizado sactisfacoriamente');
+        return redirect()->route('children.index')->with(['toast' => ['message' => 'Paciente creado correctamente','success' => true]]);
     }
 
     public function update(Child $child, Request $request)
@@ -74,13 +74,13 @@ class ChildController extends Controller
             'health_insurance_id' => $request->health_insurance_id
         ]);
             
-        return redirect()->route('children.index')->with('successMessage', 'Paciente creado sactisfacoriamente');
+        return redirect()->route('children.index')->with(['toast' => ['message' => 'Paciente actualizado correctamente','success' => true]]);
     }
 
     public function destroy(Child $child)
     {
         $child->delete();
-        return redirect()->route('children.index')->with('successMessage', 'Paciente eliminado sactisfacoriamente');
+        return redirect()->route('children.index')->with(['toast' => ['message' => 'Paciente eliminado correctamente','success' => true]]);
     }
     
 }
