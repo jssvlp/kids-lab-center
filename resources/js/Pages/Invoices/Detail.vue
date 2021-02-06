@@ -6,7 +6,7 @@
                 <table>
                 <tr>
                     <td class="title">
-                    <img src="/Images/Logo.png" style="width:100%; max-width:300px;">
+                    <img src="/Images/klc-logo.png" style="width:100%; max-width:300px;">
                     </td>
                     <td>
                     Factura #: {{invoice.invoice_number}}<br>Visita: <span class="font-bold">{{invoice.visit.visit_date | formatShortDate}}</span> <br> Factura: <span class="font-bold">{{invoice.invoice_date | formatShortDate}}</span>

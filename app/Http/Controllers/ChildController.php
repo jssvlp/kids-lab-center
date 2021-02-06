@@ -32,6 +32,15 @@ class ChildController extends Controller
         return Child::all();
     }
 
+    public function history($id)
+    {
+        $child = Child::with('visits.vaccines','dadOrMom','plan.insurance')->find($id);
+
+        return Inertia::render('Children/History',[
+            'child' => $child
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

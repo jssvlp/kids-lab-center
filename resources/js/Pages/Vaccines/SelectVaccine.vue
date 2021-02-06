@@ -7,7 +7,7 @@
             <div class="flex items-center">
                 <button type="button" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label" class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <div  class="flex items-center">
-                        <input v-model="search" @focus="selected = null, search = ''" input type="text" @keyup="filter" class="outline-none mt-1 block w-full ml-3 truncate" placeholder="Buscar">
+                        <input v-model="search" ref="search" @focus="setFocusOnInput"  input type="text" @keyup="filter" class="outline-none mt-1 block w-full ml-3 truncate" placeholder="Buscar">
                     </div>
                     
                     <span class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -24,8 +24,8 @@
             
             
             <div class="absolute mt-1 w-full rounded-md bg-gray-200 shadow-lg">
-            <ul v-show="selected == null && search.length > 0 " tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3" class="overflow-visible  rounded-md py-1 text-base ring-1 ring-black ring-opacity-5  focus:outline-none sm:text-sm">
-                <li v-for="vaccine in filtered" @click="select(vaccine)" :key="vaccine.id" id="listbox-item-0" role="option" class="text-gray-900 hover:bg-blue-200 cursor-pointer select-none relative py-2 pl-3 pr-9">
+            <ul v-show="selected == null && showVaccinesList == true " tabindex="-1"  role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3" class="overflow-visible  rounded-md py-1 text-base ring-1 ring-black ring-opacity-5  focus:outline-none sm:text-sm">
+                <li v-for="vaccine in dataFiltered" @click="select(vaccine)" :key="vaccine.id" id="listbox-item-0" role="option" class="text-gray-900 hover:bg-blue-200 cursor-pointer select-none relative py-2 pl-3 pr-9">
                 <div  class="flex items-center" >
                    <div>
                         <span class="ml-3 block font-normal truncate">
@@ -57,7 +57,7 @@ import JetLabel from '@/Jetstream/Label'
 import JetButton from '@/Jetstream/Button'
 import { mapActions } from 'vuex'
 export default {
-    props:['added'],
+    props:['added','showVaccinesList'],
     components:{
         JetLabel,
         JetInput,
@@ -67,13 +67,24 @@ export default {
         vaccines: [],
         search: '',
         filtered: [],
-        selected: null
+        selected: null,
+        focused: false,
     }),
+    computed:{
+        dataFiltered(){
+            return this.filter()
+        }
+    },
     methods:{
         ...mapActions([
             'setChildForNewVisit',
             'pushToVaccineList'
         ]),
+        setFocusOnInput(){
+            this.selected = null
+            this.search = ''
+            this.$emit('showOptions');
+        },
         filter(){
             if(this.search == ''){
                 this.filtered = this.vaccines
@@ -87,6 +98,7 @@ export default {
                 let notAdded = matches.filter(vaccine => !addedOnlyNames.includes(vaccine.name))
                 this.filtered = notAdded;
             }
+            return this.filtered
         },
         select(vaccine){
             this.selected = vaccine.id
@@ -97,6 +109,8 @@ export default {
             this.$emit('pushed',this.selected)
             this.selected = null
             this.search = ''
+            this.setFocusOnInput();
+            //this.$emit('setFocusOnInput');
         }
        
     },
@@ -105,6 +119,7 @@ export default {
        .then( data =>{
            this.vaccines = data.data
            this.filtered = this.vaccines
+           this.filter();
        })
     }
 }

@@ -41,6 +41,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::delete('/children/{child}',[Controllers\ChildController::class,'destroy'])->name('children.delete');
     Route::get('/children/all',[Controllers\ChildController::class,'all'])->name('childre.paginate');
     Route::get('/children/list',[Controllers\ChildController::class,'list'])->name('children.list');
+    Route::get('/children/{id}/history',[Controllers\ChildController::class, 'history'])->name('children.history');
 
     //Users
     Route::get('/users',[Controllers\UserController::class, 'index'])->name('users.index');

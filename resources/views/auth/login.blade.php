@@ -3,8 +3,11 @@
         <x-slot name="logo">
             
         </x-slot>
-        <div class="flex justify-center mb-3"> 
-            <img src="/Images/logo-name.png" width="100" alt=""> 
+        <div class="flex justify-center"> 
+            <img src="/Images/logo-name.png" width="135" alt=""> 
+        </div>
+        <div class="flex justify-center -my-8 mb-3 font-bold text-gray-400">
+            App
         </div>
         
 

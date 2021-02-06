@@ -50,7 +50,7 @@
                 </div>
                 
                 <div id="vaccines" class="w-3/5 bg-white shadow-lg rounded-md px-6 py-6 mr-10">
-                    <SelectVaccine v-if="!visit.invoiced" :added="vaccinesPushed" class="mb-4" @pushed="addVaccine"/>
+                    <SelectVaccine v-if="!visit.invoiced" :added="vaccinesPushed" class="mb-4" @pushed="addVaccine" @showOptions="showOptions" :showVaccinesList="showVaccinesList"  v-click-outside="closeVaccinesSelect"/>
                     <span class="font-bold mt-10">Colocadas:</span>
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -171,7 +171,8 @@ export default {
     },
     data:() =>({
        parent: {},
-       vaccinesPushed: []
+       vaccinesPushed: [],
+       showVaccinesList: false
     }),
     computed:{
         ...mapState(['childForNewVisit','titleForVisit']),
@@ -189,6 +190,12 @@ export default {
         ...mapActions({
             setTitleForVisit : "setTitleForVisit"
         }),
+        closeVaccinesSelect(){
+            this.showVaccinesList = false
+        },
+        showOptions(){
+            this.showVaccinesList = true
+        },
         facturar(){
             const data = { visit_id : this.visit.id }
             NProgress.start()
@@ -204,9 +211,9 @@ export default {
             })
         },
         removeVaccine(vaccine){
-            
-            axios.delete(`/visits/${this.visit.id}/vaccine/${vaccine}`)
+            axios.delete(`/visits/${this.visit.id}/vaccine/${vaccine.id}`)
             .then( data =>{
+                
                 this.refreshVaccines()
             })
         },
@@ -214,9 +221,10 @@ export default {
             NProgress.start()
             axios.get(`/visits/${this.visit.id}/vaccines`)
                 .then( data =>{
-                    this.visit.vaccines = data.data
-                    this.vaccinesPushed = this.visit.vaccines
-                    NProgress.done()
+                    this.visit.vaccines = data.data;
+                    this.vaccinesPushed = this.visit.vaccines;
+                    this.showVaccinesList = true;
+                    NProgress.done();
                 })
         },
         saveVisit(){
