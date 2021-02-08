@@ -29,8 +29,8 @@ class ReportController extends Controller
 
     public function filter(Request $request)
     {
-        $from = Carbon::parse($request->from)->addDay(-1);
-        $to = Carbon::parse($request->to)->addDay(-1);
+        $from = Carbon::parse($request->from);
+        $to = Carbon::parse($request->to);
         $invoices = $this->searchData($from,$to);
         $paymentsByType = Invoice::getPaymentsByType($from,$to);
         $sumDailyPayments = Invoice::getSumDailyPayments($from,$to);

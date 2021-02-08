@@ -20,6 +20,8 @@
                                     <datetime
                                         type="date"
                                         v-model="from"
+                                        zone="America/Santo_Domingo"
+                                        value-zone="America/Santo_Domingo"
                                         class="theme-blue border w-full bg-white rounded  py-2 px-2 outline-none "
                                         :max-datetime="maxDateFrom"
                                     ></datetime>
@@ -29,6 +31,8 @@
                                     <datetime
                                         type="date"
                                         v-model="to"
+                                        zone="America/Santo_Domingo"
+                                        value-zone="America/Santo_Domingo"
                                         input-class="border w-full bg-white rounded  py-2 px-2 outline-none"
                                         class="theme-orange"
                                         :max-datetime="maxDatetime"
@@ -145,8 +149,8 @@ export default {
             paymentsByType:[],
             sumDailyPayments:[]
         },
-        from: moment().add(-1,'months').add(1,'days').format('YYYY-MM-DD').toString(),
-        to: moment().add(1,'days').format('YYYY-MM-DD').toString(),
+        from: moment().add(-1,'months').format('YYYY-MM-DD').toString(),
+        to: moment().format('YYYY-MM-DD').toString(),
         optionsDonut: {
             labels: [],
             title: {

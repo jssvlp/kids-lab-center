@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Child;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Validation\Rule;
@@ -22,9 +23,9 @@ class ChildController extends Controller
         $name = request('name');
         if($name)
         {
-            return Child::with(['dadOrMom','plan'])->where('name','like','%'.$name.'%')->orderBy('updated_at','desc')->paginate(10);
+            return Child::with(['dadOrMom','plan'])->where('name','like','%'.$name.'%')->orderBy('updated_at','desc')->paginate(8);
         }
-        return Child::with(['dadOrMom','plan'])->orderBy('updated_at','desc')->paginate(10);
+        return Child::with(['dadOrMom','plan'])->orderBy('updated_at','desc')->paginate(8);
     }
 
     public function list()
@@ -52,7 +53,7 @@ class ChildController extends Controller
         
         $birthDate = Carbon::parse($request->birth_date)->format('Y-m-d');
         $created = Child::create([
-            'name' => $request->name,
+            'name' => ucwords($request->name),
             'birth_date' =>$birthDate,
             'dad_or_mom_id'  => $request->dad_or_mom_id,
             'gender'     => $request->gender,
@@ -75,7 +76,7 @@ class ChildController extends Controller
         $birthDate = Carbon::parse($request->birth_date)->format('Y-m-d');
 
         $child->update([
-            'name' => $request->name,
+            'name' => ucwords($request->name),
             'birth_date' =>$birthDate,
             'parent_id'  => $request->parent_id,
             'gender'     => $request->gender,
@@ -90,6 +91,18 @@ class ChildController extends Controller
     {
         $child->delete();
         return redirect()->route('children.index')->with(['toast' => ['message' => 'Paciente eliminado correctamente','success' => true]]);
+    }
+
+    public function checkPlanInsuranceNumber(Request $request)
+    {
+        $plan = Plan::with(['insurance'])->find($request->plan_id);
+        
+        $child = Child::where('plan_id','=',$plan->id)->where('health_insurance_id','=',$request->health_insurance_id)->first();
+
+        if(!$child){
+            return response()->json(['exists' => false]);
+        }
+        return response()->json(['exists' => true]);
     }
     
 }

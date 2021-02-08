@@ -12,7 +12,7 @@
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                             <div class="mb-3 flex justify-between">
-                                <button @click="planBeingAdd = true" class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
+                                <button @click="planBeingAdd = true" class="bg-white text-gray-600 font-bold rounded border-b-2 border-trendy-pink-300 hover:border-trendy-pink-600 hover:bg-trendy-pink-400 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                                     <span class="mr-2">Agregar</span>
                                 </button>
@@ -88,7 +88,7 @@
                                                 @click="planBeingDeleted = true, toDelete= child">
                                             <Trash2Icon size="1.2x"/>
                                         </button>
-                                        <inertia-link   :href="route('children.history',child.id)"  class="bg-gray-300 px-2 py-1 rounded" v-if="child.visits.length > 0">
+                                        <inertia-link :href="route('children.history',child.id)"  class="bg-trendy-pink-200 px-2 py-1 rounded" v-if="child.visits.length > 0">
                                             Historial
                                         </inertia-link>
                                     </div>
@@ -118,7 +118,7 @@
                     Cancelar
                 </jet-secondary-button>
 
-                <jet-danger-button class="ml-2" @click.native="deleteChild" >
+                <jet-danger-button class="ml-2 b-red-orange-500" @click.native="deleteChild" >
                     Confirmar
                 </jet-danger-button>
             </template>
@@ -144,7 +144,7 @@
                     Cancelar
                 </jet-secondary-button>
 
-                <jet-button class="ml-2" @click.native="addChild()" >
+                <jet-button class="ml-2 bg-trendy-pink-400" @click.native="addChild()" >
                     Confirmar
                 </jet-button>
             </template>

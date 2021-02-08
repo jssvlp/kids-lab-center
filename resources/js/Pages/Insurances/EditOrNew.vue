@@ -34,7 +34,7 @@
                     Cancelar
                 </jet-secondary-button>
 
-                <jet-button class="ml-2" @click.native="onSave" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <jet-button class="ml-2 bg-trendy-pink-400" @click.native="onSave" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Guardar
                 </jet-button>
             </template>

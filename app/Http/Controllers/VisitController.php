@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vaccine;
 use App\Models\Child;
+use App\Models\Invoice;
 use App\Models\Visit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -89,7 +90,7 @@ class VisitController extends Controller
         $visit =  new Visit();
         $title = 'Nueva visita';
 
-        if($id != null || $id != '_'){
+        if($id != null || $id == '_'){
             $visit = Visit::with(['vaccines','child','child.dadOrMom'])->find($id);
             $title = 'Editar visita';
         }
@@ -98,6 +99,11 @@ class VisitController extends Controller
             'visit' => $visit,
             'title' => $title
         ]);
+    }
+
+    public function getVisit(Visit $visit)
+    {
+        return response()->json(['success' => true, 'visit' => $visit]);
     }
 
     public function destroy($id)

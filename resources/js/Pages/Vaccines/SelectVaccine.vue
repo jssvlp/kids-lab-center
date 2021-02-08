@@ -9,7 +9,6 @@
                     <div  class="flex items-center">
                         <input v-model="search" ref="search" @focus="setFocusOnInput"  input type="text" @keyup="filter" class="outline-none mt-1 block w-full ml-3 truncate" placeholder="Buscar">
                     </div>
-                    
                     <span class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                         <!-- Heroicon name: selector -->
                         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -17,7 +16,7 @@
                         </svg>
                     </span>
                 </button>
-                <button class="ml-4 inline-flex items-center h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" @click="push(selected)">
+                <button class="ml-4 inline-flex items-center h-10 px-5 text-indigo-100 transition-colors duration-150 bg-trendy-pink-500 rounded-lg focus:shadow-outline hover:bg-indigo-800" @click="push(selected)">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
                 </button>
             </div>

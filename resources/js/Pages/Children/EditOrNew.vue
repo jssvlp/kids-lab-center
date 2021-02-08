@@ -8,7 +8,7 @@
                 <div class="flex mt-4">
                     <div class="w-full mx-10">
                         <jet-label :value="'Nombre completo'"></jet-label>
-                        <jet-input type="text" class="mt-1 block w-full" placeholder="Nombre completo"
+                        <jet-input type="text" class="mt-1 block w-full capitalize" placeholder="Nombre completo"
                                     ref="name"
                                     :class="{ 'border-red-500': $v.form.name.$error }"
                                     v-model="form.name"
@@ -19,15 +19,18 @@
                 </div>
                 <div class="flex mt-4">
                     <div class="w-full ml-10">
-                        <PlanSelect :selectedForEdition="plan"/>
+                        <PlanSelect :selectedForEdition="plan" @selected="verifyPlanNumber" @onFocus="onFocus"  :showList="showList" v-click-outside="closePlanList" />
                     </div>
                     <div class="w-full mx-10">
                         <jet-label :value="'Id/Número seguro:'"></jet-label>
-                        <jet-input type="text" class="mt-1 block w-full" placeholder="1234"
+                        <jet-input type="text" class="mt-1 block w-full " placeholder="1234"
                                     ref="name"
+                                    @blur.native="verifyPlanNumber"
                                     v-model="form.health_insurance_id"
                             />
-                        <jet-input-error :message="form.error" class="mt-2" />
+                        <jet-input-error v-if="insuranceIdExists" :message="'Ya existe un paciente con este id.'" class="mt-2" />
+                        <jet-input-error v-if="insuranceIdRequired" :message="'Este campo es obligatorio si elige un plan.'" class="mt-2" />
+
                     </div>
                 </div>
                 
@@ -37,6 +40,8 @@
                         <datetime
                             type="date"
                             v-model="form.birth_date"
+                            zone="America/Santo_Domingo"
+                            value-zone="America/Santo_Domingo"
                             :class="{ 'border-red-500': $v.form.birth_date.$error }"
                             input-class="border w-full bg-white rounded  py-2 px-2 outline-none"
                         ></datetime>
@@ -59,7 +64,7 @@
                         <jet-input type="text" class="mt-1 block w-full" placeholder="Nombre completo"
                                     ref="name"
                                     v-model="form.parent.name"
-                                    disabled
+                                    
                         />
                     </div>
                 </div>
@@ -72,7 +77,7 @@
                     Cancelar
                 </jet-secondary-button>
 
-                <jet-button class="ml-2" @click.native="onSave" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <jet-button class="ml-2 bg-trendy-pink-400" @click.native="onSave" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Guardar
                 </jet-button>
             </template>
@@ -92,8 +97,8 @@ import { Datetime } from 'vue-datetime'
 import PlanSelect from '../Insurances/PlanSelect'
 import { required, minLength, between } from 'vuelidate/lib/validators'
 import NProgress from 'nprogress'
-
-
+import Datepicker from 'vuejs-datepicker';
+import moment from 'moment'
 export default {
     props: {
         title: {
@@ -112,7 +117,8 @@ export default {
         JetLabel,
         VueTailwindPicker,
         Datetime,
-        PlanSelect
+        PlanSelect,
+        Datepicker
     },
     data: ()=>({
         form: {
@@ -122,8 +128,12 @@ export default {
             health_insurance_id:'',
             gender: '',
             parent: {},
+           
         },
-        plan: null
+        plan: null,
+        allowWritePlan: false,
+        insuranceIdExists: false,
+        showList: true
     }),
     validations:{
         form:{
@@ -140,28 +150,37 @@ export default {
         }
     },
     created(){
-        if(this.data.id){
+        if(this.data){
             this.form.birth_date = this.data.birth_date
         }
     },
 
     mounted(){
-       if(this.data.id){
+       if(this.data){
             this.form.id = this.data.id
             this.form.name = this.data.name
             this.plan = this.data.plan
             this.form.gender = this.data.gender
             this.form.health_insurance_id = this.data.health_insurance_id
             this.setPlanForEditOrNewChild(this.data.plan)
+            this.form.parent = this.data.dad_or_mom
        }
-       this.form.parent = this.data.dad_or_mom
+       
     },
     computed:{
-        ...mapState(['editingOrCreatingChild','planForEditOrNewChild'])
+        ...mapState(['editingOrCreatingChild','planForEditOrNewChild']),
+        insuranceIdRequired(){
+             if(this.planForEditOrNewChild && this.form.health_insurance_id == ''){
+                 return true
+             }
+             else{
+                 return false
+             }
+         }
     },
     methods:{
         setBirthDayDate(date){
-            this.form.birth_date = date
+            this.form.birth_date =  moment(this.form.birth_date).format('YYYY-MM-DD');
         },
         ...mapActions({
             toggleNewOrEditChildModal: "toggleNewOrEditChildModal",
@@ -204,6 +223,28 @@ export default {
                 })
             }
         },
+        closePlanList(){
+            this.showList = false
+        },
+        onFocus(){
+            this.showList = true
+        },
+        verifyPlanNumber(){
+
+            if( this.planForEditOrNewChild && this.form.health_insurance_id){
+                const data = {
+                    plan_id: this.planForEditOrNewChild.id,
+                    health_insurance_id: this.form.health_insurance_id
+                }
+
+                axios.post('/children/verifyplannumber',data).
+                then(data =>{
+                    this.insuranceIdExists = data.data.exists
+                    
+                });
+            }
+            
+        }
     }
 }
 </script>

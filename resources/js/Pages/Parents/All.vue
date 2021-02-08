@@ -13,7 +13,7 @@
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                             <div class="mb-3 flex justify-between">
-                                <button @click="newOrEdit(null,'Nuevo padre/madre')" class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
+                                <button @click="newOrEdit(null,'Nuevo padre/madre')" class="bg-white text-gray-600 font-bold rounded border-b-2 border-trendy-pink-300 hover:border-trendy-pink-600 hover:bg-trendy-pink-400 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                                     <span class="mr-2">Agregar</span>
                                 </button>
@@ -63,22 +63,22 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        <span class="px-4 inline-flex text-sm leading-5 font-semibold rounded-full bg-red-orange-100 text-gray-800">
                                         {{parent.phone}}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <span @click="addChild(parent)" class="bg-green-600  text-white rounded cursor-pointer p-1" >Agregar</span>
+                                        <span @click="addChild(parent)" class="bg-trendy-pink-400  text-white rounded cursor-pointer p-1" >Agregar</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <div class="flex">
                                             <button aria-label="Edit user"
-                                                    class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
+                                                    class="p-1 focus:outline-none focus:shadow-outline text-trendy-pink-500 hover:text-trendy-pink-600"
                                                     @click="newOrEdit(parent, 'Editar padre/madre')">
                                                 <EditIcon size="1.2x"/>
                                             </button>
                                             <button aria-label="Delete user"
-                                                    class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
+                                                    class="p-1 focus:outline-none focus:shadow-outline text-red-orange-500 hover:text-red-orange-600"
                                                     @click="planBeingDeleted = true, toDelete= parent">
                                                 <Trash2Icon size="1.2x"/>
                                             </button>

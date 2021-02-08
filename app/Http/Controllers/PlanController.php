@@ -28,7 +28,7 @@ class PlanController extends Controller
 
     public function store(Request $request)
     {
-        Plan::create(['name' => $request->name, 'insurance_id' => $request->insurance_id]);
+        Plan::create(['name' => ucwords($request->name), 'insurance_id' => $request->insurance_id]);
 
         return redirect()->route('plans',$request->insurance_id)->with(['toast' => ['message' => 'Plan creado correctamente','success' => true]]);
         //return response()->json(['status' => 'success', 'message' => 'Plan agregado correctamente']);
@@ -37,7 +37,7 @@ class PlanController extends Controller
     public function update(Plan $plan, Request $request)
     {
         $plan->update(
-            $request->all()
+            ['name' => ucwords($request->name)]
         );
         return redirect()->route('plans',$plan->insurance_id)->with(['toast' => ['message' => 'Plan actulizado correctamente','success' => true]]);
     }

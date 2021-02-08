@@ -7,7 +7,7 @@
                 <div class="flex mt-4">
                     <div class="w-full">
                         <jet-label :value="'Nombre vacuna'"></jet-label>
-                        <jet-input type="text" class="mt-1 w-full" placeholder="Escriba un nombre"
+                        <jet-input type="text" class="mt-1 w-full capitalize" placeholder="Escriba un nombre"
                                     ref="name"
                                     v-model="form.name"
                                     :class="{ 'border-red-500': $v.form.name.$error }"
@@ -33,7 +33,7 @@
                     Cancelar
                 </jet-secondary-button>
 
-                <jet-button class="ml-2" @click.native="onSave" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <jet-button class="ml-2 bg-trendy-pink-400" @click.native="onSave" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Guardar
                 </jet-button>
             </template>

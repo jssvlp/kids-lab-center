@@ -26,11 +26,12 @@ class InsuranceController extends Controller
     }
     public function store(Request $request)
     {
+        
         $request->validate([
             'name' => 'required|min:5',
             'phone' => 'required',
         ]);
-        Insurance::create($request->all());
+        Insurance::create(['name' => ucwords($request->name), 'phone' => ucwords($request->phone)]);
 
         return redirect()->route('insurances.index')->with(['toast' => ['message' => 'Aseguradora creada correctamente','success' => true]]);
     }
@@ -41,7 +42,7 @@ class InsuranceController extends Controller
             'name' => 'required|min:5',
             'phone' => 'required',
         ]);
-        $insurance->update($request->all());
+        $insurance->update(['name' => ucwords($request->name), 'phone' => ucwords($request->phone)]);
 
         return redirect()->route('insurances.index')->with(['toast' => ['message' => 'Aseguradora actualizada correctamente','success' => true]]);
     }
