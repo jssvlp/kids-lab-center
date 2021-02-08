@@ -7,7 +7,7 @@
                 <div class="flex mt-4">
                     <div class="w-full">
                         <jet-label :value="'Nombre completo'"></jet-label>
-                        <jet-input type="text" class="mt-1 w-full" placeholder="Escriba un nombre"
+                        <jet-input type="text" class="mt-1 w-full capitalize" placeholder="Escriba un nombre"
                                     ref="name"
                                     :class="{ 'border-red-500': $v.form.name.$error }"
                                     v-model="form.name"
@@ -30,7 +30,7 @@
                 <div class="flex mt-4">
                     <div class="w-full">
                         <jet-label :value="'Dirección'"></jet-label>
-                        <jet-input type="text" class="mt-1 block w-full" placeholder="Dirección"
+                        <jet-input type="text" class="mt-1 block w-full capitalize" placeholder="Dirección"
                                 ref="name"
                                 :class="{ 'border-red-500': $v.form.address.$error }"
                                 v-model="form.address"
@@ -58,7 +58,7 @@
                     Cancelar
                 </jet-secondary-button>
 
-                <jet-button class="ml-2" @click.native="onSave" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <jet-button class="ml-2 bg-trendy-pink-400" @click.native="onSave" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Guardar
                 </jet-button>
             </template>
@@ -75,7 +75,7 @@ import JetLabel from '@/Jetstream/Label'
 import {mapState,mapActions} from 'vuex'
 import { required, minLength, bealtween } from 'vuelidate/lib/validators'
 import NProgress from 'nprogress'
-
+const  capitalize = require('capitalize')
 export default {
     props: {
         title: {

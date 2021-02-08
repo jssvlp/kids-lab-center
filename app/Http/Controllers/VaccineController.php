@@ -37,7 +37,7 @@ class VaccineController extends Controller
             'price' => 'required|numeric',
      
         ]);
-        Vaccine::create(['name' => $request->name, 'price' => $request->price]);
+        Vaccine::create(['name' => ucwords($request->name), 'price' => $request->price]);
 
         return redirect()->route('vaccines.index',$request->insurance_id)->with(['toast' => ['message' => 'Vacuna creada correctamente','success' => true]]);
     }
@@ -51,7 +51,7 @@ class VaccineController extends Controller
         ]);
 
         $vaccine->update([
-            'name' => $request->name,
+            'name' => ucwords($request->name),
             'price' => $request->price
         ]);
         

@@ -41,7 +41,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::delete('/children/{child}',[Controllers\ChildController::class,'destroy'])->name('children.delete');
     Route::get('/children/all',[Controllers\ChildController::class,'all'])->name('childre.paginate');
     Route::get('/children/list',[Controllers\ChildController::class,'list'])->name('children.list');
-
+    Route::get('/children/{id}/history',[Controllers\ChildController::class, 'history'])->name('children.history');
+    Route::post('/children/verifyplannumber', [Controllers\ChildController::class,'checkPlanInsuranceNumber'])->name('children.verifyplan');
     //Users
     Route::get('/users',[Controllers\UserController::class, 'index'])->name('users.index');
 
@@ -82,7 +83,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::post('/visits/{visit}/vaccine/{vaccine}',[Controllers\VisitController::class, 'addVaccine'])->name('visits.add.vaccine');
     Route::delete('/visits/{visit}/vaccine/{vaccine}',[Controllers\VisitController::class, 'removeVaccine'])->name('visits.remove.vaccine');
     Route::get('/visits/{visit}/vaccines',[Controllers\VisitController::class,'vaccines']);
-    
+    Route::get('/visits/{visit}/get',[Controllers\VisitController::class, 'getVisit'])->name('visit.get');
     //Invoices
     Route::post('/invoices',[Controllers\InvoiceController::class,'store'])->name('invoices.store');
     Route::get('/invoices',[Controllers\InvoiceController::class,'index'])->name('invoices.index');

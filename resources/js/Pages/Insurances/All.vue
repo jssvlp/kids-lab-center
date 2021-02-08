@@ -12,7 +12,7 @@
                     <div class="-my-1  sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle  min-w-full ">
                             <div class="mb-3 flex justify-between">
-                                <button @click="editOrNew(null,'Nueva aseguradora')" class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
+                                <button @click="editOrNew(null,'Nueva aseguradora')" class="bg-white text-gray-600 font-bold rounded border-b-2 border-trendy-pink-300 hover:border-trendy-pink-600 hover:bg-trendy-pink-400 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>         
                                     <span class="mr-2">Agregar</span>
                                 </button>
@@ -33,14 +33,14 @@
                                         {{insurance.phone}}
                                     </div>
                                     <div class="flex items-center justify-end mt-15 top-auto">
-                                        <button @click="planBeingDeleted = true, toDelete = insurance" class="bg-white text-red-500 px-4 py-2 rounded mr-auto hover:underline">
+                                        <button @click="planBeingDeleted = true, toDelete = insurance" class="bg-white text-red-orange-500 px-4 py-2 rounded mr-auto hover:underline">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
-                                    <button @click="editOrNew(insurance, 'Editar aseguradora')" class=" bg-gray-200 text-blue-600 px-2 py-2 rounded-md ml-4 mr-2">
+                                    <button @click="editOrNew(insurance, 'Editar aseguradora')" class=" bg-gray-200 text-gray-600 px-2 py-2 rounded-md ml-4 mr-2">
                                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
                                     </button>
                                     <inertia-link :href="route('plans',insurance.id)">
-                                        <button class=" bg-blue-600 text-gray-200 px-2 py-2 rounded-md " >Planes</button>
+                                        <button class=" bg-trendy-pink-400 text-gray-200 px-2 py-2 rounded-md " >Planes</button>
                                     </inertia-link>
                                     </div>
                                 </div> 
@@ -126,7 +126,6 @@ export default {
             this.$inertia.delete(`/insurances/${this.toDelete.id}`,{
                 onSuccess: () => {
                     this.planBeingDeleted = null
-                    $toast.success('asdasd', 'Ok')
                     
                 },
                 onError: (errors) => {

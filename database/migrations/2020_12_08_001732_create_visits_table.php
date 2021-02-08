@@ -17,6 +17,7 @@ class CreateVisitsTable extends Migration
             $table->id();
             $table->date('visit_date');
             $table->unsignedBigInteger('child_id');
+            $table->string('child_age')->nullable();
             $table->softDeletes();
             $table->foreign('child_id')->references('id')->on('children');
             $table->timestamps();

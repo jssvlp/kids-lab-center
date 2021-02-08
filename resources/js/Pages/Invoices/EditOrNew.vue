@@ -9,43 +9,49 @@
                 <div class="max-w-2xl mx-auto sm:px-2">
                     <div class="flex flex-col">
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div class="py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="flex justify-center">
-<!--                                     <img class="h-15 w-15 shadow-md rounded-full" :src="invoice.visit.child.gender == 'Niño' ?'/Images/boy.svg':'/Images/girl.svg'" alt="">
- -->                                </div>
-                                <div class="flex mt-3">
-                                    <div class="mx-3">
-                                       Nombre: <span class="font-bold"> {{invoice.visit.child.name}}</span> 
-                                    </div>
-                                    
-                                </div>
-                                <div class="mx-3">
-                                       Padre/Madre: <span class="font-bold"> {{invoice.visit.child.dad_or_mom.name}}</span> 
-                                    </div>
-                                <div class="flex justify-between">
-                                    <div class="mx-3">
-                                       Fecha visita: <span class="font-bold"> {{invoice.visit.visit_date | formatShortDate}}</span> 
-                                    </div>
-                                    <div>
-                                        Fecha factura: <span class="font-bold">{{invoice.invoice_date | formatShortDate}}</span>
-                                    </div>
-                                    <div></div>
-                                </div>
-                                <div class="flex mt-4 mx-3">
-                                    <div>
-                                        <jet-label :value="'Seguro salud'"></jet-label>
-                                        <div v-if="invoice.visit.child.plan"> 
-                                            Plan <span class="font-bold">{{invoice.visit.child.plan.name}}</span> de <span class="font-bold">{{invoice.visit.child.plan.insurance.name}}</span>
+                            <div class="flex">
+                                <div class="py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
+                                   <div class="flex justify-between">
+                                       <div>
+                                        <div class="mx-3 mt-3">
+                                            <jet-label :value="'Padre/Madre'" class="text-trendy-pink-400"></jet-label>
+                                            <span class="font-bold"> {{invoice.visit.child.dad_or_mom.name}}</span> 
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <div class="mx-3 mt-3">
+                                            <jet-label :value="'Fecha visita'" class="text-trendy-pink-400"></jet-label>
+                                                <span class="font-bold"> {{invoice.visit.visit_date | formatLargeDate}}</span> 
+                                            </div>
+                                            
+                                            <div></div>
+                                        </div>
+                                        <div class="mx-4 mt-3">
+                                            <jet-label :value="'Fecha factura'" class="text-trendy-pink-400"></jet-label>
+                                             <span class="font-bold">{{invoice.invoice_date | formatLargeDate}}</span>
+                                        </div>
+                                        <div class="flex mt-3 mx-3">
                                             <div>
-                                                Numero/id seguro: <span class="font-bold">{{invoice.visit.child.health_insurance_id}}</span>
+                                                <jet-label :value="'Seguro salud'" class="text-trendy-pink-400"></jet-label>
+                                                <div v-if="invoice.visit.child.plan"> 
+                                                    Plan <span class="font-bold">{{invoice.visit.child.plan.name}}</span> de <span class="font-bold">{{invoice.visit.child.plan.insurance.name}}</span>
+                                                    <div v-if="invoice.visit.child.health_insurance_id">
+                                                        <jet-label :value="'Numero/id seguro'" class="text-trendy-pink-400 mt-3"></jet-label>
+                                                        <span class="font-bold">{{invoice.visit.child.health_insurance_id}}</span>
+                                                    </div>
+                                                </div>
+                                                <div v-else>No tiene</div>
                                             </div>
                                         </div>
-                                        <div v-else>No tiene</div>
-                                    </div>
-                                    
-                                    
+                                       </div>
+                                       <div class="flex">
+                                            <div class="m-auto">
+                                                <img src="/Images/klc-logo.png" style="width:100%; max-width:250px;">
+                                            </div>
+                                       </div>
+                                   </div>
                                 </div>
                             </div>
+                            
 
                             <div class="py-6 align-middle pb-10 shadow-md rounded-md bg-white mt-3 inline-block min-w-full sm:px-6 lg:px-8">
                                 <div class="flex justify-end" v-if="invoice.payment_status == 'Pendiente'">
@@ -100,17 +106,17 @@
                                         </td>
                                         <td class="px-6 py-3 whitespace-nowrap">
                                             <div class="flex">
-                                                <span class="font-bold text-green-700 mt-1">RD{{total | currency }}</span> 
+                                                <span class="font-bold text-green-700 mt-1 ml-1">RD{{total | currency }}</span> 
                                                 <div v-if="!discountVisible && invoice.payment_status == 'Pendiente'" class="flex cursor-pointer ml-2" @click="modalDiscountVisible = true">
-                                                    <div class="flex items-center justify-center flex-shrink-0 h-8 w-8 rounded-xl bg-red-100 text-red-500">
+                                                    <div class="flex items-center justify-center flex-shrink-0 h-8 w-8 rounded-xl bg-red-orange-100 text-red-orange-400">
                                                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path></svg>                                    
                                                     </div>
-                                                    <div class="ml-2 mt-1">Aplicar descuento</div>
+                                                    <div class="ml-2 mt-1 text-red-orange-400">Aplicar descuento</div>
                                                 </div>
                                                 <div class="flex mt-1" v-if="discountVisible">
-                                                    <span class="text-yellow-600">- {{discount}}% descuento </span>
+                                                    <span class="text-red-orange-600">- {{discount}}% descuento </span>
                                                     <button aria-label="remove discount"
-                                                        class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
+                                                        class="p-1 focus:outline-none focus:shadow-outline text-red-orange-500 hover:text-red-orange-600"
                                                         @click="removeDiscount">
                                                         <Trash2Icon size="1.2x"/>
                                                     </button>
@@ -138,6 +144,9 @@
                         v-model="discount"
                         class="w-full"
                 />
+                <jet-input-error v-if="!$v.discount.required && $v.discount.$error" :message="'Debes digitar un descuento'" class="mt-2" />
+                <jet-input-error v-if="!$v.discount.minValue && $v.discount.$error" :message="'El descuento no puede ser menor a 1'" class="mt-2" />
+                <jet-input-error v-if="!$v.discount.maxValue && $v.discount.$error" :message="'El descuento no puede ser superior a 100'" class="mt-2" />       
             </template>
 
             <template #footer>
@@ -145,7 +154,7 @@
                     Cancelar
                 </jet-secondary-button>
 
-                <jet-button class="ml-2 text-white bg-green-500" @click.native="applyDicount" >
+                <jet-button class="ml-2 text-white bg-trendy-pink-500" @click.native="applyDicount" >
                     Aplicar
                 </jet-button>
             </template>
@@ -199,7 +208,7 @@
                     Cancelar
                 </jet-secondary-button>
 
-                <jet-button class="ml-2 text-white bg-green-500" @click.native="collectMoney" >
+                <jet-button class="ml-2 text-white bg-trendy-pink-500" @click.native="collectMoney" >
                     Cobrar
                 </jet-button>
             </template>
@@ -217,7 +226,7 @@ import JetLabel from '@/Jetstream/Label'
 import JetDialogModal from '@/Jetstream/DialogModal'
 import axios from 'axios'
 import {  Trash2Icon } from "vue-feather-icons";
-import { required, minLength,minValue } from 'vuelidate/lib/validators'
+import { required, minLength,minValue,maxValue } from 'vuelidate/lib/validators'
 import JetInputError from '@/Jetstream/InputError'
 import NProgress from 'nprogress'
 
@@ -251,6 +260,11 @@ export default {
                 required,
                 minLength: minLength(5),
             }
+       },
+       discount:{
+           minValue: minValue(1),
+           maxValue: maxValue(100),
+           required
        }
     },
     computed:{
@@ -277,16 +291,10 @@ export default {
                 payment_method: this.form.paymentMethod,
                 authorization: this.form.authorization
             }
-            NProgress.start()
-            await axios.post(`/invoices/pay/${this.invoice.id}`,data)
+
+            await this.$inertia.post(`/invoices/pay/${this.invoice.id}`,data)
             .then( data =>{
-                if(data.data.success == true)
-                {
-                    this.$inertia.visit('/invoices', { preserveScroll: true })
-                    window.open(`/invoices/${this.invoice.id}/print`,'_blank')
-                   
-                }
-                NProgress.done()
+               
             })
            
         },
@@ -296,6 +304,8 @@ export default {
             }, 0); 
         },
         applyDicount(){
+            this.$v.discount.$touch();
+            if(this.$v.discount.$error) return
             this.discountVisible = true
             this.modalDiscountVisible = false
         },

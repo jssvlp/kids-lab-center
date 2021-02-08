@@ -66,12 +66,12 @@
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
                                         <inertia-link :href="route('invoices.detail',invoice.id)"  v-if="invoice.payment_status != 'Pago'" aria-label="Edit user"
-                                                class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
+                                                class="p-1 focus:outline-none focus:shadow-outline text-trendy-pink-400 hover:text-trendy-pink-600"
                                                 preserve-scroll>
                                             <EditIcon size="1.2x"/>
                                         </inertia-link>
                                         <inertia-link v-else :href="route('invoices.detail',invoice.id)"  aria-label="Ver factura"
-                                                class="p-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
+                                                class="p-1 focus:outline-none focus:shadow-outline text-trendy-pink-400 hover:text-trendy-pink-600"
                                                 @click="invoiceDetail(invoice.id)"
                                                 preserve-scroll>
                                             <EyeIcon size="1.2x"/>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vaccine;
+use App\Models\Child;
+use App\Models\Invoice;
 use App\Models\Visit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -45,6 +47,7 @@ class VisitController extends Controller
         //Validate if the patient has any visit pending of be invoiced
         $visits = Visit::where('child_id','=',$request->child_id)->get();
         $visits = collect($visits);
+        $child = Child::find($request->child_id);
 
         if(count($visits) > 0)
         {
@@ -56,7 +59,7 @@ class VisitController extends Controller
         }
         
         $today = Carbon::now();
-        $created = Visit::create(['visit_date' => $today, 'child_id' => $request->child_id]);
+        $created = Visit::create(['visit_date' => $today, 'child_id' => $request->child_id,'child_age' => $child->age]);
 
         return redirect()->route('visits.newOrEdit',$created->id);
 
@@ -87,7 +90,7 @@ class VisitController extends Controller
         $visit =  new Visit();
         $title = 'Nueva visita';
 
-        if($id != null || $id != '_'){
+        if($id != null || $id == '_'){
             $visit = Visit::with(['vaccines','child','child.dadOrMom'])->find($id);
             $title = 'Editar visita';
         }
@@ -96,6 +99,11 @@ class VisitController extends Controller
             'visit' => $visit,
             'title' => $title
         ]);
+    }
+
+    public function getVisit(Visit $visit)
+    {
+        return response()->json(['success' => true, 'visit' => $visit]);
     }
 
     public function destroy($id)

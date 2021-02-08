@@ -6,7 +6,7 @@
                 <table>
                 <tr>
                     <td class="title">
-                    <img src="/Images/Logo.png" style="width:100%; max-width:300px;">
+                    <img src="/Images/klc-logo.png" style="width:100%; max-width:300px;">
                     </td>
                     <td>
                     Factura #: {{invoice.invoice_number}}<br>Visita: <span class="font-bold">{{invoice.visit.visit_date | formatShortDate}}</span> <br> Factura: <span class="font-bold">{{invoice.invoice_date | formatShortDate}}</span>
@@ -35,8 +35,8 @@
             </tr>
 
             <tr class="heading">
-            <td colspan="3">Método de pago</td>
-            <td><span v-if="invoice.payment_method == 'Tarjeta'">No. Autorización</span></td>
+            <td colspan="3" class="rounded-md rounded-r-none">Método de pago</td>
+            <td class="rounded-md rounded-l-none"><span v-if="invoice.payment_method == 'Tarjeta'">No. Autorización</span></td>
             </tr>
 
             <tr class="details">
@@ -45,10 +45,10 @@
             </tr>
 
             <tr class="heading">
-            <td>Vacuna</td>
+            <td class="rounded-md rounded-r-none">Vacuna</td>
             <td>Precio unitario</td>
             <td>Cantidad</td>
-            <td>Precio</td>
+            <td class="rounded-md rounded-l-none">Precio</td>
             </tr>
 
             <tr class="item" v-for="item in invoice.vaccines" :key="item.id">
@@ -75,7 +75,7 @@
                     <span>Descuento {{ parseFloat(invoice.discount) > 0 ? '-':''}}{{invoice.discount == ''  ? 0 : invoice.discount}}%</span>
                     <span>RD{{ discounted | currency}}</span>
                 </div>
-                <div class="flex justify-between  bg-gray-200 py-2 px-1">
+                <div class="flex justify-between  bg-trendy-pink-200 py-2 px-2 rounded-md">
                      <span class="font-bold">Total</span>
                     <span class="font-bold">RD{{totalWithDiscount |currency}}</span>
                 </div>
@@ -161,8 +161,8 @@ export default {
 }
 
 .invoice-box table tr.heading td {
-  background: #eee;
-  border-bottom: 1px solid #ddd;
+  background: #ded4df;
+  border-bottom: 1px solid #ded4df;
   font-weight: bold;
 }
 
@@ -188,7 +188,7 @@ export default {
 }
 
 .invoice-box table tr.total td:nth-child(2) {
-  border-top: 2px solid #eee;
+  border-top: 2px solid #ded4df;
   font-weight: bold;
 }
 
@@ -223,6 +223,17 @@ export default {
 
 .rtl table tr td:nth-child(2) {
   text-align: left;
+}
+
+
+/* top-left border-radius */
+.invoice-box tr:first-child th:first-child {
+  border-top-left-radius: 6px;
+}
+
+/* top-right border-radius */
+.heading tr:first-child th:last-child {
+  border-top-right-radius: 6px;
 }
 
 </style>">

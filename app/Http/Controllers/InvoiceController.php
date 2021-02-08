@@ -103,6 +103,6 @@ class InvoiceController extends Controller
             'authorization_number' => $request->authorization,
             'payment_status' => 'Pago'
         ]);
-        return response()->json(['success' => true, 'message' => 'Pago efectuado correctamente']);
+        return redirect()->route('invoices.detail',$invoice->id)->with(['toast' => ['message' => 'Factura Pagada correctamente','success' => true]]);
     }
 }

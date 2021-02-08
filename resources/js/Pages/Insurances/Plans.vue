@@ -29,14 +29,14 @@
                                     <form action="/users" method="POST" @submit.prevent="createPlan" class="flex flex-wrap -mx-2 mb-5">
                                         
                                         <div class="w-3/4">
-                                            <Input :value="form.name" v-model="form.name" id="name" class="w-full" :class="this.edit != '' ? 'border-yellow-200' : ''"/>    
+                                            <Input :value="form.name" v-model="form.name" id="name" class="w-full capitalize" :class="this.edit != '' ? 'border-yellow-200' : ''"/>    
                                             <div class="mt-2"> 
                                                 <span class="text-yellow-300" v-if="this.edit != ''">Editando</span> <span class="bg-red-600  text-white rounded cursor-pointer p-1" v-if="this.edit != ''" @click="cancelEdition">Cancelar</span> 
 
                                             </div>
                                         </div>
                                         <div class="w-1/4">
-                                            <button type="submit" :disabled="form.name.length < 1" class="ml-3 bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
+                                            <button type="submit" :disabled="form.name.length < 1" class="ml-3 bg-white text-gray-800 font-bold rounded border-b-2 border-trendy-pink-500 hover:border-trendy-pink-600 hover:bg-trendy-pink-400 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
                                             <span class="mr-2">{{ this.edit == '' ? 'Agregar' : 'Guardar' }}</span>
                                             </button>
                                         </div>

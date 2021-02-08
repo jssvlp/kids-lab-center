@@ -47,10 +47,10 @@ class ParentController extends Controller
         ]);
 
         DadOrMom::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'kinship' => $request->kinship
+            'name' => ucwords($request->name),
+            'phone' => ucwords($request->phone),
+            'address' => ucwords($request->address),
+            'kinship' => ucwords($request->kinship)
         ]);
 
         return redirect()->route('parents.index')->with(['toast' => ['message' => 'Padre creado correctamente','success' => true]]);
@@ -66,10 +66,10 @@ class ParentController extends Controller
         ]);
         
         $parent->update([
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'kinship' => $request->kinship
+            'name' => ucwords($request->name),
+            'phone' => ucwords($request->phone),
+            'address' => ucwords($request->address),
+            'kinship' => ucwords($request->kinship)
             ]
         );
         return redirect()->route('parents.index')->with(['toast' => ['message' => 'Padre actualizado correctamente','success' => true]]);
