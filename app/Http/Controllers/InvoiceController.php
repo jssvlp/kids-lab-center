@@ -86,6 +86,16 @@ class InvoiceController extends Controller
         return redirect()->route('invoices.detail',$invoice->id)->with(['toast' => ['message' => 'Factura creada correctamente','success' => true]]);
     }
 
+    public function update(Invoice $invoice, Request $request)
+    {
+        $invoice->update([
+            'invoice_number' => strtoupper($request->invoice_number),
+           
+            ]
+        );
+        return response()->json(['success' => true, 'message' => 'Número de factura modificado correctamente']);
+    }
+
 
     public function pay(Invoice $invoice, Request $request)
     {

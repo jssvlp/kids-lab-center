@@ -1,7 +1,7 @@
 <template>
     <jet-action-section>
         <template #title>
-            Delete Account
+            Borrar cuenta
         </template>
 
         <template #description>

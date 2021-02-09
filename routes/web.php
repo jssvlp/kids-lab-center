@@ -91,7 +91,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::post('/invoices/pay/{invoice}',[Controllers\InvoiceController::class,'pay'])->name('invoices.pay');
     Route::get('/invoices/{invoice}/print',[Controllers\InvoiceController::class,'print'])->name('invoices.print');
     Route::get('/invoices/all/paginated',[Controllers\InvoiceController::class,'all'])->name('invoices.paginated');
-
+    Route::patch('/invoices/{invoice}',[Controllers\InvoiceController::class,'update'])->name('invoices.update');
     //Reports
     Route::get('/reports',[Controllers\ReportController::class,'index'])->name('reports.index');
     Route::post('/reports/filter',[Controllers\ReportController::class,'filter'])->name('reports.filter');

@@ -40,11 +40,11 @@
                                             </div>
                                             <div></div>
                                         </div>
-                                        <div class="flex  justify-between">
-                                            <div class="">
+                                        <div class="flex  justify-between" >
+                                            <div class=""> 
                                             Padre: <span class="font-bold"> {{ child.dad_or_mom.name }}</span> 
                                             </div>
-                                            <div class="">
+                                            <div class="" v-if="child.plan">
                                             Plan: <span class="font-bold"> {{ child.plan.name }} de {{child.plan.insurance.name}}</span> 
                                             </div>
                                         </div>
