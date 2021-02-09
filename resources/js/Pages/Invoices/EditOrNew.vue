@@ -11,6 +11,17 @@
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="flex">
                                 <div class="py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
+                                    <div class="flex justify-end">
+                                        <div class="w-2/4">
+                                            <jet-label :value="'Editar numero de factura'" class="text-trendy-pink-400"></jet-label>
+                                            <jet-input type="text"  placeholder="precio"
+                                                        ref="name"
+                                                        class="uppercase w-full"
+                                                        v-model="invoice.invoice_number"
+                                                        @blur.native="editInvoiceNumber"
+                                                />
+                                        </div>
+                                    </div>
                                    <div class="flex justify-between">
                                        <div>
                                         <div class="mx-3 mt-3">
@@ -252,7 +263,8 @@ export default {
        form:{
             paymentMethod: 'Efectivo',
             authorization:'',
-       }
+       },
+       invoiceNumberOld: ''
     }),
     validations:{
        form:{
@@ -279,6 +291,19 @@ export default {
     methods:{
         openPayModal(){
              this.paymentModalVisible = true
+        },
+        editInvoiceNumber(){
+            if(this.invoice.invoice_number){
+                const data = {
+                    'invoice_number' : this.invoice.invoice_number
+                }
+
+                axios.patch(`/invoices/${this.invoice.id}`, data)
+                .then(data => {
+                    console.log(data.data);
+                })
+            }
+            
         },
         async collectMoney(){
             if(this.form.paymentMethod == 'Tarjeta'){
@@ -317,7 +342,7 @@ export default {
        
     },
     mounted(){
-       
+       this.invoiceNumberOld = this.invoice.invoice_number;
     }
 }
 </script>
