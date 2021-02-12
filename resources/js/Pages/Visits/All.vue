@@ -86,7 +86,7 @@
                                                 @click="planBeingDeleted = true, toDelete= visit">
                                             <Trash2Icon size="1.2x"/>
                                         </button>
-                                        <button v-if="visit.vaccines.length > 0" aria-label="Facturar"
+                                        <button v-if="visit.vaccines.length > 0 && !visit.invoiced" aria-label="Facturar"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-green-500 hover:text-green-600"
                                                 @click="facturar(visit)">
                                             <DollarSignIcon size="1.2x"/>
