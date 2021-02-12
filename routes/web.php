@@ -77,17 +77,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::get('/visits/{id}',[Controllers\VisitController::class,'show'])->name('visits.show');
     Route::get('/visits/all/paginated',[Controllers\VisitController::class,'all'])->name('visits.paginate');
     Route::post('/visits',[Controllers\VisitController::class, 'store'])->name('visits.store');
-    Route::patch('/visits/{id}',[Controllers\VisitController::class, 'update'])->name('visits.update');
+    Route::patch('/visits/{visit}',[Controllers\VisitController::class, 'update'])->name('visits.update');
     Route::delete('/visits/{id}', [Controllers\VisitController::class, 'destroy'])->name('visits.destroy');
     Route::get('/visits/newOrEdit/{id?}',[Controllers\VisitController::class, 'newOrEdit'])->name('visits.newOrEdit');
     Route::post('/visits/{visit}/vaccine/{vaccine}',[Controllers\VisitController::class, 'addVaccine'])->name('visits.add.vaccine');
     Route::delete('/visits/{visit}/vaccine/{vaccine}',[Controllers\VisitController::class, 'removeVaccine'])->name('visits.remove.vaccine');
     Route::get('/visits/{visit}/vaccines',[Controllers\VisitController::class,'vaccines']);
     Route::get('/visits/{visit}/get',[Controllers\VisitController::class, 'getVisit'])->name('visit.get');
+    Route::get('/visits/{visit}/edit',[Controllers\VisitController::class, 'edit'])->name('visits.edit');
     //Invoices
     Route::post('/invoices',[Controllers\InvoiceController::class,'store'])->name('invoices.store');
     Route::get('/invoices',[Controllers\InvoiceController::class,'index'])->name('invoices.index');
     Route::get('/invoices/{invoice}',[Controllers\InvoiceController::class,'detail'])->name('invoices.detail');
+    Route::get('/invoices/{invoice}/edit',[Controllers\InvoiceController::class,'edit'])->name('invoices.edit');
     Route::post('/invoices/pay/{invoice}',[Controllers\InvoiceController::class,'pay'])->name('invoices.pay');
     Route::get('/invoices/{invoice}/print',[Controllers\InvoiceController::class,'print'])->name('invoices.print');
     Route::get('/invoices/all/paginated',[Controllers\InvoiceController::class,'all'])->name('invoices.paginated');

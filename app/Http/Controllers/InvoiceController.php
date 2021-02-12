@@ -14,7 +14,7 @@ class InvoiceController extends Controller
     public function index()
     {
         return Inertia::render('Invoices/All',[
-            'invoices' => Invoice::with(['visit','visit.child','visit.vaccines'])->get()->toArray()
+            'invoices' => Invoice::with(['visit','visit.child','vaccines'])->get()->toArray()
         ]);
     }
 
@@ -23,14 +23,14 @@ class InvoiceController extends Controller
         $name = request('name');
         if($name)
         {
-            return Invoice::with(['visit','visit.child','visit.vaccines'])->whereHas('visit',function($query) use ($name){
+            return Invoice::with(['visit','visit.child','vaccines'])->whereHas('visit',function($query) use ($name){
                 return $query->whereHas('child', function($query) use ($name){
                      return $query->where('name', 'like', '%'.$name.'%');
                  });
                  
              })->orderBy('updated_at','desc')->paginate(8);
         }
-        return Invoice::with(['visit','visit.child','visit.vaccines'])->orderBy('updated_at','desc')->paginate(8);
+        return Invoice::with(['visit','visit.child','vaccines'])->orderBy('updated_at','desc')->paginate(8);
     }
 
     public function print($invoice)
@@ -52,6 +52,15 @@ class InvoiceController extends Controller
                 'invoice' => $_invoice
             ]);
         }
+        return Inertia::render('Invoices/EditOrNew',[
+            'invoice' => $_invoice
+        ]);
+    }
+
+    public function edit($invoice)
+    {
+        $_invoice = Invoice::with(['visit','visit.child','visit.child.dadOrMom','visit.child.plan.insurance','vaccines'])->whereId($invoice)->first();
+        
         return Inertia::render('Invoices/EditOrNew',[
             'invoice' => $_invoice
         ]);
@@ -88,26 +97,28 @@ class InvoiceController extends Controller
 
     public function update(Invoice $invoice, Request $request)
     {
+        $date = Carbon::parse($request->invoice_date)->format('Y-m-d');
         $invoice->update([
             'invoice_number' => strtoupper($request->invoice_number),
-           
+            'invoice_date' => $date  
             ]
         );
-        return response()->json(['success' => true, 'message' => 'Número de factura modificado correctamente']);
+        return response()->json(['success' => true, 'message' => 'Factura actualizada correctamente']);
     }
 
 
     public function pay(Invoice $invoice, Request $request)
     {
-        //1. Update all the vaccines prices
-        $_vaccines = $request->vaccines;
-
-        foreach ($_vaccines as $key => $vaccine) {
-            $invoice->vaccines()->updateExistingPivot($_vaccines[$key]['id'],['price' =>$_vaccines[$key]['price']],true);
+        $vaccines =[];
+        foreach ($request->vaccines as $vaccine) 
+        {
+            $vaccines[$vaccine['id']] = ['price' => $vaccine['pivot']['price']];  
         }
-
+        
+        $invoice->vaccines()->sync($vaccines, false);
+   
         //2. Set discount, payment method, authorizacion number and payment_status ('Pago')
-        $updated = $invoice->update([
+        $invoice->update([
             'discount' => $request->discount,
             'payment_method' => $request->payment_method,
             'authorization_number' => $request->authorization,

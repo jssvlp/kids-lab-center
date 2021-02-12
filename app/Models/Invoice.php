@@ -33,9 +33,10 @@ class Invoice extends Model
 
     public function vaccines()
     {
-        return $this->belongsToMany(Vaccine::class,'invoice_details',
-                    'invoice_id','vaccine_id')
-                    ->withPivot('price')
+        return $this->belongsToMany(Vaccine::class,'invoice_details','invoice_id','vaccine_id')
+                    ->withPivot(['price'])
                     ->withTimestamps();
     }
+
+
 }

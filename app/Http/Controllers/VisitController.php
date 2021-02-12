@@ -6,6 +6,7 @@ use App\Models\Vaccine;
 use App\Models\Child;
 use App\Models\Invoice;
 use App\Models\Visit;
+use App\Models\InvoiceDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -37,6 +38,7 @@ class VisitController extends Controller
             'visit' => Visit::with(['vaccines','child','child.dadOrMom'])->find($id)
         ]);
     }
+
     public function vaccines(Visit $visit)
     {
         return $visit->vaccines;
@@ -65,11 +67,31 @@ class VisitController extends Controller
 
     }
 
+    public function update(Visit $visit, Request $request)
+    {   
+        $date = Carbon::parse($request->visit_date)->format('Y-m-d');
+        $visit->update([
+            'visit_date' =>$date
+        ]);
+
+        return redirect()->route('invoices.edit',$visit->invoice->id)->with(['toast' => ['message' => 'Visita actualizada correctamente','success' => true]]);
+    }
+
     public function addVaccine(Visit $visit, Vaccine $vaccine)
     {
         
         try {
-            $visit->vaccines()->attach($vaccine);  
+            $visit->vaccines()->attach($vaccine);
+            if($visit->invoiced) 
+            {
+                $invoice = $visit->invoice;
+
+                InvoiceDetail::create([
+                        'invoice_id' => $invoice->id, 
+                        'vaccine_id' => $vaccine->id,
+                        'price' => $vaccine->price
+                ]);
+            }  
         } catch(\Illuminate\Database\QueryException $e){
             $errorCode = $e->errorInfo[1];
             if($errorCode == '1062'){
@@ -82,6 +104,11 @@ class VisitController extends Controller
     public function removeVaccine(Visit $visit, $vaccine)
     {
         $visit->vaccines()->wherePivot('vaccine_id', '=', $vaccine)->detach();
+        if($visit->invoiced)
+        {
+            $invoice = $visit->invoice;
+            $invoice->vaccines()->wherePivot('vaccine_id', '=', $vaccine)->detach();
+        }
         return response()->json(['status' => 'success']);
     }
 

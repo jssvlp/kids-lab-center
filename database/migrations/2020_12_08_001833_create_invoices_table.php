@@ -23,7 +23,7 @@ class CreateInvoicesTable extends Migration
             $table->string('authorization_number')->nullable();
             $table->enum('payment_status',['Pendiente','Pago'])->default('Pendiente');
 
-            $table->foreign('visit_id')->references('id')->on('visits');
+            $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ class CreateInvoiceDetailsTable extends Migration
             $table->unsignedBigInteger('vaccine_id');
             $table->double('price');
 
-            $table->foreign('invoice_id')->references('id')->on('invoices');
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
             $table->foreign('vaccine_id')->references('id')->on('vaccines');
             $table->timestamps();
         });

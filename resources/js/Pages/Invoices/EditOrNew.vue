@@ -11,34 +11,56 @@
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="flex">
                                 <div class="py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
-                                    <div class="flex justify-end">
-                                        <div class="w-2/4">
-                                            <jet-label :value="'Editar numero de factura'" class="text-trendy-pink-400"></jet-label>
+                                    <div class="flex justify-start">
+                                        <div class="ml-3">
+                                            <jet-label :value="'Editar número de factura'" class="text-trendy-pink-400"></jet-label>
                                             <jet-input type="text"  placeholder="precio"
                                                         ref="name"
                                                         class="uppercase w-full"
                                                         v-model="invoice.invoice_number"
-                                                        @blur.native="editInvoiceNumber"
+                                                        @blur.native="updateInvoice"
                                                 />
                                         </div>
+                                        <div class="ml-2">
+                                                    <jet-label :value="'Editar fecha factura:'" class="text-trendy-pink-400"></jet-label> 
+                                                    <datetime
+                                                        type="date"
+                                                        v-model="invoice.invoice_date"
+                                                        zone="America/Santo_Domingo"
+                                                        value-zone="America/Santo_Domingo"
+                                                        input-class="border w-full bg-white rounded  py-2 px-2 outline-none"
+                                                        @close="updateInvoice"
+                                                        :min-datetime="maxDatetime"
+                                                        
+                                                    ></datetime> 
+                                        </div>
+                                        <div class="flex">
+                                            <div class="m-auto">
+                                                <inertia-link :href="route('visits.newOrEdit',this.invoice.visit.id)">
+                                                    <jet-button  class="text-white bg-red-orange-400 hover:bg-red-orange-400 mt-5 ml-3" @click.native="applyDicount" >
+                                                        Editar visita
+                                                    </jet-button>
+                                                </inertia-link>
+                                            </div>
+                                        </div>  
                                     </div>
                                    <div class="flex justify-between">
                                        <div>
+                                            <div class="">
+                                                
+                                            </div>
                                         <div class="mx-3 mt-3">
                                             <jet-label :value="'Padre/Madre'" class="text-trendy-pink-400"></jet-label>
                                             <span class="font-bold"> {{invoice.visit.child.dad_or_mom.name}}</span> 
                                         </div>
-                                        <div class="flex justify-between">
-                                            <div class="mx-3 mt-3">
-                                            <jet-label :value="'Fecha visita'" class="text-trendy-pink-400"></jet-label>
-                                                <span class="font-bold"> {{invoice.visit.visit_date | formatLargeDate}}</span> 
-                                            </div>
-                                            
-                                            <div></div>
+                                        <div class="mx-3 mt-3">
+                                            <jet-label :value="'Paciente'" class="text-trendy-pink-400"></jet-label>
+                                            <span class="font-bold"> {{invoice.visit.child.name}}</span> 
                                         </div>
+                                        
                                         <div class="mx-4 mt-3">
-                                            <jet-label :value="'Fecha factura'" class="text-trendy-pink-400"></jet-label>
-                                             <span class="font-bold">{{invoice.invoice_date | formatLargeDate}}</span>
+                                            <jet-label :value="'Fecha visita'" class="text-trendy-pink-400"></jet-label>
+                                             <span class="font-bold">{{invoice.visit.visit_date | formatLargeDate}}</span>
                                         </div>
                                         <div class="flex mt-3 mx-3">
                                             <div>
@@ -65,7 +87,7 @@
                             
 
                             <div class="py-6 align-middle pb-10 shadow-md rounded-md bg-white mt-3 inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="flex justify-end" v-if="invoice.payment_status == 'Pendiente'">
+                                <div class="flex justify-end" >
                                     <div class="flex cursor-pointer hover:-translate-y-1 hover:scale-110" @click="openPayModal">
                                         <div class="flex items-center justify-center flex-shrink-0 h-8 w-8 rounded-xl bg-green-100 text-green-500">
                                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>                                    
@@ -73,7 +95,7 @@
                                     <div class="ml-2 mt-1">Cobrar</div>
                                     </div>
                                 </div>
-                                <div class="flex justify-center" v-else>
+                                <div class="flex justify-center" v-if="invoice.payment_status == 'Pago'">
                                     <span class="font-extrabold text-red-600">FACTURA PAGADA</span>
                                 </div>
                                 Vacunas facturadas:
@@ -104,8 +126,7 @@
                                         <div class="text-sm text-gray-900">
                                             <jet-input type="text"  placeholder="precio"
                                                     ref="name"
-                                                    v-model="vaccine.price"
-                                                    :disabled="invoice.payment_status == 'Pago'"
+                                                    v-model="vaccine.pivot.price"
                                             />
                                         </div>
                                     </td>
@@ -240,6 +261,7 @@ import {  Trash2Icon } from "vue-feather-icons";
 import { required, minLength,minValue,maxValue } from 'vuelidate/lib/validators'
 import JetInputError from '@/Jetstream/InputError'
 import NProgress from 'nprogress'
+import { Datetime } from 'vue-datetime'
 
 export default {
     props: ['invoice'],
@@ -252,7 +274,8 @@ export default {
         JetDialogModal,
         JetSecondaryButton,
         Trash2Icon,
-        JetInputError
+        JetInputError,
+        Datetime
     },
     data:() =>({
        parent: {},
@@ -264,7 +287,8 @@ export default {
             paymentMethod: 'Efectivo',
             authorization:'',
        },
-       invoiceNumberOld: ''
+       invoiceNumberOld: '',
+       maxDatetime: ''
     }),
     validations:{
        form:{
@@ -292,10 +316,11 @@ export default {
         openPayModal(){
              this.paymentModalVisible = true
         },
-        editInvoiceNumber(){
-            if(this.invoice.invoice_number){
+        updateInvoice(){
+            if(this.invoice.invoice_number && this.invoice.invoice_date){
                 const data = {
-                    'invoice_number' : this.invoice.invoice_number
+                    'invoice_number' : this.invoice.invoice_number,
+                    'invoice_date' : this.invoice.invoice_date
                 }
 
                 axios.patch(`/invoices/${this.invoice.id}`, data)
@@ -325,7 +350,7 @@ export default {
         },
         calculateTotal(){
             return this.invoice.vaccines.reduce(function(a, b){
-               return (parseInt(a) + parseInt(b.price)) /1;
+               return (parseInt(a) + parseInt(b.pivot.price)) /1;
             }, 0); 
         },
         applyDicount(){
@@ -343,6 +368,7 @@ export default {
     },
     mounted(){
        this.invoiceNumberOld = this.invoice.invoice_number;
+       this.maxDatetime = this.invoice.visit.visit_date;
     }
 }
 </script>

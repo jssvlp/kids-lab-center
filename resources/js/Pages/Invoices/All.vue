@@ -57,7 +57,7 @@
                                 </td>
                                 <td class="px-6  whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    {{invoice.visit.vaccines.length}}
+                                    {{invoice.vaccines.length}}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -65,14 +65,13 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
-                                        <inertia-link :href="route('invoices.detail',invoice.id)"  v-if="invoice.payment_status != 'Pago'" aria-label="Edit user"
+                                        <inertia-link :href="route('invoices.edit',invoice.id)"  aria-label="Edit user"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-trendy-pink-400 hover:text-trendy-pink-600"
                                                 preserve-scroll>
                                             <EditIcon size="1.2x"/>
                                         </inertia-link>
-                                        <inertia-link v-else :href="route('invoices.detail',invoice.id)"  aria-label="Ver factura"
+                                        <inertia-link :href="route('invoices.detail',invoice.id)"  aria-label="Ver factura"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-trendy-pink-400 hover:text-trendy-pink-600"
-                                                @click="invoiceDetail(invoice.id)"
                                                 preserve-scroll>
                                             <EyeIcon size="1.2x"/>
                                         </inertia-link>
@@ -147,13 +146,10 @@ export default {
         })
     },
     methods:{
-        invoiceDetail(id){
-            console.log('abriendo detail')
-        },
         total(invoice){
             const discount = invoice.discount /100;
-            let subTotal =  invoice.visit.vaccines.reduce(function(a, b){
-                return a + b.price;
+            let subTotal =  invoice.vaccines.reduce(function(a, b){
+                return a + b.pivot.price;
             }, 0);
 
             const total = subTotal - (subTotal * discount)

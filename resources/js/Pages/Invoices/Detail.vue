@@ -53,9 +53,9 @@
 
             <tr class="item" v-for="item in invoice.vaccines" :key="item.id">
             <td><input v-model="item.name" /></td>
-            <td>RD{{ item.price | currency}}</td>
+            <td>RD{{ item.pivot.price | currency}}</td>
             <td>1</td>
-            <td>RD{{ item.price | currency}}</td>
+            <td>RD{{ item.pivot.price | currency}}</td>
             </tr>
             <tr>
                 <td colspan="6">
@@ -108,7 +108,7 @@ export default {
     methods:{
         calculateTotal(){
              return this.invoice.vaccines.reduce(function(a, b){
-               return (parseInt(a) + parseInt(b.price)) /1;
+               return (parseInt(a) + parseInt(b.pivot.price)) /1;
             }, 0); 
         },
         

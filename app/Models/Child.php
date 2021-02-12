@@ -55,20 +55,9 @@ class Child extends Model
             }
            
             $index = count($visits) - 2;
-            return $visits[$index];
-            
-            /* if($invoice != null && $visit->visit_date != $today)
-            {
-                return $visit->visit_date;
-            } */
-            
-            /* $visit = Visit::where('visit_date','<=',$today)
-                        ->orderBy('visit_date','desc')->first();
-            return $visit->visit_date; */
-            
+            return $visits[$index];            
         }
-        return '';
-        
+        return ''; 
     }
 
 }
