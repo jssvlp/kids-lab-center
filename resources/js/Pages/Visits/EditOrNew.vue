@@ -7,9 +7,13 @@
         </template>
         <div class="py-2" v-if="visit !=null"> 
             <div class="flex justify-end mr-15 mt-4" >
-                <jet-button @click.native="facturar" class="bg-red-orange-400 hover:bg-red-orange-400 " :class="{'invisible' : !visit.invoiced && visit.vaccines.length == 0}"> 
+                <jet-button @click.native="facturar" v-if="!editing" class="bg-red-orange-400 hover:bg-red-orange-400 " :class="{'invisible' : !visit.invoiced && visit.vaccines.length == 0}"> 
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path></svg>
                     Finalizar y Facturar
+                </jet-button>
+                <jet-button @click.native="updateVisit" v-else class="bg-red-orange-400 hover:bg-red-orange-400 " :class="{'invisible' :  visit.vaccines.length == 0}"> 
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path></svg>
+                    Guardar y continuar
                 </jet-button>
             </div>
             <div class="flex mt-8 mx-5 justify-center">
@@ -37,20 +41,27 @@
                     </div>
                 </div>
                 <div class="bg-white shadow-lg rounded-md mx-10 px-6 py-6 mt-6"> 
-                        <div>
-                            Facturado: <span class="font-bold" :class="visit.invoiced ? 'text-green-600' : 'text-red-600'"> {{visit.invoiced == true ? "Si" : "No"}}</span> 
+                        <div class="w-2/4">
+                            <jet-label :value="'Fecha visita actual:'"></jet-label> 
+                            <datetime
+                                type="date"
+                                v-model="visit.visit_date"
+                                zone="America/Santo_Domingo"
+                                value-zone="America/Santo_Domingo"
+                                input-class="border w-full bg-white rounded  py-2 px-2 outline-none"
+                            ></datetime> 
+                        </div>
+                        <div class="mt-2">
+                            Facturado: <span class="font-bold" :class="visit.invoiced ? 'text-green-600' : 'text-red-600'"> {{visit.invoiced == true ? "Sí (en edición)" : "No" }}</span> 
                         </div>
                         <div>
-                            Fecha visita actual: <span class="font-bold"> {{visit.visit_date | formatShortDate}}</span> 
-                        </div>
-                        <div>
-                            Vacunas: <span class="font-bold"> {{visit.vaccines.length}}</span> 
+                            Cantidad de vacunas: <span class="font-bold"> {{visit.vaccines.length}}</span> 
                         </div>
                 </div>
                 </div>
                 
                 <div id="vaccines" class="w-3/5 bg-white shadow-lg rounded-md px-6 py-6 mr-10">
-                    <SelectVaccine v-if="!visit.invoiced" :added="vaccinesPushed" class="mb-4" @pushed="addVaccine" @showOptions="showOptions" :showVaccinesList="showVaccinesList"  v-click-outside="closeVaccinesSelect"/>
+                    <SelectVaccine v-if="allowEditing" :added="vaccinesPushed" class="mb-4" @pushed="addVaccine" @showOptions="showOptions" :showVaccinesList="showVaccinesList"  v-click-outside="closeVaccinesSelect"/>
                     <span class="font-bold mt-10">Colocadas:</span>
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -79,10 +90,10 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
-                                        RD{{vaccine.price |currency }}
+                                        RD{{ vaccine.price | currency }}
                                     </div>
                                 </td>
-                                <td v-if="!visit.invoiced" class="px-6 whitespace-nowrap text-right text-sm font-medium">
+                                <td v-if="allowEditing" class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex" >
                                         <button aria-label="Quitar vacuna"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
@@ -133,7 +144,27 @@
                             Confirmar
                         </jet-button>
                     </template>
-                </jet-dialog-modal>
+        </jet-dialog-modal>
+        <jet-dialog-modal :show="showEditConfirmation" >
+                    <template #title>
+                        Confirmar edición de visita
+                    </template>
+
+                    <template #content>
+                       <span>Esta visita ya ha sido facturada. Favor confirmar si deseas editar la visita. Si agregas o remueves vacunas también se modificará la factura.</span>
+                    </template>
+
+                    <template #footer>
+                        <inertia-link :href="route('visits.index')" >
+                            <jet-secondary-button @click.native="confirmEdit(false)">
+                                Cancelar
+                            </jet-secondary-button>
+                        </inertia-link>
+                        <jet-button class="ml-2 bg-red-orange-400 hover:bg-red-orange-400" @click.native="confirmEdit(true)" >
+                            Confirmar
+                        </jet-button>
+                    </template>
+        </jet-dialog-modal>
     </app-layout>
 </template>
 
@@ -153,6 +184,8 @@ import JetButton from '@/Jetstream/Button'
 import SelectVaccine from '../Vaccines/SelectVaccine'
 import { Trash2Icon } from "vue-feather-icons";
 import NProgress from 'nprogress'
+import { Datetime } from 'vue-datetime'
+import JetLabel from '@/Jetstream/Label'
 
 export default {
     props: ['visit','title'],
@@ -167,12 +200,16 @@ export default {
         JetDialogModal,
         JetButton,
         SelectVaccine,
-        Trash2Icon
+        Trash2Icon,
+        Datetime,
+        JetLabel
     },
     data:() =>({
        parent: {},
        vaccinesPushed: [],
-       showVaccinesList: false
+       showVaccinesList: false,
+       showEditConfirmation: false,
+       editing: false
     }),
     computed:{
         ...mapState(['childForNewVisit','titleForVisit']),
@@ -180,6 +217,18 @@ export default {
             return this.visit.vaccines.reduce(function(a, b){
                return a + b.price;
             }, 0);
+        },
+        allowEditing(){
+            if(this.visit.invoiced && this.editing){
+                return true;
+            }
+            else if(!this.visit.invoiced && !this.editing){
+                return true;
+            }
+            else if(this.visit.invoiced && this.editing){
+                return true;
+            }
+            return false;
         }
     },
     updated() {
@@ -227,25 +276,45 @@ export default {
                     NProgress.done();
                 })
         },
+        confirmEdit(edit){
+            if(edit){
+                this.showEditConfirmation = false
+                this.editing = true
+            }
+            else{
+                 this.$inertia.get('/visits')
+            }
+        },
         saveVisit(){
             NProgress.start()
             this.$inertia.post('/visits',{'child_id' : this.childForNewVisit.id})
-                .then(data => {
-                    this.setTitleForVisit('Nueva visita')
-                    NProgress.done()
+            .then(data => {
+                this.setTitleForVisit('Nueva visita')
+                NProgress.done()
             })
+            
         },
-         scrollToEnd: function () {
+        scrollToEnd: function () {
             // scroll to the start of the last message
             this.$el.scrollTop = this.$el.lastElementChild.offsetTop;
+        },
+        updateVisit(){
+            NProgress.start()
+            const data = {
+                visit_date: this.visit.visit_date
+            }
+            this.$inertia.patch(`/visits/${this.visit.id}`, data)
+            .then(data => {
+                NProgress.done();
+            })
         },
         checkInvoiced(){
             if(this.visit){
                 axios.get(`/visits/${this.visit.id}/get`)
                 .then(data => {
                     if(data.data.visit.invoiced){
-                    console.log('go to visits')
-                    this.$inertia.get('/visits')
+                        this.showEditConfirmation = true
+                   
                     }
                 })
             }

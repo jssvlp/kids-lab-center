@@ -73,7 +73,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
-                                    <div class="flex" v-if="!visit.invoiced">
+                                    <div class="flex" >
                                         <inertia-link :href="route('visits.newOrEdit',visit.id)">
                                             <button aria-label="Edit user"
                                                     class="p-1 focus:outline-none focus:shadow-outline text-yellow-500 hover:text-yellow-600"
@@ -111,6 +111,9 @@
 
             <template #content>
                 ¿Estás seguro que deseas borrar la visita de  <span class="font-bold"> {{toDelete.child.name}}</span>?
+                <br>
+                <p class="mt-2">Si borras este registro se borrá la factura relacionada a la visita.</p>
+                
             </template>
 
             <template #footer>

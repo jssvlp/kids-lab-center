@@ -101,7 +101,8 @@
             </template>
 
             <template #content>
-                ¿Estás seguro que deseas borrar a <span class="font-bold">{{toDelete.name}}</span>?
+                ¿Estás seguro que deseas borrar a <span class="font-bold">{{toDelete.name}}</span>?  
+                Si borras este padre se borrán los pacientes y demás datos relacionados al registro.
             </template>
 
             <template #footer>

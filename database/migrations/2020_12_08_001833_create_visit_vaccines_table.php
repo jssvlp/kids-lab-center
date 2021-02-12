@@ -17,7 +17,7 @@ class CreateVisitVaccinesTable extends Migration
             $table->primary(['visit_id','vaccine_id']);
             $table->unsignedBigInteger('visit_id');
             $table->unsignedBigInteger('vaccine_id');
-            $table->foreign('visit_id')->references('id')->on('visits');
+            $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
             $table->foreign('vaccine_id')->references('id')->on('vaccines');
             $table->timestamps();
         });

@@ -97,7 +97,7 @@ import { Datetime } from 'vue-datetime'
 import PlanSelect from '../Insurances/PlanSelect'
 import { required, minLength, between } from 'vuelidate/lib/validators'
 import NProgress from 'nprogress'
-import Datepicker from 'vuejs-datepicker';
+
 import moment from 'moment'
 export default {
     props: {
@@ -118,7 +118,6 @@ export default {
         VueTailwindPicker,
         Datetime,
         PlanSelect,
-        Datepicker
     },
     data: ()=>({
         form: {

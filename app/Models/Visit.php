@@ -9,15 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Visit extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = ['visit_date','child_id','child_age'];
     protected $appends = ['invoiced'];
     
+    
     public function vaccines()
     {
         return $this->belongsToMany(Vaccine::class,'visit_vaccines',
-                    'visit_id','vaccine_id')->withTimestamps();
+                    'visit_id','vaccine_id')
+                    ->withTimestamps();
     }
 
     public function child()
@@ -34,5 +35,5 @@ class Visit extends Model
     {
         return $this->invoice != null;
     }
-    
+
 }

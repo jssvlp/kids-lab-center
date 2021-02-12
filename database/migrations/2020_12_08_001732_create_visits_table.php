@@ -19,7 +19,7 @@ class CreateVisitsTable extends Migration
             $table->unsignedBigInteger('child_id');
             $table->string('child_age')->nullable();
             $table->softDeletes();
-            $table->foreign('child_id')->references('id')->on('children');
+            $table->foreign('child_id')->references('id')->on('children')->onDelete('cascade');
             $table->timestamps();
         });
     }
