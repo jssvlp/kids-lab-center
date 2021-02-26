@@ -15,7 +15,7 @@ class InsuranceAndPlansSeed extends Seeder
      */
     public function run()
     {
-        $insurance = Insurance::create(['name' => 'Ars Metasalud','phone' =>'(809) 688-2020']);
+        $insurance = Insurance::create(['name' => 'BMI ARS','phone' =>'(809) 540-7270']);
         $insurance = Insurance::create(['name' => 'Ars Renacer','phone' =>'(809) 688-2020' ]);
         $insurance = Insurance::create(['name' => 'Mapfre Salud','phone' =>'(809) 688-2020']);
 
