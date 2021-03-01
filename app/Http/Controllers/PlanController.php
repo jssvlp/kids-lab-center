@@ -20,15 +20,19 @@ class PlanController extends Controller
 
     public function list()
     {
-        return DB::table('plans')
+        $plans = DB::table('plans')
                 ->join('insurances','insurances.id','plans.insurance_id')
                 ->select(['plans.id','plans.name','insurances.name as ars'])
-                ->get();
+                ->get()->toArray();
+        $noOne = ['id' => 0, 'name' => 'Sin seguro', 'ars' => 'Ninguna'];
+        array_unshift($plans,$noOne);
+
+        return $plans;
     }
 
     public function store(Request $request)
     {
-        Plan::create(['name' => ucwords($request->name), 'insurance_id' => $request->insurance_id]);
+        Plan::create(['name' => ucwords(strtolower($request->name)), 'insurance_id' => $request->insurance_id]);
 
         return redirect()->route('plans',$request->insurance_id)->with(['toast' => ['message' => 'Plan creado correctamente','success' => true]]);
         //return response()->json(['status' => 'success', 'message' => 'Plan agregado correctamente']);

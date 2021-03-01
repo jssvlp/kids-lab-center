@@ -72,7 +72,7 @@
                                                         <span class="font-bold">{{invoice.visit.child.health_insurance_id}}</span>
                                                     </div>
                                                 </div>
-                                                <div v-else>No tiene</div>
+                                                <div v-else>Sin seguro</div>
                                             </div>
                                         </div>
                                        </div>
@@ -145,8 +145,13 @@
                                                     </div>
                                                     <div class="ml-2 mt-1 text-red-orange-400">Aplicar descuento</div>
                                                 </div>
-                                                <div class="flex mt-1" v-if="discountVisible">
+                                                <div class="flex mt-1 ml-1" v-if="discountVisible">
                                                     <span class="text-red-orange-600">- {{discount}}% descuento </span>
+                                                    <button aria-label="Edit user"
+                                                        class="p-1 ml-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
+                                                        @click="modalDiscountVisible = true">
+                                                        <EditIcon size="1.2x"/>
+                                                    </button>
                                                     <button aria-label="remove discount"
                                                         class="p-1 focus:outline-none focus:shadow-outline text-red-orange-500 hover:text-red-orange-600"
                                                         @click="removeDiscount">
@@ -257,7 +262,7 @@ import JetButton from '@/Jetstream/Button'
 import JetLabel from '@/Jetstream/Label'
 import JetDialogModal from '@/Jetstream/DialogModal'
 import axios from 'axios'
-import {  Trash2Icon } from "vue-feather-icons";
+import {  Trash2Icon,EditIcon } from "vue-feather-icons";
 import { required, minLength,minValue,maxValue } from 'vuelidate/lib/validators'
 import JetInputError from '@/Jetstream/InputError'
 import NProgress from 'nprogress'
@@ -274,6 +279,7 @@ export default {
         JetDialogModal,
         JetSecondaryButton,
         Trash2Icon,
+        EditIcon,
         JetInputError,
         Datetime
     },

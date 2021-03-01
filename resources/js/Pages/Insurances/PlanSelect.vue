@@ -17,8 +17,8 @@
             </button>
     
             <div class="absolute mt-1 w-full rounded-md bg-white shadow-lg">
-            <ul v-show="selected == null && showList == true" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3" class="overflow-visible max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5  focus:outline-none sm:text-sm">
-                <li v-for="plan in filtered" v-on:click="select(plan)" :key="plan.id" id="listbox-item-0" role="option" class="text-gray-900 hover:bg-blue-200 cursor-pointer select-none relative py-2 pl-3 pr-9">
+            <ul v-show="showList == true || search == ''" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3" class="overflow-visible  rounded-md py-1 text-base ring-1 ring-black ring-opacity-5  focus:outline-none sm:text-sm">
+                <li v-for="plan in filtered" v-on:click="select(plan)" :key="plan.id" id="listbox-item-0" role="option" class="text-gray-900 hover:bg-trendy-pink-200 cursor-pointer select-none relative py-2 pl-3 pr-9" :class="{'text-red-orange-400': plan.id == 0}">
                 <div  class="flex items-center" >
                     <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                     <span class="ml-3 block  truncate font-bold">
@@ -67,10 +67,21 @@ export default {
         if(this.planForEditOrNewChild != null){
             this.selected = this.planForEditOrNewChild.id
             this.search = this.planForEditOrNewChild.name
+
+            this.selectCached = this.planForEditOrNewChild
+            
         } 
     },
     computed:{
         ...mapState(['planForEditOrNewChild'])
+    },
+    watch:{
+        showList: function(val){
+            if(this.search == '' && !val ){
+                console.log('cached:',this.selectCached)
+                this.select(this.selectCached)
+            }
+        }
     },
     methods:{
         ...mapActions([
@@ -93,7 +104,9 @@ export default {
             this.search = plan.name
             this.listVisible = false
             this.setPlanForEditOrNewChild(plan);
+            this.selectCached = plan
             this.$emit('selected');
+        
         },
         hideList(){
             if(this.search == '' && !this.selected){
@@ -102,10 +115,9 @@ export default {
             }
         },
         onFocus(){
-            this.search = ''
             this.listVisible = true
-            this.selectCached = this.selected
-            this.selected = null
+           /*  this.selected = null
+            this.setPlanForEditOrNewChild(null); */
             this.$emit('onFocus')
         }
     },
@@ -115,6 +127,8 @@ export default {
            this.plans = data.data
            this.filtered = this.plans
        })
+       
+       //this.setPlanForEditOrNewChild(this.selectedForEdition);
     }
 }
 </script>
