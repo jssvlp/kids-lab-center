@@ -212,6 +212,13 @@ export default {
             toggleNewOrEditChildModal: "toggleNewOrEditChildModal"
         }),
         editChild(child){
+            if(child.plan == null){
+                child.plan = {
+                    id: 0,
+                    name: 'Sin Seguro',
+                    ars: 'Ningunda'
+                }
+            }
             this.toNewOrEdit = child
             this.title = 'Editar paciente'
             this.toggleNewOrEditChildModal()

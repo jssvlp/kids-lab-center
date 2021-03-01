@@ -26,6 +26,7 @@
                         <jet-input type="text" class="mt-1 block w-full " placeholder="1234"
                                     ref="name"
                                     @blur.native="verifyPlanNumber"
+                                    :disabled="disabledPlanNumber"
                                     v-model="form.health_insurance_id"
                             />
                         <jet-input-error v-if="insuranceIdExists" :message="'Ya existe un paciente con este id.'" class="mt-2" />
@@ -130,9 +131,11 @@ export default {
            
         },
         plan: null,
+        planCopy: null,
         allowWritePlan: false,
         insuranceIdExists: false,
-        showList: true
+        showList: true,
+        disabledPlanNumber: true
     }),
     validations:{
         form:{
@@ -159,6 +162,7 @@ export default {
             this.form.id = this.data.id
             this.form.name = this.data.name
             this.plan = this.data.plan
+            this.planCopy = this.data.plan
             this.form.gender = this.data.gender
             this.form.health_insurance_id = this.data.health_insurance_id
             this.setPlanForEditOrNewChild(this.data.plan)
@@ -170,12 +174,24 @@ export default {
         ...mapState(['editingOrCreatingChild','planForEditOrNewChild']),
         insuranceIdRequired(){
              if(this.planForEditOrNewChild && this.form.health_insurance_id == ''){
+                 if(this.planForEditOrNewChild.id == 0) return false;
                  return true
              }
              else{
                  return false
              }
-         }
+        },
+    },
+    watch:{
+        planForEditOrNewChild: function(val){
+           if(val ){
+               this.disabledPlanNumber = false
+               if( val.id == 0) this.disabledPlanNumber = true
+           }else{
+               this.disabledPlanNumber = true
+           }
+           
+        }
     },
     methods:{
         setBirthDayDate(date){
@@ -192,12 +208,19 @@ export default {
         onSave(){
             this.$v.form.$touch();
             if(this.$v.form.$error) return
+            var plan = null;
+
+            if(this.planForEditOrNewChild != null){
+                if(this.planForEditOrNewChild.id != 0){
+                    plan = this.planForEditOrNewChild.id
+                }
+            }
             const child = {
                     'name' : this.form.name,
                     'birth_date' : this.form.birth_date,
                     'gender': this.form.gender,
                     'dad_or_mom_id': this.form.parent.id,
-                    'plan_id' : this.planForEditOrNewChild != null ? this.planForEditOrNewChild.id : null,
+                    'plan_id' : plan,
                     'health_insurance_id' : this.form.health_insurance_id
                 }
 
@@ -224,18 +247,24 @@ export default {
         },
         closePlanList(){
             this.showList = false
+            if (this.plan === this.planCopy) this.plan = this.planCopy
         },
         onFocus(){
             this.showList = true
         },
         verifyPlanNumber(){
-
+            this.closePlanList()
+            if(this.planForEditOrNewChild.id == 0){
+                this.form.health_insurance_id = ''
+                return;
+            }
             if( this.planForEditOrNewChild && this.form.health_insurance_id){
                 const data = {
                     plan_id: this.planForEditOrNewChild.id,
-                    health_insurance_id: this.form.health_insurance_id
+                    health_insurance_id: this.form.health_insurance_id,
+                    child_id: this.form.id
                 }
-
+                this.showList = false
                 axios.post('/children/verifyplannumber',data).
                 then(data =>{
                     this.insuranceIdExists = data.data.exists

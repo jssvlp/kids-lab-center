@@ -48,6 +48,7 @@
                                 v-model="visit.visit_date"
                                 zone="America/Santo_Domingo"
                                 value-zone="America/Santo_Domingo"
+                                :max-datetime="{}"
                                 input-class="border w-full bg-white rounded  py-2 px-2 outline-none"
                             ></datetime> 
                         </div>
@@ -185,6 +186,7 @@ import SelectVaccine from '../Vaccines/SelectVaccine'
 import { Trash2Icon } from "vue-feather-icons";
 import NProgress from 'nprogress'
 import { Datetime } from 'vue-datetime'
+import moment from 'moment'
 import JetLabel from '@/Jetstream/Label'
 
 export default {

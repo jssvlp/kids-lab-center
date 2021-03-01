@@ -42,15 +42,14 @@ class ParentController extends Controller
         $request->validate([
             'name' => 'required|min:5',
             'phone' => 'required',
-            'address' => 'required|min:5',
             'kinship' => ['required', Rule::in(['Padre', 'Madre']),]
         ]);
 
         DadOrMom::create([
-            'name' => ucwords($request->name),
-            'phone' => ucwords($request->phone),
-            'address' => ucwords($request->address),
-            'kinship' => ucwords($request->kinship)
+            'name' => ucwords(strtolower($request->name)),
+            'phone' => ucwords(strtolower($request->phone)),
+            'address' => ucwords(strtolower($request->address)),
+            'kinship' => ucwords(strtolower($request->kinship))
         ]);
 
         return redirect()->route('parents.index')->with(['toast' => ['message' => 'Padre creado correctamente','success' => true]]);
@@ -61,15 +60,14 @@ class ParentController extends Controller
         $request->validate([
             'name' => 'required|min:5',
             'phone' => 'required',
-            'address' => 'required|min:5',
             'kinship' => ['required', Rule::in(['Padre', 'Madre']),]
         ]);
         
         $parent->update([
-            'name' => ucwords($request->name),
-            'phone' => ucwords($request->phone),
-            'address' => ucwords($request->address),
-            'kinship' => ucwords($request->kinship)
+            'name' => ucwords(strtolower($request->name)),
+            'phone' => ucwords(strtolower($request->phone)),
+            'address' => ucwords(strtolower($request->address)),
+            'kinship' => ucwords(strtolower($request->kinship))
             ]
         );
         return redirect()->route('parents.index')->with(['toast' => ['message' => 'Padre actualizado correctamente','success' => true]]);

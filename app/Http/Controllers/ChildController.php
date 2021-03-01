@@ -53,7 +53,7 @@ class ChildController extends Controller
         
         $birthDate = Carbon::parse($request->birth_date)->format('Y-m-d');
         $created = Child::create([
-            'name' => ucwords($request->name),
+            'name' => ucwords(strtolower($request->name)),
             'birth_date' =>$birthDate,
             'dad_or_mom_id'  => $request->dad_or_mom_id,
             'gender'     => $request->gender,
@@ -76,7 +76,7 @@ class ChildController extends Controller
         $birthDate = Carbon::parse($request->birth_date)->format('Y-m-d');
 
         $child->update([
-            'name' => ucwords($request->name),
+            'name' => ucwords(strtolower($request->name)),
             'birth_date' =>$birthDate,
             'parent_id'  => $request->parent_id,
             'gender'     => $request->gender,
@@ -99,10 +99,16 @@ class ChildController extends Controller
         
         $child = Child::where('plan_id','=',$plan->id)->where('health_insurance_id','=',$request->health_insurance_id)->first();
 
-        if(!$child){
+        if(!$child or $child->id == $request->child_id){
             return response()->json(['exists' => false]);
         }
+
         return response()->json(['exists' => true]);
+    }
+
+    private function childExists(Child $child)
+    {
+      
     }
     
 }

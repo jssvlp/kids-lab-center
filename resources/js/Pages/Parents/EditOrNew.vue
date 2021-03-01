@@ -32,11 +32,8 @@
                         <jet-label :value="'Dirección'"></jet-label>
                         <jet-input type="text" class="mt-1 block w-full capitalize" placeholder="Dirección"
                                 ref="name"
-                                :class="{ 'border-red-500': $v.form.address.$error }"
                                 v-model="form.address"
                         />
-                        <jet-input-error v-if="!$v.form.address.required && $v.form.address.$error" :message="'La dirección es requerida'" class="mt-2" />
-                        <jet-input-error v-if="!$v.form.address.minLength && $v.form.address.$error" :message="'Mínimo 10 caracteres'" class="mt-2" />    
                     </div>
                 </div>
                 <div class="flex mt-4">
@@ -109,10 +106,6 @@ export default {
             name: {
                 required,
                 minLength: minLength(6)
-            },
-            address:{
-                required,
-                minLength: minLength(10)
             },
             phone:{
                 required
