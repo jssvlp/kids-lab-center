@@ -11,7 +11,7 @@ class VaccineController extends Controller
     public function index()
     {
         return Inertia::render('Vaccines/All',[
-            'vaccines' => Vaccine::all()
+            //'vaccines' => Vaccine::all()
         ]);
     }
     

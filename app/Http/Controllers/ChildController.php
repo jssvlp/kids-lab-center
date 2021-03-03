@@ -14,7 +14,7 @@ class ChildController extends Controller
     public function index(): \Inertia\Response
     {
         return Inertia::render('Children/All',[
-            'children' => Child::with(['dadOrMom','plan'])->get()
+            //'children' => Child::with(['dadOrMom','plan'])->get()
         ]);
     }
     

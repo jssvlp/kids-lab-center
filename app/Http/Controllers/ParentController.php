@@ -13,7 +13,7 @@ class ParentController extends Controller
     public function index(): \Inertia\Response
     {
         return Inertia::render('Parents/All',[
-           'parents' => DadOrMom::with(['children'])->get()
+           //'parents' => DadOrMom::with(['children'])->get()
         ]);
     }
 

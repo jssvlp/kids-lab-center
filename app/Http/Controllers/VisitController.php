@@ -16,7 +16,7 @@ class VisitController extends Controller
     public function index()
     {
         return Inertia::render('Visits/All',[
-            'visits' => Visit::with(['vaccines','child'])->get()
+            //'visits' => Visit::with(['vaccines','child'])->get()
         ]);
     }
 

@@ -14,7 +14,7 @@ class InvoiceController extends Controller
     public function index()
     {
         return Inertia::render('Invoices/All',[
-            'invoices' => Invoice::with(['visit','visit.child','vaccines'])->get()->toArray()
+            //'invoices' => Invoice::with(['visit','visit.child','vaccines'])->get()->toArray()
         ]);
     }
 
