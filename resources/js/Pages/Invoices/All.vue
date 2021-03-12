@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="-my-2 overflow-x-auto sm:-mx-8 lg:-mx-12">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">
@@ -33,7 +33,10 @@
                                     Vacunas
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Total
+                                    Covertura ARS
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Total (diferencia)
                                 </th>
                                 <th scope="col" class="relative px-6 py-2">
                                     <span class="sr-only">Acciones</span>
@@ -59,6 +62,9 @@
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                     {{invoice.vaccines.length}}
                                     </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <span class="font-bold text-green-600">RD{{coberage(invoice) | currency }}</span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <span class="font-bold text-green-600">RD{{total(invoice) | currency }}</span>
@@ -152,10 +158,17 @@ export default {
                 return a + b.pivot.price;
             }, 0);
 
-            const total = subTotal - (subTotal * discount)
-            return total;
+            return subTotal;
+           
         },
+        coberage(invoice){
+            const discount = invoice.discount /100;
+            let subTotal =  invoice.vaccines.reduce(function(a, b){
+                return a + b.pivot.price;
+            }, 0);
 
+            return  subTotal * discount
+        },
         refresh(data){
             this.invoices = data
         },
