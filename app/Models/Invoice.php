@@ -38,5 +38,11 @@ class Invoice extends Model
                     ->withTimestamps();
     }
 
-
+    public static function getNextInvoiceNumber()
+    {
+        $invoice_sequence = DB::select("SELECT MAX(RIGHT(invoice_number,8)) lastSequence FROM invoices");
+        $invoice_sequence = intval($invoice_sequence[0]->lastSequence) + 1;
+       
+        return  "B02". str_pad( $invoice_sequence, 8, '0', STR_PAD_LEFT);
+    }
 }

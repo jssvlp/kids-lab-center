@@ -7,9 +7,9 @@
             
         </template>
         <div class="py-2">
-                <div class="max-w-2xl mx-auto sm:px-2">
+                <div class="max-w-4xl mx-auto sm:px-2">
                     <div class="flex flex-col">
-                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="-my-2 overflow-x-auto sm:-mx-10 lg:-mx-12">
                             <div class="py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
                                 <div class="mx-2 font-bold">
                                     Filtro por rango de fechas
@@ -50,11 +50,11 @@
                                 </div>
                             </div>
                             </div>
-                            <div class="flex py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="flex justify-center py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-10 lg:px-12">
                                  <apexchart width="320" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
                                  <apexchart width="320" type="line" :options="optionsLine" :series="seriesLine"></apexchart>
                             </div>
-                            <div class="py-6 align-middle pb-10 shadow-md rounded-md bg-white mt-3 inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="py-6 align-middle pb-10 shadow-md rounded-md bg-white mt-3 inline-block min-w-full sm:px-10 lg:px-12">
                                 <span class="font-bold">Pagos recibidos en el periodo</span>
                                 <div class="shadow mt-2 overflow-hidden border-b border-gray-200 sm:rounded-lg mt-2">
                                 <table class="min-w-full divide-y divide-gray-200">
@@ -74,6 +74,12 @@
                                     </th>
                                     <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Monto
+                                    </th>
+                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Covertura ARS
+                                    </th>
+                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Diferencia
                                     </th>
                                     </tr>
                                 </thead>
@@ -108,7 +114,26 @@
                                             RD{{total(invoice)| currency}}
                                         </div>
                                     </td>
+                                    <td class="px-6 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">
+                                            RD{{coberage(invoice)| currency}}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">
+                                            RD{{total(invoice) - coberage(invoice)| currency}}
+                                        </div>
+                                    </td>
                                     
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total:</td>
+                                        <td class="font-bold">RD{{ totalInvoiced | currency}}</td>
+                                        <td class="font-bold">RD{{ totalCoberaged | currency}}</td>
+                                        <td class="font-bold">RD{{ totalDiff | currency}}</td>
                                     </tr>
                                     <!-- More rows... -->
                                 </tbody>
@@ -219,18 +244,60 @@ export default {
         },
         maxDateFrom(){
             return moment().format('YYYY-MM-DD').toString()
+        },
+        totalInvoiced(){
+            let total = 0;
+             this.invoices.forEach(invoice => {
+                 let current = this.total(invoice)
+                 total += current;
+             });
+
+            return total;
+        },
+        totalCoberaged(){
+             let coberaged = 0;
+             this.invoices.forEach(invoice => {
+                 let currentCoberaged = this.coberage(invoice)
+                 coberaged += currentCoberaged;
+             });
+
+            return coberaged;
+        },
+        totalDiff(){
+             let totalMount = 0;
+             let totalCoberaged = 0;
+             let total = 0;
+             this.invoices.forEach(invoice => {
+                let currentMount = this.coberage(invoice)
+                let currentCoberaged = this.coberage(invoice)
+                totalMount += currentMount;
+                totalCoberaged += currentCoberaged;
+
+                total = totalMount - totalCoberaged
+
+             });
+
+            return total;
         }
     },
     methods:{
        total(invoice){
-            const discount = invoice.discount /100;
+           const discount = invoice.discount /100;
             let subTotal =  invoice.vaccines.reduce(function(a, b){
-               return a + b.price;
+                return a + b.pivot.price;
             }, 0);
 
-            const total = subTotal - (subTotal * discount)
-            return total;
+            return subTotal;
         },
+        coberage(invoice){
+            const discount = invoice.discount /100;
+            let subTotal =  invoice.vaccines.reduce(function(a, b){
+                return a + b.pivot.price;
+            }, 0);
+
+            return  subTotal * discount
+        },
+        
         filterData(){
             axios.post('reports/filter',{from: this.from, to: this.to})
             .then( data => {

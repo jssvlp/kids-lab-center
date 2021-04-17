@@ -6,7 +6,7 @@
             </h2>
         </template>
         <div class="py-2">
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="py-2 align-middle inline-block min-w-full  flex justify-end">
                      <div class="flex">
                         <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Buscar:</span>
@@ -17,12 +17,15 @@
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="-my-2 overflow-x-auto sm:-mx-10 lg:-mx-12">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
+                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    No. Factura
+                                </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Paciente
                                 </th>
@@ -33,7 +36,13 @@
                                     Vacunas
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Total
+                                    Monto
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Covertura ARS
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Diferencia
                                 </th>
                                 <th scope="col" class="relative px-6 py-2">
                                     <span class="sr-only">Acciones</span>
@@ -42,6 +51,9 @@
                             </thead>
                             <tbody v-if="invoices.data" class="bg-white divide-y divide-gray-200">
                                 <tr v-for="invoice in invoices.data" :key="invoice.id">
+                                <td class="px-6 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{invoice.invoice_number}}</div>
+                                </td>
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="flex items-center">
                                     <div class="ml-4">
@@ -62,6 +74,12 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <span class="font-bold text-green-600">RD{{total(invoice) | currency }}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <span class="font-bold text-green-600">RD{{coberage(invoice) | currency }}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <span class="font-bold text-green-600">RD{{total(invoice) - coberage(invoice) | currency }}</span>
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
@@ -152,10 +170,17 @@ export default {
                 return a + b.pivot.price;
             }, 0);
 
-            const total = subTotal - (subTotal * discount)
-            return total;
+            return subTotal;
+           
         },
+        coberage(invoice){
+            const discount = invoice.discount /100;
+            let subTotal =  invoice.vaccines.reduce(function(a, b){
+                return a + b.pivot.price;
+            }, 0);
 
+            return  subTotal * discount
+        },
         refresh(data){
             this.invoices = data
         },
