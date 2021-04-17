@@ -76,7 +76,8 @@ class InvoiceController extends Controller
             'visit_id' => $request->visit_id,
         ]);
 
-        $invoice->invoice_number = 'KLC'.$invoice->id;
+        $invoice->invoice_number = Invoice::getNextInvoiceNumber();
+     
         $invoice->save();
 
         //2. Get the vaccines 

@@ -50,17 +50,9 @@
                                 </div>
                             </div>
                             </div>
-                            <div class="flex py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-10 lg:px-12">
+                            <div class="flex justify-center py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-10 lg:px-12">
                                  <apexchart width="320" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
                                  <apexchart width="320" type="line" :options="optionsLine" :series="seriesLine"></apexchart>
-                                 <div>
-                                     <div>
-                                         Cantidad de facturas: {{invoices.length}}
-                                     </div>
-                                     <div>
-                                         Total facturado: {{ total}}
-                                     </div>
-                                 </div>
                             </div>
                             <div class="py-6 align-middle pb-10 shadow-md rounded-md bg-white mt-3 inline-block min-w-full sm:px-10 lg:px-12">
                                 <span class="font-bold">Pagos recibidos en el periodo</span>
@@ -83,8 +75,11 @@
                                     <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Monto
                                     </th>
-                                     <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Covertura ARS
+                                    </th>
+                                    <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Diferencia
                                     </th>
                                     </tr>
                                 </thead>
@@ -121,10 +116,24 @@
                                     </td>
                                     <td class="px-6 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            RD{{total(invoice)| currency}}
+                                            RD{{coberage(invoice)| currency}}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">
+                                            RD{{total(invoice) - coberage(invoice)| currency}}
                                         </div>
                                     </td>
                                     
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total:</td>
+                                        <td class="font-bold">RD{{ totalInvoiced | currency}}</td>
+                                        <td class="font-bold">RD{{ totalCoberaged | currency}}</td>
+                                        <td class="font-bold">RD{{ totalDiff | currency}}</td>
                                     </tr>
                                     <!-- More rows... -->
                                 </tbody>
@@ -235,29 +244,60 @@ export default {
         },
         maxDateFrom(){
             return moment().format('YYYY-MM-DD').toString()
-        }
-    },
-    methods:{
-       total(invoice){
-            return invoice.vaccines.reduce(function(a, b){
-               return a + b.price;
-            }, 0);
-        },
-        coberage(invoice){
-            const discount = invoice.discount /100;
-            let subTotal =  invoice.vaccines.reduce(function(a, b){
-               return a + b.price;
-            }, 0);
-
-            const total = subTotal - (subTotal * discount)
-            return total;
         },
         totalInvoiced(){
             let total = 0;
              this.invoices.forEach(invoice => {
                  let current = this.total(invoice)
+                 total += current;
              });
+
+            return total;
         },
+        totalCoberaged(){
+             let coberaged = 0;
+             this.invoices.forEach(invoice => {
+                 let currentCoberaged = this.coberage(invoice)
+                 coberaged += currentCoberaged;
+             });
+
+            return coberaged;
+        },
+        totalDiff(){
+             let totalMount = 0;
+             let totalCoberaged = 0;
+             let total = 0;
+             this.invoices.forEach(invoice => {
+                let currentMount = this.coberage(invoice)
+                let currentCoberaged = this.coberage(invoice)
+                totalMount += currentMount;
+                totalCoberaged += currentCoberaged;
+
+                total = totalMount - totalCoberaged
+
+             });
+
+            return total;
+        }
+    },
+    methods:{
+       total(invoice){
+           const discount = invoice.discount /100;
+            let subTotal =  invoice.vaccines.reduce(function(a, b){
+                return a + b.pivot.price;
+            }, 0);
+
+            return subTotal;
+        },
+        coberage(invoice){
+            const discount = invoice.discount /100;
+            let subTotal =  invoice.vaccines.reduce(function(a, b){
+                return a + b.pivot.price;
+            }, 0);
+
+            return  subTotal * discount
+        },
+        
         filterData(){
             axios.post('reports/filter',{from: this.from, to: this.to})
             .then( data => {
