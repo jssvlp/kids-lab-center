@@ -21,8 +21,11 @@ import Nprogress from 'nprogress'
 import VueApexCharts from 'vue-apexcharts'
 import 'nprogress/nprogress.css';
 import VueTour from 'vue-tour'
+import excel from 'vue-excel-export'
 require('vue-tour/dist/vue-tour.css')
 
+ 
+Vue.use(excel)
 Vue.use(VueTour)
 
 moment.locale('es')

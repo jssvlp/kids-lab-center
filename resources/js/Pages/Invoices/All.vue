@@ -7,13 +7,13 @@
         </template>
         <div class="py-2">
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <div class="py-2 align-middle inline-block min-w-full  flex justify-end">
+                <div class="my-2 flex justify-end">
                      <div class="flex">
-                        <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Buscar:</span>
-                        <input name="field_name" class="border border-2 rounded-r px-2 py-2 w-full"
+                        <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300">Buscar:</span>
+                        <input name="field_name" class="border border-2 rounded-r px-2"
                                 v-model="filter"
                                 @keyup="search"
-                                type="text" placeholder="Nombre de un paciente" />
+                                type="text" placeholder="Paciente o Factura" />
                     </div>
                 </div>
                 <div class="flex flex-col">
@@ -39,7 +39,7 @@
                                     Monto
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Covertura ARS
+                                    Cobertura ARS
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Diferencia
@@ -56,7 +56,7 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="flex items-center">
-                                    <div class="ml-4">
+                                    <div class="">
                                         <inertia-link :href="route('invoices.detail',invoice.id)" class="text-sm font-medium text-gray-900 font-bold">
                                             {{invoice.visit.child.name}}
                                         </inertia-link>
@@ -185,9 +185,9 @@ export default {
             this.invoices = data
         },
         search(){
-            if(this.filter.length > 2 || this.filter == ''){
+            if(this.filter.length >= 2 || this.filter == ''){
                 NProgress.start()
-                axios.get(`/invoices/all/paginated?name=${this.filter}`)
+                axios.get(`/invoices/all/paginated?filter=${this.filter}`)
                 .then(data => {
                     this.invoices = data.data
                     NProgress.done()

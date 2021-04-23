@@ -4,10 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Reportes
             </h2>
-            
         </template>
         <div class="py-2">
-                <div class="max-w-4xl mx-auto sm:px-2">
+                <div class="max-w-5xl mx-auto sm:px-2">
                     <div class="flex flex-col">
                         <div class="-my-2 overflow-x-auto sm:-mx-10 lg:-mx-12">
                             <div class="py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
@@ -39,23 +38,37 @@
                                         :min-datetime="minDateTo"
                                     ></datetime>
                                 </div>
+
                                 <div class="flex mt-5 ">
                                    <jet-button @click.native="filterData" :class="{'opacity-50' : from == '' && to == ''}" class="ml-3"> 
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
                                         <span class="ml-1">Filtrar</span>
                                     </jet-button>
-                                    <button  @click="print" class="ml-2 text-gray-500 hover:text-cool-gray-700 focus:outline-none focus:text-indigo-600" >
+                                    <!-- <button  @click="print" class="ml-2 text-gray-500 hover:text-cool-gray-700 focus:outline-none focus:text-indigo-600" >
                                         <PrinterIcon size="1.5x"/>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                             </div>
                             <div class="flex justify-center py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-10 lg:px-12">
                                  <apexchart width="320" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
                                  <apexchart width="320" type="line" :options="optionsLine" :series="seriesLine"></apexchart>
+                                 <div>
+                                    Facturas emitidas: <span class="font-bold"> {{filter.invoices.length}} </span>
+                                 </div>
                             </div>
-                            <div class="py-6 align-middle pb-10 shadow-md rounded-md bg-white mt-3 inline-block min-w-full sm:px-10 lg:px-12">
-                                <span class="font-bold">Pagos recibidos en el periodo</span>
+                            <div class="py-2 align-middle pb-10 shadow-md rounded-md bg-white mt-3  min-w-full sm:px-10 lg:px-8">
+                                <div class="flex justify-between">
+                                    <span class="font-bold mt-4">Pagos recibidos en el periodo</span>
+                                    <jet-button class="ml-3"> 
+                                        <export-excel
+                                            :data="filter.invoices">
+                                            Exportar excel
+                                            <img src="/Images/excel.svg">
+                                        </export-excel>
+                                        <span class="ml-1"></span>
+                                    </jet-button>
+                                </div>
                                 <div class="shadow mt-2 overflow-hidden border-b border-gray-200 sm:rounded-lg mt-2">
                                 <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
@@ -76,7 +89,7 @@
                                         Monto
                                     </th>
                                     <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Covertura ARS
+                                        Cobertura ARS
                                     </th>
                                     <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Diferencia
@@ -174,6 +187,7 @@ export default {
             paymentsByType:[],
             sumDailyPayments:[]
         },
+        toExcel: [],
         from: moment().add(-1,'months').format('YYYY-MM-DD').toString(),
         to: moment().format('YYYY-MM-DD').toString(),
         optionsDonut: {
@@ -247,7 +261,7 @@ export default {
         },
         totalInvoiced(){
             let total = 0;
-             this.invoices.forEach(invoice => {
+             this.filter.invoices.forEach(invoice => {
                  let current = this.total(invoice)
                  total += current;
              });
@@ -256,7 +270,7 @@ export default {
         },
         totalCoberaged(){
              let coberaged = 0;
-             this.invoices.forEach(invoice => {
+             this.filter.invoices.forEach(invoice => {
                  let currentCoberaged = this.coberage(invoice)
                  coberaged += currentCoberaged;
              });
@@ -264,18 +278,20 @@ export default {
             return coberaged;
         },
         totalDiff(){
-             let totalMount = 0;
-             let totalCoberaged = 0;
-             let total = 0;
-             this.invoices.forEach(invoice => {
-                let currentMount = this.coberage(invoice)
-                let currentCoberaged = this.coberage(invoice)
-                totalMount += currentMount;
-                totalCoberaged += currentCoberaged;
+            let totalMount = 0;
+            let totalCoberaged = 0;
+            let total = 0;
+            this.filter.invoices.forEach(invoice => {
+                
+                let mount = this.total(invoice)
+                let coberage = this.coberage(invoice)
 
-                total = totalMount - totalCoberaged
+                let current = mount - coberage
+                total += current
+            
 
-             });
+            });
+
 
             return total;
         }

@@ -38,11 +38,38 @@ class Invoice extends Model
                     ->withTimestamps();
     }
 
-    public static function getNextInvoiceNumber()
+    public function generateInvoiceNumber(): void
     {
-        $invoice_sequence = DB::select("SELECT MAX(RIGHT(invoice_number,8)) lastSequence FROM invoices");
-        $invoice_sequence = intval($invoice_sequence[0]->lastSequence) + 1;
-       
-        return  "B02". str_pad( $invoice_sequence, 8, '0', STR_PAD_LEFT);
+        $numberingConfig = DgiiNumberingConfig::where('active',true)->first();
+        $lastSequence = DgiiSequence::max('sequence');
+        if($lastSequence  === null)
+        {
+            $invoice_sequence = $numberingConfig->init;
+        }
+        else
+        {
+            $invoice_sequence = (int)$lastSequence + 1;
+        }
+
+        $invoice_sequence_str = "B02". str_pad( $invoice_sequence, 9, '0', STR_PAD_LEFT);
+        DgiiSequence::create([
+            'invoice_id' => $this->id,
+            'dgii_numbering_config_id' => $numberingConfig->id,
+            'sequence' => $invoice_sequence,
+            'full_sequence' => $invoice_sequence_str
+        ]);
+
+        $diff = $numberingConfig->getTotalAttribute() - $numberingConfig->getTotalUsedAttribute();
+        if($diff === 0 && $lastSequence != null){
+            $numberingConfig->completed = true;
+            $numberingConfig->active = false;
+            $numberingConfig->save();
+
+            $numberingConfig = DgiiNumberingConfig::where('init',$numberingConfig->end + 1)->first();
+            $numberingConfig->active = true;
+            $numberingConfig->save();
+        }
+
+        $this->invoice_number = $invoice_sequence_str;
     }
 }

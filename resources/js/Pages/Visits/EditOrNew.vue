@@ -48,7 +48,7 @@
                                 v-model="visit.visit_date"
                                 zone="America/Santo_Domingo"
                                 value-zone="America/Santo_Domingo"
-                                :max-datetime="{}"
+                                :max-datetime="limitDate"
                                 input-class="border w-full bg-white rounded  py-2 px-2 outline-none"
                             ></datetime> 
                         </div>
@@ -211,7 +211,8 @@ export default {
        vaccinesPushed: [],
        showVaccinesList: false,
        showEditConfirmation: false,
-       editing: false
+       editing: false,
+       limitDate: moment().format('YYYY-MM-DD').toString()
     }),
     computed:{
         ...mapState(['childForNewVisit','titleForVisit']),

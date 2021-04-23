@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\DgiiNumberingConfig;
+use App\Models\DgiiSequence;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 
@@ -23,6 +25,35 @@ class AppServiceProvider extends ServiceProvider
         Inertia::share('toast', function () {
             return session()->get('toast') ? session()->get('toast') : null;
         });
+
+        Inertia::share('dgii', function () {
+            $currentSequence = DgiiNumberingConfig::where('active',true)->first();
+            $DGII_LIMIT_INVOICES_ALERT = env('DGII_LIMIT_INVOICES_ALERT');
+
+            if(!$currentSequence)
+            {
+                return [
+                    'used' => null,
+                    'total' => null,
+                    'showAlert' => false
+                ];
+            }
+            $nextSequence = DgiiNumberingConfig::where('init',$currentSequence->end + 1)->first();
+            $showAlert = false;
+            if($nextSequence != null)
+            {
+                $showAlert = false;
+            }
+            elseif ($currentSequence->total - $currentSequence->totalUsed <= $DGII_LIMIT_INVOICES_ALERT){
+                $showAlert = true;
+            }
+
+            return  [
+                'used' => $currentSequence->totalUsed,
+                'total' => $currentSequence->total,
+                'showAlert' => $showAlert
+            ];
+        });
     }
 
     /**
@@ -34,5 +65,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
-    
+
 }
