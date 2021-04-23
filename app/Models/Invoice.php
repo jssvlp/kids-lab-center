@@ -52,6 +52,8 @@ class Invoice extends Model
         }
 
         $invoice_sequence_str = "B02". str_pad( $invoice_sequence, 9, '0', STR_PAD_LEFT);
+        $this->invoice_number = $invoice_sequence_str;
+        $this->save();
         DgiiSequence::create([
             'invoice_id' => $this->id,
             'dgii_numbering_config_id' => $numberingConfig->id,
@@ -59,17 +61,21 @@ class Invoice extends Model
             'full_sequence' => $invoice_sequence_str
         ]);
 
+        $nextnumberingConfig = DgiiNumberingConfig::where('init',$numberingConfig->end + 1)->first();
         $diff = $numberingConfig->getTotalAttribute() - $numberingConfig->getTotalUsedAttribute();
-        if($diff === 0 && $lastSequence != null){
+        if($diff === 0 && $lastSequence != null ){
             $numberingConfig->completed = true;
             $numberingConfig->active = false;
             $numberingConfig->save();
 
-            $numberingConfig = DgiiNumberingConfig::where('init',$numberingConfig->end + 1)->first();
-            $numberingConfig->active = true;
-            $numberingConfig->save();
+            if($nextnumberingConfig != null){
+                $numberingConfig = DgiiNumberingConfig::where('init',$numberingConfig->end + 1)->first();
+                $numberingConfig->active = true;
+                $numberingConfig->save();
+            }
+
         }
 
-        $this->invoice_number = $invoice_sequence_str;
+
     }
 }

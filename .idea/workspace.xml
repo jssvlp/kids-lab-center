@@ -5,29 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="233d08eb-d384-46bd-9208-cf9386040ade" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/js/Components/Toggle.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/clinicApp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/clinicApp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DgiiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DgiiController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/DgiiNumberingConfig.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/DgiiNumberingConfig.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Invoice.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_07_240545_create_children_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_12_07_240545_create_children_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/VaccineSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/VaccineSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/DgiiNumbering/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/DgiiNumbering/All.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Pages/Invoices/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Invoices/All.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Invoices/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Invoices/EditOrNew.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Reports/Reports.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Reports/Reports.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Visits/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Visits/All.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Pages/Visits/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Visits/EditOrNew.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,7 +214,8 @@
       <workItem from="1619015893309" duration="2476000" />
       <workItem from="1619028773435" duration="15589000" />
       <workItem from="1619108786101" duration="844000" />
-      <workItem from="1619122735902" duration="9487000" />
+      <workItem from="1619122735902" duration="12742000" />
+      <workItem from="1619182564658" duration="4956000" />
     </task>
     <servers />
   </component>
@@ -248,7 +239,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue</url>
-          <line>214</line>
+          <line>219</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

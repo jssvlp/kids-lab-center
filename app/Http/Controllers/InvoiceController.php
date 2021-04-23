@@ -77,7 +77,6 @@ class InvoiceController extends Controller
         ]);
 
         $invoice->generateInvoiceNumber();
-        $invoice->save();
 
         //2. Get the vaccines
         $visit = Visit::find($request->visit_id);

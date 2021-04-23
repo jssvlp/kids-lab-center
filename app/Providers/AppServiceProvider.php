@@ -28,14 +28,15 @@ class AppServiceProvider extends ServiceProvider
 
         Inertia::share('dgii', function () {
             $currentSequence = DgiiNumberingConfig::where('active',true)->first();
-            $DGII_LIMIT_INVOICES_ALERT = env('DGII_LIMIT_INVOICES_ALERT');
+            $DGII_LIMIT_INVOICES_ALERT = 100;
 
             if(!$currentSequence)
             {
                 return [
                     'used' => null,
                     'total' => null,
-                    'showAlert' => false
+                    'remaining' => null,
+                    'showAlert' => true
                 ];
             }
             $nextSequence = DgiiNumberingConfig::where('init',$currentSequence->end + 1)->first();
@@ -51,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
             return  [
                 'used' => $currentSequence->totalUsed,
                 'total' => $currentSequence->total,
+                'remaining' => $currentSequence->getRemainingAttribute(),
                 'showAlert' => $showAlert
             ];
         });

@@ -11,7 +11,7 @@ class DgiiNumberingConfig extends Model
 
     protected $fillable = ['init','end','completed','config_date','active'];
 
-    protected $appends = ['hasInvoices','total','totalUsed'];
+    protected $appends = ['hasInvoices','total','totalUsed','remaining'];
 
 
     public function getHasInvoicesAttribute(): bool
@@ -21,13 +21,18 @@ class DgiiNumberingConfig extends Model
 
     public function getTotalAttribute()
     {
-        return $this->end - $this->init;
+        return ($this->end - $this->init) + 1;
     }
 
 
     public function getTotalUsedAttribute()
     {
         return DgiiSequence::where('dgii_numbering_config_id','=', $this->id)->count();
+    }
+
+    public function getRemainingAttribute()
+    {
+        return $this->getTotalAttribute() - $this->getTotalUsedAttribute();
     }
 
 }

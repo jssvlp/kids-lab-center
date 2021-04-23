@@ -205,7 +205,7 @@ export default {
                     .then( data =>{
                         NProgress.done();
                         this.showNewSequenceModal = false
-                        this.getNumerations()
+                        this.$inertia.get('/invoices/config')
                         this.form.init = ''
                         this.form.end = ''
                     })
@@ -219,7 +219,7 @@ export default {
             await this.$inertia.delete(`/invoices/config/${id}`)
             .then( data =>{
                NProgress.done();
-               this.getNumerations()
+                this.$inertia.get('/invoices/config')
             })
         },
         getNumerations(){

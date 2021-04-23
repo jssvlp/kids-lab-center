@@ -25,8 +25,10 @@ class DgiiController extends Controller
     public function store(Request $request)
     {
         $sequences = DgiiNumberingConfig::count();
+        $anySequenceConfigActive = DgiiNumberingConfig::where('active',true)->first();
+
         $active = 0;
-        if($sequences === 0){
+        if($sequences === 0 || $anySequenceConfigActive === null){
             $active = 1;
         }
         //TODO: validate

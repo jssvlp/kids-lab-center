@@ -30,7 +30,7 @@
                                     Paciente
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Fecha 
+                                    Fecha
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Vacunas
@@ -65,7 +65,7 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{invoice.invoice_date | formatShortDate}}</div>
-                                    
+
                                 </td>
                                 <td class="px-6  whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
@@ -96,7 +96,7 @@
                                         <a v-if="invoice.payment_status == 'Pago'" :href="route('invoices.print',invoice.id)"  target= '_blank' class="mt-1" >
                                            <PrinterIcon size="1.2x"/>
                                         </a>
-                                       
+
                                     </div>
                                 </td>
                                 </tr>
@@ -171,7 +171,7 @@ export default {
             }, 0);
 
             return subTotal;
-           
+
         },
         coberage(invoice){
             const discount = invoice.discount /100;

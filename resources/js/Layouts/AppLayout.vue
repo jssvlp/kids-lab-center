@@ -3,10 +3,15 @@
         <Toast :toast="$page.toast" />
         <div v-if="$page.dgii.showAlert" class="bg-red-orange-500 h-10 max-h-20">
             <div class="flex justify-center">
-                <p class="my-2 text-lg text-white">
+                <p v-if="$page.dgii.remaining != null" class="my-2 text-lg text-white">
                    <span class="bg-white text-black rounded-md px-1 dgii-alert">Aviso:</span>
                     <span class="ml-1">¡La numeración de facturas actual  está por llegar al limite, </span>
-                    <span class="font-bold">({{$page.dgii.used}} de {{$page.dgii.total}})</span> <span> usadas. Favor gestionar el siguiente rango!</span>
+                    <span class="font-bold">({{$page.dgii.used}} de {{$page.dgii.total}})</span> <span> usadas, <span class="font-bold">{{$page.dgii.remaining}}</span> restantes. ¡Favor gestionar el siguiente rango!</span>
+                </p>
+                <p v-else class="my-2 text-lg text-white">
+                    <span class="bg-white text-black rounded-md px-1 dgii-alert">Aviso:</span>
+                    <span class="ml-1">No existe ninguna secuencia de facturas disponible. ¡Favor gestionar el siguiente rango!</span>
+
                 </p>
             </div>
         </div>
