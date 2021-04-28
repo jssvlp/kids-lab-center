@@ -38,6 +38,11 @@ class Invoice extends Model
                     ->withTimestamps();
     }
 
+    public function dgiiSequence()
+    {
+        return $this->hasOne(DgiiSequence::class);
+    }
+
     public function generateInvoiceNumber(): void
     {
         $numberingConfig = DgiiNumberingConfig::where('active',true)->first();

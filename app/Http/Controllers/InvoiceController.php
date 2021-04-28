@@ -26,20 +26,16 @@ class InvoiceController extends Controller
         $defaultOrderBy = 'created_at';
         $desc = 'desc';
 
-
-
-
-
         if($filter)
         {
-            return Invoice::with(['visit','visit.child','vaccines'])->whereHas('visit',function($query) use ($filter){
+            return Invoice::with(['visit','visit.child','vaccines','dgiiSequence'])->whereHas('visit',function($query) use ($filter){
                 return $query->whereHas('child', function($query) use ($filter){
                      return $query->where('name', 'like', '%'.$filter.'%');
                  })
                  ->Orwhere('invoice_number','like','%'.$filter.'%');
              })->orderBy($orderBy ?: $defaultOrderBy,$descOrAsc ?: $desc)->paginate(8);
         }
-        return Invoice::with(['visit','visit.child','vaccines'])->orderBy($orderBy ?: $defaultOrderBy,$descOrAsc ?: $desc)->paginate(8);
+        return Invoice::with(['visit','visit.child','vaccines','dgiiSequence'])->orderBy($orderBy ?: $defaultOrderBy,$descOrAsc ?: $desc)->paginate(8);
     }
 
     public function print($invoice)
@@ -68,7 +64,7 @@ class InvoiceController extends Controller
 
     public function edit($invoice)
     {
-        $_invoice = Invoice::with(['visit','visit.child','visit.child.dadOrMom','visit.child.plan.insurance','vaccines'])->whereId($invoice)->first();
+        $_invoice = Invoice::with(['visit','visit.child','visit.child.dadOrMom','visit.child.plan.insurance','vaccines','dgiiSequence'])->whereId($invoice)->first();
 
         return Inertia::render('Invoices/EditOrNew',[
             'invoice' => $_invoice
