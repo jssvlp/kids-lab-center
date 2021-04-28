@@ -5,35 +5,44 @@
                 Facturas
             </h2>
         </template>
-        <div class="py-2">
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-                <div class="py-2 align-middle inline-block min-w-full  flex justify-end">
+        <div class="py-2 overflow-auto">
+            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+                <div class="my-2 flex justify-end">
                      <div class="flex">
-                        <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Buscar:</span>
-                        <input name="field_name" class="border border-2 rounded-r px-2 py-2 w-full"
+                        <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300">Buscar:</span>
+                        <input name="field_name" class="border border-2 rounded-r px-2"
                                 v-model="filter"
                                 @keyup="search"
-                                type="text" placeholder="Nombre de un paciente" />
+                                type="text" placeholder="Paciente o Factura" />
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="-my-2 overflow-x-auto sm:-mx-10 lg:-mx-12">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th @click="orderBy('invoice_number')"  scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
+                                    No. Factura
+                                </th>
+                                <th  scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Paciente
                                 </th>
-                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Fecha 
+                                <th @click="orderBy('invoice_date')" scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
+                                    Fecha
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Vacunas
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Total
+                                    Monto
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Cobertura ARS
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Diferencia
                                 </th>
                                 <th scope="col" class="relative px-6 py-2">
                                     <span class="sr-only">Acciones</span>
@@ -43,8 +52,11 @@
                             <tbody v-if="invoices.data" class="bg-white divide-y divide-gray-200">
                                 <tr v-for="invoice in invoices.data" :key="invoice.id">
                                 <td class="px-6 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{invoice.invoice_number}}</div>
+                                </td>
+                                <td class="px-6 whitespace-nowrap">
                                     <div class="flex items-center">
-                                    <div class="ml-4">
+                                    <div class="">
                                         <inertia-link :href="route('invoices.detail',invoice.id)" class="text-sm font-medium text-gray-900 font-bold">
                                             {{invoice.visit.child.name}}
                                         </inertia-link>
@@ -53,7 +65,7 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{invoice.invoice_date | formatShortDate}}</div>
-                                    
+
                                 </td>
                                 <td class="px-6  whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
@@ -62,6 +74,12 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <span class="font-bold text-green-600">RD{{total(invoice) | currency }}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <span class="font-bold text-green-600">RD{{coberage(invoice) | currency }}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <span class="font-bold text-green-600">RD{{total(invoice) - coberage(invoice) | currency }}</span>
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
@@ -78,7 +96,7 @@
                                         <a v-if="invoice.payment_status == 'Pago'" :href="route('invoices.print',invoice.id)"  target= '_blank' class="mt-1" >
                                            <PrinterIcon size="1.2x"/>
                                         </a>
-                                       
+
                                     </div>
                                 </td>
                                 </tr>
@@ -126,14 +144,14 @@ export default {
     data: () =>({
         toNewOrEdit: null,
         toDelete: {},
-        title: '',
         planBeingDeleted: null,
         planBeingAdd: null,
         newChild: null,
         title: '',
         test: false,
         invoices: {},
-        filter: ''
+        filter: '',
+        orderAsc: true
     }),
 
     mounted(){
@@ -152,22 +170,39 @@ export default {
                 return a + b.pivot.price;
             }, 0);
 
-            const total = subTotal - (subTotal * discount)
-            return total;
-        },
+            return subTotal;
 
+        },
+        coberage(invoice){
+            const discount = invoice.discount /100;
+            let subTotal =  invoice.vaccines.reduce(function(a, b){
+                return a + b.pivot.price;
+            }, 0);
+
+            return  subTotal * discount
+        },
         refresh(data){
             this.invoices = data
         },
         search(){
-            if(this.filter.length > 2 || this.filter == ''){
+            if(this.filter.length >= 2 || this.filter == ''){
                 NProgress.start()
-                axios.get(`/invoices/all/paginated?name=${this.filter}`)
+                axios.get(`/invoices/all/paginated?filter=${this.filter}`)
                 .then(data => {
                     this.invoices = data.data
                     NProgress.done()
                 })
             }
+        },
+        orderBy(column){
+            this.orderAsc = !this.orderAsc;
+            let ascOrDesc = this.orderAsc ? 'asc' : 'desc';
+            NProgress.start()
+            axios.get(`/invoices/all/paginated?orderby=${column}&descOrAsc=${ascOrDesc}`)
+                .then(data => {
+                    this.invoices = data.data
+                    NProgress.done()
+                })
         }
     }
 }

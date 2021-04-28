@@ -143,10 +143,10 @@
                                                     <div class="flex items-center justify-center flex-shrink-0 h-8 w-8 rounded-xl bg-red-orange-100 text-red-orange-400">
                                                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path></svg>                                    
                                                     </div>
-                                                    <div class="ml-2 mt-1 text-red-orange-400">Aplicar descuento</div>
+                                                    <div class="ml-2 mt-1 text-red-orange-400">Aplicar Cobertura ARS</div>
                                                 </div>
                                                 <div class="flex mt-1 ml-1" v-if="discountVisible">
-                                                    <span class="text-red-orange-600">- {{discount}}% descuento </span>
+                                                    <span class="text-red-orange-600">- {{discount}}% descuento cobertura ARS </span>
                                                     <button aria-label="Edit user"
                                                         class="p-1 ml-1 focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
                                                         @click="modalDiscountVisible = true">
@@ -172,18 +172,18 @@
         </div>
         <jet-dialog-modal :maxWidth="'md'" :show="modalDiscountVisible" @close="modalDiscountVisible = false">
             <template #title>
-                Aplicar descuento
+                Aplicar cobertura ARS
             </template>
             <template #content>
-                <jet-label :value="'Digite un descuento'"></jet-label>
+                <jet-label :value="'Digite un porcentaje'"></jet-label>
                 <jet-input type="number"  placeholder="0%"
                         ref="name"
                         v-model="discount"
                         class="w-full"
                 />
-                <jet-input-error v-if="!$v.discount.required && $v.discount.$error" :message="'Debes digitar un descuento'" class="mt-2" />
-                <jet-input-error v-if="!$v.discount.minValue && $v.discount.$error" :message="'El descuento no puede ser menor a 1'" class="mt-2" />
-                <jet-input-error v-if="!$v.discount.maxValue && $v.discount.$error" :message="'El descuento no puede ser superior a 100'" class="mt-2" />       
+                <jet-input-error v-if="!$v.discount.required && $v.discount.$error" :message="'Debes digitar un porcentaje'" class="mt-2" />
+                <jet-input-error v-if="!$v.discount.minValue && $v.discount.$error" :message="'El porcentaje no puede ser menor a 1'" class="mt-2" />
+                <jet-input-error v-if="!$v.discount.maxValue && $v.discount.$error" :message="'El porcentaje no puede ser superior a 100'" class="mt-2" />       
             </template>
 
             <template #footer>
@@ -196,7 +196,7 @@
                 </jet-button>
             </template>
         </jet-dialog-modal>
-        <jet-dialog-modal :maxWidth="'md'" :show="paymentModalVisible" @close="paymentModalVisible = false">
+        <jet-dialog-modal :maxWidth="'xl'" :show="paymentModalVisible" @close="paymentModalVisible = false">
             <template #title>
                 <span class="font-extrabold px-4">Confirmación de cobro</span>
             </template>
@@ -207,11 +207,11 @@
                         <span>RD{{total | currency}}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Descuento:</span>
+                        <span>Cobertura ARS:</span>
                         <span>{{ discount > 0 ? '-':''}}{{discount == '' ? 0 : discount}}% (RD{{ discounted | currency }})</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Total:</span>
+                        <span>Total a cobrar (diferencia):</span>
                         <span>RD{{total - discounted | currency}}</span>
                     </div>
                     <div class="mt-4">

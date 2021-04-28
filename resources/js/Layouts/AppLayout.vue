@@ -1,6 +1,20 @@
 <template>
     <div class="min-h-screen bg-gray-100">
         <Toast :toast="$page.toast" />
+        <div v-if="$page.dgii.showAlert" class="bg-red-orange-500 h-10 max-h-20">
+            <div class="flex justify-center">
+                <p v-if="$page.dgii.remaining != null" class="my-2 text-lg text-white">
+                   <span class="bg-white text-black rounded-md px-1 dgii-alert">Aviso:</span>
+                    <span class="ml-1">¡La numeración de facturas actual  está por llegar al limite, </span>
+                    <span class="font-bold">({{$page.dgii.used}} de {{$page.dgii.total}})</span> <span> usadas, <span class="font-bold">{{$page.dgii.remaining}}</span> restantes. ¡Favor gestionar el siguiente rango!</span>
+                </p>
+                <p v-else class="my-2 text-lg text-white">
+                    <span class="bg-white text-black rounded-md px-1 dgii-alert">Aviso:</span>
+                    <span class="ml-1">No existe ninguna secuencia de facturas disponible. ¡Favor gestionar el siguiente rango!</span>
+
+                </p>
+            </div>
+        </div>
         <nav class="bg-trendy-pink-500 border-b border-gray-100">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -76,9 +90,11 @@
                                         <jet-dropdown-link :href="route('reports.index')" preserve-scroll>
                                             Reportes
                                         </jet-dropdown-link>
-
+                                        <jet-dropdown-link :href="route('invoices.config')" preserve-scroll>
+                                            Secuencias facturas Dgii
+                                        </jet-dropdown-link>
                                         <div class="border-t border-gray-100"></div>
-                                        
+
                                     </template>
                                 </jet-dropdown>
                             </div>
@@ -241,9 +257,11 @@
                     window.location = '/';
                 })
             },
-        }
+        },
     }
 </script>
-<style  scoped>
-
+<style scoped>
+    .dgii-alert{
+        font-family: "Bree Serif";
+    }
 </style>

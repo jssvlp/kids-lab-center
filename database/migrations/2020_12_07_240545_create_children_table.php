@@ -21,6 +21,8 @@ class CreateChildrenTable extends Migration
             $table->string('health_insurance_id')->nullable();
             $table->unsignedBigInteger('dad_or_mom_id');
             $table->unsignedBigInteger('plan_id')->nullable();
+
+            //Foreings
             $table->foreign('dad_or_mom_id')->references('id')->on('dad_or_moms')->onDelete('cascade');
             $table->foreign('plan_id')->references('id')->on('plans');
             $table->timestamps();

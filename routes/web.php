@@ -57,7 +57,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::post('/insurances',[Controllers\InsuranceController::class,'store'])->name('insurances.store');
     Route::patch('/insurances/{insurance}',[Controllers\InsuranceController::class,'update'])->name('insurance.update');
     Route::delete('/insurances/{insurance}',[Controllers\InsuranceController::class,'destroy'])->name('insurance.destroy');
-    
+
     //Plans
     Route::get('/plans/insunrance/{insurance}',[Controllers\PlanController::class,'index'])->name('plans');
     Route::post('/plans',[Controllers\PlanController::class,'store']);
@@ -88,15 +88,23 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     //Invoices
     Route::post('/invoices',[Controllers\InvoiceController::class,'store'])->name('invoices.store');
     Route::get('/invoices',[Controllers\InvoiceController::class,'index'])->name('invoices.index');
-    Route::get('/invoices/{invoice}',[Controllers\InvoiceController::class,'detail'])->name('invoices.detail');
+    Route::get('/invoices/{invoice}',[Controllers\InvoiceController::class,'detail'])->where('invoice', '[0-9]+')->name('invoices.detail');
     Route::get('/invoices/{invoice}/edit',[Controllers\InvoiceController::class,'edit'])->name('invoices.edit');
     Route::post('/invoices/pay/{invoice}',[Controllers\InvoiceController::class,'pay'])->name('invoices.pay');
     Route::get('/invoices/{invoice}/print',[Controllers\InvoiceController::class,'print'])->name('invoices.print');
     Route::get('/invoices/all/paginated',[Controllers\InvoiceController::class,'all'])->name('invoices.paginated');
     Route::patch('/invoices/{invoice}',[Controllers\InvoiceController::class,'update'])->name('invoices.update');
+    //Dgii
+    Route::get('/invoices/config',[Controllers\DgiiController::class,'index'])->name('invoices.config');
+    Route::get('invoices/config/paginated',[Controllers\DgiiController::class,'all'])->name('invoices.config.paginated');
+    Route::post('/invoices/config',[Controllers\DgiiController::class,'store'])->name('invoices.config.post');
+    Route::delete('/invoices/config/{config}',[Controllers\DgiiController::class,'delete'])->where('invoice', '[0-9]+')->name('invoices.config.post');
+
     //Reports
     Route::get('/reports',[Controllers\ReportController::class,'index'])->name('reports.index');
     Route::post('/reports/filter',[Controllers\ReportController::class,'filter'])->name('reports.filter');
+
+
 });
 
 

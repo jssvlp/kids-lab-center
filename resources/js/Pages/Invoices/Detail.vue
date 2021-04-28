@@ -72,11 +72,11 @@
                     <span class="font-bold">RD{{total | currency}}</span>
                 </div>
                 <div class="flex justify-between px-1 py-1">
-                    <span>Descuento {{ parseFloat(invoice.discount) > 0 ? '-':''}}{{invoice.discount == ''  ? 0 : invoice.discount}}%</span>
+                    <span>Cobertura ARS {{ parseFloat(invoice.discount) > 0 ? '- ':''}}{{invoice.discount == ''  ? 0 : invoice.discount}}%</span>
                     <span>RD{{ discounted | currency}}</span>
                 </div>
                 <div class="flex justify-between  bg-trendy-pink-200 py-2 px-2 rounded-md">
-                     <span class="font-bold">Total</span>
+                     <span class="font-bold">Total (diferencia)</span>
                     <span class="font-bold">RD{{totalWithDiscount |currency}}</span>
                 </div>
                 </div>

@@ -41,6 +41,7 @@
         "vee-validate": "^3.4.5",
         "vue-apexcharts": "^1.6.0",
         "vue-datetime": "^1.0.0-beta.14",
+        "vue-excel-export": "^0.1.3",
         "vue-feather-icons": "^5.1.0",
         "vue-filter-date-format": "^1.3.1",
         "vue-html-to-paper": "^1.3.1",

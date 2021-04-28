@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="233d08eb-d384-46bd-9208-cf9386040ade" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChildController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChildController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ParentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ParentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Child.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Child.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReportController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Components/Statistics.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Components/Statistics.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Children/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Children/All.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Children/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Children/EditOrNew.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Insurances/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Insurances/All.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Insurances/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Insurances/EditOrNew.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Parents/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Parents/All.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Parents/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Parents/EditOrNew.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/DgiiNumbering/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/DgiiNumbering/All.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Invoices/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Invoices/All.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Reports/Reports.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Reports/Reports.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Visits/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Visits/EditOrNew.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,6 +35,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -158,6 +163,9 @@
       <path value="$PROJECT_DIR$/vendor/psr/http-client" />
       <path value="$PROJECT_DIR$/vendor/psr/container" />
       <path value="$PROJECT_DIR$/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
     </include_path>
   </component>
   <component name="ProjectId" id="1lLo7ZzBq1H6s52Y9nciq6oCng0" />
@@ -170,6 +178,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -177,6 +186,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -199,10 +209,41 @@
       <workItem from="1607742241325" duration="7308000" />
       <workItem from="1608172177836" duration="2489000" />
       <workItem from="1608686945995" duration="50000" />
+      <workItem from="1619015893309" duration="2476000" />
+      <workItem from="1619028773435" duration="15589000" />
+      <workItem from="1619108786101" duration="844000" />
+      <workItem from="1619122735902" duration="12742000" />
+      <workItem from="1619182564658" duration="11193000" />
+      <workItem from="1619369458976" duration="5827000" />
+      <workItem from="1619460922850" duration="641000" />
+      <workItem from="1619572447923" duration="2645000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue</url>
+          <line>219</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

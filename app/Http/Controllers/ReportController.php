@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -18,11 +19,13 @@ class ReportController extends Controller
 
         $paymentsByType = Invoice::getPaymentsByType($from,$to);
         $sumDailyPayments = Invoice::getSumDailyPayments($from,$to);
-            
+        $invoicesForExcel = $this->getDataForExcel($from, $to);
+
         return Inertia::render('Reports/Reports',[
             'invoices' => $invoices,
             'paymentsByType' => $paymentsByType,
             'sumDailyPayments' => $sumDailyPayments,
+            'invoicesForExcel' => $invoicesForExcel,
             'filter' => ['from' => $from, 'to' => $to]
         ]);
     }
@@ -34,8 +37,18 @@ class ReportController extends Controller
         $invoices = $this->searchData($from,$to);
         $paymentsByType = Invoice::getPaymentsByType($from,$to);
         $sumDailyPayments = Invoice::getSumDailyPayments($from,$to);
+        $invoicesForExcel = $this->getDataForExcel($from, $to);
 
-        return response()->json(['success' => true, 'invoices' => $invoices, 'paymentsByType'=> $paymentsByType,'sumDailyPayments' => $sumDailyPayments,'filter' => ['from' => $from, 'to' => $to]]);
+        return response()->json([
+            'success' => true,
+            'invoices' => $invoices,
+            'paymentsByType'=> $paymentsByType,
+            'sumDailyPayments' => $sumDailyPayments,
+            'invoicesForExcel' => $invoicesForExcel,
+            'filter' => [
+                'from' => $from, 'to' => $to
+            ]
+        ]);
     }
 
     private function searchData($from, $to)
@@ -44,5 +57,24 @@ class ReportController extends Controller
                                              ->whereDate('invoice_date', '<=', $to)
                                              ->where('payment_status','=','Pago')
                                              ->get();
+    }
+
+    public function getDataForExcel($from, $to)
+    {
+        return DB::table('invoice_details')
+            ->join('invoices', 'invoice_details.invoice_id', '=', 'invoices.id')
+            ->whereDate('invoices.invoice_date', '>=', $from)
+            ->whereDate('invoices.invoice_date', '<=', $to)
+            ->groupBy('invoice_details.invoice_id')
+            ->select(DB::raw("invoices.invoice_number AS factura,
+                        invoices.invoice_date AS fecha,
+                        invoices.payment_method AS 'metodo de pago',
+                        invoices.authorization_number AS 'numero de autorizacion',
+                        (invoices.discount / 100) * SUM(invoice_details.price) AS 'cobertura ars',
+                        SUM(invoice_details.price) - (invoices.discount / 100) * SUM(invoice_details.price) as diferencia,
+                        SUM(invoice_details.price) AS monto"))
+            ->get();
+
+
     }
 }

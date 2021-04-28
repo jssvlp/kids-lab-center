@@ -13,7 +13,7 @@
                             <div class="mb-3 flex justify-between">
                                 <inertia-link :href="route('visits.newOrEdit','_')">
                                     <button  class="bg-white text-gray-600 font-bold rounded border-b-2 border-trendy-pink-300 hover:border-trendy-pink-600 hover:bg-trendy-pink-400 hover:text-white shadow-lg py-2 px-6 inline-flex items-center">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path></svg>                                    
+                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path></svg>
                                         <span class="mr-2">Iniciar</span>
                                     </button>
                                 </inertia-link>
@@ -86,7 +86,7 @@
                                                 @click="planBeingDeleted = true, toDelete= visit">
                                             <Trash2Icon size="1.2x"/>
                                         </button>
-                                        <button v-if="visit.vaccines.length > 0 && !visit.invoiced" aria-label="Facturar"
+                                        <button v-if="visit.vaccines.length > 0 && !visit.invoiced && $page.dgii.remaining > 0" aria-label="Facturar"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-green-500 hover:text-green-600"
                                                 @click="facturar(visit)">
                                             <DollarSignIcon size="1.2x"/>
@@ -113,7 +113,7 @@
                 ¿Estás seguro que deseas borrar la visita de  <span class="font-bold"> {{toDelete.child.name}}</span>?
                 <br>
                 <p class="mt-2">Si borras este registro se borrá la factura relacionada a la visita.</p>
-                
+
             </template>
 
             <template #footer>
@@ -126,7 +126,7 @@
                 </jet-danger-button>
             </template>
         </jet-confirmation-modal>
-        
+
     </app-layout>
 </template>
 
@@ -164,7 +164,7 @@ export default {
         filter:''
     }),
     computed: {
-        
+
     },
     mounted(){
         NProgress.start()
@@ -176,7 +176,7 @@ export default {
     },
     methods:{
         ...mapActions({
-            
+
         }),
         deleteVisit(){
             NProgress.start()
