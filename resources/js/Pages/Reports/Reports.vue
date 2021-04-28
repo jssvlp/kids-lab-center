@@ -40,7 +40,7 @@
                                 </div>
 
                                 <div class="flex mt-5 ">
-                                   <jet-button @click.native="filterData" :class="{'opacity-50' : from == '' && to == ''}" class="ml-3"> 
+                                   <jet-button @click.native="filterData" :class="{'opacity-50' : from == '' && to == ''}" class="ml-3">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
                                         <span class="ml-1">Filtrar</span>
                                     </jet-button>
@@ -53,18 +53,20 @@
                             <div class="flex justify-center py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-10 lg:px-12">
                                  <apexchart width="320" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
                                  <apexchart width="320" type="line" :options="optionsLine" :series="seriesLine"></apexchart>
-                                 <div>
-                                    Facturas emitidas: <span class="font-bold"> {{filter.invoices.length}} </span>
+                                 <div class="ml-4">
+                                     <p> Facturas emitidas: <span class="font-bold"> {{filter.invoices.length}} </span></p>
+                                     <p> Total facturado: <span class="font-bold">RD{{ totalInvoiced | currency}} </span></p>
                                  </div>
                             </div>
                             <div class="py-2 align-middle pb-10 shadow-md rounded-md bg-white mt-3  min-w-full sm:px-10 lg:px-8">
                                 <div class="flex justify-between">
                                     <span class="font-bold mt-4">Pagos recibidos en el periodo</span>
-                                    <jet-button class="ml-3"> 
+                                    <jet-button class="ml-3">
+                                        <img width="20px" src="/Images/excel.svg" class="mr-2">
                                         <export-excel
-                                            :data="filter.invoices">
+                                            :data="filter.invoicesForExcel" :name="excelName">
+
                                             Exportar excel
-                                            <img src="/Images/excel.svg">
                                         </export-excel>
                                         <span class="ml-1"></span>
                                     </jet-button>
@@ -137,7 +139,7 @@
                                             RD{{total(invoice) - coberage(invoice)| currency}}
                                         </div>
                                     </td>
-                                    
+
                                     </tr>
                                     <tr>
                                         <td></td>
@@ -171,7 +173,7 @@ import axios from 'axios'
 import { Datetime } from 'vue-datetime'
 import { PrinterIcon } from "vue-feather-icons";
 export default {
-    props: ['invoices','paymentsByType','sumDailyPayments'],
+    props: ['invoices','paymentsByType','sumDailyPayments','invoicesForExcel'],
     components: {
         AppLayout,
         JetInput,
@@ -182,10 +184,12 @@ export default {
         PrinterIcon
     },
     data:() =>({
+
         filter:{
             invoices: [],
             paymentsByType:[],
-            sumDailyPayments:[]
+            sumDailyPayments:[],
+            invoicesForExcel:[],
         },
         toExcel: [],
         from: moment().add(-1,'months').format('YYYY-MM-DD').toString(),
@@ -250,11 +254,19 @@ export default {
             }
         },
         maxDatetime: moment().format('YYYY-MM-DD').toString()
-        
+
     }),
     computed:{
+        excelName(){
+            let from = this.from.toLocaleString().slice(0, 10)
+            let to = this.to.toLocaleString().slice(0, 10)
+
+            return `Facturas desde ${from} hasta ${to}`
+        },
         minDateTo(){
-            return moment().add(-1,'months').add(1,'days').format('YYYY-MM-DD').toString()
+            var fromDate = moment(this.from).format('YYYY-MM-DD');
+            console.log(fromDate)
+            return moment(fromDate).add(1,'days').format('YYYY-MM-DD').toString()
         },
         maxDateFrom(){
             return moment().format('YYYY-MM-DD').toString()
@@ -282,13 +294,13 @@ export default {
             let totalCoberaged = 0;
             let total = 0;
             this.filter.invoices.forEach(invoice => {
-                
+
                 let mount = this.total(invoice)
                 let coberage = this.coberage(invoice)
 
                 let current = mount - coberage
                 total += current
-            
+
 
             });
 
@@ -313,16 +325,18 @@ export default {
 
             return  subTotal * discount
         },
-        
+
         filterData(){
             axios.post('reports/filter',{from: this.from, to: this.to})
             .then( data => {
                 this.filter.invoices = data.data.invoices;
                 this.filter.paymentsByType = data.data.paymentsByType
                 this.filter.sumDailyPayments = data.data.sumDailyPayments
-
+                this.filter.invoicesForExcel = data.data.invoicesForExcel
                 this.updateCharts();
             })
+
+
         },
         print(){
             window.print()
@@ -339,21 +353,28 @@ export default {
             this.seriesLine = [{
                 data: newPayments
             }]
-            
+
             let dates = this.filter.sumDailyPayments.map(a => a.invoiceDate);
             dates = dates.map( d => moment(d).format('DD/MM/YYYY'));
-            
+
             this.optionsLine.xaxis.categories = dates
+        },
+        getExcelData(){
+            axios.post('reports/filter?excel=true',{from: this.from, to: this.to})
+                .then( data => {
+                    this.excelData = data.invoices
+                })
         }
 
     },
     mounted(){
-        
+
     },
     created(){
         this.filter.paymentsByType = this.paymentsByType;
         this.filter.invoices = this.invoices;
         this.filter.sumDailyPayments = this.sumDailyPayments;
+        this.filter.invoicesForExcel = this.invoicesForExcel
         this.updateCharts();
     }
 }

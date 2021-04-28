@@ -5,7 +5,6 @@
                 Configuración Secuencias Facturas DGII
             </h2>
         </template>
-
         <div class="py-2">
             <div class="max-w-6xl mx-auto sm:px-2">
                 <div class="flex flex-col">
@@ -112,7 +111,7 @@
                                                     ref="name"
                                                     v-model="form.init"
                                                     class="w-full"
-                                                    disabled
+                                                    :disabled="$page.dgii.remaining != null"
                                             />
                                         </div>
                                         <div class="ml-2">
@@ -129,7 +128,6 @@
                                     </div>
 
                                 </template>
-
                                 <template #footer>
                                     <jet-secondary-button @click.native="showNewSequenceModal = false">
                                         Cancelar
@@ -229,7 +227,10 @@ export default {
                 this.numerations = data.data
                 NProgress.done();
                 this.lastNumeration = this.getLastNumeration()
-                this.form.init = this.lastNumeration.end + 1
+                if(this.lastNumeration){
+                    this.form.init = this.lastNumeration.end + 1
+                }
+
             })
         },
         getLastNumeration(){
@@ -240,9 +241,15 @@ export default {
                 this.errorMessage = 'Debes llenar todos los campos'
                 this.showError = true
             }
-            else if(this.form.init < this.lastNumeration.end){
-                this.errorMessage =  'La secuencia actual no puede ser menor a la anterior.'
-                this.showError = true
+            else if(this.lastNumeration != undefined){
+                 if(this.form.init < this.lastNumeration.end){
+                     this.errorMessage =  'La secuencia actual no puede ser menor a la anterior.'
+                     this.showError = true
+                 }
+                 else if(this.form.init === this.lastNumeration.end){
+                     this.errorMessage = 'El fin de esta secuencia ya ha sido insertada'
+                     this.showError = true
+                 }
             }
             else if(this.form.init > this.form.end){
                 this.errorMessage = 'El inicio de la secuencia no puede ser mayor al fin.'
@@ -252,10 +259,7 @@ export default {
                 this.errorMessage = 'El inicio de la secuencia no puede ser mayor al fin.'
                 this.showError = true
             }
-            else if(this.form.init == this.lastNumeration.end){
-                 this.errorMessage = 'El fin de esta secuencia ya ha sido insertada'
-                 this.showError = true
-            }
+
             else {
                 this.errorMessage = ''
                 this.showError = false
@@ -264,7 +268,6 @@ export default {
     },
     mounted(){
         this.getNumerations()
-
     },
     computed:{
 

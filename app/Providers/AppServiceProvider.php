@@ -39,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
                     'showAlert' => true
                 ];
             }
+            //TODO: buscar todas las secuencias mayores a la actual activa, sumar los rangos y verificar que no sea < 100 para mostrar la alerta
             $nextSequence = DgiiNumberingConfig::where('init',$currentSequence->end + 1)->first();
             $showAlert = false;
             if($nextSequence != null)

@@ -5,7 +5,7 @@
                 Facturas
             </h2>
         </template>
-        <div class="py-2">
+        <div class="py-2 overflow-auto">
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="my-2 flex justify-end">
                      <div class="flex">
@@ -23,13 +23,13 @@
                             <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th @click="orderBy('invoice_number')"  scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
                                     No. Factura
                                 </th>
-                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th  scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Paciente
                                 </th>
-                                <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th @click="orderBy('invoice_date')" scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
                                     Fecha
                                 </th>
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -144,14 +144,14 @@ export default {
     data: () =>({
         toNewOrEdit: null,
         toDelete: {},
-        title: '',
         planBeingDeleted: null,
         planBeingAdd: null,
         newChild: null,
         title: '',
         test: false,
         invoices: {},
-        filter: ''
+        filter: '',
+        orderAsc: true
     }),
 
     mounted(){
@@ -193,6 +193,16 @@ export default {
                     NProgress.done()
                 })
             }
+        },
+        orderBy(column){
+            this.orderAsc = !this.orderAsc;
+            let ascOrDesc = this.orderAsc ? 'asc' : 'desc';
+            NProgress.start()
+            axios.get(`/invoices/all/paginated?orderby=${column}&descOrAsc=${ascOrDesc}`)
+                .then(data => {
+                    this.invoices = data.data
+                    NProgress.done()
+                })
         }
     }
 }

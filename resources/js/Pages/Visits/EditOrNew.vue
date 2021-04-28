@@ -7,7 +7,7 @@
         </template>
         <div class="py-2" v-if="visit !=null">
             <div class="flex justify-center">
-                <div v-if="$page.dgii.remaining === 0 && showSequenceAlert && !editing" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mx-20 max-w-4xl" role="alert">
+                <div v-if="($page.dgii.remaining === 0 || $page.dgii.remaining === null) && showSequenceAlert && !editing" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mx-20 max-w-4xl" role="alert">
                     <strong class="font-bold">¡Alerta!</strong>
                     <span class="block sm:inline">No podrás facturar esta visita. Debido a que la secuencia de facturas actual se ha completado. Una vez configurada la nueva secuencia podrás facturar normalmente</span>
                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
@@ -262,8 +262,8 @@ export default {
             this.showVaccinesList = true
         },
         facturar(){
-            if(this.$page.dgii.remaining == 0){
-                this.$inertia.get('/visits')
+            if(this.$page.dgii.remaining === 0 || this.$page.dgii.remaining === null){
+                return this.$inertia.get('/visits')
             }
 
             const data = { visit_id : this.visit.id }

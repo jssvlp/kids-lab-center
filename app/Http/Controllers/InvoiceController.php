@@ -21,6 +21,15 @@ class InvoiceController extends Controller
     public function all()
     {
         $filter = request('filter');
+        $orderBy  = request('orderby');
+        $descOrAsc = request('descOrAsc');
+        $defaultOrderBy = 'created_at';
+        $desc = 'desc';
+
+
+
+
+
         if($filter)
         {
             return Invoice::with(['visit','visit.child','vaccines'])->whereHas('visit',function($query) use ($filter){
@@ -28,9 +37,9 @@ class InvoiceController extends Controller
                      return $query->where('name', 'like', '%'.$filter.'%');
                  })
                  ->Orwhere('invoice_number','like','%'.$filter.'%');
-             })->orderBy('created_at','desc')->paginate(8);
+             })->orderBy($orderBy ?: $defaultOrderBy,$descOrAsc ?: $desc)->paginate(8);
         }
-        return Invoice::with(['visit','visit.child','vaccines'])->orderBy('created_at','desc')->paginate(8);
+        return Invoice::with(['visit','visit.child','vaccines'])->orderBy($orderBy ?: $defaultOrderBy,$descOrAsc ?: $desc)->paginate(8);
     }
 
     public function print($invoice)

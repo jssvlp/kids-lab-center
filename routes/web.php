@@ -57,7 +57,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::post('/insurances',[Controllers\InsuranceController::class,'store'])->name('insurances.store');
     Route::patch('/insurances/{insurance}',[Controllers\InsuranceController::class,'update'])->name('insurance.update');
     Route::delete('/insurances/{insurance}',[Controllers\InsuranceController::class,'destroy'])->name('insurance.destroy');
-    
+
     //Plans
     Route::get('/plans/insunrance/{insurance}',[Controllers\PlanController::class,'index'])->name('plans');
     Route::post('/plans',[Controllers\PlanController::class,'store']);
@@ -104,7 +104,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
     Route::get('/reports',[Controllers\ReportController::class,'index'])->name('reports.index');
     Route::post('/reports/filter',[Controllers\ReportController::class,'filter'])->name('reports.filter');
 
-   
+
 });
 
 
