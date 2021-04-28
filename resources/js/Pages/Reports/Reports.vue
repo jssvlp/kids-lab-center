@@ -103,9 +103,9 @@
                                     <td class="px-6 py-3 whitespace-nowrap">
                                         <div class="flex items-center">
                                         <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900   ">
+                                            <inertia-link :href="route('invoices.edit',invoice.id)" class="text-sm font-medium text-gray-900 font-bold">
                                                 {{ invoice.invoice_number}}
-                                            </div>
+                                            </inertia-link>
                                         </div>
                                         </div>
                                     </td>
