@@ -10,4 +10,9 @@ class DgiiSequence extends Model
     use HasFactory;
 
     protected $fillable = ['sequence','full_sequence','invoice_id','dgii_numbering_config_id'];
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 }
