@@ -6,7 +6,7 @@
             </h2>
         </template>
         <div class="py-2 overflow-auto">
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="my-2 flex justify-end">
                      <div class="flex">
                         <span class="text-sm border border-2 rounded-l px-4 py-2 bg-gray-300">Buscar:</span>
@@ -44,6 +44,9 @@
                                 <th scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Diferencia
                                 </th>
+                                <th @click="orderBy('payment_status')" scope="col" class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
+                                    Estatus del pago
+                                </th>
                                 <th scope="col" class="relative px-6 py-2">
                                     <span class="sr-only">Acciones</span>
                                 </th>
@@ -80,6 +83,9 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <span class="font-bold text-green-600">RD{{total(invoice) - coberage(invoice) | currency }}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <span class="font-bold" :class="{'text-red-600' : invoice.payment_status == 'Pendiente', 'text-green-600' : invoice.payment_status == 'Pago'}">{{invoice.payment_status}}</span>
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex">
