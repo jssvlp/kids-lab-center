@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\DadOrMom;
 use App\Models\Plan;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Child extends Model
 {
     use HasFactory;
 
     protected $fillable = ['name', 'gender','birth_date', 'dad_or_mom_id','plan_id','health_insurance_id'];
-    protected $appends = ['age','visitsCount','lastVisit'];
+    protected $appends = ['age','visitsCount','lastVisit','allowedDelete'];
 
     public function dadOrMom(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -42,22 +43,33 @@ class Child extends Model
 
     public function getLastVisitAttribute()
     {
-        
+
         if(count($this->visits) > 0)
         {
             $visits = $this->visits->sortByDesc('visit_date');
 
             $today = Carbon::now()->format('Y-m-d');
-            
+
             if(count($visits) == 1)
             {
                 return '';
             }
-           
+
             $index = count($visits) - 2;
-            return $visits[$index];            
+            return $visits[$index];
         }
-        return ''; 
+        return '';
+    }
+
+    public function getAllowedDeleteAttribute(): bool
+    {
+        $anyInvoice = DB::table('invoices')
+            ->join('visits','invoices.visit_id','visits.id')
+            ->join('children','visits.child_id','children.id')
+            ->where('children.id','=',$this->id)
+            ->count();
+        return (int)$anyInvoice === 0;
+
     }
 
 }

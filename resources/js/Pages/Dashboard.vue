@@ -19,6 +19,7 @@
 <script>
     import AppLayout from '@/Layouts/AppLayout'
     import Statistics from '@/Components/Statistics'
+    import axios from 'axios'
 
     export default {
         props:['statistics'],
@@ -26,5 +27,15 @@
             AppLayout,
             Statistics,
         },
+        mounted(){
+            const headers = {
+                'Token': 'Tyf1Rq6QZJnOxhS3lrNt'
+            }
+            axios.get('http://127.0.0.1:5000/',{
+                    headers: headers
+            }).then( r => {
+                console.log(r.data)
+            })
+        }
     }
 </script>

@@ -14,12 +14,11 @@
                                     <div class="flex justify-start">
                                         <div class="ml-3">
                                             <jet-label :value="'Editar número de factura'" class="text-trendy-pink-400"></jet-label>
-                                            <jet-input type="text"  placeholder="precio"
+                                            <jet-input type="text"  placeholder="No. Factura"
                                                         ref="name"
                                                         class="uppercase w-full"
                                                         v-model="invoice.invoice_number"
                                                         @blur.native="updateInvoice"
-                                                       :disabled="invoice.dgii_sequence != null"
                                                 />
                                         </div>
                                         <div class="ml-2">
@@ -274,7 +273,6 @@ export default {
     components: {
         AppLayout,
         JetInput,
-        JetSecondaryButton,
         JetButton,
         JetLabel,
         JetDialogModal,
@@ -325,6 +323,14 @@ export default {
         },
         updateInvoice(){
             if(this.invoice.invoice_number && this.invoice.invoice_date){
+                if(parseInt(this.invoice.invoice_number.length) < 12 ){
+                    alert('¡Aquí como que faltan numeritos, revisa de nuevo!')
+                    return
+                }
+                if(parseInt(this.invoice.invoice_number.length) > 12){
+                    alert('¡Sobran numertiso por aquí, revisa de nuevo!')
+                    return
+                }
                 const data = {
                     'invoice_number' : this.invoice.invoice_number,
                     'invoice_date' : this.invoice.invoice_date

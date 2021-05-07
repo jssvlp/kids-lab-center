@@ -77,7 +77,7 @@
                                                     @click="newOrEdit(parent, 'Editar padre/madre')">
                                                 <EditIcon size="1.2x"/>
                                             </button>
-                                            <button aria-label="Delete user"
+                                            <button v-if="parent.allowedDelete" aria-label="Delete user"
                                                     class="p-1 focus:outline-none focus:shadow-outline text-red-orange-500 hover:text-red-orange-600"
                                                     @click="planBeingDeleted = true, toDelete= parent">
                                                 <Trash2Icon size="1.2x"/>
