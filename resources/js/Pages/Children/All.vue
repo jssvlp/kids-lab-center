@@ -48,7 +48,7 @@
                                 </tr>
                             </thead>
                             <tbody  v-if="children.data" class="bg-white divide-y divide-gray-200">
-                                <tr v-for="child in children.data" :key="child.id">
+                                <tr v-for="(child,index) in children.data" :key="index">
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="flex items-center">
                                     <div class="flex-shrink-0 h-7 w-7">
@@ -66,7 +66,7 @@
                                 </td>
                                 <td class="px-6 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{child.dad_or_mom.name}}</div>
-                                    
+
                                 </td>
                                 <td class="px-6  whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
@@ -83,7 +83,7 @@
                                                 @click="editChild(child)">
                                             <EditIcon size="1.2x"/>
                                         </button>
-                                        <button aria-label="Delete user"
+                                        <button v-if="child.allowedDelete" aria-label="Delete user"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
                                                 @click="planBeingDeleted = true, toDelete= child">
                                             <Trash2Icon size="1.2x"/>
@@ -110,7 +110,7 @@
             </template>
 
             <template #content>
-                ¿Estás seguro que deseas borrar el paciente <span class="font-bold"> {{toDelete.name}}</span>? 
+                ¿Estás seguro que deseas borrar el paciente <span class="font-bold"> {{toDelete.name}}</span>?
                 Si borras este paciente se borrán las visitas y demás datos relacionados al registro.
             </template>
 
@@ -194,7 +194,7 @@ export default {
         test: false,
         children: {},
         filter:''
-        
+
     }),
     computed: {
         ...mapState(['editingOrCreatingChild','parentForNewChild'])

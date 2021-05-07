@@ -43,7 +43,7 @@ class VisitController extends Controller
     {
         return $visit->vaccines;
     }
-    
+
     public function store(Request $request)
     {
         //Validate if the patient has any visit pending of be invoiced
@@ -59,7 +59,7 @@ class VisitController extends Controller
                 return redirect()->route('visits.newOrEdit',$childHasVisitInvoicePending['id']);
             }
         }
-        
+
         $today = Carbon::now();
         $created = Visit::create(['visit_date' => $today, 'child_id' => $request->child_id,'child_age' => $child->age]);
 
@@ -68,7 +68,7 @@ class VisitController extends Controller
     }
 
     public function update(Visit $visit, Request $request)
-    {   
+    {
         $date = Carbon::parse($request->visit_date)->format('Y-m-d');
         $visit->update([
             'visit_date' =>$date
@@ -79,19 +79,19 @@ class VisitController extends Controller
 
     public function addVaccine(Visit $visit, Vaccine $vaccine)
     {
-        
+
         try {
             $visit->vaccines()->attach($vaccine);
-            if($visit->invoiced) 
+            if($visit->invoiced)
             {
                 $invoice = $visit->invoice;
 
                 InvoiceDetail::create([
-                        'invoice_id' => $invoice->id, 
+                        'invoice_id' => $invoice->id,
                         'vaccine_id' => $vaccine->id,
                         'price' => $vaccine->price
                 ]);
-            }  
+            }
         } catch(\Illuminate\Database\QueryException $e){
             $errorCode = $e->errorInfo[1];
             if($errorCode == '1062'){

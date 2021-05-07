@@ -17,15 +17,15 @@ class ChildController extends Controller
             //'children' => Child::with(['dadOrMom','plan'])->get()
         ]);
     }
-    
+
     public function all()
     {
         $name = request('name');
         if($name)
         {
-            return Child::with(['dadOrMom','plan'])->where('name','like','%'.$name.'%')->orderBy('updated_at','desc')->paginate(8);
+            return Child::with(['dadOrMom','plan','visits','visits'])->where('name','like','%'.$name.'%')->orderBy('updated_at','desc')->paginate(8);
         }
-        return Child::with(['dadOrMom','plan'])->orderBy('updated_at','desc')->paginate(8);
+        return Child::with(['dadOrMom','plan','visits'])->orderBy('updated_at','desc')->paginate(8);
     }
 
     public function list()
@@ -50,7 +50,7 @@ class ChildController extends Controller
             'dad_or_mom_id' => 'required',
             'gender' => ['required', Rule::in(['Niño', 'Niña']),]
         ]);
-        
+
         $birthDate = Carbon::parse($request->birth_date)->format('Y-m-d');
         $created = Child::create([
             'name' => ucwords(strtolower($request->name)),
@@ -60,7 +60,7 @@ class ChildController extends Controller
             'plan_id'    => $request->plan_id,
             'health_insurance_id' => $request->health_insurance_id
         ]);
-        
+
         return redirect()->route('children.index')->with(['toast' => ['message' => 'Paciente creado correctamente','success' => true]]);
     }
 
@@ -83,7 +83,7 @@ class ChildController extends Controller
             'plan_id'    => $request->plan_id,
             'health_insurance_id' => $request->health_insurance_id
         ]);
-            
+
         return redirect()->route('children.index')->with(['toast' => ['message' => 'Paciente actualizado correctamente','success' => true]]);
     }
 
@@ -96,7 +96,7 @@ class ChildController extends Controller
     public function checkPlanInsuranceNumber(Request $request)
     {
         $plan = Plan::with(['insurance'])->find($request->plan_id);
-        
+
         $child = Child::where('plan_id','=',$plan->id)->where('health_insurance_id','=',$request->health_insurance_id)->first();
 
         if(!$child or $child->id == $request->child_id){
@@ -108,7 +108,7 @@ class ChildController extends Controller
 
     private function childExists(Child $child)
     {
-      
+
     }
-    
+
 }

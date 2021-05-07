@@ -11,8 +11,12 @@ class Parentt extends Model
     use HasFactory;
     protected $fillable = ['name','address', 'phone','kinship'];
 
+
+
     public function children()
     {
         return $this->hasMany(Child::class);
     }
+
+
 }
