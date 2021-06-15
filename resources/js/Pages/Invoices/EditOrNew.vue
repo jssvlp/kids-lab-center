@@ -13,12 +13,12 @@
                                 <div class="py-6 mt-5 align-middle shadow-md rounded-md bg-white inline-block min-w-full sm:px-6 lg:px-8">
                                     <div class="flex justify-start">
                                         <div class="ml-3">
-                                            <jet-label :value="'Editar número de factura'" class="text-trendy-pink-400"></jet-label>
-                                            <jet-input type="text"  placeholder="No. Factura"
+                                            <jet-label :value="'Número de factura'" class="text-trendy-pink-400"></jet-label>
+                                            <jet-input type="text"  placeholder="No. Facturas"
                                                         ref="name"
                                                         class="uppercase w-full"
                                                         v-model="invoice.invoice_number"
-                                                        @blur.native="updateInvoice"
+                                                        disabled
                                                 />
                                         </div>
                                         <div class="ml-2">
@@ -283,17 +283,18 @@ export default {
         Datetime
     },
     data:() =>({
-       parent: {},
-       discount: '0',
-       discountVisible: false,
-       modalDiscountVisible: false,
-       paymentModalVisible: false,
-       form:{
+        parent: {},
+        discount: '0',
+        discountVisible: false,
+        modalDiscountVisible: false,
+        paymentModalVisible: false,
+        form:{
             paymentMethod: 'Efectivo',
             authorization:'',
-       },
-       invoiceNumberOld: '',
-       maxDatetime: ''
+        },
+        invoiceNumberOld: '',
+        maxDatetime: '',
+        allowEditInvoiceNumber: false
     }),
     validations:{
        form:{

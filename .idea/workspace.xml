@@ -6,18 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="233d08eb-d384-46bd-9208-cf9386040ade" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChildController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChildController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/VisitController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/VisitController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Child.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Child.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/DadOrMom.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/DadOrMom.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Parentt.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Parentt.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Children/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Children/All.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Dashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Pages/Invoices/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Invoices/EditOrNew.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Parents/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Parents/All.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Visits/All.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Visits/All.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Pages/Visits/EditOrNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Visits/EditOrNew.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +40,18 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/resources/js/Jetstream/ConfirmationModal.vue" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/Models/Invoice.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/Models/Child.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/Models/DadOrMom.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/resources/js/Pages/Parents/All.vue" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/resources/js/Pages/Children/All.vue" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/resources/js/Jetstream/Modal.vue" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/Models/Parentt.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/resources/js/Pages/Invoices/EditOrNew.vue" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -225,7 +231,9 @@
       <workItem from="1619795788179" duration="8000" />
       <workItem from="1619879802265" duration="241000" />
       <workItem from="1620335823373" duration="4310000" />
-      <workItem from="1620342865721" duration="7023000" />
+      <workItem from="1620342865721" duration="7852000" />
+      <workItem from="1623721086259" duration="1447000" />
+      <workItem from="1623726129175" duration="2385000" />
     </task>
     <servers />
   </component>
