@@ -81,7 +81,7 @@
                                                 <EditIcon size="1.2x"/>
                                             </button>
                                         </inertia-link>
-                                        <button aria-label="Delete user"
+                                        <button v-if="!visit.invoiced" aria-label="Delete user"
                                                 class="p-1 focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600"
                                                 @click="planBeingDeleted = true, toDelete= visit">
                                             <Trash2Icon size="1.2x"/>

@@ -81,7 +81,7 @@ class InvoiceController extends Controller
             'visit_id' => $request->visit_id,
         ]);
 
-        #$invoice->generateInvoiceNumber();
+        $invoice->generateInvoiceNumber();
 
         //2. Get the vaccines
         $visit = Visit::find($request->visit_id);

@@ -21,8 +21,8 @@ services:
       MYSQL_ROOT_PASSWORD: owh9v4tvnp3wda433
     volumes:
       - ./.docker/mysql:/docker-entrypoint-initdb.d
-    #ports:app
-      #- 3308:3306
+    ports:
+      - 3308:3306
     networks:
       - clinicApp
 
