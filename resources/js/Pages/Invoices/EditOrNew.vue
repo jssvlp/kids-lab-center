@@ -18,7 +18,7 @@
                                                         ref="name"
                                                         class="uppercase w-full"
                                                         v-model="invoice.invoice_number"
-                                                        
+                                                        @blur.native="updateInvoice"
                                                 />
                                         </div>
                                         <div class="ml-2">
