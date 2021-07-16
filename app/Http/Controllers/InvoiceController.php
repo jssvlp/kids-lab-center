@@ -74,6 +74,13 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         //TODO: validate
+        //validate if visit already is invoiced
+
+        $invoiced = Invoice::where('visit_id', $request->visit_id)->first();
+
+        if($invoiced){
+            return redirect()->route('visits.show',$request->visit_id)->with(['toast' => ['message' => 'Esta visita ya fue facturada.','success' => false]]);
+        }
 
         //1. Create the invoice and generate invoice number
         $invoice = Invoice::create([
